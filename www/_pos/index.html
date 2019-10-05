@@ -108,13 +108,6 @@
               </div>
             </div>
             <form>
-              <!-- FİRMA SEÇİMİ KALDIRILDI (BELKİ SONRA AÇILIR)--> 
-              <!-- <div class="form-group form-material floating" data-plugin="formMaterial">
-                  <select required id="firma-secim" class="form-control" ng-model="Firm">
-                      <option ng-repeat="option in FirmList" value="{{option.FIRM}}">{{option.FIRM}}</option>
-                  </select>
-                <label class="floating-label">Firma</label>
-              </div> -->
               <div class="form-group form-material floating" data-plugin="formMaterial">
                   <input class="form-control" name="Kullanici" ng-model="Kullanici" />
                   <label class="floating-label">Kullanıcı</label>
@@ -126,14 +119,6 @@
               <div class="form-group clearfix">
                 <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnEntry()">Giriş</button>
                 </div>
-                <!-- ONLINE OFFLINE KALDIRILDI (BELKİ SONRA AÇILIR)-->            
-                <!-- <div class="form-group">
-                  <div class="float-center mr-20" style="text-align: center" ng-click="ChangeMode()">
-                    <label id="Off" class="pt-3" for="inputBasicOff">Offine</label>
-                    <input type="checkbox" id="inputBasicOn" data-plugin="switchery" data-switchery="true" style="display: none;">                                   
-                    <label id="On" class="pt-3" for="inputBasicOn">Online</label>
-                    </div>
-              </div>  -->
             </form>
           </div>           
         </div>
@@ -249,7 +234,9 @@
     <script src="../js/angular.js"></script>
     <script src="../js/angular-route.js"></script>
     <script src="../js/socket.io.js"></script>
-    
+    <script src="../js/moment.min.js"></script>
+    <script src="../js/moment-with-locales.min.js"></script>
+
     <script src="../js/DbService.js"></script>
     <script src="../js/LocalDb.js"></script>
 
