@@ -53,7 +53,6 @@ function Login ($scope,$rootScope,$window,db)
             {
                 console.log("Kullanıcı adı ve şifre doğru");
                 
-                $window.sessionStorage.setItem('Firma', $scope.Firm);
                 $window.sessionStorage.setItem('User', i);
                 
                 var url = "main.html";

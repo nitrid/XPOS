@@ -7,10 +7,6 @@ angular.module("app",
 .config(function($routeProvider)
 {       
     $routeProvider 
-    .when("/",
-    {
-        templateUrl : "html/evraklar/Anasayfa.html"
-    })
     .when("/POSSatis",
     {
         templateUrl : "html/evraklar/POSSatis.html"

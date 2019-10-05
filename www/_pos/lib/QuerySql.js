@@ -1,9 +1,5 @@
 var QuerySql = 
 {
-    Firma : 
-    {
-        query : 'SELECT DB_kod AS FIRM FROM VERI_TABANLARI'
-    },
     Stok : 
     {
         query : "SELECT * FROM STOKLAR WHERE ((sto_kod = @sto_kod) OR (@sto_kod = ''))",

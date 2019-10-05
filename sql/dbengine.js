@@ -13,39 +13,6 @@ function dbengine(config)
 {    
     this.config = config;
     io.listen(config.port);
-    
-    // lic.LicenseCheck(function(data)
-    // {
-    //     if(data != "")
-    //     {
-    //         if(typeof(data.result.err) == 'undefined')
-    //         {
-    //             if(data.result.length > 0)
-    //             {
-    //                 LicKullanici = data.result[0].KULLANICISAYISI;
-    //                 LicMenu = data.result[0].MENUDATA;
-
-    //                 io.close();
-    //                 io.listen(config.port);
-    //             }
-    //             else
-    //             {
-    //                 console.log("Lisansınız geçerli değil. lütfen ürün sorumlusuyla görüşünüz !");
-    //                 io.close();
-    //             }
-    //         }
-    //         else
-    //         {
-    //             console.log("Lisans server da data hatası !");
-    //             io.close();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         console.log("Lisans server'a ulaşılmıyor !");
-    //         io.close();
-    //     }
-    // });
 }
 io.on('connection', function(socket) 
 {     
