@@ -1,0 +1,38 @@
+<div class="col-12">
+    <div class="panel">
+        <div class="panel-body" ng-controller="RptMagazaStokCtrl" ng-init="Init()">
+            <div class="row py-10">
+                <div class="col-sm-4 col-md-1 text-primary px-1"><div class="col-form-label px-1 float-left  py-2">Şube:</div></div>
+                <select class="form-control col-sm-8 col-md-4" ng-model="Sube" ng-disabled="SubeLock">
+                    <option ng-repeat="option in SubeListe" value="{{option.KODU}}">{{option.ADI}}</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <button type="submit" class="btn btn-primary btn-block btn-sm" ng-click="BtnGetir()">Getir</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 py-10">
+                    <div id="TblIslem"></div>
+                </div>
+            </div>
+            <div class="row px-20">
+                <div class="col-12">
+                    <div class="row">
+                        <label class="form-control-label col-9 text-primary"><div class="float-right">Alış Envanter Değeri :</div></label>
+                        <label class="form-control-label col-3"><div class="float-right">{{AlisEnvanter | number:2}}</div></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#IlkTarih").datepicker({
+    language: "tr"
+    });
+    $("#SonTarih").datepicker({
+    language: "tr"
+    });
+</script>

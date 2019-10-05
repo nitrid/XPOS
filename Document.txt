@@ -1,0 +1,11 @@
+INSTALL MODULE
+npm install express
+npm install socket.io 
+npm install express-session
+npm install body-parser
+npm install cookie-parser
+npm install ejs
+npm install mssql
+npm install moment
+npm install node-machine-id
+npm install node-windows

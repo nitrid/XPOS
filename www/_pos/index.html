@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en" ng-app="app">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">      
+      <!-- Tell the browser to be responsive to screen width -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+  
+      <meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; style-src 'self' http://* https://* file://* 'unsafe-inline'; script-src 'self' http://* https://* file://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: *">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="msapplication-tap-highlight" content="no">
+
+    <title>Nitro | Powered by TONE</title>
+    
+    
+
+    <link rel="apple-touch-icon" href="theme/base/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="theme/base/assets/images/favicon.ico">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="theme/global/css/bootstrap.min.css">
+    <link rel="stylesheet" href="theme/global/css/bootstrap-extend.min.css">
+    <link rel="stylesheet" href="theme/base/assets/css/site.min.css">
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="theme/global/vendor/animsition/animsition.css">
+    <link rel="stylesheet" href="theme/global/vendor/switchery/switchery.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/pages/login-v3.css">
+
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="theme/global/fonts/web-icons/web-icons.min.css">
+    <link rel="stylesheet" href="theme/global/fonts/brand-icons/brand-icons.min.css">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <!--[if lt IE 9]>
+    <script src="theme/global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <!--[if lt IE 10]>
+    <script src="theme/global/vendor/media-match/media.match.min.js"></script>
+    <script src="theme/global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Scripts -->
+    <script src="theme/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+      Breakpoints();
+    </script>
+  </head>
+  <body class="animaition page-login-v3 layout-full" ng-controller="Login" ng-init="Init()">
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Page -->
+    <div id="alert-box">
+      
+    </div>
+    <div class="modal fade" id="server-settings" aria-labelledby="server-settings"  role="dialog" tabindex="-1" >
+      <div class="modal-dialog modal-simple">
+        <div class="modal-content ">
+          <div class="modal-header">          
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>                       
+            </button>
+            <h4 class="modal-title" id="server-settings">Ayarlar</h4>                                    
+          </div>                        
+          <div class="modal-body">           
+            <form>
+              <div class=".col-sm-6 .col-lg-4 my--100">
+                <p>{{ConnectionStatus}}</p>
+              </div>              
+              <div class="row">                               
+                <div class="col-xl-4 form-group">
+                  <input type="text" class="form-control" name="server_adress" placeholder="Sunucu Adresi" id="server_adress" ng-model="server_adress">
+                </div>
+                <div class="col-xl-4 form-group">
+                  <input type="text" class="form-control" name="server_port" placeholder="Sunucu Port" id="server_port" ng-model="server_port">
+                </div>
+                <div class="col-xl-4 form-group">
+                    <input type="text" class="form-control" name="socket_port" placeholder="Soket Port" id="socket_port" ng-model="socket_port">
+                </div>               
+                <div class="col-xl-offset-12">
+                  <a class="btn btn-primary" href="#" ng-click="BtnTryConnect()">Bağlantı Test</a>                
+                  <a class="btn btn-success" href="#" ng-click="HostSettingSave()" data-dismiss="modal">Kaydet</a>   
+                </div>           
+              </div>
+            </form>         
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content py-5" data-animsition-in="fade-in" data-animsition-out="fade-out"> 
+      <div class="page-content animation-slide-top animation-duration-1 mx--20 py-0">
+        <div class="panel modal-center"> 
+          <div class="panel-body">
+            <div class="brand">
+                <!-- <img class="brand-img col-xl-5 offset-xl-3" src="img/logo.png" alt="..."> 
+              <h2 class="brand-text font-size-18 col-xl-5 offset-xl-5">Nitro</h2>     -->
+              <div class="btn-group float-right">
+                  <button type="button" class="btn btn-primary dropdown-toggle" id="AnimationDropdown1" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
+                  <div class="dropdown-menu dropdown-menu-right " aria-labelledby="AnimationDropdown1" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px;">                     
+                      <a class="dropdown-item" href="#server-settings" data-toggle="modal" role="menuitem">Ayarlar</a>
+                      <a class="dropdown-item" href="app_update.html" role="menuitem" id="btn-appupdate">Uygulamayı Güncelle</a> 
+                  </div>
+              </div>
+            </div>
+            <form>
+              <!-- FİRMA SEÇİMİ KALDIRILDI (BELKİ SONRA AÇILIR)--> 
+              <!-- <div class="form-group form-material floating" data-plugin="formMaterial">
+                  <select required id="firma-secim" class="form-control" ng-model="Firm">
+                      <option ng-repeat="option in FirmList" value="{{option.FIRM}}">{{option.FIRM}}</option>
+                  </select>
+                <label class="floating-label">Firma</label>
+              </div> -->
+              <div class="form-group form-material floating" data-plugin="formMaterial">
+                  <input class="form-control" name="Kullanici" ng-model="Kullanici" />
+                  <label class="floating-label">Kullanıcı</label>
+              </div>
+              <div class="form-group form-material floating" data-plugin="formMaterial">
+                <input required type="password" class="form-control" name="password" ng-model="Password" />
+                <label class="floating-label">Şifre</label>
+              </div>
+              <div class="form-group clearfix">
+                <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnEntry()">Giriş</button>
+                </div>
+                <!-- ONLINE OFFLINE KALDIRILDI (BELKİ SONRA AÇILIR)-->            
+                <!-- <div class="form-group">
+                  <div class="float-center mr-20" style="text-align: center" ng-click="ChangeMode()">
+                    <label id="Off" class="pt-3" for="inputBasicOff">Offine</label>
+                    <input type="checkbox" id="inputBasicOn" data-plugin="switchery" data-switchery="true" style="display: none;">                                   
+                    <label id="On" class="pt-3" for="inputBasicOn">Online</label>
+                    </div>
+              </div>  -->
+            </form>
+          </div>           
+        </div>
+      </div>
+      <footer class=" page-copyright-inverse " style="text-align: center;">
+            <p>www.teknoerp.com.tr</p>
+            <p>© 2018. Tüm hakları saklıdır.</p>
+            <div class="social">
+              <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+              <i class="icon bd-twitter" aria-hidden="true"></i>
+            </a>
+              <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+              <i class="icon bd-facebook" aria-hidden="true"></i>
+            </a>
+              <a class="btn btn-icon btn-pure" href="javascript:void(0)">
+              <i class="icon bd-google-plus" aria-hidden="true"></i>
+            </a>
+            </div>
+      </footer>
+    </div>
+    <!-- End Page -->
+
+    <!-- Core  -->
+    <script src="theme/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+    <script src="theme/global/vendor/jquery/jquery.js"></script>
+    <script src="theme/global/vendor/popper-js/umd/popper.min.js"></script>
+    <script src="theme/global/vendor/bootstrap/bootstrap.js"></script>
+    <script src="theme/global/vendor/animsition/animsition.js"></script>
+    <script src="theme/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="theme/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+    <script src="theme/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+    <script src="theme/global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+
+    <!-- Plugins -->
+    <script src="theme/global/vendor/switchery/switchery.js"></script>
+    <script src="theme/global/vendor/alertify/alertify.js"></script>
+
+    <!-- Scripts -->
+    <script src="theme/global/js/Component.js"></script>
+    <script src="theme/global/js/Plugin.js"></script>
+    <script src="theme/global/js/Base.js"></script>
+    <script src="theme/global/js/Config.js"></script>
+
+    <script src="theme/base/assets/js/Section/Menubar.js"></script>
+    <script src="theme/base/assets/js/Section/GridMenu.js"></script>
+    <script src="theme/base/assets/js/Section/Sidebar.js"></script>
+    <script src="theme/base/assets/js/Section/PageAside.js"></script>
+    <script src="theme/base/assets/js/Plugin/menu.js"></script>
+
+    <script src="theme/global/js/config/colors.js"></script>
+    <script src="theme/base/assets/js/config/tour.js"></script>
+    <script>Config.set('assets', 'theme/base/assets');</script>
+
+    <!-- Page -->
+    <script src="theme/base/assets/js/Site.js"></script>
+    <script src="theme/global/js/Plugin/asscrollable.js"></script>
+    <script src="theme/global/js/Plugin/slidepanel.js"></script>
+    <script src="theme/global/js/Plugin/switchery.js"></script>
+    <script src="theme/global/js/Plugin/select2.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-tokenfield.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-tagsinput.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-select.js"></script>
+    <script src="theme/global/js/Plugin/icheck.js"></script>
+    <script src="theme/global/js/Plugin/switchery.js"></script>
+    <script src="theme/global/js/Plugin/asrange.js"></script>
+    <script src="theme/global/js/Plugin/ionrangeslider.js"></script>
+    <script src="theme/global/js/Plugin/asspinner.js"></script>
+    <script src="theme/global/js/Plugin/clockpicker.js"></script>
+    <script src="theme/global/js/Plugin/ascolorpicker.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-maxlength.js"></script>
+    <script src="theme/global/js/Plugin/jquery-knob.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-touchspin.js"></script>
+    <script src="theme/global/js/Plugin/card.js"></script>
+    <script src="theme/global/js/Plugin/jquery-labelauty.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-datepicker.js"></script>
+    <script src="theme/global/js/Plugin/jt-timepicker.js"></script>
+    <script src="theme/global/js/Plugin/datepair.js"></script>
+    <script src="theme/global/js/Plugin/jquery-strength.js"></script>
+    <script src="theme/global/js/Plugin/multi-select.js"></script>
+    <script src="theme/global/js/Plugin/jquery-placeholder.js"></script>
+    <script src="theme/global/js/Plugin/alertify.js"></script>
+    <script src="theme/base/assets/examples/js/forms/advanced.js"></script>
+
+    <!-- <script>
+      (function(document, window, $){
+        'use strict';
+    
+        var Site = window.Site;
+        $(document).ready(function(){
+          Site.run();
+        });
+      })(document, window, jQuery);
+    </script> -->
+
+    <script>
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
+        {
+            var body = document.getElementsByTagName('body')[0];
+            var js = document.createElement("script");
+            js.type = "text/javascript";
+            js.src = "cordova.js";
+            body.appendChild(js);
+
+            $("#btn-appupdate").show();
+        }
+        else
+        {
+          $("#btn-appupdate").hide();
+        }
+    </script>
+    
+    <!-- Nitro -->    
+    <script src="../js/angular.js"></script>
+    <script src="../js/angular-route.js"></script>
+    <script src="../js/socket.io.js"></script>
+    
+    <script src="../js/DbService.js"></script>
+    <script src="../js/LocalDb.js"></script>
+
+    <script src="lib/ctrl/Login.js"></script>
+    <script src="lib/ctrl/Main.js"></script>
+    <script src="lib/ctrl/KullaniciParametreCtrl.js"></script>
+    <script src="lib/ctrl/PosSatisCtrl.js"></script>
+    <script src="lib/ctrl/SatisAktarimCtrl.js"></script>
+    <script src="lib/ctrl/TahsilatAktarimCtrl.js"></script>
+    <script src="lib/ctrl/RptGunlukSatisCtrl.js"></script>
+    <script src="lib/ctrl/RptGunlukEvrakCtrl.js"></script>
+    <script src="lib/ctrl/RptGunlukKasaCtrl.js"></script>
+    <script src="lib/ctrl/RptMagazaCiroCtrl.js"></script>
+    <script src="lib/ctrl/RptMagazaSatisCtrl.js"></script>
+    <script src="lib/ctrl/RptMagazaStokCtrl.js"></script>
+    <script src="lib/ctrl/PluTanitimCtrl.js"></script>
+        
+    <script src="lib/QuerySql.js"></script>
+    <script src="lib/QueryLocal.js"></script>
+    
+    <script src="lib/App.js"></script>
+    <script src="lib/Controller.js"></script>
+    <script src="lib/Param.js"></script>
+  </body>
+</html>

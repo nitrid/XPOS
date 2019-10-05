@@ -1,0 +1,86 @@
+<div ng-controller="RptGunlukEvrakCtrl" ng-init="Init()">
+    <div class="col-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="row py-10">
+                        <div class="col-sm-4 col-md-1 text-primary px-1"><div class="col-form-label px-1 float-left  py-2">İlk Tarih:</div></div>
+                        <div class="col-sm-8 col-md-4 px-1">
+                            <div class="input-group input-group-icon">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="IlkTarih" type="text" ng-model="IlkTarih" data-provide="datepicker" ng-disabled="EvrakLock">
+                            </div>
+                        </div>
+                </div>
+                <div class="row py-10">
+                    <div class="col-sm-4 col-md-1 text-primary px-1"><div class="col-form-label px-1 float-left  py-2">Son Tarih:</div></div>
+                    <div class="col-sm-8 col-md-4 px-1">
+                        <div class="input-group input-group-icon">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="icon wb-calendar" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" id="SonTarih" type="text" ng-model="SonTarih" data-provide="datepicker" ng-disabled="EvrakLock">
+                        </div>
+                    </div>
+                </div>
+                <div class="row py-10">
+                    <div class="col-sm-4 col-md-1 text-primary px-1"><div class="col-form-label px-1 float-left  py-2">Şube:</div></div>
+                    <select class="form-control col-sm-8 col-md-4" ng-model="Sube" ng-disabled="SubeLock">
+                        <option ng-repeat="option in SubeListe" value="{{option.KODU}}">{{option.ADI}}</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block btn-sm" ng-click="BtnGetir()">Getir</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 py-10">
+                        <div id="TblIslem"></div>
+                    </div>
+                </div>
+                <div class="col-6 px-1">
+                    <h4 class="text-left"><span style="color:dodgerblue;">Evrak Detayı İçin Satıra Tıklayınız...</span></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Son Yapılan Satışlar Detay-->
+    <div class="modal fade" id="MdlSonSatisDetay" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-primary modal-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Detay</h4>
+                </div>
+                <div class="modal-body py-0 pt-5 px-5">
+                    <div class="row">
+                        <div class="col-12 pb-10">
+                            <div id="TblSonSatisDetay"></div>
+                        </div>
+                    </div>
+                    <div class="row pb-10">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary btn-secondary btn-block" ng-click="BtnGeri()">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#IlkTarih").datepicker({
+    language: "tr"
+    });
+    $("#SonTarih").datepicker({
+    language: "tr"
+    });
+</script>
