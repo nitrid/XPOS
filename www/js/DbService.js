@@ -1,9 +1,6 @@
-//const moment = require("moment");
-
 angular.module('app.db', []).service('db',function($rootScope)
 {
     let _Host = "";
-    let _LocalDb = new LocalDb(this);
     let _Socket = null;
     let _MenuData = {};
     moment.locale('tr');
@@ -108,116 +105,12 @@ angular.module('app.db', []).service('db',function($rootScope)
     function _SqlExecute(pParam,pCallback)
     {   
         let TmpQuery;
-        if(localStorage.mode == 'true')
+        if(_Socket.connected)
         {
-            if(_Socket.connected)
-            {
-                TmpQuery = window["QuerySql"][pParam.tag];
-                TmpQuery.value = pParam.param;
-                TmpQuery.db = pParam.db;
-                _Socket.emit('QMikroDb', TmpQuery, function (data) 
-                {
-                    if(typeof(data.result.err) == 'undefined')
-                    {
-                        var args = arguments;
-                        $rootScope.$apply(function () 
-                        {
-                            if (pCallback) 
-                            {
-                                pCallback.apply(_Socket, args);
-                            }
-                        });
-                    }
-                    else
-                    {                        
-                        console.log("Mikro Sql Query Çalıştırma Hatası : " + data.result.err);
-                    }
-                });
-            }
-            else
-            {
-                console.log("Server Erişiminiz Yok.");
-            }
-        }
-        else
-        {
-            
-            TmpQuery = JSON.parse(JSON.stringify(window["QueryLocal"][pParam.tag]));
-
-            if (typeof (TmpQuery.param) != 'undefined')
-            {
-                for(i = 0;i < TmpQuery.param.length;i++)
-                {  
-                    let pVal = pParam.param[i];
-
-                    if(TmpQuery.type[i] == "date")
-                    {
-                        let TmpDate = moment(pParam.param[i],'DD.MM.YYYY');
-
-                        pVal = TmpDate.year().toString() + '-' + (TmpDate.month() + 1).toString().padStart(2,'0') + '-' + TmpDate.date().toString().padStart(2,'0')
-                    }
-
-                    TmpQuery.query = TmpQuery.query.replace('@' + TmpQuery.param[i],pVal);
-                    TmpQuery.query = TmpQuery.query.replace('@' + TmpQuery.param[i],pVal);
-                    TmpQuery.query = TmpQuery.query.replace('@' + TmpQuery.param[i],pVal);
-                    TmpQuery.query = TmpQuery.query.replace('@' + TmpQuery.param[i],pVal);
-                }
-                pParam.param = [];
-            } 
-
-            _LocalDb.GetData(TmpQuery,pParam.param,function(data)
-            {
-                if(typeof(data.result.err) == 'undefined')
-                {
-                    var args = arguments;
-                    $rootScope.$apply(function () 
-                    {
-                        if (pCallback) 
-                        {
-                            pCallback.apply(null, args);
-                        }
-                    });
-                }
-                else
-                {
-                    console.log("Mikro Sql Query Çalıştırma Hatası : " + data.result.err);
-                }
-            });
-        }
-    }
-    function _SqlExecuteQuery(pQuery,pCallback)
-    {
-        if(localStorage.mode == 'true')
-        {
-            if(_Socket.connected)
-            {
-                _Socket.emit('QMikroDb', pQuery, function(data) 
-                {     
-                    if(typeof(data.result.err) == 'undefined')
-                    {
-                        var args = arguments;
-                        $rootScope.$apply(function () 
-                        {
-                            if (pCallback) 
-                            {
-                                pCallback.apply(_Socket, args);
-                            }
-                        });
-                    }
-                    else
-                    {
-                        console.log("Mikro Sql Query Çalıştırma Hatası : " + data.result.err);
-                    }
-                });
-            }
-            else
-            {
-                console.log("Server Erişiminiz Yok.");
-            }
-        }
-        else
-        {
-            _LocalDb.GetData(pQuery,pQuery.value,function(data)
+            TmpQuery = window["QuerySql"][pParam.tag];
+            TmpQuery.value = pParam.param;
+            TmpQuery.db = pParam.db;
+            _Socket.emit('QMikroDb', TmpQuery, function (data) 
             {
                 if(typeof(data.result.err) == 'undefined')
                 {
@@ -229,21 +122,53 @@ angular.module('app.db', []).service('db',function($rootScope)
                             pCallback.apply(_Socket, args);
                         }
                     });
-                }  
+                }
+                else
+                {                        
+                    console.log("Mikro Sql Query Çalıştırma Hatası : " + data.result.err);
+                }
+            });
+        }
+        else
+        {
+            console.log("Server Erişiminiz Yok.");
+        }        
+    }
+    function _SqlExecuteQuery(pQuery,pCallback)
+    {
+        if(_Socket.connected)
+        {
+            _Socket.emit('QMikroDb', pQuery, function(data) 
+            {     
+                if(typeof(data.result.err) == 'undefined')
+                {
+                    var args = arguments;
+                    $rootScope.$apply(function () 
+                    {
+                        if (pCallback) 
+                        {
+                            pCallback.apply(_Socket, args);
+                        }
+                    });
+                }
                 else
                 {
                     console.log("Mikro Sql Query Çalıştırma Hatası : " + data.result.err);
                 }
             });
         }
+        else
+        {
+            console.log("Server Erişiminiz Yok.");
+        }
     }
-    function _GetPromiseTag(pFirma,pQueryTag,pQueryParam,pCallback)
+    function _GetPromiseTag(pDb,pQueryTag,pQueryParam,pCallback)
     {
         return new Promise(resolve => 
         {
             var m = 
             {
-                db : '{M}.' + pFirma,
+                db : pDb,
                 tag : pQueryTag,
                 param : pQueryParam
             }
@@ -271,13 +196,13 @@ angular.module('app.db', []).service('db',function($rootScope)
             });            
         });
     } 
-    function _ExecutePromiseTag(pFirma,pQueryTag,pQueryParam,pCallback)
+    function _ExecutePromiseTag(pDb,pQueryTag,pQueryParam,pCallback)
     {
         return new Promise(resolve => 
         {
             var m = 
             {
-                db : '{M}.' + pFirma,
+                db : pDb,
                 tag : pQueryTag,
                 param : pQueryParam
             }
@@ -306,7 +231,6 @@ angular.module('app.db', []).service('db',function($rootScope)
         });
     }   
     //#region "PUBLIC"
-    this.LocalDb = _LocalDb;
     this.Socket = _Socket;
     this.Connection = _Connection;
     this.ConnectionPromise = _ConnectionPromise;
@@ -363,11 +287,11 @@ angular.module('app.db', []).service('db',function($rootScope)
             });
         });
     }
-    this.GetData = function(pFirma,pQueryTag,pQueryParam,pCallback)
+    this.GetData = function(pDb,pQueryTag,pQueryParam,pCallback)
     {
         var m = 
         {
-            db : '{M}.' + pFirma,
+            db : pDb,
             tag : pQueryTag,
             param : pQueryParam
         }
@@ -389,11 +313,11 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }    
-    this.ExecuteTag = function(pFirma,pQueryTag,pQueryParam,pCallback)
+    this.ExecuteTag = function(pDb,pQueryTag,pQueryParam,pCallback)
     {
         var m = 
         {
-            db : '{M}.' + pFirma,
+            db : pDb,
             tag : pQueryTag,
             param : pQueryParam
         }
@@ -465,202 +389,6 @@ angular.module('app.db', []).service('db',function($rootScope)
             return null;
         }
         return null;
-    }
-    this.FillCmbDocInfo = function(pFirma,pQueryTag,pCallback)
-    {
-        var m = 
-        {
-            db : '{M}.' + pFirma,
-            tag : pQueryTag
-        }
-        _SqlExecute(m,function(data)
-        {
-            if(pCallback)
-            {
-                pCallback(data.result.recordset);
-            }
-        });
-    }
-    this.MaxSira = function(pFirma,pQueryTag,pQueryParam,pCallback)
-    {
-        var m = 
-        {
-            db : '{M}.' + pFirma,
-            tag : pQueryTag,
-            param : pQueryParam
-        }
-        _SqlExecute(m,function(data)
-        {
-            if(pCallback)
-            {
-                pCallback(data.result.recordset[0].MAXEVRSIRA);
-            }
-        });
-    }
-    this.DepoGetir = function(pFirma,pDepoListe,pCallback)
-    {
-        let TmpQuery = 
-        {
-            db : '{M}.' + pFirma,
-            query:  window["QuerySql"]["CmbDepoGetir"].query                
-        }
-
-        if(localStorage.mode != 'true')
-        {
-            TmpQuery.query = window["QueryLocal"]["CmbDepoGetir"].query;
-            TmpQuery.value = [];
-        }
-
-        if(pDepoListe != "")
-        {
-            TmpQuery.query = TmpQuery.query + " WHERE dep_no IN (" + pDepoListe + ")";
-        }
-        
-        _SqlExecuteQuery(TmpQuery,function(data)
-        {
-            if(pCallback)
-            {
-                if(typeof data.result.err == 'undefined')
-                {
-                    pCallback(data.result.recordset);
-                }
-                else
-                {
-                    console.log(data.result.err)
-                }
-            }
-        });                
-    }
-    this.StokBarkodGetir = function(pFirma,pBarkod,pDepoNo,pCallback)
-    {
-        let m = 
-        {
-            db : '{M}.' + pFirma,
-            tag : 'BarkodGetir',
-            param : [pBarkod,pDepoNo]
-        }
-        _SqlExecute(m,function(data)
-        {
-            if(pCallback)
-            {
-                
-                if(data.result.recordset.length > 0)
-                {
-                    pCallback(data.result.recordset);
-                }
-                else
-                {
-                    let m = 
-                    {
-                        db : '{M}.' + pFirma,
-                        tag : 'StokGetir',
-                        param : [pBarkod,'',pDepoNo,'']
-                    }
-                    _SqlExecute(m,function(data)
-                    {
-                        if(pCallback)
-                        {
-                            pCallback(data.result.recordset);
-                        }
-                    });
-                }
-            }
-        });
-    }
-    this.FiyatGetir = async function (pFirma,BarkodData,pFiyatParam,pEvrParam,pCallback)
-    {
-        let FiyatParam = [BarkodData[0].KODU,1,pFiyatParam.DepoNo,pFiyatParam.OdemeNo];
-        let Fiyat = 0;
-
-        if(pEvrParam.FiyatListe  == 0)
-            FiyatParam[1] = pFiyatParam.CariFiyatListe;
-        else
-            FiyatParam[1] = pEvrParam.FiyatListe;
-
-        // FİYAT GETİR
-        await _GetPromiseTag(pFirma,'FiyatGetir',FiyatParam,function(FiyatData)
-        {   
-            if(FiyatData.length > 0)
-            {   
-                BarkodData[0].FIYAT = FiyatData[0].FIYAT;
-            }
-            else
-            {
-                BarkodData[0].FIYAT = 0;
-            }
-        });
-
-        if(pFiyatParam.AlisSatis == 0)
-        {
-            // SON ALIŞ GETİR
-            if(pEvrParam.SonAlisFiyati == 1)
-            {
-                await _GetPromiseTag(pFirma,'SonAlisFiyatGetir',[pFiyatParam.CariKodu,BarkodData[0].KODU,pFiyatParam.DepoNo],function(SonAlisFiyatData)
-                {
-                    if(SonAlisFiyatData.length > 0)
-                        BarkodData[0].FIYAT = SonAlisFiyatData[0].SONFIYAT;
-                });
-            }
-            // ALIŞ ŞARTI GETİR
-            if(pEvrParam.AlisSarti == 1)
-            {
-                await _GetPromiseTag(pFirma,'AlisSartiGetir',[pFiyatParam.CariKodu,BarkodData[0].KODU],function(AlisSartiData)
-                {
-                    if(AlisSartiData.length > 0)
-                        BarkodData[0].FIYAT = SonAlisFiyatData[0].FIYAT;
-                });
-            }
-        }
-        else
-        {
-            // SON SATIŞ FİYATI GETİR
-            if(pEvrParam.SonSatisFiyati == 1)
-            {
-                await _GetPromiseTag(pFirma,'SonSatisFiyatGetir',[pFiyatParam.CariKodu,BarkodData[0].KODU],function(SonSatisFiyatData)
-                {
-                    if(SonSatisFiyatData.length > 0)
-                        BarkodData[0].FIYAT = SonSatisFiyatData[0].SONFIYAT;
-                });
-            }
-            // SATIŞ ŞARTI GETİR
-            if(pEvrParam.SatisSarti == 1)
-            {
-                await _GetPromiseTag(pFirma,'SatisSartiGetir',[pFiyatParam.CariKodu,BarkodData[0].KODU,pFiyatParam.DepoNo],function(SatisSartiData)
-                {
-                    if(SatisSartiData.length > 0)
-                        BarkodData[0].FIYAT = SatisSartiData[0].FIYAT;
-                });
-            }
-        }
-
-        if(pCallback)
-        {
-            Fiyat = BarkodData[0].FIYAT;
-            pCallback(Fiyat);
-        }
-    }
-    this.KiloBarkod = function(pBarkod,pParam)
-    {
-        // KİLO BARKODU KONTROLÜ - RECEP KARACA 10.09.2019
-        let Kilo = pBarkod;
-        let KiloFlag = pParam.Sistem.KiloFlag;
-        let FlagDizi = KiloFlag.split(',')
-        let Flag = Kilo.slice(0,2);
-        let Miktar = 1;
-
-        for (i = 0; i < FlagDizi.length; i++ )
-        {
-            if(Flag == FlagDizi[i])
-            {
-                var kBarkod = Kilo.slice(0,pParam.Sistem.KiloBaslangic);
-                var Uzunluk = Kilo.slice(pParam.Sistem.KiloBaslangic,((pParam.Sistem.KiloBaslangic)+(pParam.Sistem.KiloUzunluk)));
-                pBarkod = kBarkod
-                Miktar = (Uzunluk / pParam.Sistem.KiloCarpan)
-            }
-        }
-        
-        let pResult = {Barkod : pBarkod,Miktar : Miktar};
-        return pResult;
     }
      //#endregion "PUBLIC"
 });
