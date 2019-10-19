@@ -1,3 +1,207 @@
 <div class="col-12" ng-controller="StokCtrl" ng-init="Init()">
-
+    <div class="page-header">
+        <h1 class="page-title">STOK KARTI</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Edit">
+            <i class="icon wb-pencil" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Refresh">
+            <i class="icon wb-refresh" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Setting">
+            <i class="icon wb-settings" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-5">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Kodu :</div></label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Adı :</div></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Kısa Adı :</div></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-5">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Ürün Grubu :</div></label>
+                        <div class="col-md-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="name" autocomplete="off">
+                                    <span class="input-group-append">
+                                        <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                    </span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Ürün Cinsi :</div></label>
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>Mal</option>
+                                <option>Hizmet</option>
+                                <option>Depozit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label"><div class="float-right">Vergi :</div></label>
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>0</option>
+                                <option>5.5</option>
+                                <option>10</option>
+                                <option>20</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-md-3 form-control-label"><div class="float-right"></div></label>
+                            <div class="col-md-9">
+                                <div class="checkbox-custom checkbox-primary">
+                                    <input type="checkbox" id="inputChecked" checked="">
+                                    <label for="inputChecked">Aktif</label>
+                                </div>
+                            </div>
+                        </div>
+                </div>   
+                <div class="col-md-12 col-lg-2">
+                    <div class="form-group row">
+                            <div class="col-md-12">
+                                <img class="rounded" width="150" height="150" src="theme/global/photos/placeholder.png" alt="...">
+                            </div>
+                    </div>                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="nav-tabs-horizontal" data-plugin="tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="" ng-click="BtnTabFiyat()">Fiyat</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBirim()">Birim</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBarkod()">Barkod</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabTedarikci()">Tedarikçi</a></li>
+                        </ul>
+                        <div class="tab-content pt-20">
+                            <!--FİYAT TAB-->
+                            <div class="tab-pane active show" id="TabFiyat" role="tabpanel">
+                                <div class="row px-10">
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Maliyet Fiyatı</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Min. Satış Fiyatı</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Max. Satış Fiyatı</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Son Alış Fiyatı</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mt-10">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Fiyat
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table id="TblFiyat" class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tip</th>
+                                                    <th>Depo</th>
+                                                    <th>Bas.Tarih</th>
+                                                    <th>Bit.Tarih</th>
+                                                    <th>Fiyat</th>
+                                                    <th>Cari</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Standart</td>
+                                                    <td>Ümraniye</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>10.5</td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Satış Anlaşması</td>
+                                                    <td>Genel</td>
+                                                    <td>19.10.2019</td>
+                                                    <td>19.10.2020</td>
+                                                    <td>9.80</td>
+                                                    <td>001</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alış Anlaşması</td>
+                                                    <td>Genel</td>
+                                                    <td>01.01.2019</td>
+                                                    <td>31.12.2019</td>
+                                                    <td>7.80</td>
+                                                    <td>002</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!------------->
+                            <!--BİRİM TAB-->
+                            <div class="tab-pane" id="TabBirim" role="tabpanel">
+                                BİRİMLER
+                            </div>
+                            <!------------->
+                            <!--BARKOD TAB-->
+                            <div class="tab-pane" id="TabBarkod" role="tabpanel">
+                                BARKODLAR
+                            </div>
+                            <!------------->
+                            <!--TEDARİKÇİ TAB-->
+                            <div class="tab-pane" id="TabTedarikci" role="tabpanel">
+                                TEDARİKÇİLER
+                            </div>
+                            <!------------->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
 </div>
