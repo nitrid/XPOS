@@ -11,6 +11,24 @@ function StokCtrl ($scope,$window,db)
                 searching:false
             }
         );
+        $("#TblBirim").DataTable(
+            {
+                "pageLength": 5,
+                "lengthChange": false,
+                ordering:false,
+                info:false,
+                searching:false
+            }
+        );
+        $("#TblBarkod").DataTable(
+            {
+                "pageLength": 5,
+                "lengthChange": false,
+                ordering:false,
+                info:false,
+                searching:false
+            }
+        );
     }
     $scope.BtnTabFiyat = function()
     {
