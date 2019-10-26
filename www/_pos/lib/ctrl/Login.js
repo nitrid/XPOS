@@ -9,11 +9,7 @@ function Login ($scope,$rootScope,$window,db)
  
     $scope.Init = function()
     {
-        if (typeof localStorage.host != 'undefined')
-        {
-            db.SetHost($scope.server_adress,$scope.socket_port);
-            //$window.location.reload();
-        }
+        db.SetHost($scope.server_adress,$scope.socket_port);
 
         db.Connection(function(data)
         {                
