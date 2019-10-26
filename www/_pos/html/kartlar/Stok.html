@@ -185,17 +185,172 @@
                             <!------------->
                             <!--BİRİM TAB-->
                             <div class="tab-pane" id="TabBirim" role="tabpanel">
-                                BİRİMLER
+                                <div class="row px-10">
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Alt Birim Fiyatı</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mt-10">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Birim
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table id="TblBirim" class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tip</th>
+                                                    <th>Adı</th>
+                                                    <th>Katsayı</th>
+                                                    <th>Ağırlık</th>
+                                                    <th>Hacim</th>
+                                                    <th>En</th>
+                                                    <th>Boy</th>
+                                                    <th>Yükseklik</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Ana Birim</td>
+                                                    <td>Adet</td>
+                                                    <td>1</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alt Birim</td>
+                                                    <td>Kg</td>
+                                                    <td>0.800</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Üst Birim</td>
+                                                    <td>Paket</td>
+                                                    <td>12</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Üst Birim</td>
+                                                    <td>Koli</td>
+                                                    <td>24</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <!------------->
                             <!--BARKOD TAB-->
                             <div class="tab-pane" id="TabBarkod" role="tabpanel">
-                                BARKODLAR
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mt-10">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Barkod
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table id="TblBarkod" class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Barkod</th>
+                                                    <th>Birim</th>
+                                                    <th>Tip</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>8600435232123</td>
+                                                    <td>Adet</td>
+                                                    <td>EAN13</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2400131250003</td>
+                                                    <td>Kg</td>
+                                                    <td>EAN13</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <!------------->
                             <!--TEDARİKÇİ TAB-->
                             <div class="tab-pane" id="TabTedarikci" role="tabpanel">
-                                TEDARİKÇİLER
+                                <div class="row px-10">
+                                    <div class="col-lg-2 mx-5">
+                                        <div class="form-group row">
+                                            <label class="form-control-label">Tedarikçi Grup Kodu</label>
+                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mt-10">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Tedarikçi
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table id="TblTedarikci" class="table table-bordered table-hover table-striped dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kodu</th>
+                                                    <th>Adı</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>029</td>
+                                                    <td>DCA DISTRIBUTION</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1811001</td>
+                                                    <td>ECOPLUS SARL</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>035</td>
+                                                    <td>AKAR ULKER</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>037</td>
+                                                    <td>ANADOLU TAT/MERAY</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <!------------->
                         </div>

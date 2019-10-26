@@ -1,6 +1,7 @@
 function Login ($scope,$rootScope,$window,db)
 {
     let Firma = "TEST1";
+    localStorage.mode = true;
 
     $scope.server_adress = localStorage.host;
     $scope.server_port = localStorage.port;
@@ -8,13 +9,11 @@ function Login ($scope,$rootScope,$window,db)
  
     $scope.Init = function()
     {
-        if (typeof localStorage.host == 'undefined')
+        if (typeof localStorage.host != 'undefined')
         {
             db.SetHost($scope.server_adress,$scope.socket_port);
-            $window.location.reload();
+            //$window.location.reload();
         }
-        
-        db.SetHost($scope.server_adress,$scope.socket_port);
 
         db.Connection(function(data)
         {                
