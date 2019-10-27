@@ -110,6 +110,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             TmpQuery = window["QuerySql"][pParam.tag];
             TmpQuery.value = pParam.param;
             TmpQuery.db = pParam.db;
+            
             _Socket.emit('QMikroDb', TmpQuery, function (data) 
             {
                 if(typeof(data.result.err) == 'undefined')
