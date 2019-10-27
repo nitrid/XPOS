@@ -2,14 +2,17 @@
     <div class="page-header">
         <h1 class="page-title">STOK KARTI</h1>
         <div class="page-header-actions">
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Edit">
-            <i class="icon wb-pencil" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Init()">
+            <i class="icon fa-file-o" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Refresh">
-            <i class="icon wb-refresh" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Kaydet()">
+            <i class="icon fa-save" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" data-original-title="Setting">
-            <i class="icon wb-settings" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Sil()">
+            <i class="icon fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
+            <i class="icon fa-print" aria-hidden="true"></i>
             </button>
         </div>
     </div>
@@ -21,9 +24,9 @@
                         <label class="col-md-3 form-control-label"><div class="float-right">Kodu :</div></label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="name" autocomplete="off">
+                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].CODE">
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalStokSecim()"><i class="icon wb-search" aria-hidden="true"></i></button>
                                 </span>
                             </div>                            
                         </div>
@@ -31,13 +34,13 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label"><div class="float-right">Adı :</div></label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].NAME">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label"><div class="float-right">Kısa Adı :</div></label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].SNAME">
                         </div>
                     </div>
                 </div>
@@ -46,7 +49,7 @@
                         <label class="col-md-3 form-control-label"><div class="float-right">Ürün Grubu :</div></label>
                         <div class="col-md-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="name" autocomplete="off">
+                                    <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].ITEM_GRP">
                                     <span class="input-group-append">
                                         <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
                                     </span>
@@ -56,21 +59,21 @@
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label"><div class="float-right">Ürün Cinsi :</div></label>
                         <div class="col-md-9">
-                            <select class="form-control">
-                                <option>Mal</option>
-                                <option>Hizmet</option>
-                                <option>Depozit</option>
+                            <select class="form-control" ng-model = "StokListe[0].TYPE">
+                                <option value="0">Mal</option>
+                                <option value="1">Hizmet</option>
+                                <option value="2">Depozit</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label"><div class="float-right">Vergi :</div></label>
                         <div class="col-md-9">
-                            <select class="form-control">
-                                <option>0</option>
-                                <option>5.5</option>
-                                <option>10</option>
-                                <option>20</option>
+                            <select class="form-control" ng-model = "StokListe[0].VAT">
+                                <option value="0">0</option>
+                                <option value="5.5">5.5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
                             </select>
                         </div>
                     </div>
@@ -78,7 +81,7 @@
                             <label class="col-md-3 form-control-label"><div class="float-right"></div></label>
                             <div class="col-md-9">
                                 <div class="checkbox-custom checkbox-primary">
-                                    <input type="checkbox" id="inputChecked" checked="">
+                                    <input type="checkbox" id="inputChecked" checked="" ng-model = "StokListe[0].STATUS">
                                     <label for="inputChecked">Aktif</label>
                                 </div>
                             </div>
@@ -108,19 +111,19 @@
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Maliyet Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].COST_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Min. Satış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].MIN_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Max. Satış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off">
+                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].MAX_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
@@ -133,7 +136,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mt-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button" ng-click="BtnModalFiyatEkle()">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Fiyat
                                             </button>
                                         </div>
@@ -141,7 +144,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblFiyat" class="table table-bordered table-hover table-striped dataTable">
+                                        <table id="TblFiyat" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
                                             <thead>
                                                 <tr>
                                                     <th>Tip</th>
@@ -153,30 +156,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Standart</td>
-                                                    <td>Ümraniye</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>10.5</td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Satış Anlaşması</td>
-                                                    <td>Genel</td>
-                                                    <td>19.10.2019</td>
-                                                    <td>19.10.2020</td>
-                                                    <td>9.80</td>
-                                                    <td>001</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alış Anlaşması</td>
-                                                    <td>Genel</td>
-                                                    <td>01.01.2019</td>
-                                                    <td>31.12.2019</td>
-                                                    <td>7.80</td>
-                                                    <td>002</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -204,7 +183,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblBirim" class="table table-bordered table-hover table-striped dataTable">
+                                        <table id="TblBirim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
                                             <thead>
                                                 <tr>
                                                     <th>Tip</th>
@@ -218,46 +197,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Ana Birim</td>
-                                                    <td>Adet</td>
-                                                    <td>1</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alt Birim</td>
-                                                    <td>Kg</td>
-                                                    <td>0.800</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Üst Birim</td>
-                                                    <td>Paket</td>
-                                                    <td>12</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Üst Birim</td>
-                                                    <td>Koli</td>
-                                                    <td>24</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -277,7 +216,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblBarkod" class="table table-bordered table-hover table-striped dataTable">
+                                        <table id="TblBarkod" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
                                             <thead>
                                                 <tr>
                                                     <th>Barkod</th>
@@ -286,16 +225,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>8600435232123</td>
-                                                    <td>Adet</td>
-                                                    <td>EAN13</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2400131250003</td>
-                                                    <td>Kg</td>
-                                                    <td>EAN13</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -323,7 +252,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblTedarikci" class="table table-bordered table-hover table-striped dataTable">
+                                        <table id="TblTedarikci" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
                                             <thead>
                                                 <tr>
                                                     <th>Kodu</th>
@@ -359,4 +288,73 @@
             </div>
         </div>
     </div>  
+     <!-- MODALLAR -->
+    <!-- Stok Seçim Modal -->
+    <div class="modal fade" id="MdlStokSecim" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Stok Seçim</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row pb-10">
+                        <div class="form-group col-lg-12">
+                            <button class="btn btn-block btn-primary" ng-click="BtnStokGridSec()">Seç</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table id="TblStokSecim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Kodu</th>
+                                        <th>Adı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fiyat Ekle Modal -->
+    <div class="modal fade" id="MdlFiyatEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Fiyat Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row pb-10">
+                        <div class="form-group col-lg-12">
+                            <button class="btn btn-block btn-primary" ng-click="BtnStokGridSec()">Seç</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table id="TblStokSecim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Kodu</th>
+                                        <th>Adı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
