@@ -3,6 +3,6 @@
     "server":"192.168.1.38;1433",
     "database":"XPOS",
     "uid":"nitro",
-    "pwd":"1122334455", 
+    "pwd":"1122334455",
     "trustedConnection" : false
 }
