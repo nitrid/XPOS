@@ -5,7 +5,7 @@ function StokCtrl ($scope,$window,db)
     let ModalTip = "";
 
     function TblFiyatInit()
-    {
+    {        
         $("#TblFiyat").jsGrid
         ({
             width: "100%",
@@ -50,7 +50,7 @@ function StokCtrl ($scope,$window,db)
                 {
                     name: "PRICE",
                     title : "Fiyat",
-                    type: "number",
+                    type: "decimal",
                     align: "center",
                     width: 75
                 },
@@ -75,7 +75,6 @@ function StokCtrl ($scope,$window,db)
                     function()
                     { 
                         args.item.deleteConfirmed = true;
-                        console.log(args.item)
                         db.ExecuteTag($scope.Firma,'FiyatSil',[args.item.GUID],function(data)
                         {
                             //FİYAT LİSTESİ GETİR
@@ -89,9 +88,11 @@ function StokCtrl ($scope,$window,db)
                     ,function(){});
                 }
             },
-            onItemUpdating: function(args) 
+            onItemUpdated: function(args) 
             {
-                console.log(args);
+                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.GUID],function(data)
+                {
+                });
             }
         });
     }

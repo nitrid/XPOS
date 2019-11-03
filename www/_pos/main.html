@@ -290,6 +290,30 @@
           Site.run();
         });
       })(document, window, jQuery);
+
+      //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
+      function DecimalField(config) 
+      {
+        jsGrid.NumberField.call(this, config);
+      }
+      DecimalField.prototype = new jsGrid.NumberField(
+      {
+    
+        itemTemplate: function(value) {
+            return value.toFixed(2);
+        },
+        filterValue: function() {
+            return parseFloat(this.filterControl.val() || 0);
+        },
+        insertValue: function() {
+            return parseFloat(this.insertControl.val() || 0);
+        },
+        editValue: function() {
+            return parseFloat(this.editControl.val() || 0);
+        }
+      });
+      jsGrid.fields.decimal = DecimalField;
+      //*******************************************//
   </script>
 
   </body>

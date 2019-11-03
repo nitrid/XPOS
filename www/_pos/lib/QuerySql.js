@@ -164,6 +164,11 @@ var QuerySql =
     {
         query : "DELETE FROM ITEM_PRICE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
         param : ['GUID:string|50']
+    },
+    FiyatUpdate :
+    {
+        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['PRICE:float','GUID:string|50']
     }
 };
 
