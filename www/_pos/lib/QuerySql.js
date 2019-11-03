@@ -78,14 +78,15 @@ var QuerySql =
     StokKartFiyatListeGetir : 
     {
         query : "SELECT " +
-                "[TYPE] " +
+                "[GUID] " +
+                ",[TYPE] " +
                 ",CASE WHEN [TYPE] = 0 THEN 'Standart' " +
                 "WHEN [TYPE] = 1 THEN 'Satış Anlaşması' " + 
                 "WHEN [TYPE] = 2 THEN 'Alış Anlaşması' " + 
                 "ELSE '' END AS [TYPENAME] " +
                 ",[DEPOT] " +
-                ",ISNULL(CONVERT(nvarchar(25),[START_DATE],104),'') AS [START_DATE] " +
-                ",ISNULL(CONVERT(nvarchar(25),[FINISH_DATE],104),'') AS [FINISH_DATE] " +
+                ",CASE WHEN [START_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[START_DATE],104) END AS [START_DATE] " +
+                ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
                 ",[PRICE] " +
                 ",[CUSTOMER] " +
                 "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE",
@@ -128,6 +129,41 @@ var QuerySql =
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME] " +
                 "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE",
         param : ['ITEM_CODE:string|25']
+    },
+    FiyatKaydet : 
+    {
+        query : "INSERT INTO [dbo].[ITEM_PRICE] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[ITEM_CODE] " +
+                ",[TYPE] " +
+                ",[DEPOT] " +
+                ",[START_DATE] " +
+                ",[FINISH_DATE] " +
+                ",[PRICE] " +
+                ",[CUSTOMER] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@ITEM_CODE,		    --<ITEM_CODE, nvarchar(25),> \n" +
+                "@TYPE,				    --<TYPE, int,> \n" +
+                "@DEPOT,				--<DEPOT, nvarchar(25),> \n" +
+                "@START_DATE,			--<START_DATE, datetime,> \n" +
+                "@FINISH_DATE,		    --<FINISH_DATE, datetime,> \n" +
+                "@PRICE,				--<PRICE, float,> \n" +
+                "@CUSTOMER			    --<CUSTOMER, nvarchar(25),> \n" +
+                ") ",
+        param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','START_DATE:date','FINISH_DATE:date',
+                 'PRICE:float','CUSTOMER:string|25']
+    },
+    FiyatSil :
+    {
+        query : "DELETE FROM ITEM_PRICE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['GUID:string|50']
     }
 };
 

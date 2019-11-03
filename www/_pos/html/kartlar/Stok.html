@@ -2,17 +2,20 @@
     <div class="page-header">
         <h1 class="page-title">STOK KARTI</h1>
         <div class="page-header-actions">
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Init()">
-            <i class="icon fa-file-o" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Init()">
+                <i class="icon fa-file-o" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Kaydet()">
-            <i class="icon fa-save" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Kaydet()">
+                <i class="icon fa-save" aria-hidden="true"></i>
             </button>
-            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click = "Sil()">
-            <i class="icon fa-trash-o" aria-hidden="true"></i>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Sil()">
+                <i class="icon fa-trash-o" aria-hidden="true"></i>
             </button>
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
-            <i class="icon fa-print" aria-hidden="true"></i>
+                <i class="icon fa-print" aria-hidden="true"></i>
             </button>
         </div>
     </div>
@@ -21,45 +24,61 @@
             <div class="row">
                 <div class="col-md-12 col-lg-5">
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Kodu :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Kodu :</div>
+                        </label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].CODE">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="StokListe[0].CODE">
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalStokSecim()"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('Stok')"><i
+                                            class="icon wb-search" aria-hidden="true"></i></button>
                                 </span>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Adı :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Adı :</div>
+                        </label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].NAME">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="StokListe[0].NAME">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Kısa Adı :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Kısa Adı :</div>
+                        </label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].SNAME">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="StokListe[0].SNAME">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-5">
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Ürün Grubu :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Ürün Grubu :</div>
+                        </label>
                         <div class="col-md-9">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].ITEM_GRP">
-                                    <span class="input-group-append">
-                                        <button type="submit" class="btn btn-primary"><i class="icon wb-search" aria-hidden="true"></i></button>
-                                    </span>
-                                </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="StokListe[0].ITEM_GRP">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary"><i class="icon wb-search"
+                                            aria-hidden="true"></i></button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Ürün Cinsi :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Ürün Cinsi :</div>
+                        </label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model = "StokListe[0].TYPE">
+                            <select class="form-control" ng-model="StokListe[0].TYPE">
                                 <option value="0">Mal</option>
                                 <option value="1">Hizmet</option>
                                 <option value="2">Depozit</option>
@@ -67,9 +86,11 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 form-control-label"><div class="float-right">Vergi :</div></label>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Vergi :</div>
+                        </label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model = "StokListe[0].VAT">
+                            <select class="form-control" ng-model="StokListe[0].VAT">
                                 <option value="0">0</option>
                                 <option value="5.5">5.5</option>
                                 <option value="10">10</option>
@@ -78,31 +99,38 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                            <label class="col-md-3 form-control-label"><div class="float-right"></div></label>
-                            <div class="col-md-9">
-                                <div class="checkbox-custom checkbox-primary">
-                                    <input type="checkbox" id="inputChecked" checked="" ng-model = "StokListe[0].STATUS">
-                                    <label for="inputChecked">Aktif</label>
-                                </div>
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right"></div>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="checkbox-custom checkbox-primary">
+                                <input type="checkbox" id="inputChecked" checked="" ng-model="StokListe[0].STATUS">
+                                <label for="inputChecked">Aktif</label>
                             </div>
                         </div>
-                </div>   
+                    </div>
+                </div>
                 <div class="col-md-12 col-lg-2">
                     <div class="form-group row">
-                            <div class="col-md-12">
-                                <img class="rounded" width="150" height="150" src="theme/global/photos/placeholder.png" alt="...">
-                            </div>
-                    </div>                        
+                        <div class="col-md-12">
+                            <img class="rounded" width="150" height="150" src="theme/global/photos/placeholder.png"
+                                alt="...">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="nav-tabs-horizontal" data-plugin="tabs">
                         <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="" ng-click="BtnTabFiyat()">Fiyat</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBirim()">Birim</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBarkod()">Barkod</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabTedarikci()">Tedarikçi</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab"
+                                    href="" ng-click="BtnTabFiyat()">Fiyat</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
+                                    ng-click="BtnTabBirim()">Birim</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
+                                    ng-click="BtnTabBarkod()">Barkod</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
+                                    ng-click="BtnTabTedarikci()">Tedarikçi</a></li>
                         </ul>
                         <div class="tab-content pt-20">
                             <!--FİYAT TAB-->
@@ -111,32 +139,37 @@
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Maliyet Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].COST_PRICE">
+                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                                ng-model="StokListe[0].COST_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Min. Satış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].MIN_PRICE">
+                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                                ng-model="StokListe[0].MIN_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Max. Satış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model = "StokListe[0].MAX_PRICE">
+                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                                ng-model="StokListe[0].MAX_PRICE">
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Son Alış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off" disabled>
+                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                                disabled>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="mt-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button" ng-click="BtnModalFiyatEkle()">
+                                        <div class="my-10">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button"
+                                                ng-click="BtnModalFiyatEkle()">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Fiyat
                                             </button>
                                         </div>
@@ -144,20 +177,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblFiyat" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tip</th>
-                                                    <th>Depo</th>
-                                                    <th>Bas.Tarih</th>
-                                                    <th>Bit.Tarih</th>
-                                                    <th>Fiyat</th>
-                                                    <th>Cari</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div id="TblFiyat" class="jsgrid"></div>
                                     </div>
                                 </div>
                             </div>
@@ -168,13 +188,14 @@
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Alt Birim Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off" disabled>
+                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                                disabled>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="mt-10">
+                                        <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Birim
                                             </button>
@@ -183,22 +204,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblBirim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tip</th>
-                                                    <th>Adı</th>
-                                                    <th>Katsayı</th>
-                                                    <th>Ağırlık</th>
-                                                    <th>Hacim</th>
-                                                    <th>En</th>
-                                                    <th>Boy</th>
-                                                    <th>Yükseklik</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div id="TblBirim" class="jsgrid"></div>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +213,7 @@
                             <div class="tab-pane" id="TabBarkod" role="tabpanel">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="mt-10">
+                                        <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Barkod
                                             </button>
@@ -216,17 +222,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblBarkod" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Barkod</th>
-                                                    <th>Birim</th>
-                                                    <th>Tip</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div id="TblBarkod" class="jsgrid"></div>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +239,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="mt-10">
+                                        <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Tedarikçi
                                             </button>
@@ -252,32 +248,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <table id="TblTedarikci" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Kodu</th>
-                                                    <th>Adı</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>029</td>
-                                                    <td>DCA DISTRIBUTION</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1811001</td>
-                                                    <td>ECOPLUS SARL</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>035</td>
-                                                    <td>AKAR ULKER</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>037</td>
-                                                    <td>ANADOLU TAT/MERAY</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div id="TblTedarikci" class="jsgrid"></div>
                                     </div>
                                 </div>
                             </div>
@@ -287,14 +258,14 @@
                 </div>
             </div>
         </div>
-    </div>  
-     <!-- MODALLAR -->
+    </div>
+    <!-- MODALLAR -->
     <!-- Stok Seçim Modal -->
-    <div class="modal fade" id="MdlStokSecim" aria-hidden="true" role="dialog" tabindex="-1">
+    <div class="modal fade" id="MdlSecim" aria-hidden="true" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-simple modal-center modal-primary">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" ng-click="BtnModalKapat()" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
                     <h4 class="modal-title">Stok Seçim</h4>
@@ -302,21 +273,12 @@
                 <div class="modal-body px-3 py-3">
                     <div class="row pb-10">
                         <div class="form-group col-lg-12">
-                            <button class="btn btn-block btn-primary" ng-click="BtnStokGridSec()">Seç</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnGridSec()">Seç</button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <table id="TblStokSecim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                <thead>
-                                    <tr>
-                                        <th>Kodu</th>
-                                        <th>Adı</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                            <div id="TblSecim" class="jsgrid"></div>
                         </div>
                     </div>
                 </div>
@@ -334,23 +296,113 @@
                     <h4 class="modal-title">Fiyat Ekle</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
-                    <div class="row pb-10">
-                        <div class="form-group col-lg-12">
-                            <button class="btn btn-block btn-primary" ng-click="BtnStokGridSec()">Seç</button>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Tip :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="FiyatModal.Tip" ng-change="CmbFiyatTipChange()">
+                                <option value="0">Standart</option>
+                                <option value="1">Alış Anlaşması</option>
+                                <option value="2">Satış Anlaşması</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Stok Kodu :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="FiyatModal.StokKodu">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatStok')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Depo :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="FiyatModal.Depo">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatDepo')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Başlangıç Tarih :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-icon">
+                                <input type="text" class="form-control" id="BasTarih" type="text"
+                                    ng-model="FiyatModal.Baslangic" data-provide="datepicker" disabled>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Bitiş Tarih :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group input-group-icon">
+                                <input type="text" class="form-control" id="BitTarih" type="text"
+                                    ng-model="FiyatModal.Bitis" data-provide="datepicker" disabled>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Fiyat :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="FiyatModal.Fiyat">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Cari :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="FiyatModal.Cari">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatCari')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <table id="TblStokSecim" class="table table-bordered table-hover table-striped dataTable" style = "width : 100%">
-                                <thead>
-                                    <tr>
-                                        <th>Kodu</th>
-                                        <th>Adı</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnFiyatKaydet()">Kaydet</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
                         </div>
                     </div>
                 </div>
@@ -358,3 +410,11 @@
         </div>
     </div>
 </div>
+<script>
+    $("#BasTarih").datepicker({
+        language: "tr"
+    });
+    $("#BitTarih").datepicker({
+        language: "tr"
+    });
+</script>
