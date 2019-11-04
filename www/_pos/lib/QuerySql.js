@@ -95,7 +95,8 @@ var QuerySql =
     StokKartBirimListeGetir : 
     {
         query : "SELECT " +
-                "[TYPE] " +
+                "[GUID] " +
+                ",[TYPE] " +
                 ",CASE WHEN [TYPE] = 0 THEN 'Alt Birim' " +
                 "WHEN [TYPE] = 1 THEN 'Ana Birim' " +
                 "WHEN [TYPE] = 2 THEN 'Üst Birim' " +
@@ -113,7 +114,8 @@ var QuerySql =
     StokKartBarkodListeGetir : 
     {
         query : "SELECT " + 
-                "[BARCODE] " +
+                "[GUID] " +
+                ",[BARCODE] " +
                 ",ISNULL((SELECT TOP 1 [NAME] FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEM_BARCODE.ITEM_CODE),'') AS [UNIT] " +
                 ",CASE WHEN [TYPE] = 0 THEN 'EAN8' " +
                 "WHEN [TYPE] = 1 THEN 'EAN13' " +
@@ -125,6 +127,7 @@ var QuerySql =
     StokKartTedarikciListeGetir : 
     {
         query : "SELECT " +
+                "[GUID], " +
                 "[CUSTOMER_CODE], " +
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME] " +
                 "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE",
@@ -169,6 +172,113 @@ var QuerySql =
     {
         query : "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
         param : ['PRICE:float','GUID:string|50']
+    },
+    BirimKaydet : 
+    {
+        query : "INSERT INTO [dbo].[ITEM_UNIT] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[ITEM_CODE] " +
+                ",[TYPE] " +
+                ",[NAME] " +
+                ",[FACTOR] " +
+                ",[WEIGHT] " +
+                ",[VOLUME] " +
+                ",[WIDTH] " +
+                ",[HEIGHT] " +
+                ",[SIZE] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@ITEM_CODE,		    --<ITEM_CODE, nvarchar(25),> \n" +
+                "@TYPE,				    --<TYPE, int,> \n" +
+                "@NAME,		    		--<NAME, nvarchar(50),> \n" +
+                "@FACTOR,		    	--<FACTOR, float,> \n" +
+                "@WEIGHT,		        --<WEIGHT, float,> \n" +
+                "@VOLUME,				--<VOLUME, float,> \n" +
+                "@WIDTH,			    --<WIDTH, float,> \n" +
+                "@HEIGHT,			    --<HEIGHT, float,> \n" +
+                "@SIZE			        --<SIZE, float,> \n" +
+                ") ",
+        param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','NAME:string|50','FACTOR:float','WEIGHT:float',
+                 'VOLUME:float','WIDTH:float','HEIGHT:float','SIZE:float']
+    },
+    BirimSil :
+    {
+        query : "DELETE FROM ITEM_UNIT WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['GUID:string|50']
+    },
+    BirimUpdate :
+    {
+        query : "UPDATE ITEM_UNIT SET FACTOR = @FACTOR, WEIGHT = @WEIGHT, VOLUME = @VOLUME, WIDTH = @WIDTH, " + 
+                "HEIGHT = @HEIGHT, SIZE = @SIZE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['FACTOR:float','WEIGHT:float','VOLUME:float','WIDTH:float','HEIGHT:float','SIZE:float','GUID:string|50']
+    },
+    BarkodKaydet : 
+    {
+        query : "INSERT INTO [dbo].[ITEM_BARCODE] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[ITEM_CODE] " +
+                ",[BARCODE] " +
+                ",[UNIT] " +
+                ",[TYPE] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@ITEM_CODE,		    --<ITEM_CODE, nvarchar(25),> \n" +
+                "@BARCODE,				--<BARCODE, nvarchar(50),> \n" +
+                "@UNIT,		    	    --<UNIT, uniqueidentifier,> \n" +
+                "@TYPE		            --<TYPE, int,> \n" +
+                ") ",
+        param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','BARCODE:string|50','UNIT:string|50','TYPE:int']
+    },
+    BarkodSil :
+    {
+        query : "DELETE FROM ITEM_BARCODE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['GUID:string|50']
+    },
+    BarkodUpdate :
+    {
+        query : "UPDATE ITEM_BARCODE SET BARCODE = @BARCODE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['BARCODE:string|50','GUID:string|50']
+    },
+    StokTedarikciKaydet : 
+    {
+        query : "INSERT INTO [dbo].[ITEM_CUSTOMER] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[ITEM_CODE] " +
+                ",[CUSTOMER_CODE] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@ITEM_CODE,		    --<ITEM_CODE, nvarchar(25),> \n" +
+                "@CUSTOMER_CODE 		--<CUSTOMER_CODE, nvarchar(25),> \n" +
+                ") ",
+        param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','CUSTOMER_CODE:string|25']
+    },
+    StokTedarikciSil :
+    {
+        query : "DELETE FROM ITEM_CUSTOMER WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['GUID:string|50']
+    },
+    StokTedarikciUpdate :
+    {
+        query : "UPDATE ITEM_CUSTOMER SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['CUSTOMER_CODE:string|25','GUID:string|50']
     }
 };
 

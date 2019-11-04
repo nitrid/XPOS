@@ -196,7 +196,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="my-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button"
+                                                ng-click="BtnModalBirimEkle()">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Birim
                                             </button>
                                         </div>
@@ -214,7 +215,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="my-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button"
+                                                ng-click="BtnModalBarkodEkle()">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Barkod
                                             </button>
                                         </div>
@@ -240,7 +242,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="my-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button">
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button" ng-click="BtnModalTedarikciEkle()">
                                                 <i class="icon wb-plus" aria-hidden="true"></i> Yeni Tedarikçi
                                             </button>
                                         </div>
@@ -400,6 +402,208 @@
                     <div class="row">
                         <div class="form-group col-md-6">
                             <button class="btn btn-block btn-primary" ng-click="BtnFiyatKaydet()">Kaydet</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Birim Ekle Modal -->
+    <div class="modal fade" id="MdlBirimEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Birim Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Tip :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="BirimModal.Tip">
+                                <option value="0">Ana Birim</option>
+                                <option value="1">Alt Birim</option>
+                                <option value="2">Üst Birim</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Adı :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Adi">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Katsayı :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Katsayi">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Ağırlık :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Agirlik">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Hacim :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Hacim">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">En :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.En">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Boy :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Boy">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Yükseklik :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BirimModal.Yukseklik">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnBirimKaydet()">Kaydet</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Barkod Ekle Modal -->
+    <div class="modal fade" id="MdlBarkodEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Barkod Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Barkod :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="BarkodModal.Barkod">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Birim :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="BarkodModal.Birim">
+                                <option ng-repeat="option in BarkodModal.BirimListe" value="{{option.GUID}}">
+                                    {{option.NAME}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Tip :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <select class="form-control" ng-model="BarkodModal.Tip">
+                                <option value="0">EAN8</option>
+                                <option value="1">EAN13</option>
+                                <option value="2">CODE39</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnBarkodKaydet()">Kaydet</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tedarikci Ekle Modal -->
+    <div class="modal fade" id="MdlTedarikciEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Tedarikçi Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Kodu :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="TedarikciModal.Kodu">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary"
+                                        ng-click="BtnModalSecim('TedarikciCari')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Adı :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off" disabled
+                                ng-model="TedarikciModal.Adi">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnTedarikciKaydet()">Kaydet</button>
                         </div>
                         <div class="form-group col-md-6">
                             <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>

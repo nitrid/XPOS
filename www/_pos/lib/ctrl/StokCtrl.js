@@ -168,7 +168,49 @@ function StokCtrl ($scope,$window,db)
                     width: 100
                 },
                 { type: "control", modeSwitchButton: true , editButton: false }  
-            ]
+            ],
+            confirmDeleting: false,
+            onItemDeleting: function (args) 
+            {
+                if (!args.item.deleteConfirmed) 
+                { // custom property for confirmation
+                    args.cancel = true; // cancel deleting
+                    alertify.okBtn('Evet');
+                    alertify.cancelBtn('Hayır');
+            
+                    alertify.confirm('Birimi silmek istediğinize eminmisiniz ?', 
+                    function()
+                    { 
+                        args.item.deleteConfirmed = true;
+                        db.ExecuteTag($scope.Firma,'BirimSil',[args.item.GUID],function(data)
+                        {
+                            //BIRIM LİSTESİ GETİR
+                            db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
+                            {
+                                $scope.BirimListe = BirimData;
+                                $("#TblBirim").jsGrid({data : $scope.BirimListe});
+                            });
+                        });
+                    }
+                    ,function(){});
+                }
+            },
+            onItemUpdated: function(args) 
+            {
+                let TmpVal = 
+                [
+                    args.item.FACTOR,
+                    args.item.WEIGHT,
+                    args.item.VOLUME,
+                    args.item.WIDTH,
+                    args.item.HEIGHT,
+                    args.item.SIZE,
+                    args.item.GUID
+                ]
+                db.ExecuteTag($scope.Firma,'BirimUpdate',TmpVal,function(data)
+                {
+                });
+            }
         });
     }
     function TblBarkodInit()
@@ -208,7 +250,44 @@ function StokCtrl ($scope,$window,db)
                     width: 75
                 },
                 { type: "control", modeSwitchButton: true , editButton: false }  
-            ]
+            ],
+            confirmDeleting: false,
+            onItemDeleting: function (args) 
+            {
+                if (!args.item.deleteConfirmed) 
+                { // custom property for confirmation
+                    args.cancel = true; // cancel deleting
+                    alertify.okBtn('Evet');
+                    alertify.cancelBtn('Hayır');
+            
+                    alertify.confirm('Barkod silmek istediğinize eminmisiniz ?', 
+                    function()
+                    { 
+                        args.item.deleteConfirmed = true;
+                        db.ExecuteTag($scope.Firma,'BarkodSil',[args.item.GUID],function(data)
+                        {
+                            //BARKOD LİSTESİ GETİR
+                            db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
+                            {
+                                $scope.BarkodListe = BarkodData;
+                                $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                            });
+                        });
+                    }
+                    ,function(){});
+                }
+            },
+            onItemUpdated: function(args) 
+            {
+                let TmpVal = 
+                [
+                    args.item.BARCODE,
+                    args.item.GUID
+                ]
+                db.ExecuteTag($scope.Firma,'BarkodUpdate',TmpVal,function(data)
+                {
+                });
+            }
         });
     }
     function TblTedarikciInit()
@@ -242,7 +321,44 @@ function StokCtrl ($scope,$window,db)
                     width: 100
                 },
                 { type: "control", modeSwitchButton: true , editButton: false }  
-            ]
+            ],
+            confirmDeleting: false,
+            onItemDeleting: function (args) 
+            {
+                if (!args.item.deleteConfirmed) 
+                { // custom property for confirmation
+                    args.cancel = true; // cancel deleting
+                    alertify.okBtn('Evet');
+                    alertify.cancelBtn('Hayır');
+            
+                    alertify.confirm('Tedarikçi silmek istediğinize eminmisiniz ?', 
+                    function()
+                    { 
+                        args.item.deleteConfirmed = true;
+                        db.ExecuteTag($scope.Firma,'StokTedarikciSil',[args.item.GUID],function(data)
+                        {
+                            //TEDARİKÇİ LİSTESİ GETİR
+                            db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                            {
+                                $scope.TedaikciListe = TedarikciData;
+                                $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                            });
+                        });
+                    }
+                    ,function(){});
+                }
+            },
+            onItemUpdated: function(args) 
+            {
+                let TmpVal = 
+                [
+                    args.item.CUSTOMER_CODE,
+                    args.item.GUID
+                ]
+                db.ExecuteTag($scope.Firma,'StokTedarikciUpdate',TmpVal,function(data)
+                {
+                });
+            }
         });
     }
     function TblSecimInit(pData)
@@ -295,6 +411,38 @@ function StokCtrl ($scope,$window,db)
         $scope.FiyatModal.Bitis = moment(new Date()).format("DD.MM.YYYY");
         $scope.FiyatModal.Fiyat = 0;
         $scope.FiyatModal.Cari = "";
+    }
+    function BirimModalInit()
+    {
+        $scope.BirimModal = {};
+        $scope.BirimModal.Tip = "0";
+        $scope.BirimModal.Adi = "";
+        $scope.BirimModal.Katsayi = "0";
+        $scope.BirimModal.Agirlik = "0";
+        $scope.BirimModal.Hacim = "0";
+        $scope.BirimModal.En = "0";
+        $scope.BirimModal.Boy = "0";
+        $scope.BirimModal.Yukseklik = "0";
+    }
+    function BarkodModalInit()
+    {
+        $scope.BarkodModal = {};
+        $scope.BarkodModal.Barkod = "";
+        $scope.BarkodModal.Birim = "0";
+        $scope.BarkodModal.Tip = "0";
+        $scope.BarkodModal.BirimListe = [];
+
+        if($scope.BirimListe.length > 0)
+        {
+            $scope.BarkodModal.Birim = $scope.BirimListe[0].GUID;
+            $scope.BarkodModal.BirimListe = $scope.BirimListe;
+        }
+    }
+    function TedarikciModalInit()
+    {
+        $scope.TedarikciModal = {};
+        $scope.TedarikciModal.Kodu = "";
+        $scope.TedarikciModal.Adi = "";
     }
     function StokGetir(pKodu)
     {
@@ -360,6 +508,9 @@ function StokCtrl ($scope,$window,db)
         $scope.StokListe.push(TmpStokObj);
 
         FiyatModalInit();
+        BirimModalInit();
+        BarkodModalInit();
+        TedarikciModalInit();
     }
     $scope.Kaydet = function()
     {
@@ -458,7 +609,6 @@ function StokCtrl ($scope,$window,db)
                     {
                         $scope.FiyatListe = FiyatData;
                         $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-                        //TblFiyatInit($scope.FiyatListe);
                     });
                 }
             });    
@@ -466,6 +616,123 @@ function StokCtrl ($scope,$window,db)
         ,function()
         {
             $("#MdlFiyatEkle").modal('show')
+        });
+    }
+    $scope.BtnBirimKaydet = function()
+    {
+        $("#MdlBirimEkle").modal('hide');
+
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        function()
+        { 
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.StokListe[0].CODE,
+                $scope.BirimModal.Tip,
+                $scope.BirimModal.Adi,
+                $scope.BirimModal.Katsayi,
+                $scope.BirimModal.Agirlik,
+                $scope.BirimModal.Hacim,                   
+                $scope.BirimModal.En,
+                $scope.BirimModal.Boy,
+                $scope.BirimModal.Yukseklik
+            ];
+
+            db.ExecuteTag($scope.Firma,'BirimKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                    //BIRIM LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
+                    {
+                        $scope.BirimListe = BirimData;
+                        $("#TblBirim").jsGrid({data : $scope.BirimListe});
+                    });
+                }
+            });    
+        }
+        ,function()
+        {
+            $("#MdlBirimEkle").modal('show')
+        });
+    }
+    $scope.BtnBarkodKaydet = function()
+    {
+        $("#MdlBarkodEkle").modal('hide');
+
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        function()
+        { 
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.StokListe[0].CODE,
+                $scope.BarkodModal.Barkod,
+                $scope.BarkodModal.Birim,
+                $scope.BarkodModal.Tip
+            ];
+
+            db.ExecuteTag($scope.Firma,'BarkodKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                    //BARKOD LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
+                    {
+                        $scope.BarkodListe = BarkodData;
+                        $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                    });
+                }
+            });    
+        }
+        ,function()
+        {
+            $("#MdlBarkodEkle").modal('show')
+        });
+    }
+    $scope.BtnTedarikciKaydet = function()
+    {
+        $("#MdlTedarikciEkle").modal('hide');
+
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        function()
+        { 
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.StokListe[0].CODE,
+                $scope.TedarikciModal.Kodu
+            ];
+
+            db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                    //TEDARİKÇİ LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                    {
+                        $scope.TedaikciListe = TedarikciData;
+                        $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                    });
+                }
+            });    
+        }
+        ,function()
+        {
+            $("#MdlTedarikciEkle").modal('show')
         });
     }
     $scope.BtnGridSec = function()
@@ -493,6 +760,13 @@ function StokCtrl ($scope,$window,db)
             $("#MdlSecim").modal('hide');
             $("#MdlFiyatEkle").modal('show');
         }
+        else if(ModalTip == "TedarikciCari")
+        {
+            $scope.TedarikciModal.Kodu = SecimSelectedRow.Item.CODE;
+            $scope.TedarikciModal.Adi = SecimSelectedRow.Item.NAME;
+            $("#MdlSecim").modal('hide');
+            $("#MdlTedarikciEkle").modal('show');
+        }
 
         ModalTip = "";
     }
@@ -516,6 +790,11 @@ function StokCtrl ($scope,$window,db)
         {
             $("#MdlSecim").modal('hide');
             $("#MdlFiyatEkle").modal('show');
+        }
+        else if(ModalTip == "TedarikciCari")
+        {
+            $("#MdlSecim").modal('hide');
+            $("#MdlTedarikciEkle").modal('show');
         }
 
         ModalTip = "";
@@ -579,6 +858,20 @@ function StokCtrl ($scope,$window,db)
                 $("#MdlFiyatEkle").modal('hide');
             });
         }
+        else if(ModalTip == "TedarikciCari")
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                TblSecimInit(Data);
+                $("#MdlSecim").modal('show');
+                $("#MdlTedarikciEkle").modal('hide');
+            });
+        }
     }
     $scope.BtnModalFiyatEkle = function()
     {
@@ -591,6 +884,53 @@ function StokCtrl ($scope,$window,db)
         {
             alertify.okBtn("Tamam");
             alertify.alert("Kodu bölümünü girmeden fiyat giriş ekranına giremezsiniz !");
+        }
+    }
+    $scope.BtnModalBirimEkle = function()
+    {
+        if($scope.StokListe[0].CODE != "")
+        {
+            BirimModalInit();
+            $("#MdlBirimEkle").modal('show');
+        }
+        else
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü girmeden birim giriş ekranına giremezsiniz !");
+        }
+    }
+    $scope.BtnModalBarkodEkle = function()
+    {
+        if($scope.StokListe[0].CODE != "" && $scope.BirimListe.length > 0)
+        {
+            BarkodModalInit();
+            $("#MdlBarkodEkle").modal('show');
+        }
+        else
+        {
+            if($scope.StokListe[0].CODE == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Kodu bölümünü girmeden barkod giriş ekranına giremezsiniz !");
+            }
+            else if($scope.BirimListe.length == 0)
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Birim bölümünü girmeden barkod giriş ekranına giremezsiniz !");
+            }
+        }
+    }
+    $scope.BtnModalTedarikciEkle = function()
+    {
+        if($scope.StokListe[0].CODE != "")
+        {
+            TedarikciModalInit();
+            $("#MdlTedarikciEkle").modal('show');
+        }
+        else
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü girmeden birim giriş ekranına giremezsiniz !");
         }
     }
     $scope.CmbFiyatTipChange = function()
