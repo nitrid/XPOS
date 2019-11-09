@@ -956,6 +956,10 @@ function StokCtrl ($scope,$window,db)
             $("#BitTarih").prop('disabled',false);
         }
     }
+    $scope.TxtAdiChange = function()
+    {
+        $scope.StokListe[0].SNAME = $scope.StokListe[0].NAME.substring(0, 20);
+    }
     $scope.BtnTabFiyat = function()
     {
         $("#TabFiyat").addClass('active');
