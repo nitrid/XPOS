@@ -320,6 +320,13 @@ function StokCtrl ($scope,$window,db)
                     align: "center",
                     width: 100
                 },
+                {
+                    name: "CUSTOMER_ITEM_CODE",
+                    title : "Stok Kodu",
+                    type : "text",
+                    align: "center",
+                    width: 100
+                },
                 { type: "control", modeSwitchButton: true , editButton: false }  
             ],
             confirmDeleting: false,
@@ -353,6 +360,7 @@ function StokCtrl ($scope,$window,db)
                 let TmpVal = 
                 [
                     args.item.CUSTOMER_CODE,
+                    args.item.CUSTOMER_ITEM_CODE,
                     args.item.GUID
                 ]
                 db.ExecuteTag($scope.Firma,'StokTedarikciUpdate',TmpVal,function(data)
@@ -443,6 +451,7 @@ function StokCtrl ($scope,$window,db)
         $scope.TedarikciModal = {};
         $scope.TedarikciModal.Kodu = "";
         $scope.TedarikciModal.Adi = "";
+        $scope.TedarikciModal.StokKodu = "";
     }
     function StokGetir(pKodu)
     {
@@ -714,7 +723,8 @@ function StokCtrl ($scope,$window,db)
                 UserParam.Kullanici,
                 UserParam.Kullanici,
                 $scope.StokListe[0].CODE,
-                $scope.TedarikciModal.Kodu
+                $scope.TedarikciModal.Kodu,
+                $scope.TedarikciModal.StokKodu
             ];
 
             db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
