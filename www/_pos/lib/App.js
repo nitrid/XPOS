@@ -15,4 +15,8 @@ angular.module("app",
     {
         templateUrl : "html/kartlar/Stok.html"
     })
+    .when("/Cari",
+    {
+        templateUrl : "html/kartlar/Cari.html"
+    })
 });
