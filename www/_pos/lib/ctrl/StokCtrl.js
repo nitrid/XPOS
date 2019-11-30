@@ -322,7 +322,7 @@ function StokCtrl ($scope,$window,db)
                 },
                 {
                     name: "CUSTOMER_ITEM_CODE",
-                    title : "Stok Kodu",
+                    title : "Tedarikçi Stok Kodu",
                     type : "text",
                     align: "center",
                     width: 100
@@ -698,6 +698,7 @@ function StokCtrl ($scope,$window,db)
                     db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
                     {
                         $scope.BarkodListe = BarkodData;
+                        $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
                         $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
                     });
                 }
@@ -735,6 +736,7 @@ function StokCtrl ($scope,$window,db)
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
                         $scope.TedaikciListe = TedarikciData;
+                        $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
                         $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                     });
                 }
