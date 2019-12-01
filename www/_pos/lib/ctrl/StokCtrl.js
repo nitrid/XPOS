@@ -371,34 +371,35 @@ function StokCtrl ($scope,$window,db)
     }
     function TblSecimInit(pData)
     {
+        
+        let TmpColumns = []
+           
         if(pData.length > 0)
         {
-            let TmpColumns = []
-            
             Object.keys(pData[0]).forEach(function(item)
             {
                 TmpColumns.push({name : item});
-            });
-            
-            $("#TblSecim").jsGrid
-            ({
-                width: "100%",
-                updateOnResize: true,
-                heading: true,
-                selecting: true,
-                data : pData,
-                paging : true,
-                pageSize: 5,
-                pageButtonCount: 3,
-                pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-                fields: TmpColumns,
-                rowClick: function(args)
-                {
-                    SecimListeRowClick(args.itemIndex,args.item,this);
-                    $scope.$apply();
-                }
-            });
+            });    
         }
+        
+        $("#TblSecim").jsGrid
+        ({
+            width: "100%",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : pData,
+            paging : true,
+            pageSize: 5,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: TmpColumns,
+            rowClick: function(args)
+            {
+                SecimListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
     }
     function SecimListeRowClick(pIndex,pItem,pObj)
     {    
