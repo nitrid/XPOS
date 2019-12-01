@@ -80,7 +80,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].ITEM_CUSTOMER" />
+                                    ng-model="StokListe[0].ITEM_CUSTOMER"/>
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary" ng-click="BtnModalTedarikciEkle()">
                                         <i class="icon wb-plus" aria-hidden="true"></i>
@@ -178,7 +178,7 @@
                                         <div class="form-group row">
                                             <label class="form-control-label">Maliyet Fiyatı</label>
                                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                                ng-model="StokListe[0].COST_PRICE" />
+                                                ng-model="StokListe[0].COST_PRICE" ng-blur = "TxtCostPriceValid()"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
@@ -198,7 +198,7 @@
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Son Alış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].LAST_PRICE"
                                                 disabled />
                                         </div>
                                     </div>
@@ -305,7 +305,7 @@
                     <button type="button" class="close" ng-click="BtnModalKapat()" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Stok Seçim</h4>
+                    <h4 class="modal-title">Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row pb-10">

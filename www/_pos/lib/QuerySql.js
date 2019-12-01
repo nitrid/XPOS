@@ -10,6 +10,7 @@ var QuerySql =
                 "CONVERT(nvarchar(5),[TYPE]) AS [TYPE], " + 
                 "CONVERT(nvarchar(5),[VAT]) AS [VAT], " + 
                 "ISNULL((SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),ISNULL([COST_PRICE],0)) AS [COST_PRICE], " + 
+                "ISNULL((SELECT TOP 1 [PRICE] FROM (SELECT TOP 2 [LDATE],[PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC) TMP ORDER BY LDATE ASC),0) AS [LAST_PRICE], " +
                 "[MIN_PRICE] AS [MIN_PRICE], " + 
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
