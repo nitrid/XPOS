@@ -9,10 +9,13 @@ var QuerySql =
                 "[ITEM_GRP] AS [ITEM_GRP], " + 
                 "CONVERT(nvarchar(5),[TYPE]) AS [TYPE], " + 
                 "CONVERT(nvarchar(5),[VAT]) AS [VAT], " + 
-                "[COST_PRICE] AS [COST_PRICE], " + 
+                "ISNULL((SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),ISNULL([COST_PRICE],0)) AS [COST_PRICE], " + 
+                "ISNULL((SELECT TOP 1 [PRICE] FROM (SELECT TOP 2 [LDATE],[PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC) TMP ORDER BY LDATE ASC),0) AS [LAST_PRICE], " +
                 "[MIN_PRICE] AS [MIN_PRICE], " + 
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
-                "[STATUS] AS [STATUS] " + 
+                "[STATUS] AS [STATUS], " + 
+                "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
+                "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER] " +
                 "FROM ITEMS WHERE CODE = @CODE",
         param : ['CODE'],
         type : ['string|25'] 
@@ -81,15 +84,15 @@ var QuerySql =
                 "[GUID] " +
                 ",[TYPE] " +
                 ",CASE WHEN [TYPE] = 0 THEN 'Standart' " +
-                "WHEN [TYPE] = 1 THEN 'Satış Anlaşması' " + 
-                "WHEN [TYPE] = 2 THEN 'Alış Anlaşması' " + 
+                "WHEN [TYPE] = 1 THEN 'Alış Anlaşması' " + 
+                "WHEN [TYPE] = 2 THEN 'Satış Anlaşması' " + 
                 "ELSE '' END AS [TYPENAME] " +
                 ",[DEPOT] " +
                 ",CASE WHEN [START_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[START_DATE],104) END AS [START_DATE] " +
                 ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
                 ",[PRICE] " +
                 ",[CUSTOMER] " +
-                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE",
+                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartBirimListeGetir : 
@@ -108,7 +111,7 @@ var QuerySql =
                 ",[WIDTH] " +
                 ",[HEIGHT] " +
                 ",[SIZE] " +
-                "FROM [dbo].[ITEM_UNIT] WHERE [ITEM_CODE] = @ITEM_CODE",
+                "FROM [dbo].[ITEM_UNIT] WHERE [ITEM_CODE] = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartBarkodListeGetir : 
@@ -121,7 +124,7 @@ var QuerySql =
                 "WHEN [TYPE] = 1 THEN 'EAN13' " +
                 "WHEN [TYPE] = 2 THEN 'CODE39' " +
                 "ELSE '' END AS [TYPE] " +
-                "FROM [dbo].[ITEM_BARCODE] WHERE [ITEM_CODE] = @ITEM_CODE",
+                "FROM [dbo].[ITEM_BARCODE] WHERE [ITEM_CODE] = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartTedarikciListeGetir : 
@@ -131,7 +134,7 @@ var QuerySql =
                 "[CUSTOMER_CODE], " +
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME], " +
                 "[CUSTOMER_ITEM_CODE] " +
-                "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE",
+                "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     FiyatKaydet : 

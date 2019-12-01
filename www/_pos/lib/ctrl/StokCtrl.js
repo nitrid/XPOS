@@ -322,7 +322,7 @@ function StokCtrl ($scope,$window,db)
                 },
                 {
                     name: "CUSTOMER_ITEM_CODE",
-                    title : "Stok Kodu",
+                    title : "Tedarikçi Stok Kodu",
                     type : "text",
                     align: "center",
                     width: 100
@@ -698,6 +698,7 @@ function StokCtrl ($scope,$window,db)
                     db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
                     {
                         $scope.BarkodListe = BarkodData;
+                        $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
                         $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
                     });
                 }
@@ -735,6 +736,7 @@ function StokCtrl ($scope,$window,db)
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
                         $scope.TedaikciListe = TedarikciData;
+                        $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
                         $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                     });
                 }
@@ -777,6 +779,36 @@ function StokCtrl ($scope,$window,db)
             $("#MdlSecim").modal('hide');
             $("#MdlTedarikciEkle").modal('show');
         }
+        else if(ModalTip == "TedarikciMaliyet")
+        {
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.StokListe[0].CODE,
+                1,
+                0,
+                moment(new Date(0)).format("DD.MM.YYYY"),
+                moment(new Date(0)).format("DD.MM.YYYY"),
+                $scope.StokListe[0].COST_PRICE,                   
+                SecimSelectedRow.Item.CODE
+            ];
+
+            db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                    //FİYAT LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
+                    {
+                        $scope.FiyatListe = FiyatData;
+                        $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                    });
+                }
+            });    
+
+            $("#MdlSecim").modal('hide');
+        }
 
         ModalTip = "";
     }
@@ -806,7 +838,10 @@ function StokCtrl ($scope,$window,db)
             $("#MdlSecim").modal('hide');
             $("#MdlTedarikciEkle").modal('show');
         }
-
+        else if(ModalTip == "TedarikciMaliyet")
+        {
+            $("#MdlSecim").modal('hide');
+        }
         ModalTip = "";
     }
     $scope.BtnModalSecim = function(pTip)
@@ -869,6 +904,20 @@ function StokCtrl ($scope,$window,db)
             });
         }
         else if(ModalTip == "TedarikciCari")
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                TblSecimInit(Data);
+                $("#MdlSecim").modal('show');
+                $("#MdlTedarikciEkle").modal('hide');
+            });
+        }
+        else if(ModalTip == "TedarikciMaliyet")
         {
             let TmpQuery = 
             {
@@ -987,5 +1036,36 @@ function StokCtrl ($scope,$window,db)
         $("#TabFiyat").removeClass('active');
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
+    }
+    $scope.TxtCostPriceValid = function()
+    {
+        var TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = '" + $scope.StokListe[0].CODE + "' AND [TYPE] = 1 ORDER BY LDATE DESC",
+            param:  ['ITEM_CODE'],
+            type:   ['strimg|25'],
+            value:  [$scope.StokListe[0].CODE]
+        }
+
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
+            {
+                alertify.okBtn('Evet');
+                alertify.cancelBtn('Hayır');
+        
+                alertify.confirm('Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?', 
+                function()
+                {
+                    $scope.BtnModalSecim('TedarikciMaliyet');
+                }
+                ,function()
+                {
+                });                          
+            }
+        });
+
+        console.log("22");
     }
 }

@@ -30,10 +30,11 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].CODE">
+                                    ng-model="StokListe[0].CODE" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('Stok')"><i
-                                            class="icon wb-search" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('Stok')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
                                 </span>
                             </div>
                         </div>
@@ -43,8 +44,8 @@
                             <div class="float-right">Adı :</div>
                         </label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off" ng-change="TxtAdiChange()"
-                                ng-model="StokListe[0].NAME">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-change="TxtAdiChange()" ng-model="StokListe[0].NAME" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -53,7 +54,39 @@
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="StokListe[0].SNAME" maxlength="20">
+                                ng-model="StokListe[0].SNAME" maxlength="20" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Barkod :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="StokListe[0].BARCODE" />
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalBarkodEkle()">
+                                        <i class="icon wb-plus" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Tedarikçi :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="StokListe[0].ITEM_CUSTOMER"/>
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalTedarikciEkle()">
+                                        <i class="icon wb-plus" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,10 +98,11 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].ITEM_GRP">
+                                    ng-model="StokListe[0].ITEM_GRP" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"><i class="icon wb-search"
-                                            aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
                                 </span>
                             </div>
                         </div>
@@ -104,7 +138,7 @@
                         </label>
                         <div class="col-md-9">
                             <div class="checkbox-custom checkbox-primary">
-                                <input type="checkbox" id="inputChecked" checked="" ng-model="StokListe[0].STATUS">
+                                <input type="checkbox" id="inputChecked" checked="" ng-model="StokListe[0].STATUS" />
                                 <label for="inputChecked">Aktif</label>
                             </div>
                         </div>
@@ -114,7 +148,7 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <img class="rounded" width="150" height="150" src="theme/global/photos/placeholder.png"
-                                alt="...">
+                                alt="..." />
                         </div>
                     </div>
                 </div>
@@ -123,14 +157,18 @@
                 <div class="col-lg-12">
                     <div class="nav-tabs-horizontal" data-plugin="tabs">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab"
-                                    href="" ng-click="BtnTabFiyat()">Fiyat</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
-                                    ng-click="BtnTabBirim()">Birim</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
-                                    ng-click="BtnTabBarkod()">Barkod</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href=""
-                                    ng-click="BtnTabTedarikci()">Tedarikçi</a></li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" data-toggle="tab" href="" ng-click="BtnTabFiyat()">Fiyat</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBirim()">Birim</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabBarkod()">Barkod</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabTedarikci()">Tedarikçi</a>
+                            </li>
                         </ul>
                         <div class="tab-content pt-20">
                             <!--FİYAT TAB-->
@@ -140,28 +178,28 @@
                                         <div class="form-group row">
                                             <label class="form-control-label">Maliyet Fiyatı</label>
                                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                                ng-model="StokListe[0].COST_PRICE">
+                                                ng-model="StokListe[0].COST_PRICE" ng-blur = "TxtCostPriceValid()"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Min. Satış Fiyatı</label>
                                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                                ng-model="StokListe[0].MIN_PRICE">
+                                                ng-model="StokListe[0].MIN_PRICE" />
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Max. Satış Fiyatı</label>
                                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                                ng-model="StokListe[0].MAX_PRICE">
+                                                ng-model="StokListe[0].MAX_PRICE" />
                                         </div>
                                     </div>
                                     <div class="col-lg-2 mx-5">
                                         <div class="form-group row">
                                             <label class="form-control-label">Son Alış Fiyatı</label>
-                                            <input type="text" class="form-control" name="name" autocomplete="off"
-                                                disabled>
+                                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].LAST_PRICE"
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +208,8 @@
                                         <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button"
                                                 ng-click="BtnModalFiyatEkle()">
-                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Fiyat
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni
+                                                Fiyat
                                             </button>
                                         </div>
                                     </div>
@@ -189,7 +228,7 @@
                                         <div class="form-group row">
                                             <label class="form-control-label">Alt Birim Fiyatı</label>
                                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                                disabled>
+                                                disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +237,8 @@
                                         <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button"
                                                 ng-click="BtnModalBirimEkle()">
-                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Birim
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni
+                                                Birim
                                             </button>
                                         </div>
                                     </div>
@@ -217,7 +257,8 @@
                                         <div class="my-10">
                                             <button id="addToTable" class="btn btn-outline btn-primary" type="button"
                                                 ng-click="BtnModalBarkodEkle()">
-                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Barkod
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni
+                                                Barkod
                                             </button>
                                         </div>
                                     </div>
@@ -234,8 +275,10 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="my-10">
-                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button" ng-click="BtnModalTedarikciEkle()">
-                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni Tedarikçi
+                                            <button id="addToTable" class="btn btn-outline btn-primary" type="button"
+                                                ng-click="BtnModalTedarikciEkle()">
+                                                <i class="icon wb-plus" aria-hidden="true"></i> Yeni
+                                                Tedarikçi
                                             </button>
                                         </div>
                                     </div>
@@ -262,12 +305,14 @@
                     <button type="button" class="close" ng-click="BtnModalKapat()" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Stok Seçim</h4>
+                    <h4 class="modal-title">Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row pb-10">
                         <div class="form-group col-lg-12">
-                            <button class="btn btn-block btn-primary" ng-click="BtnGridSec()">Seç</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnGridSec()">
+                                Seç
+                            </button>
                         </div>
                     </div>
                     <div class="row">
@@ -309,7 +354,7 @@
                         <div class="col-md-8">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="FiyatModal.StokKodu">
+                                    ng-model="FiyatModal.StokKodu" />
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatStok')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
@@ -325,7 +370,7 @@
                         <div class="col-md-8">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="FiyatModal.Depo">
+                                    ng-model="FiyatModal.Depo" />
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatDepo')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
@@ -341,7 +386,7 @@
                         <div class="col-md-8">
                             <div class="input-group input-group-icon">
                                 <input type="text" class="form-control" id="BasTarih" type="text"
-                                    ng-model="FiyatModal.Baslangic" data-provide="datepicker" disabled>
+                                    ng-model="FiyatModal.Baslangic" data-provide="datepicker" disabled />
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <span class="icon wb-calendar" aria-hidden="true"></span>
@@ -357,7 +402,7 @@
                         <div class="col-md-8">
                             <div class="input-group input-group-icon">
                                 <input type="text" class="form-control" id="BitTarih" type="text"
-                                    ng-model="FiyatModal.Bitis" data-provide="datepicker" disabled>
+                                    ng-model="FiyatModal.Bitis" data-provide="datepicker" disabled />
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <span class="icon wb-calendar" aria-hidden="true"></span>
@@ -372,7 +417,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="FiyatModal.Fiyat">
+                                ng-model="FiyatModal.Fiyat" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -382,7 +427,7 @@
                         <div class="col-md-8">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="FiyatModal.Cari">
+                                    ng-model="FiyatModal.Cari" />
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatCari')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
@@ -393,10 +438,14 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" ng-click="BtnFiyatKaydet()">Kaydet</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnFiyatKaydet()">
+                                Kaydet
+                            </button>
                         </div>
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                                Çıkış
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -432,7 +481,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Adi">
+                                ng-model="BirimModal.Adi" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -441,7 +490,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Katsayi">
+                                ng-model="BirimModal.Katsayi" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -450,7 +499,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Agirlik">
+                                ng-model="BirimModal.Agirlik" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -459,7 +508,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Hacim">
+                                ng-model="BirimModal.Hacim" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -468,7 +517,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.En">
+                                ng-model="BirimModal.En" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -477,7 +526,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Boy">
+                                ng-model="BirimModal.Boy" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -486,15 +535,19 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BirimModal.Yukseklik">
+                                ng-model="BirimModal.Yukseklik" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" ng-click="BtnBirimKaydet()">Kaydet</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnBirimKaydet()">
+                                Kaydet
+                            </button>
                         </div>
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                                Çıkış
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -518,7 +571,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off"
-                                ng-model="BarkodModal.Barkod">
+                                ng-model="BarkodModal.Barkod" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -546,10 +599,14 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" ng-click="BtnBarkodKaydet()">Kaydet</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnBarkodKaydet()">
+                                Kaydet
+                            </button>
                         </div>
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                                Çıkış
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -574,7 +631,7 @@
                         <div class="col-md-8">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="TedarikciModal.Kodu">
+                                    ng-model="TedarikciModal.Kodu" />
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary"
                                         ng-click="BtnModalSecim('TedarikciCari')">
@@ -590,7 +647,7 @@
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off" disabled
-                                ng-model="TedarikciModal.Adi">
+                                ng-model="TedarikciModal.Adi" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -598,16 +655,20 @@
                             <div class="float-right">Stok Kodu :</div>
                         </label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="name" autocomplete="off" 
-                                ng-model="TedarikciModal.StokKodu">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="TedarikciModal.StokKodu" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" ng-click="BtnTedarikciKaydet()">Kaydet</button>
+                            <button class="btn btn-block btn-primary" ng-click="BtnTedarikciKaydet()">
+                                Kaydet
+                            </button>
                         </div>
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" data-dismiss="modal">Çıkış</button>
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                                Çıkış
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -621,5 +682,5 @@
     });
     $("#BitTarih").datepicker({
         language: "tr"
-    });    
+    });
 </script>
