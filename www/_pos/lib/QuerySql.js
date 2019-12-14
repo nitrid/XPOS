@@ -20,6 +20,16 @@ var QuerySql =
         param : ['CODE'],
         type : ['string|25'] 
     },
+    CariKartGetir : 
+    {
+        query : "SELECT " + 
+                "[CODE] AS [CODE], " +
+                "[NAME] AS [NAME], " + 
+                "[LAST_NAME] AS [LAST_NAME] " + 
+                "FROM CUSTOMERS WHERE CODE = @CODE",
+        param : ['CODE'],
+        type : ['string|25'] 
+    },
     StokKartKaydet : 
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
