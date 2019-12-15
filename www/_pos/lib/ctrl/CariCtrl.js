@@ -142,15 +142,14 @@ function CariCtrl ($scope,$window,db)
                                 $scope.CariListe[0].CITY,                    
                                 $scope.CariListe[0].COUNTRY
                             ];
-
+                            
                             db.ExecuteTag($scope.Firma,'AdresKaydet',InsertData,function(InsertResult)
                             { 
+                               
                             });
                         }
                     }
                 });        
-                
-                $scope.Init();
             }
             else
             {
