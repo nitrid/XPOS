@@ -60,7 +60,7 @@ io.on('connection', function(socket)
                 else
                     TmpDb = pQuery.db;            
             }
-            console.log(pQuery);
+            
             msql = new _sql(config.server,TmpDb,config.uid,config.pwd,config.trustedConnection);
             msql.QueryPromise(pQuery,function(data)
             {
