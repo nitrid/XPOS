@@ -114,6 +114,8 @@ function CariCtrl ($scope,$window,db)
                     $scope.CariListe[0].CUSTOMER_GRP,
                     $scope.CariListe[0].PHONE1,
                     $scope.CariListe[0].PHONE2,
+                    $scope.CariListe[0].GSM_PHONE,
+                    $scope.CariListe[0].OTHER_PHONE,
                     $scope.CariListe[0].EMAIL,
                     $scope.CariListe[0].WEB,
                     $scope.CariListe[0].NOTE,

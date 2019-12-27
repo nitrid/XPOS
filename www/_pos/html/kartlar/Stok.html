@@ -32,7 +32,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="StokListe[0].CODE" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('Stok')">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('Stok')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -59,14 +59,14 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Barkod :</div>
+                            <div class="float-right">Tedarikçi :</div>
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].BARCODE" />
+                                    ng-model="StokListe[0].ITEM_CUSTOMER"/>
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalBarkodEkle()">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalTedarikciEkle()">
                                         <i class="icon wb-plus" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -75,14 +75,14 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Tedarikçi :</div>
+                            <div class="float-right">Barkod :</div>
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].ITEM_CUSTOMER"/>
+                                    ng-model="StokListe[0].BARCODE" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalTedarikciEkle()">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalBarkodEkle()">
                                         <i class="icon wb-plus" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -100,7 +100,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="StokListe[0].ITEM_GRP" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary btn-custom">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -130,6 +130,15 @@
                                 <option value="10">10</option>
                                 <option value="20">20</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Tedarikçi Stok :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" readonly
+                                ng-change="TxtAdiChange()" ng-model="StokListe[0].CUSTOMER_ITEM_CODE" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -356,7 +365,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="FiyatModal.StokKodu" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatStok')">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('FiyatStok')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -372,7 +381,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="FiyatModal.Depo" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatDepo')">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('FiyatDepo')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -429,7 +438,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="FiyatModal.Cari" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('FiyatCari')">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('FiyatCari')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -633,7 +642,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="TedarikciModal.Kodu" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary"
+                                    <button type="submit" class="btn btn-primary btn-custom"
                                         ng-click="BtnModalSecim('TedarikciCari')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>

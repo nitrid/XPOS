@@ -15,7 +15,8 @@ var QuerySql =
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
-                "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER] " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE] " +
                 "FROM ITEMS WHERE CODE = @CODE",
         param : ['CODE'],
         type : ['string|25'] 
@@ -92,7 +93,7 @@ var QuerySql =
                 ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
                 ",[PRICE] " +
                 ",[CUSTOMER] " +
-                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE ORDER BY LDATE DESC",
+                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1 ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartBirimListeGetir : 
@@ -133,7 +134,9 @@ var QuerySql =
                 "[GUID], " +
                 "[CUSTOMER_CODE], " +
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME], " +
-                "[CUSTOMER_ITEM_CODE] " +
+                "[CUSTOMER_ITEM_CODE], " +
+                "ISNULL((SELECT TOP 1 CONVERT(nvarchar,[LDATE],104) FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE_LDATE, " +
+                "ISNULL((SELECT TOP 1 [PRICE] FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE " +
                 "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
@@ -298,6 +301,8 @@ var QuerySql =
                 "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
                 "CUSTOMERS.[PHONE1] AS [PHONE1], " +
                 "CUSTOMERS.[PHONE2] AS [PHONE2], " +
+                "CUSTOMERS.[GSM_PHONE] AS [GSM_PHONE], " +
+                "CUSTOMERS.[OTHER_PHONE] AS [OTHER_PHONE], " +
                 "CUSTOMERS.[EMAIL] AS [EMAIL], " +
                 "CUSTOMERS.[WEB] AS [WEB], " +
                 "CUSTOMERS.[NOTE] AS [NOTE], " +
@@ -337,6 +342,8 @@ var QuerySql =
                 ",[CUSTOMER_GRP] " +
                 ",[PHONE1] " +
                 ",[PHONE2] " +
+                ",[GSM_PHONE] " +
+                ",[OTHER_PHONE] " +
                 ",[EMAIL] " +
                 ",[WEB] " +
                 ",[NOTE] " +
@@ -360,6 +367,8 @@ var QuerySql =
                 "@CUSTOMER_GRP,			--<CUSTOMER_GRP, nvarchar(25),> \n" +
                 "@PHONE1,			    --<PHONE1, nvarchar(20),> \n" +
                 "@PHONE2,			    --<PHONE2, nvarchar(20),> \n" +
+                "@GSM_PHONE,			--<GSM_PHONE, nvarchar(20),> \n" +
+                "@OTHER_PHONE,			--<OTHER_PHONE, nvarchar(20),> \n" +
                 "@EMAIL,				--<EMAIL, nvarchar(100),> \n" +
                 "@WEB,			        --<WEB, nvarchar(100),> \n" +
                 "@NOTE,			        --<NOTE, nvarchar(max),> \n" +
@@ -382,6 +391,8 @@ var QuerySql =
                 ",[CUSTOMER_GRP] = @CUSTOMER_GRP " +
                 ",[PHONE1] = @PHONE1 " +
                 ",[PHONE2] = @PHONE2 " +
+                ",[GSM_PHONE] = @GSM_PHONE " +
+                ",[OTHER_PHONE] = @OTHER_PHONE " +
                 ",[EMAIL] = @EMAIL " +
                 ",[WEB] = @WEB " +
                 ",[NOTE] = @NOTE " +
@@ -393,8 +404,8 @@ var QuerySql =
                 ",[TAX_TYPE] = @TAX_TYPE " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','TYPE:int','GENUS:int','NAME:string|100','LAST_NAME:string|100','COMPANY:string|100',
-                 'CUSTOMER_GRP:string|25','PHONE1:string|20','PHONE2:string|20','EMAIL:string|100','WEB:string|100','NOTE:string|200','SIRET_ID:string|20',
-                 'APE_CODE:string|10','TAX_OFFICE:string|25','TAX_NO:string|30','INT_VAT_NO:string|30','TAX_TYPE:int']
+                 'CUSTOMER_GRP:string|25','PHONE1:string|20','PHONE2:string|20','GSM_PHONE:string|20','OTHER_PHONE:string|20','EMAIL:string|100','WEB:string|100',
+                 'NOTE:string|200','SIRET_ID:string|20','APE_CODE:string|10','TAX_OFFICE:string|25','TAX_NO:string|30','INT_VAT_NO:string|30','TAX_TYPE:int']
     },
     AdresKaydet : 
     {

@@ -321,6 +321,18 @@ function StokCtrl ($scope,$window,db)
                     width: 100
                 },
                 {
+                    name: "PRICE_LDATE",
+                    title : "Son Fiyat Tarih",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "PRICE",
+                    title : "Fiyat",
+                    align: "center",
+                    width: 100
+                },
+                {
                     name: "CUSTOMER_ITEM_CODE",
                     title : "Tedarikçi Stok Kodu",
                     type : "text",
@@ -738,6 +750,7 @@ function StokCtrl ($scope,$window,db)
                     {
                         $scope.TedaikciListe = TedarikciData;
                         $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
+                        $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu;
                         $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                     });
                 }
