@@ -3,6 +3,15 @@ function StokCtrl ($scope,$window,db)
     let UserParam = {};
     let SecimSelectedRow = null;
     let ModalTip = "";
+    $scope.Birim = 
+    [
+        {Adi : "ADET"},
+        {Adi : "KILOGRAM"},
+        {Adi : "GRAM"},
+        {Adi : "PAKET"},
+        {Adi : "KOLI"},
+        {Adi : "PALET"}
+    ];
 
     function TblFiyatInit()
     {        
@@ -437,7 +446,7 @@ function StokCtrl ($scope,$window,db)
     {
         $scope.BirimModal = {};
         $scope.BirimModal.Tip = "0";
-        $scope.BirimModal.Adi = "";
+        $scope.BirimModal.Adi = "ADET";
         $scope.BirimModal.Katsayi = "0";
         $scope.BirimModal.Agirlik = "0";
         $scope.BirimModal.Hacim = "0";
@@ -498,6 +507,38 @@ function StokCtrl ($scope,$window,db)
             });
         });
     }
+    function BirimKaydet()
+    {
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.StokListe[0].CODE,
+            $scope.BirimModal.Tip,
+            $scope.BirimModal.Adi,
+            $scope.BirimModal.Katsayi,
+            $scope.BirimModal.Agirlik,
+            $scope.BirimModal.Hacim,                   
+            $scope.BirimModal.En,
+            $scope.BirimModal.Boy,
+            $scope.BirimModal.Yukseklik
+        ];
+       
+        db.ExecuteTag($scope.Firma,'BirimKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                //BIRIM LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
+                {
+                    $scope.BirimListe = BirimData;
+                    $("#TblBirim").jsGrid({data : $scope.BirimListe});
+
+                    BarkodModalInit();
+                });
+            }
+        });
+    }
     $scope.Init = function()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
@@ -526,6 +567,8 @@ function StokCtrl ($scope,$window,db)
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
+        TmpStokObj.UNDER_UNIT_NAME = "ADET";
+        TmpStokObj.UNDER_UNIT_FACTOR = 0;
 
         $scope.StokListe.push(TmpStokObj);
 
@@ -564,7 +607,14 @@ function StokCtrl ($scope,$window,db)
                 { 
                     if(typeof(InsertResult.result.err) == 'undefined')
                     {  
-                        
+                        // ALT BİRİM KAYIT İŞLEMİ 
+                        if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
+                        {
+                            $scope.BirimModal.Tip = "2";
+                            $scope.BirimModal.Adi = $scope.StokListe[0].UNDER_UNIT_NAME;
+                            $scope.BirimModal.Katsayi = $scope.StokListe[0].UNDER_UNIT_FACTOR;
+                            BirimKaydet();                
+                        }
                     }
                 });                
             }
@@ -609,6 +659,13 @@ function StokCtrl ($scope,$window,db)
         alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
         function()
         { 
+            if($scope.FiyatModal.StokKodu == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Stok kodu bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
+
             let InsertData =
             [
                 UserParam.Kullanici,
@@ -650,33 +707,14 @@ function StokCtrl ($scope,$window,db)
         alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
         function()
         { 
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.StokListe[0].CODE,
-                $scope.BirimModal.Tip,
-                $scope.BirimModal.Adi,
-                $scope.BirimModal.Katsayi,
-                $scope.BirimModal.Agirlik,
-                $scope.BirimModal.Hacim,                   
-                $scope.BirimModal.En,
-                $scope.BirimModal.Boy,
-                $scope.BirimModal.Yukseklik
-            ];
+            if($scope.BirimModal.Adi == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Adı bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
 
-            db.ExecuteTag($scope.Firma,'BirimKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                    //BIRIM LİSTESİ GETİR
-                    db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
-                    {
-                        $scope.BirimListe = BirimData;
-                        $("#TblBirim").jsGrid({data : $scope.BirimListe});
-                    });
-                }
-            });    
+            BirimKaydet();    
         }
         ,function()
         {
@@ -693,6 +731,13 @@ function StokCtrl ($scope,$window,db)
         alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
         function()
         { 
+            if($scope.BarkodModal.Barkod == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Barkod bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
+
             let InsertData =
             [
                 UserParam.Kullanici,
@@ -732,6 +777,13 @@ function StokCtrl ($scope,$window,db)
         alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
         function()
         { 
+            if($scope.TedarikciModal.Kodu == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Tedarikçi kodu bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
+
             let InsertData =
             [
                 UserParam.Kullanici,

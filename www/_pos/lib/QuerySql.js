@@ -16,7 +16,9 @@ var QuerySql =
                 "[STATUS] AS [STATUS], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
-                "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE] " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
+                "ISNULL((SELECT TOP 1 [NAME] FROM ITEM_UNIT WHERE ITEM_CODE = @CODE AND [TYPE] = 2 ORDER BY LDATE DESC),'') AS [UNDER_UNIT_NAME], " +
+                "ISNULL((SELECT TOP 1 [FACTOR] FROM ITEM_UNIT WHERE ITEM_CODE = @CODE AND [TYPE] = 2 ORDER BY LDATE DESC),'') AS [UNDER_UNIT_FACTOR] " +
                 "FROM ITEMS WHERE CODE = @CODE",
         param : ['CODE'],
         type : ['string|25'] 
@@ -101,8 +103,8 @@ var QuerySql =
         query : "SELECT " +
                 "[GUID] " +
                 ",[TYPE] " +
-                ",CASE WHEN [TYPE] = 0 THEN 'Alt Birim' " +
-                "WHEN [TYPE] = 1 THEN 'Ana Birim' " +
+                ",CASE WHEN [TYPE] = 0 THEN 'Ana Birim' " +
+                "WHEN [TYPE] = 1 THEN 'Alt Birim' " +
                 "WHEN [TYPE] = 2 THEN 'Üst Birim' " +
                 "ELSE '' END AS [TYPENAME] " +
                 ",[NAME] " +
@@ -182,7 +184,13 @@ var QuerySql =
     },
     BirimKaydet : 
     {
-        query : "INSERT INTO [dbo].[ITEM_UNIT] " +
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "IF @TYPE = 1 " + 
+                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "ELSE " +
+                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[ITEM_UNIT] " +
                 "([CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +
@@ -210,7 +218,20 @@ var QuerySql =
                 "@WIDTH,			    --<WIDTH, float,> \n" +
                 "@HEIGHT,			    --<HEIGHT, float,> \n" +
                 "@SIZE			        --<SIZE, float,> \n" +
-                ") ",
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[ITEM_UNIT] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[TYPE] = @TYPE " +
+                ",[NAME] = @NAME " +
+                ",[FACTOR] = @FACTOR " +
+                ",[WEIGHT] = @WEIGHT " +
+                ",[VOLUME] = @VOLUME " +
+                ",[WIDTH] = @WIDTH " +
+                ",[HEIGHT] = @HEIGHT " +
+                ",[SIZE] = @SIZE " +
+                "WHERE [ITEM_CODE] = @TMPCODE AND [NAME] = @NAME AND [TYPE] = @TYPE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','NAME:string|50','FACTOR:float','WEIGHT:float',
                  'VOLUME:float','WIDTH:float','HEIGHT:float','SIZE:float']
     },
