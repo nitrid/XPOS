@@ -475,6 +475,12 @@ function StokCtrl ($scope,$window,db)
         $scope.TedarikciModal.Adi = "";
         $scope.TedarikciModal.StokKodu = "";
     }
+    function UrunGrupModalInit()
+    {
+        $scope.UrunGrupModal = {};
+        $scope.UrunGrupModal.Kodu = "";
+        $scope.UrunGrupModal.Adi = "";
+    }
     function StokGetir(pKodu)
     {
         $scope.StokListe = [];
@@ -569,6 +575,8 @@ function StokCtrl ($scope,$window,db)
         TmpStokObj.MAX_PRICE = 0;
         TmpStokObj.UNDER_UNIT_NAME = "ADET";
         TmpStokObj.UNDER_UNIT_FACTOR = 0;
+        TmpStokObj.ITEM_CUSTOMER = "";
+        TmpStokObj.CUSTOMER_ITEM_CODE = "";
 
         $scope.StokListe.push(TmpStokObj);
 
@@ -576,6 +584,7 @@ function StokCtrl ($scope,$window,db)
         BirimModalInit();
         BarkodModalInit();
         TedarikciModalInit();
+        UrunGrupModalInit();
     }
     $scope.Kaydet = function()
     {
@@ -585,44 +594,50 @@ function StokCtrl ($scope,$window,db)
         alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
         function()
         { 
-            if($scope.StokListe[0].CODE != '')
-            {
-                let InsertData =
-                [
-                    UserParam.Kullanici,
-                    UserParam.Kullanici,
-                    $scope.StokListe[0].CODE,
-                    $scope.StokListe[0].NAME,
-                    $scope.StokListe[0].SNAME,
-                    $scope.StokListe[0].ITEM_GRP,
-                    $scope.StokListe[0].TYPE,
-                    $scope.StokListe[0].VAT,                    
-                    $scope.StokListe[0].COST_PRICE,
-                    $scope.StokListe[0].MIN_PRICE,
-                    $scope.StokListe[0].MAX_PRICE,
-                    $scope.StokListe[0].STATUS
-                ];
-                
-                db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
-                { 
-                    if(typeof(InsertResult.result.err) == 'undefined')
-                    {  
-                        // ALT BİRİM KAYIT İŞLEMİ 
-                        if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
-                        {
-                            $scope.BirimModal.Tip = "2";
-                            $scope.BirimModal.Adi = $scope.StokListe[0].UNDER_UNIT_NAME;
-                            $scope.BirimModal.Katsayi = $scope.StokListe[0].UNDER_UNIT_FACTOR;
-                            BirimKaydet();                
-                        }
-                    }
-                });                
-            }
-            else
+            if($scope.StokListe[0].CODE == '')
             {
                 alertify.okBtn("Tamam");
                 alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+                return;
             }
+
+            if($scope.StokListe[0].ITEM_CUSTOMER == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
+                return;
+            }
+
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.StokListe[0].CODE,
+                $scope.StokListe[0].NAME,
+                $scope.StokListe[0].SNAME,
+                $scope.StokListe[0].ITEM_GRP,
+                $scope.StokListe[0].TYPE,
+                $scope.StokListe[0].VAT,                    
+                $scope.StokListe[0].COST_PRICE,
+                $scope.StokListe[0].MIN_PRICE,
+                $scope.StokListe[0].MAX_PRICE,
+                $scope.StokListe[0].STATUS
+            ];
+            
+            db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                    // ALT BİRİM KAYIT İŞLEMİ 
+                    if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
+                    {
+                        $scope.BirimModal.Tip = "2";
+                        $scope.BirimModal.Adi = $scope.StokListe[0].UNDER_UNIT_NAME;
+                        $scope.BirimModal.Katsayi = $scope.StokListe[0].UNDER_UNIT_FACTOR;
+                        BirimKaydet();                
+                    }
+                }
+            });     
         }
         ,function(){});
     }
@@ -813,6 +828,44 @@ function StokCtrl ($scope,$window,db)
             $("#MdlTedarikciEkle").modal('show')
         });
     }
+    $scope.BtnUrunGrupKaydet = function()
+    {
+        $("#MdlUrunGrupEkle").modal('hide');
+
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        function()
+        { 
+            if($scope.UrunGrupModal.Kodu == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
+
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.UrunGrupModal.Kodu,
+                $scope.UrunGrupModal.Adi
+            ];
+
+            db.ExecuteTag($scope.Firma,'UrunGrupKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                   
+                }
+            });    
+        }
+        ,function()
+        {
+            $("#MdlUrunGrupEkle").modal('show')
+        });
+    }
     $scope.BtnGridSec = function()
     {
         if(ModalTip == "Stok")
@@ -875,7 +928,11 @@ function StokCtrl ($scope,$window,db)
 
             $("#MdlSecim").modal('hide');
         }
-
+        else if(ModalTip == "UrunGrup")
+        {
+            $scope.StokListe[0].ITEM_GRP = SecimSelectedRow.Item.CODE;
+            $("#MdlSecim").modal('hide');
+        }
         ModalTip = "";
     }
     $scope.BtnModalKapat = function()
@@ -905,6 +962,10 @@ function StokCtrl ($scope,$window,db)
             $("#MdlTedarikciEkle").modal('show');
         }
         else if(ModalTip == "TedarikciMaliyet")
+        {
+            $("#MdlSecim").modal('hide');
+        }
+        else if(ModalTip == "UrunGrup")
         {
             $("#MdlSecim").modal('hide');
         }
@@ -997,6 +1058,19 @@ function StokCtrl ($scope,$window,db)
                 $("#MdlTedarikciEkle").modal('hide');
             });
         }
+        else if(ModalTip == "UrunGrup")
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                TblSecimInit(Data);
+                $("#MdlSecim").modal('show');
+            });
+        }
     }
     $scope.BtnModalFiyatEkle = function()
     {
@@ -1047,16 +1121,13 @@ function StokCtrl ($scope,$window,db)
     }
     $scope.BtnModalTedarikciEkle = function()
     {
-        if($scope.StokListe[0].CODE != "")
-        {
-            TedarikciModalInit();
-            $("#MdlTedarikciEkle").modal('show');
-        }
-        else
-        {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü girmeden birim giriş ekranına giremezsiniz !");
-        }
+        TedarikciModalInit();
+        $("#MdlTedarikciEkle").modal('show');
+    }
+    $scope.BtnModalUrunGrupEkle = function()
+    {
+        UrunGrupModalInit();
+        $("#MdlUrunGrupEkle").modal('show');
     }
     $scope.CmbFiyatTipChange = function()
     {

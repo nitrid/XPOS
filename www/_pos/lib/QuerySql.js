@@ -299,7 +299,7 @@ var QuerySql =
                 "@CUSTOMER_ITEM_CODE 	--<CUSTOMER_ITEM_CODE, nvarchar(25),> \n" +
                 ") ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25']
-    },
+    },    
     StokTedarikciSil :
     {
         query : "DELETE FROM ITEM_CUSTOMER WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
@@ -309,6 +309,62 @@ var QuerySql =
     {
         query : "UPDATE ITEM_CUSTOMER SET CUSTOMER_CODE = @CUSTOMER_CODE,CUSTOMER_ITEM_CODE = @CUSTOMER_ITEM_CODE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
         param : ['CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25','GUID:string|50']
+    },
+    UrunGrupKaydet : 
+    {
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT CODE FROM ITEM_GROUP WHERE CODE = @CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[ITEM_GROUP] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[CODE] " +
+                ",[NAME] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@CODE,		            --<CODE, nvarchar(25),> \n" +
+                "@NAME   		        --<NAME, nvarchar(100),> \n" +
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[ITEM_GROUP] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[NAME] = @NAME " +
+                "WHERE [CODE] = @TMPCODE",
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|100']
+    },
+    CariGrupKaydet : 
+    {
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT CODE FROM CUSTOMER_GROUP WHERE CODE = @CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[CUSTOMER_GROUP] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[CODE] " +
+                ",[NAME] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@CODE,		            --<CODE, nvarchar(25),> \n" +
+                "@NAME   		        --<NAME, nvarchar(100),> \n" +
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[CUSTOMER_GROUP] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[NAME] = @NAME " +
+                "WHERE [CODE] = @TMPCODE",
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|100']
     },
     CariKartGetir : 
     {
