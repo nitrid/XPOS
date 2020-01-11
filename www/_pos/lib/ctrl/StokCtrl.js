@@ -1,4 +1,4 @@
-function StokCtrl ($scope,$window,db)
+function StokCtrl ($scope,$window,$location,db)
 {
     let UserParam = {};
     let SecimSelectedRow = null;
@@ -546,7 +546,7 @@ function StokCtrl ($scope,$window,db)
         });
     }
     $scope.Init = function()
-    {
+    {        
         UserParam = Param[$window.sessionStorage.getItem('User')];
         
         $scope.StokListe = [];
@@ -585,6 +585,11 @@ function StokCtrl ($scope,$window,db)
         BarkodModalInit();
         TedarikciModalInit();
         UrunGrupModalInit();
+        
+        if(typeof $location.$$search.Id != 'undefined')
+        {
+            StokGetir($location.$$search.Id);
+        }
     }
     $scope.Kaydet = function()
     {

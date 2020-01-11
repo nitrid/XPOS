@@ -1,4 +1,4 @@
-function CariCtrl ($scope,$window,db)
+function CariCtrl ($scope,$window,$location,db)
 {
     let UserParam = {};
     let SecimSelectedRow = null;
@@ -97,6 +97,11 @@ function CariCtrl ($scope,$window,db)
         $scope.CariListe.push(TmpCariObj);
 
         CariGrupModalInit();
+
+        if(typeof $location.$$search.Id != 'undefined')
+        {
+            CariGetir($location.$$search.Id);
+        }
     }
     $scope.Kaydet = function()
     {
