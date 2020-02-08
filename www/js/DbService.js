@@ -391,5 +391,57 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         return null;
     }
+    this.MaxSira = function(pFirma,pQueryTag,pQueryParam,pCallback)
+    {
+        var m = 
+        {
+            db : pFirma,
+            tag : pQueryTag,
+            param : pQueryParam
+        }
+        _SqlExecute(m,function(data)
+        {
+            if(pCallback)
+            {
+                pCallback(data.result.recordset[0].MAXREFNO);
+            }
+        });
+    }
+    this.StokBarkodGetir = function(pFirma,pBarkod,pCallback)
+    {
+        let m = 
+        {
+            db : pFirma,
+            tag : 'BarkodGetir',
+            param : [pBarkod]
+        }
+        _SqlExecute(m,function(data)
+        {
+            if(pCallback)
+            {
+                
+                if(data.result.recordset.length > 0)
+                {
+                    pCallback(data.result.recordset);
+                }
+                else
+                {
+                    let m = 
+                    {
+                        db : pFirma,
+                        tag : 'StokGetir',
+                        param : [pBarkod,'']
+                    }
+                    _SqlExecute(m,function(data)
+                    {
+                        if(pCallback)
+                        {
+                            pCallback(data.result.recordset);
+                        }
+                    });
+                }
+            }
+        });
+    }
      //#endregion "PUBLIC"
 });

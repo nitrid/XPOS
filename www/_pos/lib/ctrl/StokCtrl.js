@@ -483,6 +483,7 @@ function StokCtrl ($scope,$window,$location,db)
     }
     function StokGetir(pKodu)
     {
+        console.log($scope.Firma)
         $scope.StokListe = [];
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {
@@ -570,6 +571,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.TYPE = "0";
         TmpStokObj.VAT = "0";
         TmpStokObj.STATUS = true;
+        TmpStokObj.PLU = false;
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
@@ -626,7 +628,8 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.StokListe[0].COST_PRICE,
                 $scope.StokListe[0].MIN_PRICE,
                 $scope.StokListe[0].MAX_PRICE,
-                $scope.StokListe[0].STATUS
+                $scope.StokListe[0].STATUS,
+                $scope.StokListe[0].PLU
             ];
             
             db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
