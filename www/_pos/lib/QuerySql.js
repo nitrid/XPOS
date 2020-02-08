@@ -733,7 +733,7 @@ var QuerySql =
                 "BARCODE AS BARCODE, " +
                 "QUANTITY AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +
-                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE UNIT.GUID = POS.UNIT) AS UNIT, " +
+                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "PRICE AS PRICE, " +
                 "DISCOUNT AS DISCOUNT, " +
                 "VAT AS VAT, " +
@@ -755,7 +755,7 @@ var QuerySql =
                 "BARCODE AS BARCODE, " +
                 "SUM(QUANTITY) AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +
-                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE UNIT.GUID = POS.UNIT) AS UNIT, " +
+                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "ROUND(PRICE,4) AS PRICE, " +
                 "SUM(DISCOUNT) * ((VAT / 100) + 1) AS DISCOUNT, " +
                 "VAT AS VAT, " +

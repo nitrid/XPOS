@@ -483,7 +483,6 @@ function StokCtrl ($scope,$window,$location,db)
     }
     function StokGetir(pKodu)
     {
-        console.log($scope.Firma)
         $scope.StokListe = [];
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {
