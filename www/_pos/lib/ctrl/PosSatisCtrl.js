@@ -923,7 +923,6 @@ function PosSatisCtrl($scope,$window,db)
                     $scope.Stok[0].KDV = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) * ($scope.Stok[0].VAT / 100);
                     $scope.Stok[0].TOPTUTAR = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) + $scope.Stok[0].KDV;
 
-                    console.log($scope.Stok[0])
                     $scope.PosSatisInsert();
                 }
                 else   
