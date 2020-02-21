@@ -1,13 +1,16 @@
-var fs = require('fs');
-var _sql = require("./sqllib");
-var io = require('socket.io')();
-var lic = require('./license');
+let fs = require('fs');
+let _sql = require("./sqllib");
+let io = require('socket.io')();
+let lic = require('./license');
+let escpos = require('escpos');
 
-var msql;
-var tsql;
+let msql;
+let tsql;
 
-var LicKullanici = 0;
-var LicMenu = "";
+let LicKullanici = 0;
+let LicMenu = "";
+
+let device  = new escpos.USB(0x04B8, 0x0202);
 
 function dbengine(config)
 {    
@@ -178,6 +181,34 @@ io.on('connection', function(socket)
                 fn(true);
             else
                 fn(false);
+        });
+    });
+    socket.on("EscposPrint",function(pData)
+    {
+        let options = { encoding: "GB18030" /* default */ }
+        let printer = new escpos.Printer(device, options);
+        //B FONT 64 CHAR
+        device.open(function(error)
+        {
+            for (let i = 0; i < pData.length; i++) 
+            {
+                printer.font(pData[i].font);
+                printer.align(pData[i].align);
+
+                if(typeof pData[i].style != 'undefined')
+                {
+                    printer.style(pData[i].style);
+                }
+                
+                if(typeof pData[i].size != 'undefined')
+                {
+                    printer.size(pData[i].size,pData[i].size);
+                }
+
+                printer.text(pData[i].data);
+            }
+
+            printer.cut().close();
         });
     });
 });

@@ -231,6 +231,10 @@ angular.module('app.db', []).service('db',function($rootScope)
             });            
         });
     }   
+    function _PrintText(pData,pLen)
+    {
+        return pData.toString().padEnd(pLen,' ');
+    }
     //#region "PUBLIC"
     this.Socket = _Socket;
     this.Connection = _Connection;
@@ -442,6 +446,13 @@ angular.module('app.db', []).service('db',function($rootScope)
                 }
             }
         });
+    }
+    this.EscposPrint = function(pData)
+    {
+
+        let TmpData = [{font:"b",style:"normal",align:"lt",data:_PrintText("SELAM",20) + _PrintText("ALI",10)}]
+
+        _Socket.emit('EscposPrint', TmpData);
     }
      //#endregion "PUBLIC"
 });

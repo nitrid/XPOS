@@ -614,26 +614,7 @@ function PosSatisCtrl($scope,$window,db)
         {   
             $scope.TxtAraToplamTutar = "";
         }
-    }
-    function printDiv(divName) 
-    {
-        if(divName == "A5")
-        {
-            var printContents = document.getElementById("A5").innerHTML;
-        }
-        else
-        {
-            var printContents = document.getElementById("A4").innerHTML;
-        }
-        
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        $window.print();
-        $window.location.reload();
-        //document.body.innerHTML = originalContents;
-        
-        //window.close();
-    }
+    }    
     document.onkeydown = function(e)
     {
         if($window.location.hash == "#!/POSSatis")
@@ -1554,7 +1535,7 @@ function PosSatisCtrl($scope,$window,db)
                         {   
                             db.GetData($scope.Firma,'PosSatisKapatUpdate',[$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
                             {   
-                                printDiv("A5");
+                                db.EscposPrint();
                                 $('#MdlAraToplam').modal('hide');
                                 $scope.YeniEvrak();
                                 $scope.TxtBarkod = "";
@@ -1728,7 +1709,7 @@ function PosSatisCtrl($scope,$window,db)
                 $scope.YeniEvrak();
                 $scope.TxtBarkod = "";
                 $scope.TahPanelKontrol = false;
-                printDiv();
+                db.EscposPrint();
             });
         });
     }
