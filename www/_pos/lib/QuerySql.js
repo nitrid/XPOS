@@ -724,6 +724,7 @@ var QuerySql =
     {
         query:  "SELECT " +
                 "GUID AS GUID, " +
+                "CUSER AS CUSER, " +
                 "REF AS REF, " +
                 "REF_NO AS REF_NO, " +
                 "LINE_NO AS LINE_NO, " +
@@ -737,6 +738,7 @@ var QuerySql =
                 "PRICE AS PRICE, " +
                 "DISCOUNT AS DISCOUNT, " +
                 "VAT AS VAT, " +
+                "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
                 "ROUND(QUANTITY * PRICE,4) AS AMOUNT " +
                 "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
@@ -837,11 +839,21 @@ var QuerySql =
                 "REF AS REF, " +
                 "REF_NO AS REF_NO, " +
                 "CASE WHEN TYPE = 0 THEN " +
-                "'Nakit' " +
+                "'Espece' " +
                 "WHEN TYPE = 1 THEN " +
-                "'Kredi Kartı' " +
+                "'CB' " +
                 "WHEN TYPE = 2 THEN " + 
-                "'Açık Hesap' " +
+                "'T.Rest' " +
+                "WHEN TYPE = 3 THEN " + 
+                "'CHEQUE' " +
+                "WHEN TYPE = 4 THEN " + 
+                "'BONE AVOIR' " +
+                "WHEN TYPE = 5 THEN " + 
+                "'AVOIR' " +
+                "WHEN TYPE = 6 THEN " + 
+                "'VIRMENT' " +
+                "WHEN TYPE = 7 THEN " + 
+                "'PRLV' " +
                 "END AS TYPE_NAME, " +
                 "TYPE AS TYPE," +
                 "DOC_TYPE AS DOC_TYPE," +
