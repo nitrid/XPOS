@@ -27,7 +27,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             _Socket = io.connect(_Host,{autoConnect: false,reconnectionDelay:10});
             _Socket.open();
-    
+            
             _Socket.on('MaxUserCounted',function(MenuData)
             {               
                 if (typeof(MenuData) !== "undefined")
@@ -285,6 +285,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.ExecutePromiseTag = _ExecutePromiseTag;
     this.ExecutePromiseQuery = _ExecutePromiseQuery;
     this.SumColumn = _SumColumn;
+    this.PrintText = _PrintText;
     this.SocketConnected = false;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
@@ -468,7 +469,6 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     this.EscposPrint = function(pSData,pTData,pVData)
     {
-        console.log(moment(new Date()).format("DD.MM.YYYY"))
         let TmpData = [];
         let TmpLine = {};
         // ÜST BİLGİ
@@ -610,7 +610,20 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
 
-        _Socket.emit('EscposPrint', TmpData);
+        _Socket.emit('EscposPrint', TmpData,function()
+        {
+            _Socket.emit('EscposCaseOpen');
+        });
+
+        
+    }
+    this.LCDPrint = function(pData)
+    {
+        _Socket.emit('LCDPrint', pData);
+    }
+    this.LCDClear = function()
+    {
+        _Socket.emit('LCDClear');
     }
      //#endregion "PUBLIC"
 });

@@ -53,10 +53,15 @@ function PosSatisCtrl($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
     });
+    db.On("SerialBarcode",function(data)
+    {
+        $scope.TxtBarkod = data.result.substring(1,data.result.length);
+        TxtBarkodKeyPress();
+    })
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
-
+        
         $scope.Seri = "";
         $scope.TahSeri = "";
         $scope.Sira = 0;
@@ -107,7 +112,31 @@ function PosSatisCtrl($scope,$window,db)
         $scope.TahList = [];   
         $scope.ParkList =[];     
         $scope.SonSatisList = [];
-        $scope.SonSatisDetayList = [];        
+        $scope.SonSatisDetayList = [];   
+        
+        setTimeout(function()
+        { 
+            db.LCDPrint
+            (
+                {
+                    blink : 0,
+                    text :  db.PrintText("A tres bientot",20)
+                }
+            );
+        }, 5000);
+
+        setTimeout(function()
+        { 
+            db.LCDPrint
+            (
+                {
+                    blink : 0,
+                    text :  db.PrintText("Bonjour",20) + 
+                            db.PrintText(moment(new Date()).format("DD.MM.YYYY"),20)
+                }
+            );
+        }, 10000);
+        
     }
     function InitCariGrid()
     {
@@ -974,6 +1003,15 @@ function PosSatisCtrl($scope,$window,db)
             {                                        
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
                 {   
+                    db.LCDPrint
+                    (
+                        {
+                            blink : 0,
+                            text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
+                                    db.PrintText(PosSatisData[PosSatisData.length - 1].AMOUNT.toString() + "EUR" ,8,"Start") +
+                                    "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                        }                        
+                    );
                     InsertSonYenile(PosSatisData);      
                     $scope.TxtBarkod = ""; 
                     $scope.IslemListeRowClick(0,$scope.SatisList[0]);
@@ -1045,6 +1083,15 @@ function PosSatisCtrl($scope,$window,db)
                 {                
                     db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.TahSeri,$scope.TahSira],function(PosTahData)
                     {   
+                        db.LCDPrint
+                        (
+                            {
+                                blink : 0,
+                                text :  db.PrintText(PosTahData[PosTahData.length - 1].TYPE_NAME,9) + " " + 
+                                        db.PrintText(PosTahData[PosTahData.length - 1].AMOUNT.toString() + "EUR" ,10,"Start") +
+                                        "Rendu : " + db.PrintText(db.SumColumn(PosTahData,"CHANGE").toString() + "EUR",12,"Start")
+                            }                        
+                        );
                         $scope.TahList = PosTahData;
                         TahSonYenile();                      
                         $scope.TahPanelKontrol = false;
@@ -1057,8 +1104,6 @@ function PosSatisCtrl($scope,$window,db)
                 }
                 else
                 {
-                    console.log(InsertResult.result.err);
-                    
                     if(typeof(pCallBack) != 'undefined')
                     {
                         pCallBack();
