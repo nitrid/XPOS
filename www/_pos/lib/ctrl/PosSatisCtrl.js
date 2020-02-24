@@ -70,6 +70,7 @@ function PosSatisCtrl($scope,$window,db)
         $scope.AraToplam = 0;
         $scope.ToplamKdv = 0;
         $scope.ToplamIskonto = 0;
+        $scope.ToplamKalan = 0;
         $scope.ToplamFisIskonto = 0;
         $scope.GenelToplam = 0;
         $scope.ToplamMiktar = 0;
@@ -106,7 +107,7 @@ function PosSatisCtrl($scope,$window,db)
         $scope.TahList = [];   
         $scope.ParkList =[];     
         $scope.SonSatisList = [];
-        $scope.SonSatisDetayList = [];
+        $scope.SonSatisDetayList = [];        
     }
     function InitCariGrid()
     {
@@ -201,31 +202,25 @@ function PosSatisCtrl($scope,$window,db)
                 return "rowheight";
             },
             fields: 
-            [{
-                name: "QUANTITY",
-                title: "MIKTAR",
-                type: "number",
-                align: "center",
-                width: 60
-            },
-            {
-                name: "UNIT",
-                title: "BIRIM",
-                type: "text",
-                align: "center",
-                width: 50
-            }, 
+            [
             {
                 name: "ITEM_NAME",
                 title: "ADI",
                 type: "text",
                 align: "center",
-                width: 100,
+                width: 200,
                 itemTemplate: function(value,item)
                 {
                     return "<div style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;'>" + value + "</div>";
                 }
             },
+            {
+                name: "QUANTITY",
+                title: "MIKTAR",
+                type: "number",
+                align: "center",
+                width: 60
+            },         
             {
                 name: "PRICE",
                 title: "FIYAT",
@@ -239,13 +234,6 @@ function PosSatisCtrl($scope,$window,db)
                 type: "number",
                 align: "center",
                 width: 60
-            },
-            {
-                name: "BARCODE",
-                title: "BARKOD",
-                type: "number",
-                align: "center",
-                width: 75
             }],
             rowClick: function(args)
             {
@@ -546,12 +534,13 @@ function PosSatisCtrl($scope,$window,db)
 
         angular.forEach($scope.SatisList,function(value)
         {
-            $scope.AraToplam += value.QUANTITY * value.PRICE;
+            $scope.ToplamKdv += (((value.QUANTITY * value.PRICE) - value.DISCOUNT)) / 100 * value.VAT; 
+            $scope.AraToplam += (value.QUANTITY * value.PRICE) - $scope.ToplamKdv;
             $scope.ToplamIskonto += value.DISCOUNT;
-            $scope.ToplamKdv += ((value.QUANTITY * value.PRICE) - value.DISCOUNT) * (value.VAT / 100);        
         });
 
-        $scope.GenelToplam = ($scope.AraToplam - $scope.ToplamIskonto) + $scope.ToplamKdv;
+        $scope.ToplamKalan = (($scope.AraToplam - $scope.ToplamIskonto) + $scope.ToplamKdv) - db.SumColumn($scope.TahList,"AMOUNT");
+        $scope.GenelToplam = (($scope.AraToplam - $scope.ToplamIskonto) + $scope.ToplamKdv);
     }
     function DipToplamFisHesapla()
     {
@@ -888,21 +877,58 @@ function PosSatisCtrl($scope,$window,db)
     $scope.StokGetir = function(pBarkod)
     {
         if(pBarkod != '')
-        {
+        {            
+            if(pBarkod.length >= 16)
+            {
+                let TmpTicket = pBarkod.substring(11,16)
+                let TmpYear = pBarkod.substring(pBarkod.length - 1, pBarkod.length);
+                
+                if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) != TmpYear)
+                {
+                    alertify.alert("Geçersiz ticket.");
+                    $scope.TxtBarkod = "";
+                    return;
+                }
+                
+                $scope.TahTip = 2;
+                $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);
+                
+                $scope.PosTahInsert(function()
+                {
+                    DipToplamHesapla();
+                    $scope.TahTip = 0;
+                });
+
+                $scope.TxtBarkod = "";
+                return;
+            }
+
+            let TmpFiyat = 0;
+
+            if(pBarkod.length >= 12 && pBarkod.length <= 14 && (pBarkod.substring(0,2) == "20" || pBarkod.substring(0,2) == "02"))
+            {
+                TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.1524).toFixed(2);
+                pBarkod = pBarkod.substring(0,6) + "MMMCCF";
+            }
+
             db.StokBarkodGetir($scope.Firma,pBarkod,function(BarkodData)
             {
                 if(BarkodData.length > 0)
                 { 
                     $scope.Stok = BarkodData;
+                    if(TmpFiyat > 0 )
+                    {
+                        $scope.Stok[0].PRICE = TmpFiyat;
+                    }
 
-                    $scope.Stok[0].TUTAR = 0;
-                    $scope.Stok[0].INDIRIM = 0;
-                    $scope.Stok[0].KDV = 0;
-                    $scope.Stok[0].TOPTUTAR = 0;
+                    //$scope.Stok[0].TUTAR = 0;
+                    //$scope.Stok[0].INDIRIM = 0;
+                    //$scope.Stok[0].KDV = 0;
+                    //$scope.Stok[0].TOPTUTAR = 0;
 
-                    $scope.Stok[0].TUTAR = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
-                    $scope.Stok[0].KDV = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) * ($scope.Stok[0].VAT / 100);
-                    $scope.Stok[0].TOPTUTAR = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) + $scope.Stok[0].KDV;
+                    //$scope.Stok[0].TUTAR = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
+                    //$scope.Stok[0].KDV = (($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) / 100) * $scope.Stok[0].VAT;
+                    //$scope.Stok[0].TOPTUTAR = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) + $scope.Stok[0].KDV;
 
                     $scope.PosSatisInsert();
                 }
@@ -1534,11 +1560,37 @@ function PosSatisCtrl($scope,$window,db)
                         {   
                             db.GetData($scope.Firma,'PosSatisKapatUpdate',[$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
                             {   
-                                db.EscposPrint();
-                                $('#MdlAraToplam').modal('hide');
-                                $scope.YeniEvrak();
-                                $scope.TxtBarkod = "";
-                                $scope.TahPanelKontrol = false;
+                                let TmpQuery = 
+                                {
+                                    db : $scope.Firma,
+                                    query:  "SELECT " + 
+                                            "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
+                                            "VAT AS VAT, " +  
+                                            "(SUM(QUANTITY) * SUM(PRICE)) - (((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT) AS HT, " + 
+                                            "((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT AS TVA, " +
+                                            "ROUND(SUM(QUANTITY) * SUM(PRICE),4) AS TTC, " +
+                                            "ISNULL((SELECT COUNT(REF) AS TICKET FROM (SELECT REF FROM POS_SALES " + 
+                                            "WHERE DOC_DATE >= CONVERT(NVARCHAR(10),GETDATE(),112) " + 
+                                            "AND DOC_DATE <= CONVERT(NVARCHAR(10),GETDATE(),112) " + 
+                                            "AND DEPARTMENT = @DEPARTMENT " + 
+                                            "AND STATUS = 1 " + 
+                                            "GROUP BY REF,REF_NO) AS TMP),1) AS TICKET " + 
+                                            "FROM POS_SALES AS POS " +
+                                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO " +
+                                            "GROUP BY VAT",
+                                    param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
+                                    type:   ['int','int','string|25','int'],
+                                    value:  [$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
+                                }
+                                db.GetDataQuery(TmpQuery,function(pData)
+                                {
+                                    db.EscposPrint($scope.SatisList,$scope.TahList,pData);
+
+                                    $('#MdlAraToplam').modal('hide');
+                                    $scope.YeniEvrak();
+                                    $scope.TxtBarkod = "";
+                                    $scope.TahPanelKontrol = false;
+                                });                                  
                             });
                         }
                     } 
@@ -1702,13 +1754,33 @@ function PosSatisCtrl($scope,$window,db)
         db.ExecuteQuery(TmpQuery,function(UpdateResult)
         {
             db.GetData($scope.Firma,'PosSatisKapatUpdate',[$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
-            {   
-                $('#MdlSeriSira').modal('hide');
-                $(".modal-backdrop").hide();
-                $scope.YeniEvrak();
-                $scope.TxtBarkod = "";
-                $scope.TahPanelKontrol = false;
-                db.EscposPrint();
+            {                   
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT " + 
+                            "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
+                            "VAT AS VAT, " +  
+                            "(SUM(QUANTITY) * SUM(PRICE)) - (((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT) AS HT, " + 
+                            "((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT AS TVA, " +
+                            "ROUND(SUM(QUANTITY) * SUM(PRICE),4) AS TTC " +
+                            "FROM POS_SALES AS POS " +
+                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO " +
+                            "GROUP BY VAT",
+                    param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
+                    type:   ['int','int','string|25','int'],
+                    value:  [$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
+                }
+                db.GetDataQuery(TmpQuery,function(pData)
+                {
+                    db.EscposPrint($scope.SatisList,$scope.TahList,pData);
+
+                    $('#MdlSeriSira').modal('hide');
+                    $(".modal-backdrop").hide();
+                    $scope.YeniEvrak();
+                    $scope.TxtBarkod = "";
+                    $scope.TahPanelKontrol = false;
+                });                
             });
         });
     }

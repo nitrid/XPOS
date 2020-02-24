@@ -10,15 +10,13 @@ let tsql;
 let LicKullanici = 0;
 let LicMenu = "";
 
-let device  = new escpos.USB(0x04B8, 0x0202);
-
 function dbengine(config)
 {    
     this.config = config;
     io.listen(config.port);
 }
 io.on('connection', function(socket) 
-{     
+{
     //console.log(io.engine.clientsCount);
     // if(Object.keys(io.sockets.connected).length > LicKullanici)
     // {
@@ -185,13 +183,19 @@ io.on('connection', function(socket)
     });
     socket.on("EscposPrint",function(pData)
     {
+        
+        let device  = new escpos.USB(config.EpsonUSB.Vid, config.EpsonUSB.Pid);
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
         //B FONT 64 CHAR
         device.open(function(error)
         {
+            printer.flush();
+
             for (let i = 0; i < pData.length; i++) 
             {
+                printer.size(1,1);
+                
                 printer.font(pData[i].font);
                 printer.align(pData[i].align);
 
@@ -199,15 +203,19 @@ io.on('connection', function(socket)
                 {
                     printer.style(pData[i].style);
                 }
+                else
+                {
+                    printer.style("normal");
+                }
                 
                 if(typeof pData[i].size != 'undefined')
                 {
-                    printer.size(pData[i].size,pData[i].size);
+                    printer.size(pData[i].size[0],pData[i].size[1]);
                 }
-
+                
                 printer.text(pData[i].data);
             }
-
+            
             printer.cut().close();
         });
     });
