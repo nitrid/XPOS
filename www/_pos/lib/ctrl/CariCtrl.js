@@ -1,4 +1,4 @@
-function CariCtrl ($scope,$window,db)
+function CariCtrl ($scope,$window,$location,db)
 {
     let UserParam = {};
     let SecimSelectedRow = null;
@@ -35,6 +35,12 @@ function CariCtrl ($scope,$window,db)
                 $scope.$apply();
             }
         });
+    }
+    function CariGrupModalInit()
+    {
+        $scope.CariGrupModal = {};
+        $scope.CariGrupModal.Kodu = "";
+        $scope.CariGrupModal.Adi = "";
     }
     function CariGetir(pKodu)
     {
@@ -90,6 +96,12 @@ function CariCtrl ($scope,$window,db)
 
         $scope.CariListe.push(TmpCariObj);
 
+        CariGrupModalInit();
+
+        if(typeof $location.$$search.Id != 'undefined')
+        {
+            CariGetir($location.$$search.Id);
+        }
     }
     $scope.Kaydet = function()
     {
@@ -114,6 +126,8 @@ function CariCtrl ($scope,$window,db)
                     $scope.CariListe[0].CUSTOMER_GRP,
                     $scope.CariListe[0].PHONE1,
                     $scope.CariListe[0].PHONE2,
+                    $scope.CariListe[0].GSM_PHONE,
+                    $scope.CariListe[0].OTHER_PHONE,
                     $scope.CariListe[0].EMAIL,
                     $scope.CariListe[0].WEB,
                     $scope.CariListe[0].NOTE,
@@ -202,12 +216,20 @@ function CariCtrl ($scope,$window,db)
             CariGetir(SecimSelectedRow.Item.CODE);
             $("#MdlSecim").modal('hide');
         }
-
+        else if(ModalTip == "CariGrup")
+        {
+            $scope.CariListe[0].CUSTOMER_GRP = SecimSelectedRow.Item.CODE;
+            $("#MdlSecim").modal('hide');
+        }
         ModalTip = "";
     }
     $scope.BtnModalKapat = function()
     {
         if(ModalTip == "Cari")
+        {
+            $("#MdlSecim").modal('hide');
+        }
+        else if(ModalTip == "CariGrup")
         {
             $("#MdlSecim").modal('hide');
         }
@@ -230,6 +252,19 @@ function CariCtrl ($scope,$window,db)
                 $("#MdlSecim").modal('show');
             });
         }
+        else if(ModalTip == "CariGrup")
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME] FROM [CUSTOMER_GROUP]"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                TblSecimInit(Data);
+                $("#MdlSecim").modal('show');
+            });
+        }
     }
     $scope.BtnTabAdres = function()
     {
@@ -240,5 +275,48 @@ function CariCtrl ($scope,$window,db)
     {
         $("#TabYasal").addClass('active');
         $("#TabAdres").removeClass('active');
+    }
+    $scope.BtnModalCariGrupEkle = function()
+    {
+        CariGrupModalInit();
+        $("#MdlCariGrupEkle").modal('show');
+    }
+    $scope.BtnCariGrupKaydet = function()
+    {
+        $("#MdlCariGrupEkle").modal('hide');
+
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        function()
+        { 
+            if($scope.CariGrupModal.Kodu == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
+                return;
+            }
+
+            let InsertData =
+            [
+                UserParam.Kullanici,
+                UserParam.Kullanici,
+                $scope.CariGrupModal.Kodu,
+                $scope.CariGrupModal.Adi
+            ];
+
+            db.ExecuteTag($scope.Firma,'CariGrupKaydet',InsertData,function(InsertResult)
+            { 
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {  
+                   
+                }
+            });    
+        }
+        ,function()
+        {
+            $("#MdlCariGrupEkle").modal('show')
+        });
     }
 }

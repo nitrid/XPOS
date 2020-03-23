@@ -1,0 +1,30 @@
+body
+{
+    line-height: 1;
+    font-size: 0.8rem;
+}
+.form-control
+{
+    height: 2rem;
+    font-size: 0.8rem;
+}
+.btn-custom
+{
+    line-height: 1;
+    width: 40px;
+    padding: 0px;
+}
+.form-group .form-control-label
+{
+    padding-top: 0.6rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
+}
+.input-group-text
+{
+    height: 2rem;
+}
+.btn
+{
+    font-size: 0.7rem;
+}

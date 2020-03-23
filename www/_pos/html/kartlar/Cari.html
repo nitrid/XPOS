@@ -53,7 +53,7 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="CariListe[0].CODE">
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary" ng-click="BtnModalSecim('Cari')">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('Cari')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
                                 </span>
@@ -84,8 +84,11 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].CUSTOMER_GRP" />
                                 <span class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('CariGrup')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalCariGrupEkle()">
+                                        <i class="icon wb-plus" aria-hidden="true"></i>
                                     </button>
                                 </span>
                             </div>
@@ -115,6 +118,22 @@
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].PHONE2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Gsm Tel. :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].GSM_PHONE">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Diger Tel. :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].OTHER_PHONE">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -525,6 +544,51 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="TblSecim" class="jsgrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cari Grup Ekle Modal -->
+    <div class="modal fade" id="MdlCariGrupEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Grup Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Kodu :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariGrupModal.Kodu" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right">Adı :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariGrupModal.Adi" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnCariGrupKaydet()">
+                                Kaydet
+                            </button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                                Çıkış
+                            </button>
                         </div>
                     </div>
                 </div>

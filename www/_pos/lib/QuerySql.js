@@ -14,8 +14,12 @@ var QuerySql =
                 "[MIN_PRICE] AS [MIN_PRICE], " + 
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
+                "[PLU] AS [PLU], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
-                "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER] " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
+                "ISNULL((SELECT TOP 1 [NAME] FROM ITEM_UNIT WHERE ITEM_CODE = @CODE AND [TYPE] = 2 ORDER BY LDATE DESC),'') AS [UNDER_UNIT_NAME], " +
+                "ISNULL((SELECT TOP 1 [FACTOR] FROM ITEM_UNIT WHERE ITEM_CODE = @CODE AND [TYPE] = 2 ORDER BY LDATE DESC),'') AS [UNDER_UNIT_FACTOR] " +
                 "FROM ITEMS WHERE CODE = @CODE",
         param : ['CODE'],
         type : ['string|25'] 
@@ -40,6 +44,7 @@ var QuerySql =
                 ",[MIN_PRICE] " +
                 ",[MAX_PRICE] " +
                 ",[STATUS] " +
+                ",[PLU] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -54,7 +59,8 @@ var QuerySql =
                 "@COST_PRICE,			--<COST_PRICE, float,> \n" +
                 "@MIN_PRICE,			--<MIN_PRICE, float,> \n" +
                 "@MAX_PRICE,			--<MAX_PRICE, float,> \n" +
-                "@STATUS				--<STATUS, bit,> \n" +
+                "@STATUS,				--<STATUS, bit,> \n" +
+                "@PLU				    --<PLU, bit,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -69,9 +75,10 @@ var QuerySql =
                 ",[MIN_PRICE] = @MIN_PRICE " +
                 ",[MAX_PRICE] = @MAX_PRICE " +
                 ",[STATUS] = @STATUS " +
+                ",[PLU] = @PLU " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit']
     },
     StokKartSil :
     {
@@ -92,7 +99,7 @@ var QuerySql =
                 ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
                 ",[PRICE] " +
                 ",[CUSTOMER] " +
-                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE ORDER BY LDATE DESC",
+                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1 ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartBirimListeGetir : 
@@ -100,8 +107,8 @@ var QuerySql =
         query : "SELECT " +
                 "[GUID] " +
                 ",[TYPE] " +
-                ",CASE WHEN [TYPE] = 0 THEN 'Alt Birim' " +
-                "WHEN [TYPE] = 1 THEN 'Ana Birim' " +
+                ",CASE WHEN [TYPE] = 0 THEN 'Ana Birim' " +
+                "WHEN [TYPE] = 1 THEN 'Alt Birim' " +
                 "WHEN [TYPE] = 2 THEN 'Üst Birim' " +
                 "ELSE '' END AS [TYPENAME] " +
                 ",[NAME] " +
@@ -133,7 +140,9 @@ var QuerySql =
                 "[GUID], " +
                 "[CUSTOMER_CODE], " +
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME], " +
-                "[CUSTOMER_ITEM_CODE] " +
+                "[CUSTOMER_ITEM_CODE], " +
+                "ISNULL((SELECT TOP 1 CONVERT(nvarchar,[LDATE],104) FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE_LDATE, " +
+                "ISNULL((SELECT TOP 1 [PRICE] FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE " +
                 "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
@@ -179,7 +188,13 @@ var QuerySql =
     },
     BirimKaydet : 
     {
-        query : "INSERT INTO [dbo].[ITEM_UNIT] " +
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "IF @TYPE = 1 " + 
+                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "ELSE " +
+                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[ITEM_UNIT] " +
                 "([CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +
@@ -207,7 +222,20 @@ var QuerySql =
                 "@WIDTH,			    --<WIDTH, float,> \n" +
                 "@HEIGHT,			    --<HEIGHT, float,> \n" +
                 "@SIZE			        --<SIZE, float,> \n" +
-                ") ",
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[ITEM_UNIT] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[TYPE] = @TYPE " +
+                ",[NAME] = @NAME " +
+                ",[FACTOR] = @FACTOR " +
+                ",[WEIGHT] = @WEIGHT " +
+                ",[VOLUME] = @VOLUME " +
+                ",[WIDTH] = @WIDTH " +
+                ",[HEIGHT] = @HEIGHT " +
+                ",[SIZE] = @SIZE " +
+                "WHERE [ITEM_CODE] = @TMPCODE AND [NAME] = @NAME AND [TYPE] = @TYPE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','NAME:string|50','FACTOR:float','WEIGHT:float',
                  'VOLUME:float','WIDTH:float','HEIGHT:float','SIZE:float']
     },
@@ -275,7 +303,7 @@ var QuerySql =
                 "@CUSTOMER_ITEM_CODE 	--<CUSTOMER_ITEM_CODE, nvarchar(25),> \n" +
                 ") ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25']
-    },
+    },    
     StokTedarikciSil :
     {
         query : "DELETE FROM ITEM_CUSTOMER WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
@@ -285,6 +313,62 @@ var QuerySql =
     {
         query : "UPDATE ITEM_CUSTOMER SET CUSTOMER_CODE = @CUSTOMER_CODE,CUSTOMER_ITEM_CODE = @CUSTOMER_ITEM_CODE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
         param : ['CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25','GUID:string|50']
+    },
+    UrunGrupKaydet : 
+    {
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT CODE FROM ITEM_GROUP WHERE CODE = @CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[ITEM_GROUP] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[CODE] " +
+                ",[NAME] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@CODE,		            --<CODE, nvarchar(25),> \n" +
+                "@NAME   		        --<NAME, nvarchar(100),> \n" +
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[ITEM_GROUP] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[NAME] = @NAME " +
+                "WHERE [CODE] = @TMPCODE",
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|100']
+    },
+    CariGrupKaydet : 
+    {
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT CODE FROM CUSTOMER_GROUP WHERE CODE = @CODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[CUSTOMER_GROUP] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[CODE] " +
+                ",[NAME] " +
+                ") VALUES ( " +
+                "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<CDATE, datetime,> \n" +
+                "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                "GETDATE(),			    --<LDATE, datetime,> \n" +
+                "@CODE,		            --<CODE, nvarchar(25),> \n" +
+                "@NAME   		        --<NAME, nvarchar(100),> \n" +
+                ") " +
+                "ELSE " + 
+                "UPDATE [dbo].[CUSTOMER_GROUP] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[NAME] = @NAME " +
+                "WHERE [CODE] = @TMPCODE",
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|100']
     },
     CariKartGetir : 
     {
@@ -298,6 +382,8 @@ var QuerySql =
                 "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
                 "CUSTOMERS.[PHONE1] AS [PHONE1], " +
                 "CUSTOMERS.[PHONE2] AS [PHONE2], " +
+                "CUSTOMERS.[GSM_PHONE] AS [GSM_PHONE], " +
+                "CUSTOMERS.[OTHER_PHONE] AS [OTHER_PHONE], " +
                 "CUSTOMERS.[EMAIL] AS [EMAIL], " +
                 "CUSTOMERS.[WEB] AS [WEB], " +
                 "CUSTOMERS.[NOTE] AS [NOTE], " +
@@ -337,6 +423,8 @@ var QuerySql =
                 ",[CUSTOMER_GRP] " +
                 ",[PHONE1] " +
                 ",[PHONE2] " +
+                ",[GSM_PHONE] " +
+                ",[OTHER_PHONE] " +
                 ",[EMAIL] " +
                 ",[WEB] " +
                 ",[NOTE] " +
@@ -360,6 +448,8 @@ var QuerySql =
                 "@CUSTOMER_GRP,			--<CUSTOMER_GRP, nvarchar(25),> \n" +
                 "@PHONE1,			    --<PHONE1, nvarchar(20),> \n" +
                 "@PHONE2,			    --<PHONE2, nvarchar(20),> \n" +
+                "@GSM_PHONE,			--<GSM_PHONE, nvarchar(20),> \n" +
+                "@OTHER_PHONE,			--<OTHER_PHONE, nvarchar(20),> \n" +
                 "@EMAIL,				--<EMAIL, nvarchar(100),> \n" +
                 "@WEB,			        --<WEB, nvarchar(100),> \n" +
                 "@NOTE,			        --<NOTE, nvarchar(max),> \n" +
@@ -382,6 +472,8 @@ var QuerySql =
                 ",[CUSTOMER_GRP] = @CUSTOMER_GRP " +
                 ",[PHONE1] = @PHONE1 " +
                 ",[PHONE2] = @PHONE2 " +
+                ",[GSM_PHONE] = @GSM_PHONE " +
+                ",[OTHER_PHONE] = @OTHER_PHONE " +
                 ",[EMAIL] = @EMAIL " +
                 ",[WEB] = @WEB " +
                 ",[NOTE] = @NOTE " +
@@ -393,8 +485,8 @@ var QuerySql =
                 ",[TAX_TYPE] = @TAX_TYPE " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','TYPE:int','GENUS:int','NAME:string|100','LAST_NAME:string|100','COMPANY:string|100',
-                 'CUSTOMER_GRP:string|25','PHONE1:string|20','PHONE2:string|20','EMAIL:string|100','WEB:string|100','NOTE:string|200','SIRET_ID:string|20',
-                 'APE_CODE:string|10','TAX_OFFICE:string|25','TAX_NO:string|30','INT_VAT_NO:string|30','TAX_TYPE:int']
+                 'CUSTOMER_GRP:string|25','PHONE1:string|20','PHONE2:string|20','GSM_PHONE:string|20','OTHER_PHONE:string|20','EMAIL:string|100','WEB:string|100',
+                 'NOTE:string|200','SIRET_ID:string|20','APE_CODE:string|10','TAX_OFFICE:string|25','TAX_NO:string|30','INT_VAT_NO:string|30','TAX_TYPE:int']
     },
     AdresKaydet : 
     {
@@ -441,6 +533,397 @@ var QuerySql =
                 "DELETE FROM CUSTOMER_ADRESS WHERE [CUSTOMER] = @CODE AND [TYPE] = @TYPE",
         param : ['CODE:string|25','TYPE:int']
     },
+    PosCariGetir:
+    {
+        query : "SELECT " +
+                "CUSTOMERS.[CODE] AS [CODE], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[TYPE]) AS [TYPE], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[GENUS]) AS [GENUS], " +
+                "CUSTOMERS.[NAME] AS [NAME], " +
+                "CUSTOMERS.[LAST_NAME] AS [LAST_NAME], " +
+                "CUSTOMERS.[COMPANY] AS [COMPANY], " +
+                "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
+                "CUSTOMERS.[PHONE1] AS [PHONE1], " +
+                "CUSTOMERS.[PHONE2] AS [PHONE2], " +
+                "CUSTOMERS.[GSM_PHONE] AS [GSM_PHONE], " +
+                "CUSTOMERS.[OTHER_PHONE] AS [OTHER_PHONE], " +
+                "CUSTOMERS.[EMAIL] AS [EMAIL], " +
+                "CUSTOMERS.[WEB] AS [WEB], " +
+                "CUSTOMERS.[NOTE] AS [NOTE], " +
+                "CUSTOMERS.[SIRET_ID] AS [SIRET_ID], " +
+                "CUSTOMERS.[APE_CODE] AS [APE_CODE], " +
+                "CUSTOMERS.[TAX_OFFICE] AS [TAX_OFFICE], " +
+                "CUSTOMERS.[TAX_NO] AS [TAX_NO], " +
+                "CUSTOMERS.[INT_VAT_NO] AS [INT_VAT_NO], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[TAX_TYPE]) AS [TAX_TYPE], " +
+                "ISNULL(CUSTOMER_ADRESS.[ADRESS],'') AS [ADRESS], " +
+                "ISNULL(CUSTOMER_ADRESS.[ZIPCODE],'') AS [ZIPCODE], " +
+                "ISNULL(CUSTOMER_ADRESS.[CITY],'') AS [CITY], " +
+                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY] " +
+                "FROM CUSTOMERS " + 
+                "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
+                "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
+                "WHERE ((CODE = @CODE) OR (@CODE = '')) AND (([NAME] = @NAME) OR (@NAME = ''))",
+        param : ['CODE','NAME'],
+        type : ['string|25','string|25'] 
+    },
+    PosCariListeGetir:
+    {
+        query : "SELECT " +
+                "CUSTOMERS.[CODE] AS [CODE], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[TYPE]) AS [TYPE], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[GENUS]) AS [GENUS], " +
+                "CUSTOMERS.[NAME] AS [NAME], " +
+                "CUSTOMERS.[LAST_NAME] AS [LAST_NAME], " +
+                "CUSTOMERS.[COMPANY] AS [COMPANY], " +
+                "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
+                "CUSTOMERS.[PHONE1] AS [PHONE1], " +
+                "CUSTOMERS.[PHONE2] AS [PHONE2], " +
+                "CUSTOMERS.[GSM_PHONE] AS [GSM_PHONE], " +
+                "CUSTOMERS.[OTHER_PHONE] AS [OTHER_PHONE], " +
+                "CUSTOMERS.[EMAIL] AS [EMAIL], " +
+                "CUSTOMERS.[WEB] AS [WEB], " +
+                "CUSTOMERS.[NOTE] AS [NOTE], " +
+                "CUSTOMERS.[SIRET_ID] AS [SIRET_ID], " +
+                "CUSTOMERS.[APE_CODE] AS [APE_CODE], " +
+                "CUSTOMERS.[TAX_OFFICE] AS [TAX_OFFICE], " +
+                "CUSTOMERS.[TAX_NO] AS [TAX_NO], " +
+                "CUSTOMERS.[INT_VAT_NO] AS [INT_VAT_NO], " +
+                "CONVERT(NVARCHAR,CUSTOMERS.[TAX_TYPE]) AS [TAX_TYPE], " +
+                "ISNULL(CUSTOMER_ADRESS.[ADRESS],'') AS [ADRESS], " +
+                "ISNULL(CUSTOMER_ADRESS.[ZIPCODE],'') AS [ZIPCODE], " +
+                "ISNULL(CUSTOMER_ADRESS.[CITY],'') AS [CITY], " +
+                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY] " +
+                "FROM CUSTOMERS " + 
+                "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
+                "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
+                "WHERE (([CODE] LIKE '%' + @CODE + '%') OR (@CODE = '')) AND (([NAME] LIKE '%' + @NAME + '%') OR (@NAME = '')) ORDER BY [CODE] ASC",
+        param : ['CODE','NAME'],
+        type : ['string|25','string|25'] 
+    },
+    PosPluGrupGetir:
+    {
+        query : "SELECT " +
+                "ITEM_GRP AS GRUP " +
+                "FROM ITEMS WHERE PLU = 1 GROUP BY ITEM_GRP"
+    },
+    PosPluGetir:
+    {
+        query : "SELECT " +
+                "[CODE] AS [CODE], " +
+                "[SNAME] AS [SNAME], " +
+                "[ITEM_GRP] AS [ITEM_GRP] " +
+                "FROM ITEMS WHERE PLU = 1 AND ITEM_GRP = @ITEM_GRP",
+        param : ['ITEM_GRP'],
+        type : ['string|25'] 
+    },
+    PosSatisParkListe:
+    {
+        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], SUM([PRICE] * [QUANTITY]) AS [AMOUNT],MAX(CONVERT(varchar(10),CDATE, 121)) AS [DATE] " +
+              "FROM POS_SALES WHERE [DEPARTMENT] = @DEPARTMENT AND [TYPE] = @TYPE AND [LUSER] = @LUSER AND STATUS = @STATUS GROUP BY REF,REF_NO",
+        param: ['DEPARTMENT','TYPE','LUSER','STATUS'],
+        type:  ['int','int','string|25','int']  
+    },
+    MaxPosSatisSira : 
+    {
+        query: "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXREFNO FROM POS_SALES " +
+                "WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND [TYPE] = @TYPE " ,
+        param : ['DEPARTMENT','REF','TYPE'],
+        type : ['int','string|25','int']
+    },
+    MaxPosTahSira : 
+    {
+        query: "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXREFNO FROM POS_PAYMENT " +
+                "WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND DOC_TYPE = @DOC_TYPE " ,
+        param : ['DEPARTMENT','REF','DOC_TYPE'],
+        type : ['int','string|25','int']
+    },
+    StokGetir : 
+    {
+        query:  "SELECT ITEMS.CODE AS CODE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ITEMS.[NAME] AS [NAME], " +
+                "ITEMS.SNAME AS SNAME, " +
+                "ITEMS.VAT AS VAT, " +
+                "'' AS BARKOD, " +
+                "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT " +
+                "FROM ITEMS AS ITEMS " +
+                "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
+                "UNIT.ITEM_CODE = ITEMS.CODE AND UNIT.TYPE = 0" +
+                "WHERE ((ITEMS.CODE LIKE @CODE) OR (@CODE = '')) AND ((ITEMS.[NAME] LIKE @NAME) OR (@NAME = '')) " ,
+        param : ['CODE','NAME'],
+        type : ['string|25','string|250']
+    },
+    BarkodGetir:
+    {
+        query : "SELECT ITEMS.CODE AS CODE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ITEMS.[NAME] AS [NAME], " +
+                "SNAME AS SNAME, " +
+                "ITEMS.VAT AS VAT, " +
+                "ISNULL(BARCODE.BARCODE,'') AS BARCODE, " + 
+                "ISNULL(UNIT.FACTOR,1) AS FACTOR, " +
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT " +
+                "FROM ITEMS AS ITEMS " +
+                "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
+                "UNIT.ITEM_CODE = ITEMS.CODE " +
+                "LEFT OUTER JOIN ITEM_BARCODE AS BARCODE ON " +
+                "BARCODE.ITEM_CODE = ITEMS.CODE AND BARCODE.UNIT = UNIT.[GUID] " + 
+                "WHERE BARCODE.BARCODE = @BARCODE" ,
+        param : ['BARCODE'],
+        type : ['string|50']
+    },
+    PosSatisInsert : 
+    {
+        query : "INSERT INTO [dbo].[POS_SALES] ( " +
+                "[CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " + 
+                ",[LDATE] " +
+                ",[DEPARTMENT] " +
+                ",[TYPE] " +
+                ",[DOC_DATE] " +
+                ",[REF] " +
+                ",[REF_NO] " +
+                ",[LINE_NO] " +
+                ",[CUSTOMER_CODE] " +
+                ",[ITEM_CODE] " +
+                ",[BARCODE] " +
+                ",[QUANTITY] " +
+                ",[UNIT] " +
+                ",[PRICE] " +
+                ",[DISCOUNT] " +
+                ",[VAT] " +
+                ",[STATUS] " +
+                ") VALUES ( " +
+                "@CUSER                                 --<CUSER, nvarchar(25),> \n" +  
+                ",GETDATE()                             --<CDATE, datetime,> \n" +
+                ",@LUSER                                --<LUSER, nvarchar(25),> \n" +    
+                ",GETDATE()                             --<LDATE, datetime,> \n" +
+                ",@DEPARTMENT                           --<DEPARTMENT, int,> \n" +
+                ",@TYPE                                 --<TYPE, tinyint,> \n" +
+                ",@DOC_DATE                             --<DOC_DATE, datetime,> \n" +
+                ",@REF                                  --<REF, nvarchar(25),> \n" +
+                ",@REF_NO                               --<REF_NO, int,> \n" +
+                ",(SELECT ISNULL(MAX(LINE_NO),-1) + 1 AS LINE_NO FROM POS_SALES WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE) --<LINE_NO, int,> \n" +
+                ",@CUSTOMER_CODE                        --<CUSTOMER_CODE, nvarchar(25),> \n" +
+                ",@ITEM_CODE                            --<ITEM_CODE, nvarchar(25),> \n" +
+                ",@BARCODE                              --<BARCODE, nvarchar(50),> \n" +
+                ",@QUANTITY                             --<QUANTITY, float,> \n" +
+                ",@UNIT                                 --<UNIT, nvarchar(50),> \n" +
+                ",@PRICE                                --<PRICE, float,> \n" +
+                ",@DISCOUNT                             --<DISCOUNT, float,> \n" +
+                ",@VAT                                  --<VAT, float,> \n" +
+                ",@STATUS                               --<STATUS, int,> \n" +
+                ") ",
+        param : ['CUSER:string','LUSER:string','DEPARTMENT:int','TYPE:int','DOC_DATE:date','REF:string|25','REF_NO:int','CUSTOMER_CODE:string|25','ITEM_CODE:string|25',
+                 'BARCODE:string|50','QUANTITY:float','UNIT:string','PRICE:float','DISCOUNT:float','VAT:float',"STATUS:int"]
+    },
+    PosSatisGetir : 
+    {
+        query:  "SELECT " +
+                "GUID AS GUID, " +
+                "CUSER AS CUSER, " +
+                "REF AS REF, " +
+                "REF_NO AS REF_NO, " +
+                "LINE_NO AS LINE_NO, " +
+                "CUSTOMER_CODE AS CUSTOMER_CODE, " +
+                "ITEM_CODE AS ITEM_CODE, " +
+                "ISNULL((SELECT TOP 1 [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
+                "BARCODE AS BARCODE, " +
+                "QUANTITY AS QUANTITY, " +
+                "UNIT AS UNIT_ID, " +
+                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
+                "PRICE AS PRICE, " +
+                "DISCOUNT AS DISCOUNT, " +
+                "VAT AS VAT, " +
+                "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
+                "ROUND(QUANTITY * PRICE,4) AS AMOUNT " +
+                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO DESC" ,
+        param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
+        type:    ['int','int','string|25','int']
+    },
+    PosFisSatisGetir :
+    {
+        query: "SELECT " +
+                "MAX(GUID) AS GUID, " +
+                "REF AS REF, " +
+                "REF_NO AS REF_NO, " +
+                "MIN(LINE_NO) AS LINE_NO, " +
+                "MAX(CUSTOMER_CODE) AS CUSTOMER_CODE, " +
+                "ITEM_CODE AS ITEM_CODE, " +
+                "ISNULL((SELECT TOP 1 [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
+                "BARCODE AS BARCODE, " +
+                "SUM(QUANTITY) AS QUANTITY, " +
+                "UNIT AS UNIT_ID, " +
+                "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
+                "ROUND(PRICE,4) AS PRICE, " +
+                "SUM(DISCOUNT) * ((VAT / 100) + 1) AS DISCOUNT, " +
+                "VAT AS VAT, " +
+                "MAX(CONVERT(NVARCHAR, CDATE, 104)) AS CDATE, " +
+                "MAX(CONVERT(NVARCHAR, CDATE, 108)) AS CHOUR, " +
+                "ROUND(SUM(QUANTITY * PRICE),4) AS AMOUNT " +
+                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO GROUP BY REF,REF_NO,ITEM_CODE,BARCODE,UNIT,PRICE,VAT ",
+        param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
+        type:    ['int','int','string|25','int']
+    },
+    PosSatisBelgeIptal : 
+    {
+        query: "DELETE FROM POS_SALES WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        param: ['REF','REF_NO','TYPE'],
+        type:  ['string|25','int','int']
+    },
+    PosSatisSatirIptal : 
+    {
+        query: "DELETE FROM POS_SALES WHERE GUID = @GUID",
+        param: ['GUID'],
+        type:  ['string|50']
+    },
+    PosTahInsert : 
+    {
+        query : "INSERT INTO [dbo].[POS_PAYMENT] " +
+                "([CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " + 
+                ",[LDATE] " +
+                ",[DEPARTMENT] " +
+                ",[TYPE] " +
+                ",[DOC_TYPE] " +
+                ",[DOC_DATE] " +
+                ",[REF] " +
+                ",[REF_NO] " +
+                ",[LINE_NO] " +
+                ",[CUSTOMER_CODE] " +
+                ",[CASE_CODE] " +
+                ",[AMOUNT] " +
+                ",[CHANGE] " +
+                ",[STATUS] " +
+                ") VALUES ( " +
+                "@CUSER                                 --<CUSER, nvarchar(25),> \n" +  
+                ",GETDATE()                             --<CDATE, datetime,> \n" +
+                ",@LUSER                                --<LUSER, nvarchar(25),> \n" +    
+                ",GETDATE()                             --<LDATE, datetime,> \n" +
+                ",@DEPARTMENT	                        --<DEPARTMENT, int,> \n" +
+                ",@TYPE			                        --<TYPE, tinyint,> \n" +
+                ",@DOC_TYPE		                        --<DOC_TYPE, tinyint,> \n" +
+                ",@DOC_DATE			                    --<DOC_DATE, datetime,> \n" +
+                ",@REF			                        --<REF, nvarchar(25),> \n" +
+                ",@REF_NO			                    --<REF_NO, int,> \n" +
+                ",(SELECT ISNULL(MAX(LINE_NO),-1) + 1 AS LINE_NO FROM POS_PAYMENT WHERE REF = @REF AND REF_NO = @REF_NO AND DOC_TYPE = @DOC_TYPE)		--<LINE_NO, int,> \n" +
+                ",@CUSTOMER_CODE	                    --<CUSTOMER_CODE, nvarchar(25),> \n" +
+                ",@CASE_CODE			                --<CASE_CODE, nvarchar(25),> \n" +
+                ",@AMOUNT			                    --<AMOUNT, float,> \n" +
+                ",@CHANGE			                    --<CHANGE, float,> \n" +
+                ",@STATUS		                        --<STATUS, int,> \n" +
+                ")",
+        param : ['CUSER:string','LUSER:string','DEPARTMENT:int','TYPE:int','DOC_TYPE:int','DOC_DATE:date','REF:string|25','REF_NO:int','CUSTOMER_CODE:string|25',
+                 'CASE_CODE:string|25','AMOUNT:float','CHANGE:float','STATUS:int']
+    },
+    PosTahIptal : 
+    {
+        query: "DELETE FROM POS_PAYMENT WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        param: ['REF','REF_NO','TYPE'],
+        type:  ['string|25','int','int']
+    },
+    PosTahSatirIptal : 
+    {
+        query: "DELETE FROM POS_PAYMENT WHERE GUID = @GUID",
+        param: ['GUID'],
+        type:  ['string|50']
+    },
+    PosTahGetir : 
+    {
+        query:  "SELECT " +
+                "GUID AS GUID, " +
+                "REF AS REF, " +
+                "REF_NO AS REF_NO, " +
+                "CASE WHEN TYPE = 0 THEN " +
+                "'Espece' " +
+                "WHEN TYPE = 1 THEN " +
+                "'CB' " +
+                "WHEN TYPE = 2 THEN " + 
+                "'T.Rest' " +
+                "WHEN TYPE = 3 THEN " + 
+                "'CHEQUE' " +
+                "WHEN TYPE = 4 THEN " + 
+                "'BONE AVOIR' " +
+                "WHEN TYPE = 5 THEN " + 
+                "'AVOIR' " +
+                "WHEN TYPE = 6 THEN " + 
+                "'VIRMENT' " +
+                "WHEN TYPE = 7 THEN " + 
+                "'PRLV' " +
+                "END AS TYPE_NAME, " +
+                "TYPE AS TYPE," +
+                "DOC_TYPE AS DOC_TYPE," +
+                "LINE_NO AS LINE_NO, " +
+                "CUSTOMER_CODE AS CUSTOMER_CODE, " +
+                "AMOUNT AS AMOUNT, " +
+                "CHANGE AS CHANGE " +
+                "FROM POS_PAYMENT WHERE DEPARTMENT = @DEPARTMENT AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO" ,
+        param:   ['DEPARTMENT','DOC_TYPE','REF','REF_NO'],
+        type:    ['int','int','string|25','int']
+    },
+    PosSatisIskonto :
+    {
+        query : "UPDATE [dbo].[POS_SALES] SET [DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
+        param : ['DISCOUNT','GUID'],
+        type : ['float','string|50']
+    },
+    PosSatisKapatUpdate : 
+    {
+        query: "UPDATE [dbo].[POS_SALES] SET [STATUS] = 1 WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        param: ['DEPARTMENT','REF','REF_NO','TYPE'],
+        type:  ['int','string|25','int','int']
+    },
+    PosSonSatisGetir : 
+    {
+        query:  "SELECT " +
+                "TOP 100 MAX(GUID) AS GUID, " +
+                "(SELECT MAX(CASE WHEN TYPE = 0 THEN 'NAKİT' WHEN TYPE = 1 THEN 'KREDİKARTI' WHEN TYPE = 2 THEN 'AÇIKHESAP' END) AS TYPE FROM POS_SALES AS PT WHERE PT.REF = PS.REF AND PT.REF_NO = PS.REF_NO) AS TYPE, " +
+                "REF AS REF, " +
+                "REF_NO AS REF_NO, " +
+                "COUNT(LINE_NO) AS LINE_NO, " +
+                "MAX(CUSER) AS [USER], " +
+                "CAST(MAX(QUANTITY) AS DECIMAL(10,2)) AS QUANTITY, " +
+                "CAST(MAX(PRICE) AS DECIMAL(10,2))  AS PRICE, " +
+                "CAST((MAX(QUANTITY) * MAX(PRICE)) AS DECIMAL(10,2)) AS AMOUNT, " +
+                "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
+                "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
+                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS <> 0 " +
+                "GROUP BY REF,REF_NO ORDER BY LINE_NO DESC " ,
+        param: ['DEPARTMENT'],
+        type: ['int']
+    },
+    PosSonSatisDetayGetir : 
+    {
+        query:  "SELECT " +
+                "(SELECT MAX(CASE WHEN TYPE = 0 THEN 'NAKİT' WHEN TYPE = 1 THEN 'KREDİKARTI' WHEN TYPE = 2 THEN 'AÇIKHESAP' END) AS TYPE FROM POS_SALES AS PT WHERE PT.REF = PS.REF AND PT.REF_NO = PS.REF_NO) AS TYPE, " +
+                "REF AS REF, " +
+                "REF AS REF_NO, " +
+                "ITEM_CODE AS CODE, " + 
+                "BARCODE AS BARCODE, " +   
+                "ISNULL((SELECT [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS [NAME], " +
+                "CAST(QUANTITY AS decimal(10,2)) AS QUANTITY, " +
+                "CAST(PRICE AS decimal(10,2))  AS PRICE, " +
+                "CAST((QUANTITY * PRICE) AS decimal(10,2)) AS AMOUNT " +
+                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS <> 0 " ,
+        param: ['DEPARTMENT','REF','REF_NO'],
+        type: ['int','string|25','int']
+    },
+    PosSatisMiktarUpdate : 
+    {
+        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,[DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
+        param: ['QUANTITY','DISCOUNT','GUID'],
+        type:  ['float','float','string|50']
+    },
+    PosSatisMiktarUpdate1 :
+    {
+        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = (QUANTITY * @QUANTITY),[DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
+        param: ['QUANTITY','DISCOUNT','GUID'],
+        type:  ['float','float','string|50']
+    }
 };
 
 

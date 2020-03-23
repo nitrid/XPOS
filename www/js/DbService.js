@@ -4,6 +4,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _Socket = null;
     let _MenuData = {};
     moment.locale('tr');
+    let PosNo = "1"
 
     if (typeof(localStorage.host) !== "undefined") 
     {
@@ -26,7 +27,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             _Socket = io.connect(_Host,{autoConnect: false,reconnectionDelay:10});
             _Socket.open();
-    
+            
             _Socket.on('MaxUserCounted',function(MenuData)
             {               
                 if (typeof(MenuData) !== "undefined")
@@ -231,6 +232,47 @@ angular.module('app.db', []).service('db',function($rootScope)
             });            
         });
     }   
+    function _PrintText(pData,pLen,pType)
+    {
+        if(pData.length > pLen)
+        {
+            pData = pData.toString().substring(0,pLen);
+        }
+
+        if(typeof pType == 'undefined')
+        {
+            return pData.toString().padEnd(pLen,' ');
+        }
+           
+        if(pType == "End")
+        {
+            return pData.toString().padEnd(pLen,' ');
+        }
+        else if(pType == "Start")
+        {
+            return pData.toString().padStart(pLen,' ');
+        }
+    }
+    function _SumColumn(pData,pColumn,pFilter)    
+    {
+        let Sum = 0;
+        for(i=0;i<pData.length;i++)
+        {
+            if (typeof(pFilter) != "undefined")
+            {
+                if(pData[i][pFilter.toString().split('=')[0].trim()] == pFilter.toString().split('=')[1].trim())
+                {
+                    Sum += pData[i][pColumn];
+                }
+            }
+            else
+            {
+                Sum += pData[i][pColumn];
+            }
+        }
+        
+        return Sum;
+    }
     //#region "PUBLIC"
     this.Socket = _Socket;
     this.Connection = _Connection;
@@ -242,6 +284,8 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.GetPromiseQuery = _GetPromiseQuery;
     this.ExecutePromiseTag = _ExecutePromiseTag;
     this.ExecutePromiseQuery = _ExecutePromiseQuery;
+    this.SumColumn = _SumColumn;
+    this.PrintText = _PrintText;
     this.SocketConnected = false;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
@@ -339,27 +383,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                 pCallback(data);
             }
         });
-    }
-    this.SumColumn = function(pData,pColumn,pFilter)    
-    {
-        let Sum = 0;
-        for(i=0;i<pData.length;i++)
-        {
-            if (typeof(pFilter) != "undefined")
-            {
-                if(pData[i][pFilter.toString().split('=')[0].trim()] == pFilter.toString().split('=')[1].trim())
-                {
-                    Sum += pData[i][pColumn];
-                }
-            }
-            else
-            {
-                Sum += pData[i][pColumn];
-            }
-        }
-        
-        return Sum;
-    }
+    }    
     this.ListEqual = function(pData,pFiltre)
     {
         let Deger = true;
@@ -390,6 +414,216 @@ angular.module('app.db', []).service('db',function($rootScope)
             return null;
         }
         return null;
+    }
+    this.MaxSira = function(pFirma,pQueryTag,pQueryParam,pCallback)
+    {
+        var m = 
+        {
+            db : pFirma,
+            tag : pQueryTag,
+            param : pQueryParam
+        }
+        _SqlExecute(m,function(data)
+        {
+            if(pCallback)
+            {
+                pCallback(data.result.recordset[0].MAXREFNO);
+            }
+        });
+    }
+    this.StokBarkodGetir = function(pFirma,pBarkod,pCallback)
+    {
+        let m = 
+        {
+            db : pFirma,
+            tag : 'BarkodGetir',
+            param : [pBarkod]
+        }
+        _SqlExecute(m,function(data)
+        {
+            if(pCallback)
+            {
+                
+                if(data.result.recordset.length > 0)
+                {
+                    pCallback(data.result.recordset);
+                }
+                else
+                {
+                    let m = 
+                    {
+                        db : pFirma,
+                        tag : 'StokGetir',
+                        param : [pBarkod,'']
+                    }
+                    _SqlExecute(m,function(data)
+                    {
+                        if(pCallback)
+                        {
+                            pCallback(data.result.recordset);
+                        }
+                    });
+                }
+            }
+        });
+    }
+    this.EscposPrint = function(pSData,pTData,pVData)
+    {
+        let TmpData = [];
+        let TmpLine = {};
+        // ÜST BİLGİ
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGVILLE LES ST AVOLD"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
+        TmpData.push({font:"b",align:"lt",data:_PrintText(moment(new Date()).locale('fr').format('dddd') + " " + moment(new Date()).format("DD.MM.YYYY"),59) + _PrintText(moment(new Date()).format("LTS"),5)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,41) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,23)});
+        TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+        //HEADER
+        TmpLine = 
+        {
+            font:"b",
+            style:"bu",
+            align:"lt",
+            data:"T " + 
+                _PrintText("Libelle",37) + " " + 
+                _PrintText("Qte",8) + " " + 
+                _PrintText("P/u",7) + " " + 
+                _PrintText("Prix",7)
+        }
+        TmpData.push(TmpLine);
+        // SATIŞ LİSTESİ
+        for (let i = 0; i < pSData.length; i++) 
+        {
+            let TmpQt = ""
+            if(pSData[i].UNIT != "U")
+            {
+                TmpQt = parseFloat(pSData[i].QUANTITY).toFixed(3) + pSData[i].UNIT;
+            }
+            else
+            {
+                TmpQt = pSData[i].QUANTITY;
+            }
+
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pSData[i].VAT_TYPE) + " " +
+                      _PrintText(pSData[i].ITEM_NAME,34) + " " +
+                      _PrintText(TmpQt,8,"Start") + " " + 
+                      _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
+                      _PrintText(parseFloat(pSData[i].AMOUNT).toFixed(2) + "EUR",10,"Start")
+            }
+            TmpData.push(TmpLine);
+        }
+        TmpData.push({font:"b",style:"bu",align:"lt",data:_PrintText(" ",64)});
+        //DİP TOPLAM
+        TmpLine = 
+        {
+            font: "b",
+            size : [1,2],
+            style: "b",
+            align: "lt",
+            data: _PrintText("Total TTC",33) + 
+                  _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")
+        }
+        TmpData.push(TmpLine);
+        //ÖDEME TOPLAMLARI
+        for (let i = 0; i < pTData.length; i++) 
+        {
+            let TmpType = "";
+            if(pTData[i].TYPE == 0)
+                TmpType = "Espece" //BUNLAR PARAMETRİK OLACAK.
+            else if (pTData[i].TYPE == 1)
+                TmpType = "CB"
+            else if(pTData[i].TYPE == 2)
+                TmpType = "T.Rest"
+            else if(pTData[i].TYPE == 3)
+                TmpType = "CHEQUE"
+            else if(pTData[i].TYPE == 4)
+                TmpType = "BONE AVOIR"
+            else if(pTData[i].TYPE == 5)
+                TmpType = "AVOIR"
+            else if(pTData[i].TYPE == 6)
+                TmpType = "VIRMENT"
+            else if(pTData[i].TYPE == 7)
+                TmpType = "PRLV"
+
+            TmpLine = 
+            {
+                font: "a",
+                align: "lt",
+                data: _PrintText(TmpType,33) +
+                      _PrintText(parseFloat(_SumColumn(pTData,"AMOUNT","TYPE = " + pTData[i].TYPE)).toFixed(2) + " EUR",15,"Start")
+            }
+            TmpData.push(TmpLine);
+        }
+        //PARA ÜSTÜ
+        TmpLine = 
+        {
+            font: "a",
+            align: "lt",
+            data: _PrintText("Rendu",33) +
+                  _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
+        }
+        TmpData.push(TmpLine);
+        
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+
+        TmpLine = 
+        {
+            font: "b",
+            style: "bu",
+            align: "lt",
+            data: _PrintText(" ",5) + " " +
+                  _PrintText("Taux",10) + " " +
+                  _PrintText("HT",10) + " " +
+                  _PrintText("TVA",10) + " " +
+                  _PrintText("TTC",10)
+        }
+
+        TmpData.push(TmpLine);        
+
+        for (let i = 0; i < pVData.length; i++) 
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pVData[i].VAT_TYPE,5) + " " +
+                      _PrintText(pVData[i].VAT + "%",10) + " " +
+                      _PrintText(parseFloat(pVData[i].HT).toFixed(2),10) + " " + 
+                      _PrintText(parseFloat(pVData[i].TVA).toFixed(2),10) + " " + 
+                      _PrintText(parseFloat(pVData[i].TTC).toFixed(2),10)
+            }
+            TmpData.push(TmpLine);  
+        }
+
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText(pSData.length.toString() + " Aricle(s)",14)});
+
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Merci de votre fidelite a tres bientot ..."});
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+
+        _Socket.emit('EscposPrint', TmpData,function()
+        {
+            _Socket.emit('EscposCaseOpen');
+        });
+
+        
+    }
+    this.LCDPrint = function(pData)
+    {
+        _Socket.emit('LCDPrint', pData);
+    }
+    this.LCDClear = function()
+    {
+        _Socket.emit('LCDClear');
     }
      //#endregion "PUBLIC"
 });

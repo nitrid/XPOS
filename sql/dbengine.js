@@ -1,21 +1,26 @@
-var fs = require('fs');
-var _sql = require("./sqllib");
-var io = require('socket.io')();
-var lic = require('./license');
+let fs = require('fs');
+let _sql = require("./sqllib");
+let io = require('socket.io')();
+let lic = require('./license');
+let escpos = require('escpos');
+let serialport = require('serialport')
 
-var msql;
-var tsql;
+let msql;
+let tsql;
 
-var LicKullanici = 0;
-var LicMenu = "";
+let LicKullanici = 0;
+let LicMenu = "";
+
+let port = new serialport("COM1")
 
 function dbengine(config)
 {    
     this.config = config;
-    io.listen(config.port);
+    io.listen(config.port);   
 }
+
 io.on('connection', function(socket) 
-{     
+{
     //console.log(io.engine.clientsCount);
     // if(Object.keys(io.sockets.connected).length > LicKullanici)
     // {
@@ -25,6 +30,31 @@ io.on('connection', function(socket)
     // {
     //     socket.emit('MaxUserCounted',LicMenu);
     // }
+    SerialBarcode();
+
+    function SerialBarcode()
+    {        
+        let SerialCount = 0;
+        let Barcode = "";
+
+        port.on('data', function (data) 
+        {  
+            SerialCount++;
+            Barcode = Barcode + data.toString("utf8")
+
+            if(SerialCount == 2)
+            {
+                socket.emit('SerialBarcode',
+                {
+                    result : Barcode
+                });
+
+                SerialCount = 0;
+                Barcode = "";            
+            }
+        })
+    }
+
     socket.on('GetMenu',function(pParam,pFn)
     {
         if(Object.keys(io.sockets.connected).length > LicKullanici)
@@ -178,6 +208,89 @@ io.on('connection', function(socket)
                 fn(true);
             else
                 fn(false);
+        });
+    });
+    socket.on("EscposPrint",function(pData,fn)
+    {
+        
+        let device  = new escpos.USB(config.EpsonUSB.Vid, config.EpsonUSB.Pid);
+        let options = { encoding: "GB18030" /* default */ }
+        let printer = new escpos.Printer(device, options);
+        //B FONT 64 CHAR
+        device.open(function(error)
+        {            
+            printer.flush();
+
+            for (let i = 0; i < pData.length; i++) 
+            {
+                printer.size(1,1);
+
+                printer.font(pData[i].font);
+                printer.align(pData[i].align);
+
+                if(typeof pData[i].style != 'undefined')
+                {
+                    printer.style(pData[i].style);
+                }
+                else
+                {
+                    printer.style("normal");
+                }
+                
+                if(typeof pData[i].size != 'undefined')
+                {
+                    printer.size(pData[i].size[0],pData[i].size[1]);
+                }
+                
+                printer.text(pData[i].data);
+            }                                    
+            printer.cut().close
+            (
+                function()
+                {
+                    fn();
+                }
+            );
+        });        
+    });
+    socket.on("EscposCaseOpen",function()
+    {
+        let device  = new escpos.USB(config.EpsonUSB.Vid, config.EpsonUSB.Pid);
+        let options = { encoding: "GB18030" /* default */ }
+        let printer = new escpos.Printer(device, options);
+
+        device.open(function(error)
+        {
+            for (let i = 0; i < 5; i++) 
+            {
+                printer.cashdraw(i+1);
+            }
+
+            printer.close();
+        })
+    });
+    socket.on("LCDPrint",function(pData)
+    {
+        let device  = new escpos.Serial(config.LineDisplay, { baudRate: 9600, autoOpen: false });
+        let options = { encoding: "GB18030" /* default */ }
+        let usbScreen = new escpos.Screen(device,options);
+
+        device.open(function(error)
+        {
+            usbScreen.blink(pData.blink);
+            usbScreen.clear();
+            usbScreen.text(pData.text).close();
+        });
+    });
+    socket.on("LCDClear",function()
+    {
+        let device  = new escpos.Serial(config.LineDisplay, { baudRate: 9600, autoOpen: false });
+        let options = { encoding: "GB18030" /* default */ }
+        let usbScreen = new escpos.Screen(device,options);
+
+        device.open(function(error)
+        {
+            usbScreen.clear();
         });
     });
 });

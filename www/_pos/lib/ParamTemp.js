@@ -18,8 +18,7 @@ var ParamTemp =
 			"FirmaNo" : {"Title" : "Firma No","DefaultValue" : "0"},
 			"SubeNo" : {"Title" : "Şube No","DefaultValue" : "0"},
 			"SatirBirlestir" : {"Title" : "Satır Birleştir","DefaultValue" : "1"},
-			"IskontoMatrisTip" : {"Title" : "Iskonto Matris Tipi","DefaultValue" : "0"},
-			"XXc" : {"Title" : "Iskonto Matris Tipi","DefaultValue" : "0"},
+			"IskontoMatrisTip" : {"Title" : "Iskonto Matris Tipi","DefaultValue" : "0"}
 		},
 		"PosSatis" :
 		{
