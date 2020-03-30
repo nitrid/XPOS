@@ -923,6 +923,30 @@ var QuerySql =
         query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = (QUANTITY * @QUANTITY),[DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
         param: ['QUANTITY','DISCOUNT','GUID'],
         type:  ['float','float','string|50']
+    },
+    TicketInsert :
+    {
+        query : "INSERT INTO [dbo].[TICKET] (  " +
+            "[GUID] " +
+            ",[CUSER] " +
+            ",[CDATE] " +
+            ",[LUSER] " +
+            ",[LDATE] " +
+            ",[CODE]) " +
+        "VALUES " + 
+            "(NEWID()                --<GUID, uniqueidentifier,> \n" + 
+            ",@CUSER                 --<CUSER, nvarchar(25),> \n" + 
+            ",GETDATE()              --<CDATE, datetime,> \n" + 
+            ",@LUSER                 --<LUSER, nvarchar(25),> \n" + 
+            ",GETDATE()              --<LDATE, datetime,> \n" + 
+            ",@CODE                  --<CODE, nvarchar(50),> \n" + 
+            " ) ",
+        param : ['CUSER:string','LUSER:string','CODE:string']
+    },
+    TicketControl :
+    {
+        query : "SELECT * FROM TICKET WHERE CODE = @CODE ",
+        param :['CODE:string']
     }
 };
 
