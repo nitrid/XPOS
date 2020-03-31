@@ -919,14 +919,30 @@ function PosSatisCtrl($scope,$window,db)
                     return;
                 }
                 
-                $scope.TahTip = 2;
-                $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);
-                
-                $scope.PosTahInsert(function()
+                db.GetData($scope.Firma,'TicketControl',[pBarkod],function(data)
                 {
-                    DipToplamHesapla();
-                    $scope.TahTip = 0;
+                    if(data.length <= 0)
+                    {
+                        $scope.TahTip = 2;
+                        $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);
+
+                        db.ExecuteTag($scope.Firma,'TicketInsert',[UserParam.Kullanici,UserParam.Kullanici,pBarkod],function(InsertResult)
+                        {
+                            $scope.PosTahInsert(function()
+                            {   
+                                DipToplamHesapla();
+                                $scope.TahTip = 0;
+                            });
+                        })
+                    }
+                    else
+                    {
+                        alertify.alert("Bu Ticket Daha Önce Okutulmuş!. ");
+                    }
+
                 });
+
+               
 
                 $scope.TxtBarkod = "";
                 return;
