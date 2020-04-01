@@ -55,7 +55,7 @@ function PosSatisCtrl($scope,$window,db)
     });
     db.On("SerialBarcode",function(data)
     {
-        $scope.TxtBarkod = data.result.substring(1,data.result.length);
+        $scope.TxtBarkod = data.result.substring(1,data.result.length).toString().trim();
         TxtBarkodKeyPress();
     })
     function Init()
