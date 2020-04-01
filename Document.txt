@@ -7,3 +7,4 @@ npm install moment
 npm install node-machine-id
 npm install node-windows
 npm install escpos
+npm install serialport
