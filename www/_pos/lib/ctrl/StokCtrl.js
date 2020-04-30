@@ -399,9 +399,20 @@ function StokCtrl ($scope,$window,$location,db)
         {
             Object.keys(pData[0]).forEach(function(item)
             {
-                TmpColumns.push({name : item});
+                TmpColumns.push({name : item,type: "text"});
             });    
         }
+
+        let db = {
+            loadData: function(filter) 
+            {
+                return $.grep(pData, function(client) 
+                { 
+                    return (!filter.CODE || client.CODE.indexOf(filter.CODE) > -1)
+                        && (!filter.NAME || client.NAME.indexOf(filter.NAME) > -1)
+                });
+            }
+        };
         
         $("#TblSecim").jsGrid
         ({
@@ -411,6 +422,7 @@ function StokCtrl ($scope,$window,$location,db)
             selecting: true,
             data : pData,
             paging : true,
+            filtering : true,
             pageSize: 5,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
@@ -419,8 +431,10 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 SecimListeRowClick(args.itemIndex,args.item,this);
                 $scope.$apply();
-            }
+            },
+            controller:db,
         });
+        $("#TblSecim").jsGrid("search");
     }
     function SecimListeRowClick(pIndex,pItem,pObj)
     {    
@@ -1133,6 +1147,33 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.BtnModalUrunGrupEkle = function()
     {
+        let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT (ISNULL(MAX(CODE),'') + 1) AS CODE FROM ITEM_GROUP"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                if(typeof Data[0].CODE != 'undefined')
+                {
+                    if(Data[0].CODE < 10)
+                    {
+                        $scope.UrunGrupModal.Kodu = ('00' +Data[0].CODE)
+                    }
+                    else if(Data[0].CODE < 100)
+                    {
+                        $scope.UrunGrupModal.Kodu = ('0' +Data[0].CODE)
+                    }
+                    else
+                    {
+                        $scope.UrunGrupModal.Kodu = Data[0].CODE
+                    }
+                }
+                else
+                {
+                    $scope.UrunGrupModal.Kodu = '001'
+                }               
+            });
         UrunGrupModalInit();
         $("#MdlUrunGrupEkle").modal('show');
     }

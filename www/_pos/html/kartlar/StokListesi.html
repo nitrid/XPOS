@@ -4,12 +4,18 @@
     </div>
     <div class="panel">
         <div class="panel-body container-fluid">
+            <div class="form-group row">
+                <select class="form-control form-control-sm col-4" ng-model="GroupSelect" ng-change="CmbGroupChange()" title="Group Select">
+                    <option ng-repeat="option in GroupList" value="{{option.CODE}}">{{option.NAME}}</option>
+                </select>
+            </div>
             <table id="Table" class="table table-hover dataTable table-striped w-full">
                 <thead>
                   <tr>
                     <th>KODU</th>
                     <th>ADI</th>
                     <th>KISA ADI</th>
+                    <th>GRUP</th>
                   </tr>
                 </thead>
             </table>

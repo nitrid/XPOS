@@ -5,33 +5,78 @@ function StokListeCtrl ($scope,$window,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT [CODE],[NAME],[SNAME] FROM ITEMS"
+            query:  "SELECT [CODE],[NAME],[SNAME],[ITEM_GRP] FROM ITEMS"
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $('#Table').DataTable( {
-                lengthChange: false,
-                pageLength: 50,
-                data: Data,
-                columns: 
-                [
-                    { data: "CODE",width:"100" },
-                    { data: "NAME",width:"200" },
-                    { data: "SNAME",width:"100" }
-                ],
-                columnDefs: 
-                [ 
-                    {
-                        targets: 0,
-                        data: "CODE",
-                        render : function ( data, type, row, meta ) 
-                        {
-                            return '<a href="#!Stok?Id='+data+'">' + data + '</a>';
-                        }
-                    } 
-                ]
-            } );
+            $scope.TableData = Data
+            $scope.TableCreate();
+        });
+        $scope.GroupRead()
+    }
+    $scope.GroupRead = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
+        }
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            $scope.GroupList = Data
+            console.log($scope.GroupList)
+        });
+    } 
+    $scope.CmbGroupChange = function()
+    {
+        console.log($scope.GroupSelect)
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [CODE],[NAME],[SNAME],[ITEM_GRP] FROM ITEMS WHERE ITEM_GRP =  '" + $scope.GroupSelect + "'"
+        }
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            console.log(Data)
+            $scope.TableData = Data
+            $scope.TableCreate();
         });
         
+    }
+    $scope.TableCreate = function()
+    {
+        $('#Table').DataTable( {
+            destroy: true,
+            paging: true,
+            lengthChange: false,
+            pageLength: 50,
+            data: $scope.TableData,
+            columns: 
+            [
+                { data: "CODE",width:"100" },
+                { data: "NAME",width:"200" },
+                { data: "SNAME",width:"100" },
+                { data: "ITEM_GRP",width:"100"}
+            ],
+            columnDefs: 
+            [ 
+                {
+                    targets: 0,
+                    data: "CODE",
+                    render : function ( data, type, row, meta ) 
+                    {
+                        return '<a href="#!Stok?Id='+data+'">' + data + '</a>';
+                    }
+                }, 
+                {
+                    targets: 2,
+                    data: "CODE",
+                    render : function ( data, type, row, meta ) 
+                    {
+                        return '<a href="#!Stok?Id='+data+'">' + data + '</a>';
+                    }
+                },
+            ]
+        } );
     }
 }
