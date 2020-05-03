@@ -48,7 +48,7 @@ io.on('connection', function(socket)
                 {
                     result : Barcode
                 });
-
+                
                 SerialCount = 0;
                 Barcode = "";            
             }
