@@ -12,6 +12,7 @@ function StokListeCtrl ($scope,$window,db)
             $scope.TableData = Data
             $scope.TableCreate();
         });
+        $scope.GroupSelect = '0';
         $scope.GroupRead()
     }
     $scope.GroupRead = function()
@@ -30,17 +31,34 @@ function StokListeCtrl ($scope,$window,db)
     $scope.CmbGroupChange = function()
     {
         console.log($scope.GroupSelect)
-        let TmpQuery = 
+        if($scope.GroupSelect == '0')
         {
-            db : $scope.Firma,
-            query:  "SELECT [CODE],[NAME],[SNAME],[ITEM_GRP] FROM ITEMS WHERE ITEM_GRP =  '" + $scope.GroupSelect + "'"
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME],[SNAME],[ITEM_GRP] FROM ITEMS"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                $scope.TableData = Data
+                $scope.TableCreate();
+            });
         }
-        db.GetDataQuery(TmpQuery,function(Data)
+        else
         {
-            console.log(Data)
-            $scope.TableData = Data
-            $scope.TableCreate();
-        });
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [CODE],[NAME],[SNAME],[ITEM_GRP] FROM ITEMS WHERE ITEM_GRP =  '" + $scope.GroupSelect + "'"
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                console.log(Data)
+                $scope.TableData = Data
+                $scope.TableCreate();
+            });
+        }
+       
         
     }
     $scope.TableCreate = function()
@@ -50,6 +68,7 @@ function StokListeCtrl ($scope,$window,db)
             paging: true,
             lengthChange: false,
             pageLength: 50,
+            searching: true,
             data: $scope.TableData,
             columns: 
             [
@@ -62,18 +81,18 @@ function StokListeCtrl ($scope,$window,db)
             [ 
                 {
                     targets: 0,
-                    data: "CODE",
+                    data: "NAME",
                     render : function ( data, type, row, meta ) 
                     {
                         return '<a href="#!Stok?Id='+data+'">' + data + '</a>';
                     }
                 }, 
                 {
-                    targets: 2,
+                    targets: 1,
                     data: "CODE",
                     render : function ( data, type, row, meta ) 
                     {
-                        return '<a href="#!Stok?Id='+data+'">' + data + '</a>';
+                        return '<a href="#!Stok?Id='+row.CODE+'">' + data + '</a>';
                     }
                 },
             ]
