@@ -1,8 +1,11 @@
 {
     "port":"8090",
-    "server":"DESKTOP-4VFO8Q0;1433",
+    "server":"192.168.1.70;1433",
     "database":"XPOS",
     "uid":"nitro",
     "pwd":"1122334455",
-    "trustedConnection" : false
+    "trustedConnection" : false,
+    "EpsonUSB" : {"Vid:" : "04B8","Pid" : "0E15"},
+    "LineDisplay" : "COM3",
+    "BarkodSerial" : "COM1" 
 }

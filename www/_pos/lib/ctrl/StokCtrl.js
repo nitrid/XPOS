@@ -5,12 +5,14 @@ function StokCtrl ($scope,$window,$location,db)
     let ModalTip = "";
     $scope.Birim = 
     [
-        {Adi : "ADET"},
-        {Adi : "KILOGRAM"},
-        {Adi : "GRAM"},
-        {Adi : "PAKET"},
-        {Adi : "KOLI"},
-        {Adi : "PALET"}
+        {Adi : "UNIT"},
+        {Adi : "KILOGRAMME"},
+        {Adi : "COLIS"},
+        {Adi : "HEURE"},
+        {Adi : "LITRE"},
+        {Adi : "METRE"},
+        {Adi : "METRE CARRE"},
+        {Adi : "JOUR"}
     ];
 
     function TblFiyatInit()

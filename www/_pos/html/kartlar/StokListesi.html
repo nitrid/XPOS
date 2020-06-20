@@ -7,7 +7,7 @@
         <div class="panel-body container-fluid">
             <div class="form-group row justify-content-end">
                 <p class="p-5">Group :</p>
-                <select class="form-control col-2" ng-model="GroupSelect" ng-change="CmbGroupChange()" title="Group Select">
+                <select class="form-control col-4" ng-model="GroupSelect" ng-change="CmbGroupChange()" title="Group Select">
                     <option value="0">ALL</option>
                     <option ng-repeat="option in GroupList" value="{{option.CODE}}">{{option.NAME}}</option>
                 </select>
