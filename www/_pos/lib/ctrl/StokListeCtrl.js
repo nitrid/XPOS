@@ -25,7 +25,6 @@ function StokListeCtrl ($scope,$window,db)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.GroupList = Data
-            console.log($scope.GroupList)
         });
     } 
     $scope.CmbGroupChange = function()

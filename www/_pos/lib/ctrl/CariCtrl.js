@@ -45,9 +45,11 @@ function CariCtrl ($scope,$window,$location,db)
     function CariGetir(pKodu)
     {
         $scope.CariListe = [];
-        db.GetData($scope.Firma,'CariKartGetir',[pKodu],function(StokData)
+        db.GetData($scope.Firma,'CariKartGetir',[pKodu],function(Data)
         {
-            $scope.CariListe = StokData;
+            $scope.CariListe = Data;
+            console.log($scope.CariListe[0].COMPANY);
+            $scope.TypeChange();
         });
     }
     function SecimListeRowClick(pIndex,pItem,pObj)
@@ -159,10 +161,12 @@ function CariCtrl ($scope,$window,$location,db)
                             
                             db.ExecuteTag($scope.Firma,'AdresKaydet',InsertData,function(InsertResult)
                             { 
-                               
+                                
                             });
                         }
                     }
+
+                    $scope.Init();
                 });        
             }
             else
@@ -201,12 +205,12 @@ function CariCtrl ($scope,$window,$location,db)
         if($scope.CariListe[0].TYPE == "0")
         {
             $scope.StyleKurum = {'visibility': 'hidden'};
-            $scope.CariListe[0].COMPANY = "";
+            //$scope.CariListe[0].COMPANY = "";
         }
         else if($scope.CariListe[0].TYPE == "1")
         {
             $scope.StyleKurum = {'visibility': 'visible'};
-            $scope.CariListe[0].COMPANY = "";
+            //$scope.CariListe[0].COMPANY = "";
         }
     }
     $scope.BtnGridSec = function()

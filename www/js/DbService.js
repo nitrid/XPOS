@@ -164,7 +164,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             console.log("Server Erişiminiz Yok.");
         }
     }
-    function _GetPromiseTag(pDb,pQueryTag,pQueryParam,pCallback)
+    function _GetPromiseTag(pDb,pQueryTag,pQueryParam)
     {
         return new Promise(resolve => 
         {
@@ -176,29 +176,21 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
             _SqlExecute(m,function(data)
             {
-                if(pCallback)
-                {
-                    pCallback(data.result.recordset);
-                    resolve();
-                }
+                resolve(data.result.recordset);
             });            
         });
     }    
-    function _GetPromiseQuery(pQuery,pCallback)
+    function _GetPromiseQuery(pQuery)
     {
         return new Promise(resolve => 
         {
             _SqlExecuteQuery(pQuery,function(data)
             {
-                if(pCallback)
-                {
-                    pCallback(data.result.recordset);
-                    resolve();
-                }
+                resolve(data.result.recordset);
             });            
         });
     } 
-    function _ExecutePromiseTag(pDb,pQueryTag,pQueryParam,pCallback)
+    function _ExecutePromiseTag(pDb,pQueryTag,pQueryParam)
     {
         return new Promise(resolve => 
         {
@@ -210,25 +202,17 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
             _SqlExecute(m,function(data)
             {
-                if(pCallback)
-                {
-                    pCallback(data);
-                    resolve();
-                }
+                resolve(data);
             });            
         });
     }
-    function _ExecutePromiseQuery(pQuery,pCallback)
+    function _ExecutePromiseQuery(pQuery)
     {
         return new Promise(resolve => 
         {
             _SqlExecuteQuery(pQuery,function(data)
             {
-                if(pCallback)
-                {
-                    pCallback(data);
-                    resolve();
-                }
+                resolve(data);
             });            
         });
     }   
