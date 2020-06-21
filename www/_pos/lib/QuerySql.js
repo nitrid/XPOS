@@ -15,6 +15,7 @@ var QuerySql =
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
                 "[PLU] AS [PLU], " + 
+                "[TARTIM] AS [TARTIM], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
                 "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
@@ -47,6 +48,7 @@ var QuerySql =
                 ",[MAX_PRICE] " +
                 ",[STATUS] " +
                 ",[PLU] " +
+                ",[TARTIM] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -62,7 +64,8 @@ var QuerySql =
                 "@MIN_PRICE,			--<MIN_PRICE, float,> \n" +
                 "@MAX_PRICE,			--<MAX_PRICE, float,> \n" +
                 "@STATUS,				--<STATUS, bit,> \n" +
-                "@PLU				    --<PLU, bit,> \n" +
+                "@PLU,				    --<PLU, bit,> \n" +
+                "@TARTIM			    --<TARTIM, bit,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -78,9 +81,10 @@ var QuerySql =
                 ",[MAX_PRICE] = @MAX_PRICE " +
                 ",[STATUS] = @STATUS " +
                 ",[PLU] = @PLU " +
+                ",[TARTIM] = @TARTIM " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','TARTIM:bit']
     },
     StokKartSil :
     {
@@ -100,6 +104,7 @@ var QuerySql =
                 ",CASE WHEN [START_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[START_DATE],104) END AS [START_DATE] " +
                 ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
                 ",[PRICE] " +
+                ",[QUANTITY] " +
                 ",[CUSTOMER] " +
                 "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1 ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
@@ -161,6 +166,7 @@ var QuerySql =
                 ",[START_DATE] " +
                 ",[FINISH_DATE] " +
                 ",[PRICE] " +
+                ",[QUANTITY] " +
                 ",[CUSTOMER] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
@@ -173,10 +179,11 @@ var QuerySql =
                 "@START_DATE,			--<START_DATE, datetime,> \n" +
                 "@FINISH_DATE,		    --<FINISH_DATE, datetime,> \n" +
                 "@PRICE,				--<PRICE, float,> \n" +
+                "@QUANTITY,				--<QUANTITY, float,> \n" +
                 "@CUSTOMER			    --<CUSTOMER, nvarchar(25),> \n" +
                 ") ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','START_DATE:date','FINISH_DATE:date',
-                 'PRICE:float','CUSTOMER:string|25']
+                 'PRICE:float','QUANTITY:float','CUSTOMER:string|25']
     },
     FiyatSil :
     {
@@ -185,8 +192,8 @@ var QuerySql =
     },
     FiyatUpdate :
     {
-        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
-        param : ['PRICE:float','GUID:string|50']
+        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['PRICE:float','QUANTITY:float','GUID:string|50']
     },
     BirimKaydet : 
     {

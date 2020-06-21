@@ -59,6 +59,13 @@ function StokCtrl ($scope,$window,$location,db)
                     width: 75
                 },
                 {
+                    name: "QUANTITY",
+                    title : "Miktar",
+                    type: "decimal",
+                    align: "center",
+                    width: 75
+                },
+                {
                     name: "PRICE",
                     title : "Fiyat",
                     type: "decimal",
@@ -101,7 +108,7 @@ function StokCtrl ($scope,$window,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.GUID],function(data)
+                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.GUID],function(data)
                 {
                 });
             }
@@ -456,6 +463,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.FiyatModal.Baslangic = moment(new Date()).format("DD.MM.YYYY");
         $scope.FiyatModal.Bitis = moment(new Date()).format("DD.MM.YYYY");
         $scope.FiyatModal.Fiyat = 0;
+        $scope.FiyatModal.Miktar = 0;
         $scope.FiyatModal.Cari = "";
     }
     function BirimModalInit()
@@ -666,26 +674,10 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.StokListe[0].MIN_PRICE,
                 $scope.StokListe[0].MAX_PRICE,
                 $scope.StokListe[0].STATUS,
-                $scope.StokListe[0].PLU
+                $scope.StokListe[0].PLU,
+                $scope.StokListe[0].TARTIM
             ];
             
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "SELECT [CODE] FROM ITEMS WHERE [CODE] = @CODE",
-                param: ['CODE:string|25'],
-                value: [$scope.StokListe[0].CODE]
-            }
-
-            let TmpResult = await db.GetPromiseQuery(TmpQuery);
-
-            if(TmpResult.length > 0)
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Girimiş olduğunuz stok kodu sistemde kayıtlı !");
-                return;
-            }
-
             db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
             { 
                 if(typeof(InsertResult.result.err) == 'undefined')
@@ -754,7 +746,8 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.FiyatModal.Depo,
                 $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Baslangic,
                 $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Bitis,
-                $scope.FiyatModal.Fiyat,                   
+                $scope.FiyatModal.Fiyat,
+                $scope.FiyatModal.Miktar,                   
                 $scope.FiyatModal.Cari
             ];
 
