@@ -3,7 +3,7 @@ let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
 let escpos = require('escpos');
-let serialport = require('serialport')
+//let serialport = require('serialport')
 
 let msql;
 let tsql;
@@ -11,7 +11,7 @@ let tsql;
 let LicKullanici = 0;
 let LicMenu = "";
 
-let port = new serialport("COM1")
+//let port = new serialport("COM1")
 
 function dbengine(config)
 {    
@@ -30,7 +30,8 @@ io.on('connection', function(socket)
     // {
     //     socket.emit('MaxUserCounted',LicMenu);
     // }
-    SerialBarcode();
+    
+    //SerialBarcode();
 
     function SerialBarcode()
     {        
