@@ -17,6 +17,9 @@
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
                 <i class="icon fa-print" aria-hidden="true"></i>
             </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" onclick="window.location='#!StokListesi'">
+                <i class="icon fa-close" aria-hidden="true"></i>
+            </button>
         </div>
     </div>
     <div class="panel">
@@ -78,7 +81,10 @@
                                     <option ng-repeat="option in Birim" value="{{option.Adi}}">{{option.Adi}}</option>                                
                                 </select>  
                                 <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" />
-                            </div>
+                            </div>                            
+                        </div>
+                        <div class="col-md-2 form-control-label">
+                            {{AltBirimFiyati}}
                         </div>
                     </div>
                     <div class="form-group row">

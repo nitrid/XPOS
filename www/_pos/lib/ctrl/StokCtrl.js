@@ -14,7 +14,50 @@ function StokCtrl ($scope,$window,$location,db)
         {Adi : "Metre Carre"},
         {Adi : "Jour"}
     ];
-
+    
+    let DateField = function (config) 
+    {
+        jsGrid.Field.call(this, config);
+    };
+    DateField.prototype = new jsGrid.Field(
+    {
+        sorter: function (date1, date2) 
+        {
+            return new Date(date1) - new Date(date2);
+        },       
+        itemTemplate: function (value) 
+        {
+            if (value.toLowerCase().indexOf("Date") == -1) 
+            {
+                return moment(new Date(value)).format("DD.MM.YYYY");
+            }
+        },
+        insertTemplate: function (value) 
+        {
+            return this._insertPicker = $("<input>").datepicker({
+                format: 'dd.mm.yyyy'
+            });
+        },
+        editTemplate: function (value) 
+        {
+            return this._editPicker = $("<input>").datepicker({
+                format: 'dd.mm.yyyy'
+            }).datepicker("setDate", moment(new Date(value)).format("DD.MM.YYYY"));
+        },
+        insertValue: function () 
+        {
+            return this._insertPicker.datepicker({
+                format: 'dd.mm.yyyy'
+            }).val();
+        },
+        editValue: function () 
+        {
+            return this._editPicker.datepicker({
+                format: 'dd.mm.yyyy'
+            }).val();
+        }
+    });
+    jsGrid.fields.DateField = DateField;
     function TblFiyatInit()
     {        
         $("#TblFiyat").jsGrid
@@ -47,14 +90,14 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     name: "START_DATE",
                     title : "Baş.Tarih",
-                    type: "date",
+                    type: "DateField",
                     align: "center",
                     width: 75
                 },
                 {
                     name: "FINISH_DATE",
                     title : "Bit.Tarih",
-                    type: "date",
+                    type: "DateField",
                     align: "center",
                     width: 75
                 },
@@ -75,6 +118,24 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     name: "CUSTOMER",
                     title : "Cari",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "EXVAT",
+                    title : "VERGI HARIC",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "BRUTMARJ",
+                    title : "BRUT MARJ",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "NETMARJ",
+                    title : "NET MARJ",
                     align: "center",
                     width: 100
                 },
@@ -108,7 +169,7 @@ function StokCtrl ($scope,$window,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.GUID],function(data)
+                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.START_DATE,args.item.FINISH_DATE,args.item.GUID],function(data)
                 {
                 });
             }
@@ -516,6 +577,7 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 $scope.FiyatListe = FiyatData;
                 $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                $scope.AltBirimFiyati = ($scope.StokListe[0].UNDER_UNIT_FACTOR / $scope.FiyatListe[0].PRICE).toFixed(2) + "€";
             });
             //BIRIM LİSTESİ GETİR
             db.GetData($scope.Firma,'StokKartBirimListeGetir',[pKodu],function(BirimData)
@@ -595,6 +657,7 @@ function StokCtrl ($scope,$window,$location,db)
     {        
         UserParam = Param[$window.sessionStorage.getItem('User')];
         
+        $scope.AltBirimFiyati = "0.00 €";
         $scope.StokListe = [];
         $scope.FiyatListe = [];
         $scope.BirimListe = [];
@@ -640,62 +703,54 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.Kaydet = function()
     {
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        async function()
-        { 
-            if($scope.StokListe[0].CODE == '')
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü boş geçemezsiniz !");
-                return;
-            }
-            
-            if($scope.StokListe[0].ITEM_CUSTOMER == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
-                return;
-            }
-            
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.StokListe[0].CODE,
-                $scope.StokListe[0].NAME,
-                $scope.StokListe[0].SNAME,
-                $scope.StokListe[0].ITEM_GRP,
-                $scope.StokListe[0].TYPE,
-                $scope.StokListe[0].VAT,                    
-                $scope.StokListe[0].COST_PRICE,
-                $scope.StokListe[0].MIN_PRICE,
-                $scope.StokListe[0].MAX_PRICE,
-                $scope.StokListe[0].STATUS,
-                $scope.StokListe[0].PLU,
-                $scope.StokListe[0].TARTIM
-            ];
-            
-            db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                    // ANA BİRİM KAYIT İŞLEMİ 
-                    if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
-                    {
-                        BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,$scope.StokListe[0].MAIN_UNIT_FACTOR]);                
-                    }
-                    // ALT BİRİM KAYIT İŞLEMİ 
-                    if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
-                    {
-                        BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
-                    }
-                }
-            });     
+        if($scope.StokListe[0].CODE == '')
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+            return;
         }
-        ,function(){});
+        
+        if($scope.StokListe[0].ITEM_CUSTOMER == "")
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
+            return;
+        }
+        
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.StokListe[0].CODE,
+            $scope.StokListe[0].NAME,
+            $scope.StokListe[0].SNAME,
+            $scope.StokListe[0].ITEM_GRP,
+            $scope.StokListe[0].TYPE,
+            $scope.StokListe[0].VAT,                    
+            $scope.StokListe[0].COST_PRICE,
+            $scope.StokListe[0].MIN_PRICE,
+            $scope.StokListe[0].MAX_PRICE,
+            $scope.StokListe[0].STATUS,
+            $scope.StokListe[0].PLU,
+            $scope.StokListe[0].TARTIM
+        ];
+        
+        db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                // ANA BİRİM KAYIT İŞLEMİ 
+                if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
+                {
+                    BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,$scope.StokListe[0].MAIN_UNIT_FACTOR]);                
+                }
+                // ALT BİRİM KAYIT İŞLEMİ 
+                if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
+                {
+                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
+                }
+            }
+        });
     }
     $scope.Sil = function()
     {
@@ -724,238 +779,183 @@ function StokCtrl ($scope,$window,$location,db)
     {
         $("#MdlFiyatEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        function()
-        { 
-            if($scope.FiyatModal.StokKodu == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Stok kodu bölümünü girmeden kayıt edemezsiniz !");
-                return;
-            }
-
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.FiyatModal.StokKodu,
-                $scope.FiyatModal.Tip,
-                $scope.FiyatModal.Depo,
-                $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Baslangic,
-                $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Bitis,
-                $scope.FiyatModal.Fiyat,
-                $scope.FiyatModal.Miktar,                   
-                $scope.FiyatModal.Cari
-            ];
-
-            db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                    //FİYAT LİSTESİ GETİR
-                    db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
-                    {
-                        $scope.FiyatListe = FiyatData;
-                        $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-                    });
-                }
-            });    
-        }
-        ,function()
+        if($scope.FiyatModal.StokKodu == "")
         {
-            $("#MdlFiyatEkle").modal('show')
-        });
+            alertify.okBtn("Tamam");
+            alertify.alert("Stok kodu bölümünü girmeden kayıt edemezsiniz !");
+            return;
+        }
+
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.FiyatModal.StokKodu,
+            $scope.FiyatModal.Tip,
+            $scope.FiyatModal.Depo,
+            $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Baslangic,
+            $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Bitis,
+            $scope.FiyatModal.Fiyat,
+            $scope.FiyatModal.Miktar,                   
+            $scope.FiyatModal.Cari
+        ];
+
+        db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                //FİYAT LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
+                {
+                    $scope.FiyatListe = FiyatData;
+                    $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                });
+            }
+        });    
     }
     $scope.BtnBirimKaydet = function()
     {
         $("#MdlBirimEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        function()
-        { 
-            if($scope.BirimModal.Adi == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Adı bölümünü girmeden kayıt edemezsiniz !");
-                return;
-            }
-
-            BirimKaydet();    
-        }
-        ,function()
+        if($scope.BirimModal.Adi == "")
         {
-            $("#MdlBirimEkle").modal('show')
-        });
+            alertify.okBtn("Tamam");
+            alertify.alert("Adı bölümünü girmeden kayıt edemezsiniz !");
+            return;
+        }
+
+        BirimKaydet();
     }
-    $scope.BtnBarkodKaydet = function()
+    $scope.BtnBarkodKaydet = async function()
     {
         $("#MdlBarkodEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        async function()
-        { 
-            if($scope.BarkodModal.Barkod == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Barkod bölümünü girmeden kayıt edemezsiniz !");
-                return;
-            }
-
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "SELECT [BARCODE] FROM ITEM_BARCODE WHERE [BARCODE] = @BARCODE",
-                param: ['BARCODE:string|50'],
-                value: [$scope.BarkodModal.Barkod]
-            }
-
-            let TmpResult = await db.GetPromiseQuery(TmpQuery);
-
-            if(TmpResult.length > 0)
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Girimiş olduğunuz barkod sistemde kayıtlı !");
-                return;
-            }
-
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.StokListe[0].CODE,
-                $scope.BarkodModal.Barkod,
-                $scope.BarkodModal.Birim,
-                $scope.BarkodModal.Tip
-            ];
-
-            db.ExecuteTag($scope.Firma,'BarkodKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                    //BARKOD LİSTESİ GETİR
-                    db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
-                    {
-                        $scope.BarkodListe = BarkodData;
-                        $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
-                        $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
-                    });
-                }
-            });    
-        }
-        ,function()
+        if($scope.BarkodModal.Barkod == "")
         {
-            $("#MdlBarkodEkle").modal('show')
+            alertify.okBtn("Tamam");
+            alertify.alert("Barkod bölümünü girmeden kayıt edemezsiniz !");
+            return;
+        }
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [BARCODE] FROM ITEM_BARCODE WHERE [BARCODE] = @BARCODE",
+            param: ['BARCODE:string|50'],
+            value: [$scope.BarkodModal.Barkod]
+        }
+
+        let TmpResult = await db.GetPromiseQuery(TmpQuery);
+
+        if(TmpResult.length > 0)
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Girimiş olduğunuz barkod sistemde kayıtlı !");
+            return;
+        }
+
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.StokListe[0].CODE,
+            $scope.BarkodModal.Barkod,
+            $scope.BarkodModal.Birim,
+            $scope.BarkodModal.Tip
+        ];
+
+        db.ExecuteTag($scope.Firma,'BarkodKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                //BARKOD LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
+                {
+                    $scope.BarkodListe = BarkodData;
+                    $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
+                    $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                });
+            }
         });
     }
-    $scope.BtnTedarikciKaydet = function()
+    $scope.BtnTedarikciKaydet = async function()
     {
         $("#MdlTedarikciEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        async function()
-        { 
-            if($scope.TedarikciModal.Kodu == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Tedarikçi kodu bölümünü girmeden kayıt edemezsiniz !");
-                return;
-            }
-
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.StokListe[0].CODE,
-                $scope.TedarikciModal.Kodu,
-                $scope.TedarikciModal.StokKodu
-            ];
-
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
-                param: ['CUSTOMER_ITEM_CODE:string|25'],
-                value: [$scope.TedarikciModal.StokKodu]
-            }
-
-            let TmpResult = await db.GetPromiseQuery(TmpQuery);
-
-            if(TmpResult.length > 0)
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı !");
-                return;
-            }
-
-            db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                    //TEDARİKÇİ LİSTESİ GETİR
-                    db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                    {
-                        $scope.TedaikciListe = TedarikciData;
-                        $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                        $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu;
-                        $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
-                    });
-                }
-            });    
-        }
-        ,function()
+        if($scope.TedarikciModal.Kodu == "")
         {
-            $("#MdlTedarikciEkle").modal('show')
+            alertify.okBtn("Tamam");
+            alertify.alert("Tedarikçi kodu bölümünü girmeden kayıt edemezsiniz !");
+            return;
+        }
+
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.StokListe[0].CODE,
+            $scope.TedarikciModal.Kodu,
+            $scope.TedarikciModal.StokKodu
+        ];
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
+            param: ['CUSTOMER_ITEM_CODE:string|25'],
+            value: [$scope.TedarikciModal.StokKodu]
+        }
+
+        let TmpResult = await db.GetPromiseQuery(TmpQuery);
+
+        if(TmpResult.length > 0)
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı !");
+            return;
+        }
+
+        db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                //TEDARİKÇİ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                {
+                    $scope.TedaikciListe = TedarikciData;
+                    $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
+                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu;
+                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                });
+            }
         });
     }
     $scope.BtnUrunGrupKaydet = function()
     {
         $("#MdlUrunGrupEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
-
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
-        function()
-        { 
-            if($scope.UrunGrupModal.Kodu == "")
-            {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
-                return;
-            }
-
-            let InsertData =
-            [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
-                $scope.UrunGrupModal.Kodu,
-                $scope.UrunGrupModal.Adi
-            ];
-
-            db.ExecuteTag($scope.Firma,'UrunGrupKaydet',InsertData,function(InsertResult)
-            { 
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {  
-                   
-                }
-            });    
-        }
-        ,function()
+        if($scope.UrunGrupModal.Kodu == "")
         {
-            $("#MdlUrunGrupEkle").modal('show')
-        });
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
+            return;
+        }
+
+        let InsertData =
+        [
+            UserParam.Kullanici,
+            UserParam.Kullanici,
+            $scope.UrunGrupModal.Kodu,
+            $scope.UrunGrupModal.Adi
+        ];
+
+        db.ExecuteTag($scope.Firma,'UrunGrupKaydet',InsertData,function(InsertResult)
+        { 
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {  
+                
+            }
+        });  
     }
     $scope.BtnGridSec = function()
     {

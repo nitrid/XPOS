@@ -101,11 +101,14 @@ var QuerySql =
                 "WHEN [TYPE] = 2 THEN 'Satış Anlaşması' " + 
                 "ELSE '' END AS [TYPENAME] " +
                 ",[DEPOT] " +
-                ",CASE WHEN [START_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[START_DATE],104) END AS [START_DATE] " +
-                ",CASE WHEN [FINISH_DATE] = '19700101' THEN '' ELSE CONVERT(nvarchar(25),[FINISH_DATE],104) END AS [FINISH_DATE] " +
+                ",CONVERT(NVARCHAR,[START_DATE],104) AS [START_DATE] " +
+                ",CONVERT(NVARCHAR,[FINISH_DATE],104) AS [FINISH_DATE] " +
                 ",[PRICE] " +
                 ",[QUANTITY] " +
                 ",[CUSTOMER] " +
+                ",ROUND([PRICE] / (((SELECT VAT FROM ITEMS WHERE CODE = [ITEM_CODE]) / 100) + 1),2) AS EXVAT " +
+                ",CONVERT(NVARCHAR,ROUND(([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / 1.27,2)) + '€ - %' + CONVERT(NVARCHAR,ROUND(((([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / 1.27) / [PRICE]) * 100,0)) AS NETMARJ " +
+                ",CONVERT(NVARCHAR,ROUND([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0),2)) + '€ - %' + CONVERT(NVARCHAR,ROUND((([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / [PRICE]) * 100,0)) AS BRUTMARJ " +
                 "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1 ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
@@ -192,8 +195,8 @@ var QuerySql =
     },
     FiyatUpdate :
     {
-        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
-        param : ['PRICE:float','QUANTITY:float','GUID:string|50']
+        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY,START_DATE = @START_DATE,FINISH_DATE = @FINISH_DATE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
+        param : ['PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
     },
     BirimKaydet : 
     {
@@ -650,7 +653,7 @@ var QuerySql =
     StokGetir : 
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
@@ -667,7 +670,7 @@ var QuerySql =
     BarkodGetir:
     {
         query : "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
@@ -923,15 +926,15 @@ var QuerySql =
     },
     PosSatisMiktarUpdate : 
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,[DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
-        param: ['QUANTITY','DISCOUNT','GUID'],
-        type:  ['float','float','string|50']
+        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,[DISCOUNT] = @DISCOUNT,[PRICE] = @PRICE WHERE GUID = @GUID",
+        param: ['QUANTITY','DISCOUNT','PRICE','GUID'],
+        type:  ['float','float','float','string|50']
     },
     PosSatisMiktarUpdate1 :
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = (QUANTITY * @QUANTITY),[DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
-        param: ['QUANTITY','DISCOUNT','GUID'],
-        type:  ['float','float','string|50']
+        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = (QUANTITY * @QUANTITY),[DISCOUNT] = @DISCOUNT,[PRICE] = @PRICE WHERE GUID = @GUID",
+        param: ['QUANTITY','DISCOUNT','PRICE','GUID'],
+        type:  ['float','float','float','string|50']
     },
     TicketInsert :
     {

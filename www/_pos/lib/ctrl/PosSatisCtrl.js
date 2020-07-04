@@ -1130,15 +1130,33 @@ function PosSatisCtrl($scope,$window,db)
     
         localStorage.KasaKodu = $scope.Kasa
     }
-    $scope.PosSatisMiktarUpdate = function(pMiktar)
+    $scope.PosSatisMiktarUpdate = async function(pMiktar)
     {   
         let pIskonto = 0;
+        let pFiyat = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE;
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
+            param: ['ITEM_CODE','QUANTITY'],
+            type:  ['string|50','float'],
+            value: [$scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE,pMiktar]
+        }
+
+        let TmpFiyatData = await db.GetPromiseQuery(TmpQuery)
+
+        if(TmpFiyatData.length > 0)
+        {
+            pFiyat = TmpFiyatData[0].PRICE;
+        }
+        
         if($scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT > 0)
         {
             let pOran = $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT / ($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE);
-            pIskonto = (pMiktar * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE) * pOran;
+            pIskonto = (pMiktar * pFiyat) * pOran;
         }     
-        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pIskonto,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
+        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pIskonto,pFiyat,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
         {          
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
             {  
@@ -1154,15 +1172,33 @@ function PosSatisCtrl($scope,$window,db)
             });          
         });
     }
-    $scope.PosSatisMiktarUpdate1 = function(pMiktar)
+    $scope.PosSatisMiktarUpdate1 = async function(pMiktar)
     {   
         let pIskonto = 0;
+        let pFiyat = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE;
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
+            param: ['ITEM_CODE','QUANTITY'],
+            type:  ['string|50','float'],
+            value: [$scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE,pMiktar]
+        }
+
+        let TmpFiyatData = await db.GetPromiseQuery(TmpQuery)
+
+        if(TmpFiyatData.length > 0)
+        {
+            pFiyat = TmpFiyatData[0].PRICE;
+        }
+
         if($scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT > 0)
         {
             let pOran = $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT / ($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE);
-            pIskonto = (pMiktar * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE) * pOran;
+            pIskonto = (pMiktar * pFiyat) * pOran;
         }     
-        db.GetData($scope.Firma,'PosSatisMiktarUpdate1',[pMiktar,pIskonto,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
+        db.GetData($scope.Firma,'PosSatisMiktarUpdate1',[pMiktar,pIskonto,pFiyat,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
         {          
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
             {   
