@@ -5,14 +5,14 @@ function StokCtrl ($scope,$window,$location,db)
     let ModalTip = "";
     $scope.Birim = 
     [
-        {Adi : "Unité"},
-        {Adi : "Kilogramme"},
-        {Adi : "Colis"},
-        {Adi : "Heure"},
-        {Adi : "Litre"},
-        {Adi : "Metre"},
-        {Adi : "Metre Carre"},
-        {Adi : "Jour"}
+        {Adi : "Unité/U",Kodu:"Unité"},
+        {Adi : "Kilogramme/KG",Kodu:"Kilogramme"},
+        {Adi : "Colis/CO",Kodu:"Colis"},
+        {Adi : "Heure/H",Kodu:"Heure"},
+        {Adi : "Litre/L",Kodu:"Litre"},
+        {Adi : "Metre/M",Kodu:"Metre"},
+        {Adi : "Metre Carre/M2",Kodu:"Metre Carre"},
+        {Adi : "Jour/J",Kodu:"Jour"}
     ];
     
     let DateField = function (config) 
