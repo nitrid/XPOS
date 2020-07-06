@@ -77,7 +77,7 @@
                         </label>
                         <div class="col-md-7">
                             <div class="input-group">
-                                <select class="form-control" ng-model="StokListe[0].UNDER_UNIT_NAME">
+                                <select class="form-control" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
                                     <option ng-repeat="option in Birim" value="{{option.Kodu}}">{{option.Kodu + '/' + option.Symbol}}</option>                                
                                 </select>  
                                 <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" />
