@@ -577,7 +577,16 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 $scope.FiyatListe = FiyatData;
                 $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-                $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€";
+
+                let TmpSymbol = "";
+                for(let i=0;i<$scope.Birim.length;i++)
+                {
+                    if($scope.StokListe[0].UNDER_UNIT_NAME == $scope.Birim[i].Kodu)
+                    {
+                        TmpSymbol = $scope.Birim[i].Symbol;
+                    }
+                }
+                $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
             });
             //BIRIM LİSTESİ GETİR
             db.GetData($scope.Firma,'StokKartBirimListeGetir',[pKodu],function(BirimData)
