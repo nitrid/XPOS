@@ -161,6 +161,7 @@ function StokCtrl ($scope,$window,$location,db)
                             {
                                 $scope.FiyatListe = FiyatData;
                                 $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                                $scope.CmbAltBirimChange();
                             });
                         });
                     }
@@ -171,6 +172,13 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.START_DATE,args.item.FINISH_DATE,args.item.GUID],function(data)
                 {
+                    //FİYAT LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
+                    {
+                        $scope.FiyatListe = FiyatData;
+                        $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                        $scope.CmbAltBirimChange();
+                    });
                 });
             }
         });
@@ -818,6 +826,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.FiyatListe = FiyatData;
                     $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                    $scope.CmbAltBirimChange();
                 });
             }
         });    
@@ -1335,13 +1344,22 @@ function StokCtrl ($scope,$window,$location,db)
     $scope.CmbAltBirimChange = function()
     {
         let TmpSymbol = "";
-        for(let i=0;i<$scope.Birim.length;i++)
+        let TmpFiyat = 0;
+
+        for(let i = 0; i < $scope.Birim.length; i++)
         {
             if($scope.StokListe[0].UNDER_UNIT_NAME == $scope.Birim[i].Kodu)
             {
                 TmpSymbol = $scope.Birim[i].Symbol;
             }
         }
-        $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
+        for (let i = 0; i < $scope.FiyatListe.length; i++) 
+        {
+            if($scope.FiyatListe[i].TYPE == 0 && $scope.FiyatListe[i].QUANTITY == 1)
+            {
+                TmpFiyat = $scope.FiyatListe[i].PRICE;
+            }
+        }
+        $scope.AltBirimFiyati = (TmpFiyat / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
     }
 }

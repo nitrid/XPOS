@@ -246,7 +246,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             {
                 if(pData[i][pFilter.toString().split('=')[0].trim()] == pFilter.toString().split('=')[1].trim())
                 {
-                    Sum += pData[i][pColumn];
+                    Sum += parseFloat(pData[i][pColumn]);
                 }
             }
             else

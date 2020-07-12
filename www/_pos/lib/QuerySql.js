@@ -924,18 +924,24 @@ var QuerySql =
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
+    PosSatisFiyatGetir : 
+    {
+        query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
+        param: ['ITEM_CODE','QUANTITY'],
+        type:  ['string|50','float']
+    },
     PosSatisMiktarUpdate : 
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,[DISCOUNT] = @DISCOUNT,[PRICE] = @PRICE WHERE GUID = @GUID",
-        param: ['QUANTITY','DISCOUNT','PRICE','GUID'],
-        type:  ['float','float','float','string|50']
+        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY WHERE GUID = @GUID",
+        param: ['QUANTITY','GUID'],
+        type:  ['float','string|50']
     },
-    PosSatisMiktarUpdate1 :
+    PosSatisFiyatUpdate : 
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = (QUANTITY * @QUANTITY),[DISCOUNT] = @DISCOUNT,[PRICE] = @PRICE WHERE GUID = @GUID",
-        param: ['QUANTITY','DISCOUNT','PRICE','GUID'],
-        type:  ['float','float','float','string|50']
-    },
+        query: "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE WHERE GUID = @GUID",
+        param: ['PRICE','GUID'],
+        type:  ['float','string|50']
+    },    
     TicketInsert :
     {
         query : "INSERT INTO [dbo].[TICKET] (  " +

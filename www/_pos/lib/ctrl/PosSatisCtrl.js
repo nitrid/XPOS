@@ -591,7 +591,7 @@ function PosSatisCtrl($scope,$window,db)
     {   
         if($scope.TxtBarkod.indexOf("-") != -1)
         {   
-            $scope.PosSatisMiktarUpdate($scope.TxtBarkod.split("-")[1]);
+            $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("-")[1]);
         }
         else if($scope.TxtBarkod.indexOf("/") != -1)
         {
@@ -599,7 +599,7 @@ function PosSatisCtrl($scope,$window,db)
         }
         else if($scope.TxtBarkod.indexOf("*") != -1)
         {
-            $scope.PosSatisMiktarUpdate1($scope.TxtBarkod.split("*")[1]);
+            $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("*")[1] * $scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY);
         }
         else
         {   
@@ -632,7 +632,26 @@ function PosSatisCtrl($scope,$window,db)
         {   
             $scope.TxtAraToplamTutar = "";
         }
-    }    
+    }  
+    function FiyatUpdate(pData)
+    {
+        return new Promise(async resolve => 
+        {
+            let TmpMiktar = db.SumColumn($scope.SatisList,"QUANTITY","ITEM_CODE = " + pData.ITEM_CODE);
+            let TmpFiyat = pData.PRICE;
+
+            let TmpFiyatData = await db.GetPromiseTag($scope.Firma,'PosSatisFiyatGetir',[pData.ITEM_CODE,TmpMiktar]);
+                            
+            if(TmpFiyatData.length > 0)
+            {
+                TmpFiyat = TmpFiyatData[0].PRICE;
+            }
+
+            await db.GetPromiseTag($scope.Firma,'PosSatisFiyatUpdate',[TmpFiyat,pData.GUID]);
+
+            resolve();
+        });
+    }  
     document.onkeydown = function(e)
     {
         if($window.location.hash == "#!/POSSatis")
@@ -1013,10 +1032,19 @@ function PosSatisCtrl($scope,$window,db)
             0  //DURUM
         ];
         
-        db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,function(InsertResult)
-        {   
+        db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,async function(InsertResult)
+        {               
             if(typeof(InsertResult.result.err) == 'undefined')
-            {                                        
+            {   
+                //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
+                let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                $scope.SatisList = TmpSatisData;
+
+                for (let i = 0; i < $scope.SatisList.length; i++) 
+                {               
+                    await FiyatUpdate($scope.SatisList[i]);
+                }  
+                /***************************************************************** */
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
                 {   
                     db.LCDPrint
@@ -1130,34 +1158,18 @@ function PosSatisCtrl($scope,$window,db)
     
         localStorage.KasaKodu = $scope.Kasa
     }
-    $scope.PosSatisMiktarUpdate = async function(pMiktar)
+    $scope.PosSatisMiktarUpdate = function(pData,pMiktar)
     {   
-        let pIskonto = 0;
-        let pFiyat = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE;
+        pData.QUANTITY = pMiktar;
 
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
-            param: ['ITEM_CODE','QUANTITY'],
-            type:  ['string|50','float'],
-            value: [$scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE,pMiktar]
-        }
-
-        let TmpFiyatData = await db.GetPromiseQuery(TmpQuery)
-
-        if(TmpFiyatData.length > 0)
-        {
-            pFiyat = TmpFiyatData[0].PRICE;
-        }
-        
-        if($scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT > 0)
-        {
-            let pOran = $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT / ($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE);
-            pIskonto = (pMiktar * pFiyat) * pOran;
-        }     
-        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pIskonto,pFiyat,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
-        {          
+        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pData.GUID],async function(data)
+        {    
+            //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */      
+            for (let i = 0; i < $scope.SatisList.length; i++) 
+            {               
+                await FiyatUpdate($scope.SatisList[i]);
+            }
+            //**************************************************************** */
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
             {  
                 InsertSonYenile(PosSatisData);  
@@ -1170,48 +1182,6 @@ function PosSatisCtrl($scope,$window,db)
                     InsertFisYenile(PosSatisFisData);   
                 }); 
             });          
-        });
-    }
-    $scope.PosSatisMiktarUpdate1 = async function(pMiktar)
-    {   
-        let pIskonto = 0;
-        let pFiyat = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE;
-
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
-            param: ['ITEM_CODE','QUANTITY'],
-            type:  ['string|50','float'],
-            value: [$scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE,pMiktar]
-        }
-
-        let TmpFiyatData = await db.GetPromiseQuery(TmpQuery)
-
-        if(TmpFiyatData.length > 0)
-        {
-            pFiyat = TmpFiyatData[0].PRICE;
-        }
-
-        if($scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT > 0)
-        {
-            let pOran = $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT / ($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY * $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE);
-            pIskonto = (pMiktar * pFiyat) * pOran;
-        }     
-        db.GetData($scope.Firma,'PosSatisMiktarUpdate1',[pMiktar,pIskonto,pFiyat,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
-        {          
-            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
-            {   
-                InsertSonYenile(PosSatisData);      
-                $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-                $scope.ToplamMiktar = db.SumColumn($scope.SatisList,"QUANTITY")
-                $scope.ToplamSatir =  $scope.SatisList.length
-
-                db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
-                {  
-                    InsertFisYenile(PosSatisFisData);   
-                }); 
-            });         
         });
     }
     $scope.TxtBarkodPress = function(keyEvent)
@@ -1361,7 +1331,7 @@ function PosSatisCtrl($scope,$window,db)
         {   
             if($scope.IslemListeSelectedIndex > -1)
             {
-                db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(data)
+                db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],async function(data)
                 {
                     if(typeof(data.result.err) == 'undefined')
                     {
@@ -1379,6 +1349,15 @@ function PosSatisCtrl($scope,$window,db)
                         }
                         else
                         {
+                            //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
+                            let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                            $scope.SatisList = TmpSatisData;
+
+                            for (let i = 0; i < $scope.SatisList.length; i++) 
+                            {               
+                                await FiyatUpdate($scope.SatisList[i]);
+                            }  
+                            /***************************************************************** */
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                             {
                                 $scope.SatisList = data;
