@@ -93,23 +93,30 @@ var QuerySql =
     },
     StokKartFiyatListeGetir : 
     {
-        query : "SELECT " +
-                "[GUID] " +
-                ",[TYPE] " +
-                ",CASE WHEN [TYPE] = 0 THEN 'Standart' " +
+        query : "SELECT *, " + 
+                "ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0) AS NETMARJORAN, " + 
+                "CONVERT(nvarchar,ROUND((EXVAT - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0)) AS NETMARJ, " + 
+                "ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0) AS BRUTMARJORAN, " + 
+                "CONVERT(nvarchar,ROUND(EXVAT - COST_PRICE,2)) + '€ / %' + CONVERT(nvarchar,ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0)) AS BRUTMARJ " + 
+                "FROM " + 
+                "(SELECT " + 
+                "[GUID] " + 
+                ",[TYPE] " + 
+                ",[LDATE] " + 
+                ",CASE WHEN [TYPE] = 0 THEN 'Standart' " + 
                 "WHEN [TYPE] = 1 THEN 'Alış Anlaşması' " + 
                 "WHEN [TYPE] = 2 THEN 'Satış Anlaşması' " + 
-                "ELSE '' END AS [TYPENAME] " +
-                ",[DEPOT] " +
-                ",CONVERT(NVARCHAR,[START_DATE],104) AS [START_DATE] " +
-                ",CONVERT(NVARCHAR,[FINISH_DATE],104) AS [FINISH_DATE] " +
-                ",[PRICE] " +
-                ",[QUANTITY] " +
-                ",[CUSTOMER] " +
-                ",ROUND([PRICE] / (((SELECT VAT FROM ITEMS WHERE CODE = [ITEM_CODE]) / 100) + 1),2) AS EXVAT " +
-                ",CONVERT(NVARCHAR,ROUND(([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / 1.27,2)) + '€ - %' + CONVERT(NVARCHAR,ROUND(((([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / 1.27) / [PRICE]) * 100,0)) AS NETMARJ " +
-                ",CONVERT(NVARCHAR,ROUND([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0),2)) + '€ - %' + CONVERT(NVARCHAR,ROUND((([PRICE] - ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0)) / [PRICE]) * 100,0)) AS BRUTMARJ " +
-                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1 ORDER BY LDATE DESC",
+                "ELSE '' END AS [TYPENAME] " + 
+                ",[DEPOT] " + 
+                ",CONVERT(NVARCHAR,[START_DATE],104) AS [START_DATE] " + 
+                ",CONVERT(NVARCHAR,[FINISH_DATE],104) AS [FINISH_DATE] " + 
+                ",[PRICE] " + 
+                ",[QUANTITY] " + 
+                ",[CUSTOMER] " + 
+                ",ROUND([PRICE] / (((SELECT VAT FROM ITEMS WHERE CODE = [ITEM_CODE]) / 100) + 1),2) AS EXVAT " + 
+                ",ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE ITEMS.CODE = ITEM_CODE),0) AS COST_PRICE " + 
+                "FROM [dbo].[ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [TYPE] <> 1) " + 
+                "AS TMP ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
     },
     StokKartBirimListeGetir : 

@@ -85,7 +85,7 @@ function StokCtrl ($scope,$window,$location,db)
                     name: "DEPOT",
                     title : "Depo",
                     align: "center",
-                    width: 100
+                    width: 100                   
                 },
                 {
                     name: "START_DATE",
@@ -131,13 +131,35 @@ function StokCtrl ($scope,$window,$location,db)
                     name: "BRUTMARJ",
                     title : "BRUT MARJ",
                     align: "center",
-                    width: 100
+                    width: 100,
+                    itemTemplate: function(value, item) 
+                    {
+                        if(item.BRUTMARJORAN > 30)
+                        {
+                            return "<div style='color:red'>" + value + "</div>"
+                        }
+                        else
+                        {
+                            return "<div>" + value + "</div>"
+                        }
+                    }
                 },
                 {
                     name: "NETMARJ",
                     title : "NET MARJ",
                     align: "center",
-                    width: 100
+                    width: 100,
+                    itemTemplate: function(value, item) 
+                    {
+                        if(item.NETMARJORAN > 30)
+                        {
+                            return "<div style='color:red'>" + value + "</div>"
+                        }
+                        else
+                        {
+                            return "<div>" + value + "</div>"
+                        }
+                    }
                 },
                 { type: "control", modeSwitchButton: true, editButton: false }  
             ],
