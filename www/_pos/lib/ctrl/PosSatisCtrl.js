@@ -233,6 +233,13 @@ function PosSatisCtrl($scope,$window,db)
             fields: 
             [
             {
+                name: "NO",
+                title: "NO",
+                type: "text",
+                align: "center",
+                width: 30
+            },
+            {
                 name: "ITEM_NAME",
                 title: "ADI",
                 type: "text",
