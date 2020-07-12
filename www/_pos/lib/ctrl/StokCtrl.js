@@ -134,13 +134,13 @@ function StokCtrl ($scope,$window,$location,db)
                     width: 100,
                     itemTemplate: function(value, item) 
                     {
-                        if(item.BRUTMARJORAN > 30)
+                        if(item.BRUTMARJORAN < 30)
                         {
                             return "<div style='color:red'>" + value + "</div>"
                         }
                         else
                         {
-                            return "<div>" + value + "</div>"
+                            return "<div style='color:blue'>" + value + "</div>"
                         }
                     }
                 },
@@ -151,13 +151,13 @@ function StokCtrl ($scope,$window,$location,db)
                     width: 100,
                     itemTemplate: function(value, item) 
                     {
-                        if(item.NETMARJORAN > 30)
+                        if(item.NETMARJORAN < 30)
                         {
                             return "<div style='color:red'>" + value + "</div>"
                         }
                         else
                         {
-                            return "<div>" + value + "</div>"
+                            return "<div style='color:blue'>" + value + "</div>"
                         }
                     }
                 },
