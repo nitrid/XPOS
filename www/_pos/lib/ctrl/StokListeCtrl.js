@@ -20,6 +20,12 @@ function StokListeCtrl ($scope,$window,db)
             width: 100
         },
         {
+            name: "BARCODE",
+            title : "BARCODE",
+            align: "left",
+            width: 75
+        },
+        {
             name: "SNAME",
             title : "SNAME",
             align: "left",
@@ -32,7 +38,7 @@ function StokListeCtrl ($scope,$window,db)
             align: "left",
             width: 75,
             visible: false
-        },
+        },        
         {
             name: "VAT",
             title : "VAT",
@@ -67,14 +73,7 @@ function StokListeCtrl ($scope,$window,db)
             align: "left",
             width: 75,
             visible: false
-        },
-        {
-            name: "BARCODE",
-            title : "BARCODE",
-            align: "left",
-            width: 75,
-            visible: false
-        },
+        },        
         {
             name: "PRICE",
             title : "PRICE",
@@ -229,7 +228,7 @@ function StokListeCtrl ($scope,$window,db)
         $scope.Data = [];
         $scope.GrupList = [];
 
-        $scope.Kolon = ["CODE","NAME"];
+        $scope.Kolon = ["CODE","NAME","BARCODE"];
         $scope.Barkod = "";
         $scope.Adi = "";
         $scope.Grup = "";
