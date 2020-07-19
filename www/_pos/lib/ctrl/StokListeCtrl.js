@@ -124,7 +124,7 @@ function StokListeCtrl ($scope,$window,db)
             selecting: true,
             data : $scope.Data,
             paging : true,
-            pageSize: 20,
+            pageSize: 100,
             pageButtonCount: 5,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: TmpFields
