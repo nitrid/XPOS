@@ -90,7 +90,25 @@ function StokListeCtrl ($scope,$window,db)
             visible: false
         }
     ];
-
+    let QueryField = 
+    {
+        Unit:
+        {
+            Field : "",
+            Outer : "",
+        },
+        Price:
+        {
+            Field : "",
+            Outer : "",
+        },
+        Customer:
+        {
+            Field : "",
+            Outer : "",
+            Where : "",
+        }
+    }
     function TblStokInit()
     {
         $("#TblStok").jsGrid
@@ -109,6 +127,14 @@ function StokListeCtrl ($scope,$window,db)
     }
     function StokGetir()
     {
+        QueryField.Unit.Field = "";
+        QueryField.Unit.Outer = "";
+        QueryField.Price.Field = "";
+        QueryField.Price.Outer = "";
+        QueryField.Customer.Field = "";
+        QueryField.Customer.Outer = "";        
+        QueryField.Customer.Where = "";
+
         let TmpVal = ""
         for (let i = 0; i < $scope.Barkod.split(',').length; i++) 
         {
@@ -118,6 +144,26 @@ function StokListeCtrl ($scope,$window,db)
                 TmpVal += ","
             }
         }
+
+        for (let x = 0; x < $scope.Kolon.length; x++) 
+        {
+            if($scope.Kolon[x] == "UNIT")    
+            {
+                QueryField.Unit.Field = "ISNULL(ITEM_UNIT.NAME,'') AS UNIT, ";
+                QueryField.Unit.Outer = "LEFT OUTER JOIN ITEM_UNIT ON ITEMS.CODE = ITEM_UNIT.ITEM_CODE ";
+            } 
+            if($scope.Kolon[x] == "PRICE")    
+            {
+                QueryField.Price.Field = "ISNULL(ITEM_PRICE.PRICE,0) AS PRICE, ";
+                QueryField.Price.Outer = "LEFT OUTER JOIN ITEM_PRICE ON ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 ";
+            } 
+            if($scope.Kolon[x] == "CUSTOMER_ITEM_CODE")    
+            {
+                QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ";
+                QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
+                QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
+            }                
+        } 
 
         let TmpQuery = 
         {
@@ -131,19 +177,19 @@ function StokListeCtrl ($scope,$window,db)
                     "ITEMS.COST_PRICE AS COST_PRICE, " +
                     "ITEMS.MIN_PRICE AS MIN_PRICE, " +
                     "ITEMS.MAX_PRICE AS MAX_PRICE, " +
-                    "ISNULL(ITEM_UNIT.NAME,'') AS UNIT, " +
+                    QueryField.Unit.Field +
                     "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, " +
-                    "ISNULL((SELECT PRICE FROM ITEM_PRICE WHERE ITEM_CODE = ITEMS.CODE AND QUANTITY = 1),0) AS PRICE, " +
-                    "ITEM_CUSTOMER.CUSTOMER_ITEM_CODE AS CUSTOMER_ITEM_CODE " +
+                    QueryField.Price.Field +
+                    QueryField.Customer.Field +
+                    "ITEMS.STATUS AS STATUS " +
                     "FROM ITEMS " +
-                    "LEFT OUTER JOIN ITEM_UNIT ON " +
-                    "ITEMS.CODE = ITEM_UNIT.ITEM_CODE " +
+                    QueryField.Unit.Outer +
                     "LEFT OUTER JOIN ITEM_BARCODE ON " +
-                    "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE AND ITEM_BARCODE.UNIT = ITEM_UNIT.GUID " +
-                    "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
-                    "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " +
-                    "WHERE ((ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR ITEMS.CODE IN (" + TmpVal + ") OR " + 
-                    "ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ")) OR (@BARCODE = '')) AND ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
+                    "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
+                    QueryField.Price.Outer +
+                    QueryField.Customer.Outer +
+                    "WHERE ((ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR ITEMS.CODE IN (" + TmpVal + ")) " + QueryField.Customer.Where + 
+                    "OR (@BARCODE = '')) AND ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit"],
             value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum]
