@@ -10,7 +10,7 @@ function StokListeCtrl ($scope,$window,db)
             width: 100,
             itemTemplate: function(value) 
             {
-                return $("<a>").attr("href", "#!Stok?Id='" + value + "'").text(value);
+                return $("<a>").attr("href", "#!Stok?Id=" + value).text(value);
             }            
         },
         {

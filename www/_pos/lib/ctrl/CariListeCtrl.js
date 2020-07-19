@@ -10,7 +10,7 @@ function CariListeCtrl ($scope,$window,db)
             width: 100,
             itemTemplate: function(value) 
             {
-                return $("<a>").attr("href", "#!Cari?Id='" + value + "'").text(value);
+                return $("<a>").attr("href", "#!Cari?Id=" + value).text(value);
             }            
         },
         {
