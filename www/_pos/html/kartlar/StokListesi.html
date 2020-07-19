@@ -13,7 +13,7 @@
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" autocomplete="off"/>
+                                <input type="text" class="form-control" autocomplete="off" ng-model="Barkod"/>
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" autocomplete="off"/>
+                                <input type="text" class="form-control" autocomplete="off" ng-model="Adi"/>
                             </div>
                         </div>
                     </div>
@@ -37,11 +37,9 @@
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <select class="form-control">
-                                    <option value="0">0</option>
-                                    <option value="5.5">5.5</option>
-                                    <option value="10">10</option>
-                                    <option value="20">20</option>
+                                <select class="form-control" ng-model="Grup">
+                                    <option value="">TÜMÜ</option>
+                                    <option ng-repeat="option in GrupList" value="{{option.CODE}}">{{option.NAME}}</option>
                                 </select>
                             </div>
                         </div>
@@ -51,19 +49,33 @@
             <div class="row">
                 <div class="col-2 offset-10">
                     <div class="checkbox-custom checkbox-primary">
-                        <input type="checkbox" id="inputChecked" checked=""/>
-                        <label for="inputChecked">Tüm Ürünlerde</label>
+                        <input type="checkbox" id="inputChecked" checked="" ng-model="Durum"/>
+                        <label for="inputChecked">Aktif</label>
                     </div>
                 </div>
             </div>
             <div class="row pb-2">
-                <div class="col-md-2 offset-8">
-                    <button class="btn btn-block btn-primary">
+                <div class="col-md-2">
+                    <!-- <button class="btn btn-block btn-primary" ng-click="BtnKolon()">
                         Kolon
-                    </button>
+                    </button> -->
+                    <select class="form-control select2-hidden-accessible" data-selected-text-format="count" multiple title="" ng-model="Kolon" ng-change="KolonChange()">
+                        <option value="CODE">CODE</option>
+                        <option value="NAME">NAME</option>
+                        <option value="SNAME">SNAME</option>
+                        <option value="ITEM_GRP">ITEM_GRP</option>
+                        <option value="VAT">VAT</option>
+                        <option value="COST_PRICE">COST_PRICE</option>
+                        <option value="MIN_PRICE">MIN_PRICE</option>
+                        <option value="MAX_PRICE">MAX_PRICE</option>
+                        <option value="UNIT">UNIT</option>
+                        <option value="BARCODE">BARCODE</option>
+                        <option value="PRICE">PRICE</option>
+                        <option value="CUSTOMER_ITEM_CODE">CUSTOMER_ITEM_CODE</option>
+                    </select>
                 </div>
-                <div class="col-md-2 offset-12">
-                    <button class="btn btn-block btn-primary">
+                <div class="col-md-2 offset-8">
+                    <button class="btn btn-block btn-primary" ng-click="BtnAra()">
                         Ara
                     </button>
                 </div>
@@ -73,16 +85,42 @@
                     <div id="TblStok" class="jsgrid"></div>
                 </div>
             </div>
-            <!-- <table id="Table" class="table table-hover dataTable table-striped w-full">
-                <thead>
-                  <tr>
-                    <th>KODU</th>
-                    <th>ADI</th>
-                    <th>KISA ADI</th>
-                    <th>GRUP</th>
-                  </tr>
-                </thead>
-            </table> -->
+        </div>
+    </div>
+    <!-- MODALLAR -->
+    <!-- Kolon Seçim Modal -->
+    <div class="modal fade cs" id="MdlKolon" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog cs modal-simple modal-sm modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Kolonlar</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row" ng-repeat="option in GrupList">
+                                <div class="col-12">
+                                    <div class="checkbox-custom checkbox-primary">
+                                        <input type="checkbox" id="inputChecked" checked=""/>
+                                        <label for="inputChecked">{{option.CODE}}</label>
+                                    </div> 
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-12">
+                                    <div class="checkbox-custom checkbox-primary">
+                                        <input type="checkbox" id="inputChecked" checked=""/>
+                                        <label for="inputChecked">Tüm Ürünlerde</label>
+                                    </div> 
+                                </div>
+                            </div>                     -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
