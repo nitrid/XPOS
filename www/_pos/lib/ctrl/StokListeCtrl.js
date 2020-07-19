@@ -107,6 +107,12 @@ function StokListeCtrl ($scope,$window,db)
             Field : "",
             Outer : "",
             Where : "",
+        },
+        Barcode:
+        {
+            Field : "",
+            Outer : "",
+            Where : "",
         }
     }
     function TblStokInit()
@@ -162,7 +168,13 @@ function StokListeCtrl ($scope,$window,db)
                 QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ";
                 QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
                 QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
-            }                
+            }   
+            if($scope.Kolon[x] == "BARCODE")    
+            {
+                QueryField.Barcode.Field = "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, ";
+                QueryField.Barcode.Outer = "LEFT OUTER JOIN ITEM_BARCODE ON ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ";
+                QueryField.Barcode.Where = "ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR"
+            }  
         } 
 
         let TmpQuery = 
@@ -178,17 +190,16 @@ function StokListeCtrl ($scope,$window,db)
                     "ITEMS.MIN_PRICE AS MIN_PRICE, " +
                     "ITEMS.MAX_PRICE AS MAX_PRICE, " +
                     QueryField.Unit.Field +
-                    "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, " +
+                    QueryField.Barcode.Field +
                     QueryField.Price.Field +
                     QueryField.Customer.Field +
                     "ITEMS.STATUS AS STATUS " +
                     "FROM ITEMS " +
                     QueryField.Unit.Outer +
-                    "LEFT OUTER JOIN ITEM_BARCODE ON " +
-                    "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
+                    QueryField.Barcode.Outer + 
                     QueryField.Price.Outer +
                     QueryField.Customer.Outer +
-                    "WHERE ((ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR ITEMS.CODE IN (" + TmpVal + ")) " + QueryField.Customer.Where + 
+                    "WHERE ((" + QueryField.Barcode.Where + " ITEMS.CODE IN (" + TmpVal + ")) " + QueryField.Customer.Where + 
                     "OR (@BARCODE = '')) AND ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit"],
