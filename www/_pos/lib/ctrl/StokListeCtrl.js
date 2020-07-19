@@ -6,7 +6,7 @@ function StokListeCtrl ($scope,$window,db)
             name: "CODE",
             title : "CODE",
             type : "text",
-            align: "center",
+            align: "left",
             width: 100,
             itemTemplate: function(value) 
             {
@@ -16,20 +16,20 @@ function StokListeCtrl ($scope,$window,db)
         {
             name: "NAME",
             title : "NAME",
-            align: "center",
+            align: "left",
             width: 100
         },
         {
             name: "SNAME",
             title : "SNAME",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "ITEM_GRP",
             title : "ITEM GRP",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
@@ -64,14 +64,14 @@ function StokListeCtrl ($scope,$window,db)
         {
             name: "UNIT",
             title : "UNIT",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "BARCODE",
             title : "BARCODE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
@@ -85,7 +85,7 @@ function StokListeCtrl ($scope,$window,db)
         {
             name: "CUSTOMER_ITEM_CODE",
             title : "CUSTOMER CODE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         }
