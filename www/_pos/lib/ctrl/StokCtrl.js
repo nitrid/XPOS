@@ -959,36 +959,27 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.okBtn('Evet');
             alertify.cancelBtn('Hayır');
 
-            alertify.confirm("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı ! Devam etmek istiyormusunuz ?",function()
+            alertify.confirm("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı ! Bu stoğa geçiş yapmak istiyormusunuz ?",function()
             {
-                //TEDARİKÇİ LİSTESİ GETİR
-                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                {
-                    $scope.TedaikciListe = TedarikciData;
-                    $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
-                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
+                { 
+                    if(typeof(InsertResult.result.err) == 'undefined')
+                    {  
+                        //TEDARİKÇİ LİSTESİ GETİR
+                        db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                        {
+                            $scope.TedaikciListe = TedarikciData;
+                            $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
+                            $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
+                            $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                        });
+                    }
                 });
             },function()
             {
                 return;
             });
-        }
-
-        db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
-        { 
-            if(typeof(InsertResult.result.err) == 'undefined')
-            {  
-                //TEDARİKÇİ LİSTESİ GETİR
-                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                {
-                    $scope.TedaikciListe = TedarikciData;
-                    $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
-                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
-                });
-            }
-        });
+        }        
     }
     $scope.BtnUrunGrupKaydet = function()
     {
