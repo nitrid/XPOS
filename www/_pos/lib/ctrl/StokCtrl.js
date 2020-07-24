@@ -787,12 +787,12 @@ function StokCtrl ($scope,$window,$location,db)
                 // ANA BİRİM KAYIT İŞLEMİ 
                 if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
                 {
-                    BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,$scope.StokListe[0].MAIN_UNIT_FACTOR]);                
+                    BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))]);                
                 }
                 // ALT BİRİM KAYIT İŞLEMİ 
                 if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
                 {
-                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
+                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);        
                 }
             }
 
