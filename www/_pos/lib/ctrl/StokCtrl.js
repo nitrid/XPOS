@@ -795,6 +795,8 @@ function StokCtrl ($scope,$window,$location,db)
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
                 }
             }
+
+            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
         });
     }
     $scope.Sil = function()
