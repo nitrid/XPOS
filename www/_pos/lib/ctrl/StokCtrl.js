@@ -795,8 +795,6 @@ function StokCtrl ($scope,$window,$location,db)
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
                 }
             }
-
-            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
         });
     }
     $scope.Sil = function()
@@ -1211,7 +1209,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
