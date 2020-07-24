@@ -1209,7 +1209,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
