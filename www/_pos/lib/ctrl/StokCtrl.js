@@ -796,10 +796,10 @@ function StokCtrl ($scope,$window,$location,db)
                 }
             }
 
-            // setTimeout(function () 
-            // {
-            //     window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
-            // },100)
+            setTimeout(function () 
+            {
+                window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
+            },100)
             
         });
     }
