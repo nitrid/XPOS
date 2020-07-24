@@ -1,3 +1,5 @@
+const { timeStamp } = require("console");
+
 function StokCtrl ($scope,$window,$location,db)
 {
     let UserParam = {};
@@ -742,13 +744,18 @@ function StokCtrl ($scope,$window,$location,db)
             StokGetir($location.$$search.Id);
         }
     }
+    $scope.Yeni = function()
+    {
+        window.location.href = "#!Stok";
+    }
     $scope.Kaydet = function()
     {
         if($scope.StokListe[0].CODE == '')
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
-            return;
+            $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
+            // alertify.okBtn("Tamam");
+            // alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+            // return;
         }
         
         if($scope.StokListe[0].ITEM_CUSTOMER == "")
@@ -1168,7 +1175,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
