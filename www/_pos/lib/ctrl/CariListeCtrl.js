@@ -157,7 +157,6 @@ function CariListeCtrl ($scope,$window,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            console.log(Data)
             $scope.Data = Data
             $("#TblCari").jsGrid({data : $scope.Data});
         });
