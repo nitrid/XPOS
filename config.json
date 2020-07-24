@@ -1,6 +1,6 @@
 {
     "port":"8090",
-    "server":"192.168.1.35",
+    "server":"DESKTOP-QJ2C4RA;1433",
     "database":"XPOS",
     "uid":"nitro",
     "pwd":"1122334455",
