@@ -634,6 +634,7 @@ function StokCtrl ($scope,$window,$location,db)
             db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[pKodu],function(TedarikciData)
             {
                 $scope.TedaikciListe = TedarikciData;
+                $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
                 $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
             });
         });
