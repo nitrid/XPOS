@@ -6,7 +6,7 @@ function CariListeCtrl ($scope,$window,db)
             name: "CODE",
             title : "CODE",
             type : "text",
-            align: "center",
+            align: "left",
             width: 100,
             itemTemplate: function(value) 
             {
@@ -16,97 +16,97 @@ function CariListeCtrl ($scope,$window,db)
         {
             name: "NAME",
             title : "NAME",
-            align: "center",
+            align: "left",
             width: 100
         },
         {
             name: "GENUS",
             title : "GENUS",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "LAST_NAME",
             title : "LAST NAME",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "CUSTOMER_GRP",
             title : "CUSTOMER GRP",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "PHONE1",
             title : "PHONE1",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "PHONE2",
             title : "PHONE2",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "GSM_PHONE",
             title : "GSM_PHONE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "OTHER_PHONE",
             title : "OTHER_PHONE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "EMAIL",
             title : "EMAIL",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "WEB",
             title : "WEB",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "SIRET_ID",
             title : "SIRET_ID",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "APE_CODE",
             title : "APE_CODE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "TAX_OFFICE",
             title : "TAX_OFFICE",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         },
         {
             name: "TAX_NO",
             title : "TAX_NO",
-            align: "center",
+            align: "left",
             width: 75,
             visible: false
         }
