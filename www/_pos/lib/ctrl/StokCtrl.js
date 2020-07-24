@@ -969,7 +969,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedaikciListe = TedarikciData;
                     $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu;
+                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
                     $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                 });
             }
