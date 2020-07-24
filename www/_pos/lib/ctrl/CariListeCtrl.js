@@ -34,13 +34,6 @@ function CariListeCtrl ($scope,$window,db)
             visible: false
         },
         {
-            name: "COMPANY",
-            title : "COMPANY",
-            align: "center",
-            width: 75,
-            visible: false
-        },
-        {
             name: "CUSTOMER_GRP",
             title : "CUSTOMER GRP",
             align: "center",
@@ -144,7 +137,6 @@ function CariListeCtrl ($scope,$window,db)
                     "GENUS AS GENUS, " + 
                     "NAME AS NAME, " + 
                     "LAST_NAME AS LAST_NAME, " + 
-                    "COMPANY AS COMPANY, " + 
                     "CUSTOMER_GRP AS CUSTOMER_GRP, " + 
                     "PHONE1 AS PHONE1, " + 
                     "PHONE2 AS PHONE2, " + 
@@ -158,7 +150,7 @@ function CariListeCtrl ($scope,$window,db)
                     "TAX_OFFICE AS TAX_OFFICE, " + 
                     "TAX_NO AS TAX_NO, " + 
                     "INT_VAT_NO AS INT_VAT_NO " + 
-                    "FROM CUSTOMERS WHERE ((CODE = @CODE) OR (@CODE = '')) AND ((COMPANY LIKE @NAME + '%') OR (NAME LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
+                    "FROM CUSTOMERS WHERE ((CODE = @CODE) OR (@CODE = '')) AND ((NAME LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
             param : ["CODE:string|50","NAME:string|250","GENUS:int"],
             value : [$scope.Kodu,$scope.Adi,$scope.Tip]
         }

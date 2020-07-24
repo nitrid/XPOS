@@ -397,7 +397,6 @@ var QuerySql =
                 "CONVERT(NVARCHAR,CUSTOMERS.[GENUS]) AS [GENUS], " +
                 "CUSTOMERS.[NAME] AS [NAME], " +
                 "CUSTOMERS.[LAST_NAME] AS [LAST_NAME], " +
-                "CUSTOMERS.[COMPANY] AS [COMPANY], " +
                 "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
                 "CUSTOMERS.[PHONE1] AS [PHONE1], " +
                 "CUSTOMERS.[PHONE2] AS [PHONE2], " +
@@ -438,7 +437,6 @@ var QuerySql =
                 ",[GENUS] " +
                 ",[NAME] " +
                 ",[LAST_NAME] " +
-                ",[COMPANY] " +
                 ",[CUSTOMER_GRP] " +
                 ",[PHONE1] " +
                 ",[PHONE2] " +
@@ -463,7 +461,6 @@ var QuerySql =
                 "@GENUS,				--<GENUS, smallint,> \n" +
                 "@NAME,		    	    --<NAME, nvarchar(100),> \n" +
                 "@LAST_NAME,		    --<LAST_NAME, nvarchar(100),> \n" +
-                "@COMPANY,				--<COMPANY, nvarchar(100),> \n" +
                 "@CUSTOMER_GRP,			--<CUSTOMER_GRP, nvarchar(25),> \n" +
                 "@PHONE1,			    --<PHONE1, nvarchar(20),> \n" +
                 "@PHONE2,			    --<PHONE2, nvarchar(20),> \n" +
@@ -487,7 +484,6 @@ var QuerySql =
                 ",[GENUS] = @GENUS " +
                 ",[NAME] = @NAME " +
                 ",[LAST_NAME] = @LAST_NAME " +
-                ",[COMPANY] = @COMPANY " +
                 ",[CUSTOMER_GRP] = @CUSTOMER_GRP " +
                 ",[PHONE1] = @PHONE1 " +
                 ",[PHONE2] = @PHONE2 " +
@@ -503,7 +499,7 @@ var QuerySql =
                 ",[INT_VAT_NO] = @INT_VAT_NO " +
                 ",[TAX_TYPE] = @TAX_TYPE " +
                 "WHERE [CODE] = @TMPCODE",
-        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','TYPE:int','GENUS:int','NAME:string|100','LAST_NAME:string|100','COMPANY:string|100',
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','TYPE:int','GENUS:int','NAME:string|100','LAST_NAME:string|100',
                  'CUSTOMER_GRP:string|25','PHONE1:string|20','PHONE2:string|20','GSM_PHONE:string|20','OTHER_PHONE:string|20','EMAIL:string|100','WEB:string|100',
                  'NOTE:string|200','SIRET_ID:string|20','APE_CODE:string|10','TAX_OFFICE:string|25','TAX_NO:string|30','INT_VAT_NO:string|30','TAX_TYPE:int']
     },

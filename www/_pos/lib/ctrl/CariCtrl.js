@@ -48,7 +48,6 @@ function CariCtrl ($scope,$window,$location,db)
         db.GetData($scope.Firma,'CariKartGetir',[pKodu],function(Data)
         {
             $scope.CariListe = Data;
-            console.log($scope.CariListe[0].COMPANY);
             $scope.TypeChange();
         });
     }
@@ -63,7 +62,7 @@ function CariCtrl ($scope,$window,$location,db)
     }
     $scope.Init = function()
     {
-        $scope.StyleKurum = {'visibility': 'hidden'};
+        $scope.StyleKurum = {'visibility': 'visible'};
         UserParam = Param[$window.sessionStorage.getItem('User')];
 
         $scope.CariListe = [];
@@ -77,7 +76,6 @@ function CariCtrl ($scope,$window,$location,db)
         TmpCariObj.GENUS = "0";
         TmpCariObj.NAME = "";
         TmpCariObj.LAST_NAME = "";
-        TmpCariObj.COMPANY = "";
         TmpCariObj.CUSTOMER_GRP = "";
         TmpCariObj.PHONE1 = "";
         TmpCariObj.PHONE2 = "";
@@ -124,7 +122,6 @@ function CariCtrl ($scope,$window,$location,db)
                     $scope.CariListe[0].GENUS,
                     $scope.CariListe[0].NAME,
                     $scope.CariListe[0].LAST_NAME,
-                    $scope.CariListe[0].COMPANY,                    
                     $scope.CariListe[0].CUSTOMER_GRP,
                     $scope.CariListe[0].PHONE1,
                     $scope.CariListe[0].PHONE2,
@@ -204,12 +201,12 @@ function CariCtrl ($scope,$window,$location,db)
     {
         if($scope.CariListe[0].TYPE == "0")
         {
-            $scope.StyleKurum = {'visibility': 'hidden'};
+            $scope.StyleKurum = {'visibility': 'visible'};
             //$scope.CariListe[0].COMPANY = "";
         }
         else if($scope.CariListe[0].TYPE == "1")
         {
-            $scope.StyleKurum = {'visibility': 'visible'};
+            $scope.StyleKurum = {'visibility': 'hidden'};
             //$scope.CariListe[0].COMPANY = "";
         }
     }
