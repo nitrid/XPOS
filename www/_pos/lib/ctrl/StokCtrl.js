@@ -772,9 +772,9 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].ITEM_GRP,
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,                    
-            $scope.StokListe[0].COST_PRICE.replace(',','.'),
-            $scope.StokListe[0].MIN_PRICE.replace(',','.'),
-            $scope.StokListe[0].MAX_PRICE.replace(',','.'),
+            parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
+            parseFloat($scope.StokListe[0].MIN_PRICE.toString().replace(',','.').toString().replace(',','.')),
+            parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.').toString().replace(',','.')),
             $scope.StokListe[0].STATUS,
             $scope.StokListe[0].PLU,
             $scope.StokListe[0].TARTIM
@@ -787,20 +787,16 @@ function StokCtrl ($scope,$window,$location,db)
                 // ANA BİRİM KAYIT İŞLEMİ 
                 if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
                 {
-                    BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,$scope.StokListe[0].MAIN_UNIT_FACTOR]);                
+                    BirimKaydet(["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))]);                
                 }
                 // ALT BİRİM KAYIT İŞLEMİ 
                 if($scope.StokListe[0].UNDER_UNIT_FACTOR != "0")
                 {
-                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,$scope.StokListe[0].UNDER_UNIT_FACTOR]);        
+                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);        
                 }
             }
 
-            setTimeout(function () 
-            {
-                window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
-            },100)
-            
+            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;            
         });
     }
     $scope.Sil = function()
@@ -1215,7 +1211,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
