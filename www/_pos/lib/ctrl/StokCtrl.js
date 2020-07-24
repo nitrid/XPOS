@@ -1,5 +1,3 @@
-const { timeStamp } = require("console");
-
 function StokCtrl ($scope,$window,$location,db)
 {
     let UserParam = {};

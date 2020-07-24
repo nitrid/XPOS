@@ -3,10 +3,10 @@ let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
 let escpos = require('escpos');
-escpos.USB = require('escpos-usb');
-escpos.Serial = require('escpos-serialport');
-escpos.Screen = require('escpos-screen');
-//let serialport = require('serialport')
+// escpos.USB = require('escpos-usb');
+// escpos.Serial = require('escpos-serialport');
+// escpos.Screen = require('escpos-screen');
+// //let serialport = require('serialport')
 
 let msql;
 let tsql;
