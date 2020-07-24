@@ -158,7 +158,7 @@ function CariListeCtrl ($scope,$window,db)
                     "TAX_OFFICE AS TAX_OFFICE, " + 
                     "TAX_NO AS TAX_NO, " + 
                     "INT_VAT_NO AS INT_VAT_NO " + 
-                    "FROM CUSTOMERS WHERE ((CODE = @CODE) OR (@CODE = '')) AND ((NAME = @NAME) OR (@NAME = ''))",
+                    "FROM CUSTOMERS WHERE ((CODE = @CODE) OR (@CODE = '')) AND ((COMPANY LIKE @NAME + '%') OR (@NAME = ''))",
             param : ["CODE:string|50","NAME:string|250"],
             value : [$scope.Kodu,$scope.Adi,]
         }
