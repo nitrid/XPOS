@@ -598,11 +598,9 @@ function StokCtrl ($scope,$window,$location,db)
     }
     function StokGetir(pKodu)
     {
-        console.log(pKodu)
         $scope.StokListe = [];
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {            
-            console.log(StokData)
             $scope.StokListe = StokData;
             //FİYAT LİSTESİ GETİR
             db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
@@ -971,7 +969,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedaikciListe = TedarikciData;
                     $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu;
+                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
                     $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                 });
             }
