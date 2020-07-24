@@ -5,7 +5,7 @@ let lic = require('./license');
 let escpos = require('escpos');
 escpos.USB = require('escpos-usb');
 escpos.Serial = require('escpos-serialport');
-//escpos.Screen = require('escpos-screen');
+escpos.Screen = require('escpos-screen');
 //let serialport = require('serialport')
 
 let msql;
