@@ -3,6 +3,9 @@ let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
 let escpos = require('escpos');
+escpos.USB = require('escpos-usb');
+escpos.Serial = require('escpos-serialport');
+//escpos.Screen = require('escpos-screen');
 //let serialport = require('serialport')
 
 let msql;
@@ -31,30 +34,30 @@ io.on('connection', function(socket)
     //     socket.emit('MaxUserCounted',LicMenu);
     // }
     
-    //SerialBarcode();
+    // SerialBarcode();
 
-    function SerialBarcode()
-    {        
-        let SerialCount = 0;
-        let Barcode = "";
+    // function SerialBarcode()
+    // {        
+    //     let SerialCount = 0;
+    //     let Barcode = "";
 
-        port.on('data', function (data) 
-        {  
-            SerialCount++;
-            Barcode = Barcode + data.toString("utf8")
+    //     port.on('data', function (data) 
+    //     {  
+    //         SerialCount++;
+    //         Barcode = Barcode + data.toString("utf8")
 
-            if(SerialCount == 2)
-            {
-                socket.emit('SerialBarcode',
-                {
-                    result : Barcode
-                });
+    //         if(SerialCount == 2)
+    //         {
+    //             socket.emit('SerialBarcode',
+    //             {
+    //                 result : Barcode
+    //             });
                 
-                SerialCount = 0;
-                Barcode = "";            
-            }
-        })
-    }
+    //             SerialCount = 0;
+    //             Barcode = "";            
+    //         }
+    //     })
+    // }
 
     socket.on('GetMenu',function(pParam,pFn)
     {
@@ -214,7 +217,10 @@ io.on('connection', function(socket)
     socket.on("EscposPrint",function(pData,fn)
     {
         
-        let device  = new escpos.USB(config.EpsonUSB.Vid, config.EpsonUSB.Pid);
+        // const usbDevice = new escpos.USB();
+        // const usbPrinter = new escpos.Printer(usbDevice);
+        // console.log(usbPrinter)
+        let device  = new escpos.USB();
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
         //B FONT 64 CHAR
