@@ -772,9 +772,9 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].ITEM_GRP,
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,                    
-            $scope.StokListe[0].COST_PRICE,
-            $scope.StokListe[0].MIN_PRICE,
-            $scope.StokListe[0].MAX_PRICE,
+            $scope.StokListe[0].COST_PRICE.replace(',','.'),
+            $scope.StokListe[0].MIN_PRICE.replace(',','.'),
+            $scope.StokListe[0].MAX_PRICE.replace(',','.'),
             $scope.StokListe[0].STATUS,
             $scope.StokListe[0].PLU,
             $scope.StokListe[0].TARTIM
