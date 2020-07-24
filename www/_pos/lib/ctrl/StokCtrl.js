@@ -956,9 +956,23 @@ function StokCtrl ($scope,$window,$location,db)
 
         if(TmpResult.length > 0)
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı !");
-            return;
+            alertify.okBtn('Evet');
+            alertify.cancelBtn('Hayır');
+
+            alertify.confirm("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı ! Devam etmek istiyormusunuz ?",function()
+            {
+                //TEDARİKÇİ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                {
+                    $scope.TedaikciListe = TedarikciData;
+                    $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
+                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
+                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                });
+            },function()
+            {
+                return;
+            });
         }
 
         db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
