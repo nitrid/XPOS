@@ -523,7 +523,7 @@ function StokCtrl ($scope,$window,$location,db)
             data : pData,
             paging : true,
             filtering : true,
-            pageSize: 5,
+            pageSize: 15,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: TmpColumns,
