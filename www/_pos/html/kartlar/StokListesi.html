@@ -13,7 +13,7 @@
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                <input type="text" class="form-control" autocomplete="off" ng-model="Barkod"/>
+                                <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Barkod"/>
                             </div>
                         </div>
                     </div>
@@ -85,3 +85,6 @@
         </div>
     </div>
 </div>
+<script>
+    $('#tokenfield').tokenfield()
+</script>
