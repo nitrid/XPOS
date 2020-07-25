@@ -1,5 +1,6 @@
 function StokListeCtrl ($scope,$window,db)
 {
+    let GrdPage = true;
     let TmpFields =
     [
         {
@@ -116,6 +117,7 @@ function StokListeCtrl ($scope,$window,db)
     }
     function TblStokInit()
     {
+        console.log(GrdPage)
         $("#TblStok").jsGrid
         ({
             width: "100%",
@@ -123,7 +125,7 @@ function StokListeCtrl ($scope,$window,db)
             heading: true,
             selecting: true,
             data : $scope.Data,
-            paging : true,
+            paging : GrdPage,
             pageSize: 1000,
             pageButtonCount: 5,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
@@ -225,6 +227,8 @@ function StokListeCtrl ($scope,$window,db)
     } 
     $scope.Init = function()
     {
+        GrdPage = true;
+
         $scope.Data = [];
         $scope.GrupList = [];
 
@@ -272,5 +276,10 @@ function StokListeCtrl ($scope,$window,db)
         {   
             StokGetir();
         }
+    }
+    $scope.BtnAll = function()
+    {
+        GrdPage = false;
+        TblStokInit();
     }
 }
