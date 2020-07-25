@@ -199,7 +199,7 @@ function StokListeCtrl ($scope,$window,db)
                     QueryField.Price.Outer +
                     QueryField.Customer.Outer +
                     "WHERE ((" + QueryField.Barcode.Where + " ITEMS.CODE IN (" + TmpVal + ")) " + QueryField.Customer.Where + 
-                    "OR (@BARCODE = '')) AND ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
+                    "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit"],
             value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum]
@@ -265,5 +265,12 @@ function StokListeCtrl ($scope,$window,db)
     $scope.BtnAra = function()
     {
         StokGetir();
+    }
+    $scope.TxtAra = function(keyEvent)
+    {    
+        if(keyEvent.which === 13)
+        {   
+            StokGetir();
+        }
     }
 }
