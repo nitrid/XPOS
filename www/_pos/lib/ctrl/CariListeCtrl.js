@@ -1,5 +1,6 @@
 function CariListeCtrl ($scope,$window,db)
 {
+    let GrdPage = true;
     let TmpFields =
     [
         {
@@ -120,8 +121,8 @@ function CariListeCtrl ($scope,$window,db)
             heading: true,
             selecting: true,
             data : $scope.Data,
-            paging : true,
-            pageSize: 20,
+            paging : GrdPage,
+            pageSize: 200,
             pageButtonCount: 5,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: TmpFields
@@ -150,7 +151,7 @@ function CariListeCtrl ($scope,$window,db)
                     "TAX_OFFICE AS TAX_OFFICE, " + 
                     "TAX_NO AS TAX_NO, " + 
                     "INT_VAT_NO AS INT_VAT_NO " + 
-                    "FROM CUSTOMERS WHERE ((CODE = @CODE) OR (@CODE = '')) AND ((NAME LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
+                    "FROM CUSTOMERS WHERE ((UPPER(CODE) = @CODE) OR (@CODE = '')) AND ((UPPER(NAME) LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
             param : ["CODE:string|50","NAME:string|250","GENUS:int"],
             value : [$scope.Kodu,$scope.Adi,$scope.Tip]
         }
@@ -163,6 +164,8 @@ function CariListeCtrl ($scope,$window,db)
     }
     $scope.Init = function()
     {
+        GrdPage = true;
+
         $scope.Data = [];
 
         $scope.Kolon = ["CODE","NAME"];
@@ -200,5 +203,17 @@ function CariListeCtrl ($scope,$window,db)
     $scope.BtnAra = function()
     {
         CariGetir();
+    }
+    $scope.TxtAra = function(keyEvent)
+    {    
+        if(keyEvent.which === 13)
+        {   
+            CariGetir();
+        }
+    }
+    $scope.BtnAll = function()
+    {
+        GrdPage = false;
+        TblCariInit();
     }
 }

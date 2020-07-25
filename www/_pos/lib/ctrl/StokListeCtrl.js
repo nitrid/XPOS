@@ -117,7 +117,6 @@ function StokListeCtrl ($scope,$window,db)
     }
     function TblStokInit()
     {
-        console.log(GrdPage)
         $("#TblStok").jsGrid
         ({
             width: "100%",
@@ -126,7 +125,7 @@ function StokListeCtrl ($scope,$window,db)
             selecting: true,
             data : $scope.Data,
             paging : GrdPage,
-            pageSize: 1000,
+            pageSize: 200,
             pageButtonCount: 5,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: TmpFields
