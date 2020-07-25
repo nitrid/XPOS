@@ -723,8 +723,10 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
-        TmpStokObj.UNDER_UNIT_NAME = "ADET";
+        TmpStokObj.UNDER_UNIT_NAME = "";
         TmpStokObj.UNDER_UNIT_FACTOR = 0;
+        TmpStokObj.MAIN_UNIT_NAME = "Unité";
+        TmpStokObj.MAIN_UNIT_FACTOR = 1;
         TmpStokObj.ITEM_CUSTOMER = "";
         TmpStokObj.CUSTOMER_ITEM_CODE = "";
 
