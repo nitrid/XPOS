@@ -3,7 +3,7 @@ function StokCtrl ($scope,$window,$location,db)
     let UserParam = {};
     let SecimSelectedRow = null;
     let ModalTip = "";
-    $scope.Birim = 
+    $scope.Birim =
     [
         {Kodu:"Unité",Symbol:"U"},
         {Kodu:"Kilogramme",Symbol:"KG"},
@@ -14,43 +14,43 @@ function StokCtrl ($scope,$window,$location,db)
         {Kodu:"Metre Carre",Symbol:"M2"},
         {Kodu:"Jour",Symbol:"J"}
     ];
-    
-    let DateField = function (config) 
+
+    let DateField = function (config)
     {
         jsGrid.Field.call(this, config);
     };
     DateField.prototype = new jsGrid.Field(
     {
-        sorter: function (date1, date2) 
+        sorter: function (date1, date2)
         {
             return new Date(date1) - new Date(date2);
-        },       
-        itemTemplate: function (value) 
+        },
+        itemTemplate: function (value)
         {
-            if (value.toLowerCase().indexOf("Date") == -1) 
+            if (value.toLowerCase().indexOf("Date") == -1)
             {
                 return moment(new Date(value)).format("DD.MM.YYYY");
             }
         },
-        insertTemplate: function (value) 
+        insertTemplate: function (value)
         {
             return this._insertPicker = $("<input>").datepicker({
                 format: 'dd.mm.yyyy'
             });
         },
-        editTemplate: function (value) 
+        editTemplate: function (value)
         {
             return this._editPicker = $("<input>").datepicker({
                 format: 'dd.mm.yyyy'
             }).datepicker("setDate", moment(new Date(value)).format("DD.MM.YYYY"));
         },
-        insertValue: function () 
+        insertValue: function ()
         {
             return this._insertPicker.datepicker({
                 format: 'dd.mm.yyyy'
             }).val();
         },
-        editValue: function () 
+        editValue: function ()
         {
             return this._editPicker.datepicker({
                 format: 'dd.mm.yyyy'
@@ -59,7 +59,7 @@ function StokCtrl ($scope,$window,$location,db)
     });
     jsGrid.fields.DateField = DateField;
     function TblFiyatInit()
-    {        
+    {
         $("#TblFiyat").jsGrid
         ({
             width: "100%",
@@ -72,27 +72,38 @@ function StokCtrl ($scope,$window,$location,db)
             pageButtonCount: 3,
             editing: true,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: 
+            fields:
             [
                 {
                     name: "TYPENAME",
                     title : "Tip",
                     align: "center",
                     width: 100
-                    
+
                 },
                 {
                     name: "DEPOT",
                     title : "Depo",
                     align: "center",
-                    width: 100                   
+                    width: 100
                 },
                 {
                     name: "START_DATE",
                     title : "Baş.Tarih",
                     type: "DateField",
                     align: "center",
-                    width: 75
+                    width: 75,
+                    itemTemplate: function(value, item)
+                    {
+                        if(item.TYPE == 0)
+                        {
+                            return "<div style='color:red;font-weight: bold'></div>"
+                        }
+                        else
+                        {
+                            return  value
+                        }
+                    }
                 },
                 {
                     name: "FINISH_DATE",
@@ -132,7 +143,7 @@ function StokCtrl ($scope,$window,$location,db)
                     title : "BRUT MARJ",
                     align: "center",
                     width: 100,
-                    itemTemplate: function(value, item) 
+                    itemTemplate: function(value, item)
                     {
                         if(item.BRUTMARJORAN < 30)
                         {
@@ -149,7 +160,7 @@ function StokCtrl ($scope,$window,$location,db)
                     title : "NET MARJ",
                     align: "center",
                     width: 100,
-                    itemTemplate: function(value, item) 
+                    itemTemplate: function(value, item)
                     {
                         if(item.NETMARJORAN < 30)
                         {
@@ -161,20 +172,20 @@ function StokCtrl ($scope,$window,$location,db)
                         }
                     }
                 },
-                { type: "control", modeSwitchButton: true, editButton: false }  
+                { type: "control", modeSwitchButton: true, editButton: false }
             ],
             confirmDeleting: false,
-            onItemDeleting: function (args) 
+            onItemDeleting: function (args)
             {
-                if (!args.item.deleteConfirmed) 
+                if (!args.item.deleteConfirmed)
                 { // custom property for confirmation
                     args.cancel = true; // cancel deleting
                     alertify.okBtn('Evet');
                     alertify.cancelBtn('Hayır');
-            
-                    alertify.confirm('Fiyatı silmek istediğinize eminmisiniz ?', 
+
+                    alertify.confirm('Fiyatı silmek istediğinize eminmisiniz ?',
                     function()
-                    { 
+                    {
                         args.item.deleteConfirmed = true;
                         db.ExecuteTag($scope.Firma,'FiyatSil',[args.item.GUID],function(data)
                         {
@@ -190,7 +201,7 @@ function StokCtrl ($scope,$window,$location,db)
                     ,function(){});
                 }
             },
-            onItemUpdated: function(args) 
+            onItemUpdated: function(args)
             {
                 db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.START_DATE,args.item.FINISH_DATE,args.item.GUID],function(data)
                 {
@@ -219,14 +230,14 @@ function StokCtrl ($scope,$window,$location,db)
             pageButtonCount: 3,
             editing: true,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: 
+            fields:
             [
                 {
                     name: "TYPENAME",
                     title : "Tip",
                     align: "center",
                     width: 100
-                    
+
                 },
                 {
                     name: "NAME",
@@ -276,20 +287,20 @@ function StokCtrl ($scope,$window,$location,db)
                     align: "center",
                     width: 100
                 },
-                { type: "control", modeSwitchButton: true , editButton: false }  
+                { type: "control", modeSwitchButton: true , editButton: false }
             ],
             confirmDeleting: false,
-            onItemDeleting: function (args) 
+            onItemDeleting: function (args)
             {
-                if (!args.item.deleteConfirmed) 
+                if (!args.item.deleteConfirmed)
                 { // custom property for confirmation
                     args.cancel = true; // cancel deleting
                     alertify.okBtn('Evet');
                     alertify.cancelBtn('Hayır');
-            
-                    alertify.confirm('Birimi silmek istediğinize eminmisiniz ?', 
+
+                    alertify.confirm('Birimi silmek istediğinize eminmisiniz ?',
                     function()
-                    { 
+                    {
                         args.item.deleteConfirmed = true;
                         db.ExecuteTag($scope.Firma,'BirimSil',[args.item.GUID],function(data)
                         {
@@ -304,9 +315,9 @@ function StokCtrl ($scope,$window,$location,db)
                     ,function(){});
                 }
             },
-            onItemUpdated: function(args) 
+            onItemUpdated: function(args)
             {
-                let TmpVal = 
+                let TmpVal =
                 [
                     args.item.FACTOR,
                     args.item.WEIGHT,
@@ -336,7 +347,7 @@ function StokCtrl ($scope,$window,$location,db)
             pageButtonCount: 3,
             editing: true,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: 
+            fields:
             [
                 {
                     name: "BARCODE",
@@ -344,7 +355,7 @@ function StokCtrl ($scope,$window,$location,db)
                     type : "text",
                     align: "center",
                     width: 100
-                    
+
                 },
                 {
                     name: "UNIT",
@@ -358,20 +369,20 @@ function StokCtrl ($scope,$window,$location,db)
                     align: "center",
                     width: 75
                 },
-                { type: "control", modeSwitchButton: true , editButton: false }  
+                { type: "control", modeSwitchButton: true , editButton: false }
             ],
             confirmDeleting: false,
-            onItemDeleting: function (args) 
+            onItemDeleting: function (args)
             {
-                if (!args.item.deleteConfirmed) 
+                if (!args.item.deleteConfirmed)
                 { // custom property for confirmation
                     args.cancel = true; // cancel deleting
                     alertify.okBtn('Evet');
                     alertify.cancelBtn('Hayır');
-            
-                    alertify.confirm('Barkod silmek istediğinize eminmisiniz ?', 
+
+                    alertify.confirm('Barkod silmek istediğinize eminmisiniz ?',
                     function()
-                    { 
+                    {
                         args.item.deleteConfirmed = true;
                         db.ExecuteTag($scope.Firma,'BarkodSil',[args.item.GUID],function(data)
                         {
@@ -386,9 +397,9 @@ function StokCtrl ($scope,$window,$location,db)
                     ,function(){});
                 }
             },
-            onItemUpdated: function(args) 
+            onItemUpdated: function(args)
             {
-                let TmpVal = 
+                let TmpVal =
                 [
                     args.item.BARCODE,
                     args.item.GUID
@@ -413,7 +424,7 @@ function StokCtrl ($scope,$window,$location,db)
             pageButtonCount: 3,
             editing: true,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: 
+            fields:
             [
                 {
                     name: "CUSTOMER_CODE",
@@ -421,7 +432,7 @@ function StokCtrl ($scope,$window,$location,db)
                     type : "text",
                     align: "center",
                     width: 100
-                    
+
                 },
                 {
                     name: "CUSTOMER_NAME",
@@ -448,20 +459,20 @@ function StokCtrl ($scope,$window,$location,db)
                     align: "center",
                     width: 100
                 },
-                { type: "control", modeSwitchButton: true , editButton: false }  
+                { type: "control", modeSwitchButton: true , editButton: false }
             ],
             confirmDeleting: false,
-            onItemDeleting: function (args) 
+            onItemDeleting: function (args)
             {
-                if (!args.item.deleteConfirmed) 
+                if (!args.item.deleteConfirmed)
                 { // custom property for confirmation
                     args.cancel = true; // cancel deleting
                     alertify.okBtn('Evet');
                     alertify.cancelBtn('Hayır');
-            
-                    alertify.confirm('Tedarikçi silmek istediğinize eminmisiniz ?', 
+
+                    alertify.confirm('Tedarikçi silmek istediğinize eminmisiniz ?',
                     function()
-                    { 
+                    {
                         args.item.deleteConfirmed = true;
                         db.ExecuteTag($scope.Firma,'StokTedarikciSil',[args.item.GUID],function(data)
                         {
@@ -476,9 +487,9 @@ function StokCtrl ($scope,$window,$location,db)
                     ,function(){});
                 }
             },
-            onItemUpdated: function(args) 
+            onItemUpdated: function(args)
             {
-                let TmpVal = 
+                let TmpVal =
                 [
                     args.item.CUSTOMER_CODE,
                     args.item.CUSTOMER_ITEM_CODE,
@@ -503,7 +514,7 @@ function StokCtrl ($scope,$window,$location,db)
             pageSize: 10,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: 
+            fields:
             [
                 {
                     name: "CUSTOMER_CODE",
@@ -511,7 +522,7 @@ function StokCtrl ($scope,$window,$location,db)
                     type : "text",
                     align: "center",
                     width: 100
-                    
+
                 },
                 {
                     name: "CUSTOMER_NAME",
@@ -543,28 +554,28 @@ function StokCtrl ($scope,$window,$location,db)
     }
     function TblSecimInit(pData)
     {
-        
+
         let TmpColumns = []
-           
+
         if(pData.length > 0)
         {
             Object.keys(pData[0]).forEach(function(item)
             {
                 TmpColumns.push({name : item,type: "text"});
-            });    
+            });
         }
 
         let db = {
-            loadData: function(filter) 
+            loadData: function(filter)
             {
-                return $.grep(pData, function(client) 
-                { 
+                return $.grep(pData, function(client)
+                {
                     return (!filter.CODE || client.CODE.toLowerCase().indexOf(filter.CODE.toLowerCase()) > -1)
                         && (!filter.NAME || client.NAME.toLowerCase().indexOf(filter.NAME.toLowerCase()) > -1)
                 });
             }
         };
-        
+
         $("#TblSecim").jsGrid
         ({
             width: "100%",
@@ -588,7 +599,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TblSecim").jsGrid("search");
     }
     function SecimListeRowClick(pIndex,pItem,pObj)
-    {    
+    {
         if ( SecimSelectedRow ) { SecimSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
         var $row = pObj.rowByItem(pItem);
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
@@ -652,7 +663,7 @@ function StokCtrl ($scope,$window,$location,db)
     function StokGetir(pKodu,pCallback)
     {
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
-        {            
+        {
             if(StokData.length > 0)
             {
                 $scope.StyleAll = {'visibility': 'visible'};
@@ -664,13 +675,12 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.StokListe[0].VAT = "-"
                 }
-                console.log($scope.StokListe[0].VAT)
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
                     $scope.FiyatListe = FiyatData;
                     $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-    
+
                     let TmpSymbol = "";
                     for(let i=0;i<$scope.Birim.length;i++)
                     {
@@ -701,18 +711,18 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedaikciListe = TedarikciData;
                     $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
-    
+
                     if($scope.TedaikciListe.length > 0)
                     {
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
                     }
-                });        
+                });
                 //TEDARİKÇİ FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
                 {
                     $scope.TedaikciFiyatListe = TedarikciFiyatData;
                     $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
-                });        
+                });
             }
 
             if(typeof pCallback != 'undefined')
@@ -736,7 +746,7 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.BirimModal.Adi,
                 $scope.BirimModal.Katsayi,
                 $scope.BirimModal.Agirlik,
-                $scope.BirimModal.Hacim,                   
+                $scope.BirimModal.Hacim,
                 $scope.BirimModal.En,
                 $scope.BirimModal.Boy,
                 $scope.BirimModal.Yukseklik
@@ -753,7 +763,7 @@ function StokCtrl ($scope,$window,$location,db)
                 pData[1],
                 pData[2],
                 0,
-                0,                   
+                0,
                 0,
                 0,
                 0
@@ -761,44 +771,44 @@ function StokCtrl ($scope,$window,$location,db)
         }
 
         db.ExecuteTag($scope.Firma,'BirimKaydet',InsertData,function(InsertResult)
-        { 
+        {
             if(typeof pCallback != 'undefined')
             {
                 pCallback(InsertResult.result.recordset[0].GUID);
             }
 
             if(typeof(InsertResult.result.err) == 'undefined')
-            {  
+            {
                 //BIRIM LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
                 {
                     $scope.BirimListe = BirimData;
                     $("#TblBirim").jsGrid({data : $scope.BirimListe});
 
-                    BarkodModalInit();                    
+                    BarkodModalInit();
                 });
             }
         });
     }
     $scope.Init = function(pClone)
-    {                
+    {
         UserParam = Param[$window.sessionStorage.getItem('User')];
-        
+
         $scope.StyleAll = {'visibility': 'hidden'};
         $scope.RefReadOnly = false;
 
-        $scope.AltBirimFiyati = "0.00 €";        
+        $scope.AltBirimFiyati = "0.00 €";
         $scope.FiyatListe = [];
         $scope.BirimListe = [];
         $scope.BarkodListe = [];
         $scope.TedaikciListe = [];
         $scope.TedaikciListe = [];
-        
+
         TblFiyatInit();
         TblBirimInit();
         TblBarkodInit();
-        TblTedarikciInit();  
-        TblTedarikciFiyatInit();      
+        TblTedarikciInit();
+        TblTedarikciFiyatInit();
         TblSecimInit([]);
 
         if(typeof pClone == 'undefined')
@@ -821,7 +831,7 @@ function StokCtrl ($scope,$window,$location,db)
             TmpStokObj.UNDER_UNIT_NAME = "";
             TmpStokObj.UNDER_UNIT_FACTOR = 0;
             TmpStokObj.MAIN_UNIT_NAME = "Unité";
-            TmpStokObj.MAIN_UNIT_FACTOR = 1;                    
+            TmpStokObj.MAIN_UNIT_FACTOR = 1;
             TmpStokObj.WEIGHING = false;
 
             $scope.StokListe.push(TmpStokObj);
@@ -839,7 +849,7 @@ function StokCtrl ($scope,$window,$location,db)
         BarkodModalInit();
         TedarikciModalInit();
         UrunGrupModalInit();
-        
+
         if(typeof pClone == 'undefined')
         {
             if(typeof $location.$$search.Id != 'undefined')
@@ -855,28 +865,28 @@ function StokCtrl ($scope,$window,$location,db)
     $scope.Kaydet = function()
     {
         if($scope.StokListe[0].CODE == '')
-        {            
+        {
             alertify.okBtn("Tamam");
             alertify.alert("Kodu bölümünü boş geçemezsiniz !");
             return;
         }
 
         if($scope.StyleAll.visibility != 'hidden')
-        {                        
+        {
             if($scope.StokListe[0].ITEM_CUSTOMER == "")
             {
                 alertify.okBtn("Tamam");
                 alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
                 return;
             }
-            
+
             if($scope.StokListe[0].ITEM_GRP == "")
             {
                 alertify.okBtn("Tamam");
                 alertify.alert("Ürün grubu bölümünü boş geçemezsiniz !");
                 return;
             }
-    
+
             if($scope.StokListe[0].VAT == "-")
             {
                 alertify.okBtn("Tamam");
@@ -901,7 +911,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].SNAME,
             $scope.StokListe[0].ITEM_GRP,
             $scope.StokListe[0].TYPE,
-            $scope.StokListe[0].VAT,                    
+            $scope.StokListe[0].VAT,
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
             parseFloat($scope.StokListe[0].MIN_PRICE.toString().replace(',','.')),
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
@@ -909,15 +919,15 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].PLU,
             $scope.StokListe[0].WEIGHING
         ];
-        
+
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
-        { 
+        {
             if(typeof(InsertResult.result.err) == 'undefined')
-            {  
-                // ANA BİRİM KAYIT İŞLEMİ 
+            {
+                // ANA BİRİM KAYIT İŞLEMİ
                 if($scope.StokListe[0].MAIN_UNIT_FACTOR > 0)
                 {
-                    let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];                    
+                    let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];
                     BirimKaydet(TmpVal,function(pGuid)
                     {
                         if($scope.StokListe[0].BARCODE != '')
@@ -925,20 +935,20 @@ function StokCtrl ($scope,$window,$location,db)
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
                             $scope.BarkodModal.Tip = 0
-    
+
                             $scope.BtnBarkodKaydet();
                         }
-                    });                
+                    });
                 }
 
-                // ALT BİRİM KAYIT İŞLEMİ 
+                // ALT BİRİM KAYIT İŞLEMİ
                 if($scope.StokListe[0].UNDER_UNIT_FACTOR > 0)
                 {
-                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);        
+                    BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);
                 }
             }
 
-            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;            
+            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
         });
     }
     $scope.Sil = function()
@@ -946,9 +956,9 @@ function StokCtrl ($scope,$window,$location,db)
         alertify.okBtn('Evet');
         alertify.cancelBtn('Hayır');
 
-        alertify.confirm('Stoğu silmek istediğinize eminmisiniz ?', 
+        alertify.confirm('Stoğu silmek istediğinize eminmisiniz ?',
         function()
-        { 
+        {
             if($scope.StokListe[0].CODE != '')
             {
                 db.ExecuteTag($scope.Firma,'StokKartSil',[$scope.StokListe[0].CODE],function(data)
@@ -989,14 +999,14 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Baslangic,
             $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Bitis,
             $scope.FiyatModal.Fiyat,
-            $scope.FiyatModal.Miktar,                   
+            $scope.FiyatModal.Miktar,
             $scope.FiyatModal.Cari
         ];
 
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-        { 
+        {
             if(typeof(InsertResult.result.err) == 'undefined')
-            {  
+            {
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                 {
@@ -1005,7 +1015,7 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.CmbAltBirimChange();
                 });
             }
-        });    
+        });
     }
     $scope.BtnBirimKaydet = function()
     {
@@ -1031,7 +1041,7 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
 
-        let TmpQuery = 
+        let TmpQuery =
         {
             db : $scope.Firma,
             query:  "SELECT [BARCODE] FROM ITEM_BARCODE WHERE [BARCODE] = @BARCODE AND [ITEM_CODE] <> @ITEM_CODE",
@@ -1059,9 +1069,9 @@ function StokCtrl ($scope,$window,$location,db)
         ];
 
         db.ExecuteTag($scope.Firma,'BarkodKaydet',InsertData,function(InsertResult)
-        { 
+        {
             if(typeof(InsertResult.result.err) == 'undefined')
-            {  
+            {
                 //BARKOD LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
                 {
@@ -1097,7 +1107,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.TedarikciModal.StokKodu
         ];
 
-        let TmpQuery = 
+        let TmpQuery =
         {
             db : $scope.Firma,
             query:  "SELECT [CUSTOMER_ITEM_CODE],[ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_CODE] = @CUSTOMER_CODE AND [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
@@ -1116,15 +1126,15 @@ function StokCtrl ($scope,$window,$location,db)
                 $("#MdlTedarikciEkle").modal('show');
             },function()
             {
-                StokGetir(TmpResult[0].ITEM_CODE);                
+                StokGetir(TmpResult[0].ITEM_CODE);
             });
         }
         else
         {
             db.ExecuteTag($scope.Firma,'StokTedarikciKaydet',InsertData,function(InsertResult)
-            { 
+            {
                 if(typeof(InsertResult.result.err) == 'undefined')
-                {  
+                {
                     //TEDARİKÇİ LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
@@ -1157,12 +1167,12 @@ function StokCtrl ($scope,$window,$location,db)
         ];
 
         db.ExecuteTag($scope.Firma,'UrunGrupKaydet',InsertData,function(InsertResult)
-        { 
+        {
             if(typeof(InsertResult.result.err) == 'undefined')
-            {  
-                
+            {
+
             }
-        });  
+        });
     }
     $scope.BtnGridSec = function()
     {
@@ -1207,14 +1217,14 @@ function StokCtrl ($scope,$window,$location,db)
         //         0,
         //         moment(new Date(0)).format("DD.MM.YYYY"),
         //         moment(new Date(0)).format("DD.MM.YYYY"),
-        //         $scope.StokListe[0].COST_PRICE,                   
+        //         $scope.StokListe[0].COST_PRICE,
         //         SecimSelectedRow.Item.CODE
         //     ];
 
         //     db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-        //     { 
+        //     {
         //         if(typeof(InsertResult.result.err) == 'undefined')
-        //         {  
+        //         {
         //             //FİYAT LİSTESİ GETİR
         //             db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
         //             {
@@ -1222,7 +1232,7 @@ function StokCtrl ($scope,$window,$location,db)
         //                 $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
         //             });
         //         }
-        //     });    
+        //     });
 
         //     $("#MdlSecim").modal('hide');
         // }
@@ -1272,10 +1282,10 @@ function StokCtrl ($scope,$window,$location,db)
     $scope.BtnModalSecim = function(pTip)
     {
         ModalTip = pTip;
-        
+
         if(ModalTip == "Stok")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM ITEMS"
@@ -1288,7 +1298,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else if(ModalTip == "FiyatStok")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM ITEMS"
@@ -1302,7 +1312,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else if(ModalTip == "FiyatCari")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
@@ -1316,7 +1326,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else if(ModalTip == "FiyatDepo")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM DEPOT"
@@ -1330,7 +1340,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else if(ModalTip == "TedarikciCari")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
@@ -1344,7 +1354,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
         // else if(ModalTip == "TedarikciMaliyet")
         // {
-        //     let TmpQuery = 
+        //     let TmpQuery =
         //     {
         //         db : $scope.Firma,
         //         query:  "SELECT [CODE],[NAME] FROM CUSTOMERS"
@@ -1358,7 +1368,7 @@ function StokCtrl ($scope,$window,$location,db)
         // }
         else if(ModalTip == "UrunGrup")
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP"
@@ -1424,7 +1434,7 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.BtnModalUrunGrupEkle = function()
     {
-        let TmpQuery = 
+        let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT (ISNULL(MAX(CODE),'') + 1) AS CODE FROM ITEM_GROUP"
@@ -1449,7 +1459,7 @@ function StokCtrl ($scope,$window,$location,db)
                 else
                 {
                     $scope.UrunGrupModal.Kodu = '001'
-                }               
+                }
             });
         UrunGrupModalInit();
         $("#MdlUrunGrupEkle").modal('show');
@@ -1513,7 +1523,7 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.TxtCostPriceValid = function()
     {
-        var TmpQuery = 
+        var TmpQuery =
         {
             db : $scope.Firma,
             query:  "SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = '" + $scope.StokListe[0].CODE + "' AND [TYPE] = 1 ORDER BY LDATE DESC",
@@ -1528,8 +1538,8 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 alertify.okBtn('Evet');
                 alertify.cancelBtn('Hayır');
-        
-                alertify.confirm('Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?', 
+
+                alertify.confirm('Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?',
                 function()
                 {
                     let InsertData =
@@ -1541,15 +1551,15 @@ function StokCtrl ($scope,$window,$location,db)
                         0,
                         moment(new Date(0)).format("DD.MM.YYYY"),
                         moment(new Date(0)).format("DD.MM.YYYY"),
-                        parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),   
-                        1,                
+                        parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
+                        1,
                         $scope.StokListe[0].ITEM_CUSTOMER
                     ];
 
                     db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-                    { 
+                    {
                         if(typeof(InsertResult.result.err) == 'undefined')
-                        {  
+                        {
                             //TEDARİKÇİ LİSTESİ GETİR
                             db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                             {
@@ -1561,15 +1571,15 @@ function StokCtrl ($scope,$window,$location,db)
                             {
                                 $scope.TedaikciFiyatListe = TedarikciFiyatData;
                                 $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
-                            }); 
+                            });
                         }
-                    });  
-                    
+                    });
+
                     //$scope.BtnModalSecim('TedarikciMaliyet');
                 }
                 ,function()
                 {
-                });                          
+                });
             }
         });
     }
@@ -1579,7 +1589,7 @@ function StokCtrl ($scope,$window,$location,db)
         {
             $window.document.getElementById("TxtAnaBirim").focus();
             $window.document.getElementById("TxtAnaBirim").setSelectionRange(0, $window.document.getElementById("TxtAnaBirim").value.length);
-        },100); 
+        },100);
     }
     $scope.CmbAltBirimChange = function()
     {
@@ -1593,7 +1603,7 @@ function StokCtrl ($scope,$window,$location,db)
                 TmpSymbol = $scope.Birim[i].Symbol;
             }
         }
-        for (let i = 0; i < $scope.FiyatListe.length; i++) 
+        for (let i = 0; i < $scope.FiyatListe.length; i++)
         {
             if($scope.FiyatListe[i].TYPE == 0 && $scope.FiyatListe[i].QUANTITY == 1)
             {
@@ -1605,7 +1615,7 @@ function StokCtrl ($scope,$window,$location,db)
         setTimeout( function(){
             $window.document.getElementById("TxtAltBirim").focus();
             $window.document.getElementById("TxtAltBirim").setSelectionRange(0, $window.document.getElementById("TxtAltBirim").value.length);
-        },100); 
+        },100);
     }
     $scope.TxtStokKeyPress = function(keyEvent)
     {
@@ -1616,11 +1626,11 @@ function StokCtrl ($scope,$window,$location,db)
         else
         {
             if(keyEvent.which === 13)
-            {   
+            {
                 StokGetir($scope.StokListe[0].CODE);
             }
         }
-        
+
     }
     $scope.TxtTedarikciKeyPress = function(keyEvent)
     {
@@ -1628,7 +1638,7 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if($scope.StokListe[0].ITEM_CUSTOMER != "")
             {
-                let TmpQuery = 
+                let TmpQuery =
                 {
                     db : $scope.Firma,
                     query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1 AND (CODE LIKE @CODE + '%' OR NAME LIKE @CODE + '%')",
@@ -1679,14 +1689,14 @@ function StokCtrl ($scope,$window,$location,db)
     {
         if($scope.StokListe[0].BARCODE != '')
         {
-            let TmpQuery = 
+            let TmpQuery =
             {
                 db : $scope.Firma,
                 query:  "SELECT [BARCODE],[ITEM_CODE] FROM ITEM_BARCODE WHERE [BARCODE] = @BARCODE",
                 param: ['BARCODE:string|50'],
                 value: [$scope.StokListe[0].BARCODE]
             }
-    
+
             let TmpResult = await db.GetPromiseQuery(TmpQuery);
             if(TmpResult.length > 0)
             {
@@ -1697,11 +1707,11 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.StokListe[0].BARCODE = "";
                 },function()
                 {
-                    StokGetir(TmpResult[0].ITEM_CODE);                
+                    StokGetir(TmpResult[0].ITEM_CODE);
                 });
             }
         }
-        
+
     }
     $scope.CmbVatBlur = function()
     {
@@ -1718,7 +1728,7 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if($scope.StokListe[0].ITEM_GRP != "")
             {
-                let TmpQuery = 
+                let TmpQuery =
                 {
                     db : $scope.Firma,
                     query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP WHERE CODE LIKE @CODE + '%'",
