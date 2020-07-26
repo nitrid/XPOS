@@ -604,6 +604,9 @@ function StokCtrl ($scope,$window,$location,db)
         {            
             if(StokData.length > 0)
             {
+                $scope.StyleAll = {'visibility': 'visible'};
+                $scope.RefReadOnly = true;
+
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
                 //FİYAT LİSTESİ GETİR
@@ -711,9 +714,12 @@ function StokCtrl ($scope,$window,$location,db)
         });
     }
     $scope.Init = function(pClone)
-    {        
+    {                
         UserParam = Param[$window.sessionStorage.getItem('User')];
         
+        $scope.StyleAll = {'visibility': 'hidden'};
+        $scope.RefReadOnly = false;
+
         $scope.AltBirimFiyati = "0.00 €";        
         $scope.FiyatListe = [];
         $scope.BirimListe = [];
@@ -747,7 +753,8 @@ function StokCtrl ($scope,$window,$location,db)
             TmpStokObj.UNDER_UNIT_FACTOR = 0;
             TmpStokObj.MAIN_UNIT_NAME = "Unité";
             TmpStokObj.MAIN_UNIT_FACTOR = 1;                    
-    
+            TmpStokObj.WEIGHING = false;
+
             $scope.StokListe.push(TmpStokObj);
         }
         else
@@ -778,32 +785,35 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.Kaydet = function()
     {
-        if($scope.StokListe[0].CODE == '')
-        {            
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
-            return;
-        }
-        
-        if($scope.StokListe[0].ITEM_CUSTOMER == "")
+        if($scope.StyleAll.visibility != 'hidden')
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
-            return;
-        }
-        
-        if($scope.StokListe[0].ITEM_GRP == "")
-        {
-            alertify.okBtn("Tamam");
-            alertify.alert("Ürün grubu bölümünü boş geçemezsiniz !");
-            return;
-        }
-
-        if($scope.StokListe[0].VAT == "-")
-        {
-            alertify.okBtn("Tamam");
-            alertify.alert("Lütfen vergi dilimini seçiniz !");
-            return;
+            if($scope.StokListe[0].CODE == '')
+            {            
+                alertify.okBtn("Tamam");
+                alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+                return;
+            }
+            
+            if($scope.StokListe[0].ITEM_CUSTOMER == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
+                return;
+            }
+            
+            if($scope.StokListe[0].ITEM_GRP == "")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Ürün grubu bölümünü boş geçemezsiniz !");
+                return;
+            }
+    
+            if($scope.StokListe[0].VAT == "-")
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Lütfen vergi dilimini seçiniz !");
+                return;
+            }
         }
 
         let InsertData =
@@ -821,7 +831,7 @@ function StokCtrl ($scope,$window,$location,db)
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
             $scope.StokListe[0].STATUS,
             $scope.StokListe[0].PLU,
-            $scope.StokListe[0].TARTIM
+            $scope.StokListe[0].WEIGHING
         ];
         
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
@@ -1511,7 +1521,10 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.BtnKodOlustur = function()
     {
-        $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
+        if($scope.StyleAll.visibility == 'hidden')
+        {
+            $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
+        }
     }
     $scope.TxtBarkodBlur = async function()
     {

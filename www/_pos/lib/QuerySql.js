@@ -15,7 +15,7 @@ var QuerySql =
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
                 "[PLU] AS [PLU], " + 
-                "[TARTIM] AS [TARTIM], " + 
+                "[WEIGHING] AS [WEIGHING], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
                 "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
@@ -48,7 +48,7 @@ var QuerySql =
                 ",[MAX_PRICE] " +
                 ",[STATUS] " +
                 ",[PLU] " +
-                ",[TARTIM] " +
+                ",[WEIGHING] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -65,7 +65,7 @@ var QuerySql =
                 "@MAX_PRICE,			--<MAX_PRICE, float,> \n" +
                 "@STATUS,				--<STATUS, bit,> \n" +
                 "@PLU,				    --<PLU, bit,> \n" +
-                "@TARTIM			    --<TARTIM, bit,> \n" +
+                "@WEIGHING			    --<WEIGHING, bit,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -81,10 +81,10 @@ var QuerySql =
                 ",[MAX_PRICE] = @MAX_PRICE " +
                 ",[STATUS] = @STATUS " +
                 ",[PLU] = @PLU " +
-                ",[TARTIM] = @TARTIM " +
+                ",[WEIGHING] = @WEIGHING " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','TARTIM:bit']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','WEIGHING:bit']
     },
     StokKartSil :
     {
