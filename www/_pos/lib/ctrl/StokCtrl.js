@@ -1449,10 +1449,18 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.TxtStokKeyPress = function(keyEvent)
     {
-        if(keyEvent.which === 13)
-        {   
+        if(typeof keyEvent == 'undefined')
+        {
             StokGetir($scope.StokListe[0].CODE);
         }
+        else
+        {
+            if(keyEvent.which === 13)
+            {   
+                StokGetir($scope.StokListe[0].CODE);
+            }
+        }
+        
     }
     $scope.TxtTedarikciKeyPress = function(keyEvent)
     {
