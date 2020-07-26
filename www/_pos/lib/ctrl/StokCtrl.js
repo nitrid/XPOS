@@ -1550,4 +1550,34 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
     }
+    $scope.TxtUrunGrupKeyPress = function(keyEvent)
+    {
+        if(keyEvent.which === 13)
+        {
+            if($scope.StokListe[0].ITEM_GRP != "")
+            {
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP WHERE CODE LIKE @CODE + '%'",
+                    param : ["CODE:string|100"],
+                    value : [$scope.StokListe[0].ITEM_GRP]
+                }
+                db.GetDataQuery(TmpQuery,function(Data)
+                {
+                    if(Data.length == 1)
+                    {
+                        $scope.StokListe[0].ITEM_GRP = Data[0].CODE;
+                        $("#MdlSecim").modal('hide');
+                    }
+                    else if(Data.length > 1)
+                    {
+                        ModalTip = "UrunGrup"
+                        TblSecimInit(Data);
+                        $("#MdlSecim").modal('show');
+                    }
+                });
+            }
+        }
+    }
 }

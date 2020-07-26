@@ -137,7 +137,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].ITEM_GRP" />
+                                    ng-model="StokListe[0].ITEM_GRP" ng-keypress="TxtUrunGrupKeyPress($event)"/>
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('UrunGrup')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
