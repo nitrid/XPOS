@@ -88,16 +88,24 @@ var QuerySql =
     },
     StokKartSil :
     {
-        query : "DELETE FROM ITEMS WHERE CODE = @CODE",
+        query : "DELETE FROM ITEMS WHERE CODE = @CODE " + 
+                "DELETE FROM ITEM_PRICE WHERE ITEM_CODE = @CODE " + 
+                "DELETE FROM ITEM_BARCODE WHERE ITEM_CODE = @CODE " +
+                "DELETE FROM ITEM_UNIT WHERE ITEM_CODE = @CODE " + 
+                "DELETE FROM ITEM_CUSTOMER WHERE ITEM_CODE = @CODE " ,
         param : ['CODE:string|25']
     },
     StokKartFiyatListeGetir : 
     {
         query : "SELECT *, " + 
-                "ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0) AS NETMARJORAN, " + 
-                "CONVERT(nvarchar,ROUND((EXVAT - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0)) AS NETMARJ, " + 
-                "ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0) AS BRUTMARJORAN, " + 
-                "CONVERT(nvarchar,ROUND(EXVAT - COST_PRICE,2)) + '€ / %' + CONVERT(nvarchar,ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0)) AS BRUTMARJ " + 
+                "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN 0 ELSE " + 
+                "ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0) END AS NETMARJORAN, " + 
+                "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE " + 
+                "CONVERT(nvarchar,ROUND((EXVAT - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0)) END AS NETMARJ, " + 
+                "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN 0 ELSE " + 
+                "ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0) END AS BRUTMARJORAN, " + 
+                "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE " + 
+                "CONVERT(nvarchar,ROUND(EXVAT - COST_PRICE,2)) + '€ / %' + CONVERT(nvarchar,ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0)) END AS BRUTMARJ " +  
                 "FROM " + 
                 "(SELECT " + 
                 "[GUID] " + 
@@ -213,6 +221,7 @@ var QuerySql =
                 "ELSE " +
                 "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
                 "IF @TMPCODE = '' " +
+                "BEGIN " +
                 "INSERT INTO [dbo].[ITEM_UNIT] " +
                 "([CUSER] " +
                 ",[CDATE] " +
@@ -242,7 +251,10 @@ var QuerySql =
                 "@HEIGHT,			    --<HEIGHT, float,> \n" +
                 "@SIZE			        --<SIZE, float,> \n" +
                 ") " +
-                "ELSE " + 
+                "SELECT [GUID] FROM ITEM_UNIT WHERE ITEM_CODE = @ITEM_CODE AND [TYPE] = @TYPE " +
+                "END " +
+                "ELSE " +
+                "BEGIN " +
                 "UPDATE [dbo].[ITEM_UNIT] SET " +
                 "[LUSER] = @LUSER " +
                 ",[LDATE] = GETDATE() " +
@@ -254,7 +266,9 @@ var QuerySql =
                 ",[WIDTH] = @WIDTH " +
                 ",[HEIGHT] = @HEIGHT " +
                 ",[SIZE] = @SIZE " +
-                "WHERE [ITEM_CODE] = @TMPCODE AND [NAME] = @NAME AND [TYPE] = @TYPE",
+                "WHERE [ITEM_CODE] = @TMPCODE AND [NAME] = @NAME AND [TYPE] = @TYPE " +
+                "SELECT [GUID] FROM ITEM_UNIT WHERE ITEM_CODE = @TMPCODE AND [TYPE] = @TYPE " +
+                "END " ,
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','NAME:string|50','FACTOR:float','WEIGHT:float',
                  'VOLUME:float','WIDTH:float','HEIGHT:float','SIZE:float']
     },
@@ -271,7 +285,10 @@ var QuerySql =
     },
     BarkodKaydet : 
     {
-        query : "INSERT INTO [dbo].[ITEM_BARCODE] " +
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = @ITEM_CODE AND BARCODE = @BARCODE),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[ITEM_BARCODE] " +
                 "([CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +
@@ -289,7 +306,15 @@ var QuerySql =
                 "@BARCODE,				--<BARCODE, nvarchar(50),> \n" +
                 "@UNIT,		    	    --<UNIT, uniqueidentifier,> \n" +
                 "@TYPE		            --<TYPE, int,> \n" +
-                ") ",
+                ") " +
+                "ELSE " +
+                "UPDATE [dbo].[ITEM_BARCODE] SET " +
+                "[LUSER] = @LUSER " +
+                ",[LDATE] = GETDATE() " +
+                ",[ITEM_CODE] = @ITEM_CODE " +
+                ",[UNIT] = @UNIT " +
+                ",[TYPE] = @TYPE " +
+                "WHERE [BARCODE] = @TMPCODE ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','BARCODE:string|50','UNIT:string|50','TYPE:int']
     },
     BarkodSil :

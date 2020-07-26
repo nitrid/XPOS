@@ -14,6 +14,10 @@
                 ng-click="Sil()">
                 <i class="icon fa-trash-o" aria-hidden="true"></i>
             </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Clone()">
+                <i class="icon fa-clone" aria-hidden="true"></i>
+            </button>
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
                 <i class="icon fa-print" aria-hidden="true"></i>
             </button>
@@ -33,7 +37,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].ITEM_CUSTOMER"/>
+                                    ng-model="StokListe[0].ITEM_CUSTOMER" ng-keypress="TxtTedarikciKeyPress($event)"/>
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary btn-custom"  ng-click="BtnModalSecim('TedarikciCari')">
                                         <i class="icon wb-plus" aria-hidden="true"></i>
@@ -94,7 +98,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].CODE" />
+                                    ng-model="StokListe[0].CODE" ng-keypress="TxtStokKeyPress($event)" />
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('Stok')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
