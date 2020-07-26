@@ -785,15 +785,15 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.Kaydet = function()
     {
+        if($scope.StokListe[0].CODE == '')
+        {            
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+            return;
+        }
+        
         if($scope.StyleAll.visibility != 'hidden')
-        {
-            if($scope.StokListe[0].CODE == '')
-            {            
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü boş geçemezsiniz !");
-                return;
-            }
-            
+        {                        
             if($scope.StokListe[0].ITEM_CUSTOMER == "")
             {
                 alertify.okBtn("Tamam");
