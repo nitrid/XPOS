@@ -330,7 +330,7 @@ function StokCtrl ($scope,$window,$location,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
-            data : $scope.BirimListe,
+            data : $scope.BarkodListe,
             paging : true,
             pageSize: 5,
             pageButtonCount: 3,
@@ -407,7 +407,7 @@ function StokCtrl ($scope,$window,$location,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
-            data : $scope.BirimListe,
+            data : $scope.TedaikciListe,
             paging : true,
             pageSize: 5,
             pageButtonCount: 3,
@@ -488,6 +488,57 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                 });
             }
+        });
+    }
+    function TblTedarikciFiyatInit()
+    {
+        $("#TblTedarikciFiyat").jsGrid
+        ({
+            width: "100%",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.TedaikciFiyatListe,
+            paging : true,
+            pageSize: 10,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: 
+            [
+                {
+                    name: "CUSTOMER_CODE",
+                    title : "Kodu",
+                    type : "text",
+                    align: "center",
+                    width: 100
+                    
+                },
+                {
+                    name: "CUSTOMER_NAME",
+                    title : "Adı",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "PRICE_LDATE",
+                    title : "Son Fiyat Tarih",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "PRICE",
+                    title : "Fiyat",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "CUSTOMER_ITEM_CODE",
+                    title : "Tedarikçi Stok Kodu",
+                    type : "text",
+                    align: "center",
+                    width: 100
+                }
+            ]
         });
     }
     function TblSecimInit(pData)
@@ -650,7 +701,13 @@ function StokCtrl ($scope,$window,$location,db)
                     {
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
                     }
-                });                
+                });        
+                //TEDARİKÇİ FİYAT LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
+                {
+                    $scope.TedaikciFiyatListe = TedarikciFiyatData;
+                    $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
+                });        
             }
 
             if(typeof pCallback != 'undefined')
@@ -730,11 +787,13 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.BirimListe = [];
         $scope.BarkodListe = [];
         $scope.TedaikciListe = [];
-
+        $scope.TedaikciListe = [];
+        
         TblFiyatInit();
         TblBirimInit();
         TblBarkodInit();
-        TblTedarikciInit();        
+        TblTedarikciInit();  
+        TblTedarikciFiyatInit();      
         TblSecimInit([]);
 
         if(typeof pClone == 'undefined')
@@ -1405,6 +1464,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBirim").removeClass('active');
         $("#TabBarkod").removeClass('active');
         $("#TabTedarikci").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
     }
     $scope.BtnTabBirim = function()
     {
@@ -1412,6 +1472,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabFiyat").removeClass('active');
         $("#TabBarkod").removeClass('active');
         $("#TabTedarikci").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
     }
     $scope.BtnTabBarkod = function()
     {
@@ -1419,10 +1480,20 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabFiyat").removeClass('active');
         $("#TabBirim").removeClass('active');
         $("#TabTedarikci").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
     }
     $scope.BtnTabTedarikci = function()
     {
         $("#TabTedarikci").addClass('active');
+        $("#TabFiyat").removeClass('active');
+        $("#TabBarkod").removeClass('active');
+        $("#TabBirim").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
+    }
+    $scope.BtnTabTedarikciFiyat = function()
+    {
+        $("#TabTedarikciFiyat").addClass('active');
+        $("#TabTedarikci").removeClass('active');
         $("#TabFiyat").removeClass('active');
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
@@ -1466,12 +1537,18 @@ function StokCtrl ($scope,$window,$location,db)
                     { 
                         if(typeof(InsertResult.result.err) == 'undefined')
                         {  
-                            //FİYAT LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
+                            //TEDARİKÇİ LİSTESİ GETİR
+                            db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                             {
-                                $scope.FiyatListe = FiyatData;
-                                $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                                $scope.TedaikciListe = TedarikciData;
+                                $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                             });
+                            //TEDARİKÇİ FİYAT LİSTESİ GETİR
+                            db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
+                            {
+                                $scope.TedaikciFiyatListe = TedarikciFiyatData;
+                                $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
+                            }); 
                         }
                     });  
                     
