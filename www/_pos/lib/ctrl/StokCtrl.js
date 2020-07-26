@@ -508,8 +508,8 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 return $.grep(pData, function(client) 
                 { 
-                    return (!filter.CODE || client.CODE.indexOf(filter.CODE) > -1)
-                        && (!filter.NAME || client.NAME.indexOf(filter.NAME) > -1)
+                    return (!filter.CODE || client.CODE.toLowerCase().indexOf(filter.CODE.toLowerCase()) > -1)
+                        && (!filter.NAME || client.NAME.toLowerCase().indexOf(filter.NAME.toLowerCase()) > -1)
                 });
             }
         };
