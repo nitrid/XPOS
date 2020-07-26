@@ -737,7 +737,7 @@ function StokCtrl ($scope,$window,$location,db)
             TmpStokObj.SNAME = "";
             TmpStokObj.ITEM_GRP = "";
             TmpStokObj.TYPE = "0";
-            TmpStokObj.VAT = "0";
+            TmpStokObj.VAT = "-";
             TmpStokObj.STATUS = true;
             TmpStokObj.PLU = false;
             TmpStokObj.COST_PRICE = 0;
@@ -792,6 +792,20 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
         
+        if($scope.StokListe[0].ITEM_GRP == "")
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Ürün grubu bölümünü boş geçemezsiniz !");
+            return;
+        }
+
+        if($scope.StokListe[0].VAT == "-")
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Lütfen vergi dilimini seçiniz !");
+            return;
+        }
+
         let InsertData =
         [
             UserParam.Kullanici,
@@ -1526,5 +1540,14 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }
         
+    }
+    $scope.CmbVatBlur = function()
+    {
+        if($scope.StokListe[0].VAT == "0")
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Vergi dilimi yuzde sıfır.Eminmisiniz ?");
+            return;
+        }
     }
 }

@@ -174,7 +174,7 @@
                             <div class="float-right">Vergi :</div>
                         </label>
                         <div class="col-md-9">
-                            <select class="form-control" ng-model="StokListe[0].VAT">
+                            <select class="form-control" ng-model="StokListe[0].VAT" ng-blur="CmbVatBlur()">
                                 <option value="0">0</option>
                                 <option value="5.5">5.5</option>
                                 <option value="10">10</option>
