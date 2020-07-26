@@ -1485,7 +1485,7 @@ function StokCtrl ($scope,$window,$location,db)
                 let TmpQuery = 
                 {
                     db : $scope.Firma,
-                    query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1 AND CODE LIKE @CODE + '%' OR NAME LIKE @CODE + '%'",
+                    query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1 AND (CODE LIKE @CODE + '%' OR NAME LIKE @CODE + '%')",
                     param : ["CODE:string|100"],
                     value : [$scope.StokListe[0].ITEM_CUSTOMER]
                 }
