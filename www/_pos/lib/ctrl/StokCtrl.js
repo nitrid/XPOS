@@ -777,11 +777,10 @@ function StokCtrl ($scope,$window,$location,db)
     $scope.Kaydet = function()
     {
         if($scope.StokListe[0].CODE == '')
-        {
-            $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
-            // alertify.okBtn("Tamam");
-            // alertify.alert("Kodu bölümünü boş geçemezsiniz !");
-            // return;
+        {            
+            alertify.okBtn("Tamam");
+            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+            return;
         }
         
         if($scope.StokListe[0].ITEM_CUSTOMER == "")
@@ -1492,5 +1491,9 @@ function StokCtrl ($scope,$window,$location,db)
                 });
             }
         }
+    }
+    $scope.BtnKodOlustur = function()
+    {
+        $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
     }
 }

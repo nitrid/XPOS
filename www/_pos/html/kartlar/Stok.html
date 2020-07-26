@@ -39,6 +39,9 @@
                                 <input type="text" class="form-control" name="name" autocomplete="off"
                                     ng-model="StokListe[0].CODE" ng-keypress="TxtStokKeyPress($event)" />
                                 <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnKodOlustur()">
+                                        <i class="icon wb-arrow-down" aria-hidden="true"></i>
+                                    </button>
                                     <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('Stok')">
                                         <i class="icon wb-search" aria-hidden="true"></i>
                                     </button>
@@ -129,14 +132,6 @@
                 <div class="col-md-12 col-lg-5">
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Tedarikçi Stok :</div>
-                        </label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" autocomplete="off" readonly ng-model="StokListe[0].CUSTOMER_ITEM_CODE" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-3 form-control-label">
                             <div class="float-right">Ürün Grubu :</div>
                         </label>
                         <div class="col-md-9">
@@ -154,6 +149,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right">Tedarikçi Stok :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" readonly ng-model="StokListe[0].CUSTOMER_ITEM_CODE" />
+                        </div>
+                    </div>                    
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
                             <div class="float-right">Ürün Cinsi :</div>
