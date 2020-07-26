@@ -844,11 +844,14 @@ function StokCtrl ($scope,$window,$location,db)
                     let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];                    
                     BirimKaydet(TmpVal,function(pGuid)
                     {
-                        $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
-                        $scope.BarkodModal.Birim = pGuid
-                        $scope.BarkodModal.Tip = 0
-
-                        $scope.BtnBarkodKaydet();
+                        if($scope.StokListe[0].BARCODE != '')
+                        {
+                            $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
+                            $scope.BarkodModal.Birim = pGuid
+                            $scope.BarkodModal.Tip = 0
+    
+                            $scope.BtnBarkodKaydet();
+                        }
                     });                
                 }
                 // ALT BİRİM KAYIT İŞLEMİ 
