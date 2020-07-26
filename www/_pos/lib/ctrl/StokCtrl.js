@@ -996,7 +996,7 @@ function StokCtrl ($scope,$window,$location,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_CODE] = @CUSTOMER_CODE AND [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
+            query:  "SELECT [CUSTOMER_ITEM_CODE],[ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_CODE] = @CUSTOMER_CODE AND [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
             param: ['CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25'],
             value: [$scope.TedarikciModal.Kodu,$scope.TedarikciModal.StokKodu]
         }
@@ -1012,14 +1012,8 @@ function StokCtrl ($scope,$window,$location,db)
                 $("#MdlTedarikciEkle").modal('show');
             },function()
             {
-                //TEDARİKÇİ LİSTESİ GETİR
-                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                {
-                    $scope.TedaikciListe = TedarikciData;
-                    $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
-                    $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
-                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
-                });
+                console.log(TmpResult)
+                StokGetir(TmpResult[0].ITEM_CODE);                
             });
         }
         else
