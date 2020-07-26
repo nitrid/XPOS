@@ -1526,6 +1526,13 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
         }
     }
+    $scope.BtnRefKaydet = function()
+    {
+        if($scope.StyleAll.visibility == 'hidden')
+        {
+            $scope.Kaydet();
+        }
+    }
     $scope.TxtBarkodBlur = async function()
     {
         if($scope.StokListe[0].BARCODE != '')
