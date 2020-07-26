@@ -791,7 +791,7 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert("Kodu bölümünü boş geçemezsiniz !");
             return;
         }
-        
+
         if($scope.StyleAll.visibility != 'hidden')
         {                        
             if($scope.StokListe[0].ITEM_CUSTOMER == "")
@@ -1449,7 +1449,7 @@ function StokCtrl ($scope,$window,$location,db)
                         0,
                         moment(new Date(0)).format("DD.MM.YYYY"),
                         moment(new Date(0)).format("DD.MM.YYYY"),
-                        $scope.StokListe[0].COST_PRICE,   
+                        parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),   
                         1,                
                         $scope.StokListe[0].ITEM_CUSTOMER
                     ];
