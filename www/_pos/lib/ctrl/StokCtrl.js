@@ -660,6 +660,11 @@ function StokCtrl ($scope,$window,$location,db)
 
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
+                if($scope.StokListe[0].VAT == null)
+                {
+                    $scope.StokListe[0].VAT = "-"
+                }
+                console.log($scope.StokListe[0].VAT)
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -1570,7 +1575,11 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.CmbAnaBirimChange = function()
     {
-        setTimeout( function(){$window.document.getElementById("TxtAnaBirim").focus();},100); 
+        setTimeout( function()
+        {
+            $window.document.getElementById("TxtAnaBirim").focus();
+            $window.document.getElementById("TxtAnaBirim").setSelectionRange(0, $window.document.getElementById("TxtAnaBirim").value.length);
+        },100); 
     }
     $scope.CmbAltBirimChange = function()
     {
@@ -1593,7 +1602,10 @@ function StokCtrl ($scope,$window,$location,db)
         }
         $scope.AltBirimFiyati = (TmpFiyat / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
 
-        setTimeout( function(){$window.document.getElementById("TxtAltBirim").focus();},100); 
+        setTimeout( function(){
+            $window.document.getElementById("TxtAltBirim").focus();
+            $window.document.getElementById("TxtAltBirim").setSelectionRange(0, $window.document.getElementById("TxtAltBirim").value.length);
+        },100); 
     }
     $scope.TxtStokKeyPress = function(keyEvent)
     {
