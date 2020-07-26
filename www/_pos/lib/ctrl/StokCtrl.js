@@ -995,9 +995,9 @@ function StokCtrl ($scope,$window,$location,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER_CODE] = @CUSTOMER_CODE AND [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
-            param: ['ITEM_CODE:string|25','CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25'],
-            value: [$scope.StokListe[0].CODE,$scope.TedarikciModal.Kodu,$scope.TedarikciModal.StokKodu]
+            query:  "SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE [CUSTOMER_CODE] = @CUSTOMER_CODE AND [CUSTOMER_ITEM_CODE] = @CUSTOMER_ITEM_CODE",
+            param: ['CUSTOMER_CODE:string|25','CUSTOMER_ITEM_CODE:string|25'],
+            value: [$scope.TedarikciModal.Kodu,$scope.TedarikciModal.StokKodu]
         }
 
         let TmpResult = await db.GetPromiseQuery(TmpQuery);
