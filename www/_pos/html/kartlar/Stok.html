@@ -90,10 +90,10 @@
                         </label>
                         <div class="col-md-7">
                             <div class="input-group">
-                                <select class="form-control" ng-model="StokListe[0].MAIN_UNIT_NAME">
-                                    <option ng-repeat="option in Birim" value="{{option.Kodu}}">{{option.Kodu + '/' + option.Symbol}}</option>                                
+                                <select class="form-control" ng-model="StokListe[0].MAIN_UNIT_NAME" ng-change="CmbAnaBirimChange()">
+                                    <option ng-repeat="option in Birim" value="{{option.Kodu}}" >{{option.Kodu + '/' + option.Symbol}}</option>                                
                                 </select>  
-                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].MAIN_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" class="form-control" id="TxtAnaBirim" autocomplete="off" ng-model="StokListe[0].MAIN_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                             </div>
                         </div>
                     </div>
@@ -103,10 +103,10 @@
                         </label>
                         <div class="col-md-7">
                             <div class="input-group">
-                                <select class="form-control" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
+                                <select class="form-control" id="CmbAltBirim" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
                                     <option ng-repeat="option in Birim" value="{{option.Kodu}}">{{option.Kodu + '/' + option.Symbol}}</option>                                
                                 </select>  
-                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" class="form-control" id="TxtAltBirim" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                             </div>                            
                         </div>
                         <div class="col-md-2 form-control-label">
