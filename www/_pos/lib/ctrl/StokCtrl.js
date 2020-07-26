@@ -1012,7 +1012,6 @@ function StokCtrl ($scope,$window,$location,db)
                 $("#MdlTedarikciEkle").modal('show');
             },function()
             {
-                console.log(TmpResult)
                 StokGetir(TmpResult[0].ITEM_CODE);                
             });
         }
@@ -1491,5 +1490,33 @@ function StokCtrl ($scope,$window,$location,db)
     $scope.BtnKodOlustur = function()
     {
         $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
+    }
+    $scope.TxtBarkodBlur = async function()
+    {
+        if($scope.StokListe[0].BARCODE != '')
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [BARCODE],[ITEM_CODE] FROM ITEM_BARCODE WHERE [BARCODE] = @BARCODE",
+                param: ['BARCODE:string|50'],
+                value: [$scope.StokListe[0].BARCODE]
+            }
+    
+            let TmpResult = await db.GetPromiseQuery(TmpQuery);
+            if(TmpResult.length > 0)
+            {
+                alertify.okBtn('Tamam');
+                alertify.cancelBtn('Ürüne Git');
+                alertify.confirm("Girimiş olduğunuz barkod sistemde kayıtlı",function()
+                {
+                    $scope.StokListe[0].BARCODE = "";
+                },function()
+                {
+                    StokGetir(TmpResult[0].ITEM_CODE);                
+                });
+            }
+        }
+        
     }
 }

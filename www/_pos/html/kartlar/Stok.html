@@ -72,7 +72,7 @@
                         <div class="col-md-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="name" autocomplete="off"
-                                    ng-model="StokListe[0].BARCODE" />
+                                    ng-model="StokListe[0].BARCODE" ng-blur = "TxtBarkodBlur()"/>
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalBarkodEkle()">
                                         <i class="icon wb-plus" aria-hidden="true"></i>
