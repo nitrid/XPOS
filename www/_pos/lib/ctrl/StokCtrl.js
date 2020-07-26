@@ -544,6 +544,8 @@ function StokCtrl ($scope,$window,$location,db)
         SecimSelectedRow = $row;
         SecimSelectedRow.Item = pItem
         SecimSelectedRow.Index = pIndex
+
+        $scope.BtnGridSec();
     }
     function FiyatModalInit()
     {
