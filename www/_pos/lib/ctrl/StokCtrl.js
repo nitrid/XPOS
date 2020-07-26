@@ -598,7 +598,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.UrunGrupModal.Kodu = "";
         $scope.UrunGrupModal.Adi = "";
     }
-    function StokGetir(pKodu)
+    function StokGetir(pKodu,pCallback)
     {
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {            
@@ -650,7 +650,12 @@ function StokCtrl ($scope,$window,$location,db)
                     {
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
                     }
-                });
+                });                
+            }
+
+            if(typeof pCallback != 'undefined')
+            {
+                pCallback(StokData)
             }
         });
     }
@@ -1558,7 +1563,13 @@ function StokCtrl ($scope,$window,$location,db)
     {
         if($scope.StyleAll.visibility == 'hidden')
         {
-            $scope.Kaydet();
+            StokGetir($scope.StokListe[0].CODE,function(pData)
+            {
+                if(pData.length == 0)
+                {
+                    $scope.Kaydet();
+                }
+            })
         }
     }
     $scope.TxtBarkodBlur = async function()
