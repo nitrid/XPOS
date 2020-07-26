@@ -879,7 +879,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
 
-            if($scope.StokListe[0].UNDER_UNIT_FACTOR > "0")
+            if($scope.StokListe[0].UNDER_UNIT_FACTOR == 0)
             {
                 alertify.okBtn("Tamam");
                 alertify.alert("Lütfen alt birimi giriniz !");
@@ -910,7 +910,7 @@ function StokCtrl ($scope,$window,$location,db)
             if(typeof(InsertResult.result.err) == 'undefined')
             {  
                 // ANA BİRİM KAYIT İŞLEMİ 
-                if($scope.StokListe[0].MAIN_UNIT_FACTOR > "0")
+                if($scope.StokListe[0].MAIN_UNIT_FACTOR > 0)
                 {
                     let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];                    
                     BirimKaydet(TmpVal,function(pGuid)
@@ -927,7 +927,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }
 
                 // ALT BİRİM KAYIT İŞLEMİ 
-                if($scope.StokListe[0].UNDER_UNIT_FACTOR > "0")
+                if($scope.StokListe[0].UNDER_UNIT_FACTOR > 0)
                 {
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);        
                 }
