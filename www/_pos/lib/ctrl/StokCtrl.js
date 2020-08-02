@@ -25,11 +25,18 @@ function StokCtrl ($scope,$window,$location,db)
         {
             return new Date(date1) - new Date(date2);
         },
-        itemTemplate: function (value)
+        itemTemplate: function (value,item)
         {
-            if (value.toLowerCase().indexOf("Date") == -1)
+            if(item.TYPE != 0)
             {
-                return moment(new Date(value)).format("DD.MM.YYYY");
+                if (value.toLowerCase().indexOf("Date") == -1)
+                {
+                    return moment(new Date(value)).format("MM.DD.YYYY");
+                }
+                else
+                {
+                    return moment(new Date(value)).attr("style", "visibility: hidden")
+                }
             }
         },
         insertTemplate: function (value)
@@ -38,11 +45,15 @@ function StokCtrl ($scope,$window,$location,db)
                 format: 'dd.mm.yyyy'
             });
         },
-        editTemplate: function (value)
+        editTemplate: function (value,item)
         {
-            return this._editPicker = $("<input>").datepicker({
-                format: 'dd.mm.yyyy'
-            }).datepicker("setDate", moment(new Date(value)).format("DD.MM.YYYY"));
+            if(item.TYPE != 0)
+            {
+                return this._editPicker = $("<input>").datepicker({
+                    format: 'dd.mm.yyyy'
+                }).datepicker("setDate", moment(new Date(value)).format("MM.DD.YYYY"));
+            }
+            
         },
         insertValue: function ()
         {
@@ -52,9 +63,12 @@ function StokCtrl ($scope,$window,$location,db)
         },
         editValue: function ()
         {
-            return this._editPicker.datepicker({
-                format: 'dd.mm.yyyy'
-            }).val();
+            if(this._editPicker != null)
+            {
+                return this._editPicker.datepicker({
+                    format: 'dd.mm.yyyy'
+                }).val();
+            }
         }
     });
     jsGrid.fields.DateField = DateField;
@@ -92,18 +106,7 @@ function StokCtrl ($scope,$window,$location,db)
                     title : "Baş.Tarih",
                     type: "DateField",
                     align: "center",
-                    width: 75,
-                    itemTemplate: function(value, item)
-                    {
-                        if(item.TYPE == 0)
-                        {
-                            return "<div style='color:red;font-weight: bold'></div>"
-                        }
-                        else
-                        {
-                            return  value
-                        }
-                    }
+                    width: 75
                 },
                 {
                     name: "FINISH_DATE",
@@ -833,6 +836,7 @@ function StokCtrl ($scope,$window,$location,db)
             TmpStokObj.MAIN_UNIT_NAME = "Unité";
             TmpStokObj.MAIN_UNIT_FACTOR = 1;
             TmpStokObj.WEIGHING = false;
+            TmpStokObj.BARCODE = "";
 
             $scope.StokListe.push(TmpStokObj);
         }
@@ -948,7 +952,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }
             }
 
-            window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
+            //window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
         });
     }
     $scope.Sil = function()
