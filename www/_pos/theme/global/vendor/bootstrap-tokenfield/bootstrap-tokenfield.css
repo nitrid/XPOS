@@ -12,7 +12,7 @@
 
 .tokenfield {
   height: auto;
-  min-height: 2.573rem;
+  min-height: 2rem;
   padding-bottom: 0; }
   .tokenfield.focus {
     border-color: #3e8ef7;

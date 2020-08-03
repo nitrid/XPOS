@@ -5,7 +5,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _MenuData = {};
     moment.locale('tr');
     let PosNo = "1"
-
+    
     if (typeof(localStorage.host) !== "undefined") 
     {
         _Host = 'http://' + localStorage.host + ':' + localStorage.socketport;

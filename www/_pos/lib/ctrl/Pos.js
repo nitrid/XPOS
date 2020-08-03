@@ -1,4 +1,4 @@
-function PosSatisCtrl($scope,$window,db)
+function Pos($scope,$window,db)
 {
     let IslemSelectedRow = null;
     let CariSelectedRow = null;
@@ -53,11 +53,7 @@ function PosSatisCtrl($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
     });
-    db.On("SerialBarcode",function(data)
-    {
-        $scope.TxtBarkod = data.result.substring(1,data.result.length).toString().trim();
-        TxtBarkodKeyPress();
-    })
+    
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
@@ -778,74 +774,84 @@ function PosSatisCtrl($scope,$window,db)
     }
     $scope.YeniEvrak = async function()
     {
-        Init();
-        InitIslemGrid();
-        InitParkIslemGrid();
-        InitTahIslemGrid();
-        InitCariGrid();
-        InitStokGrid();
-        InitSonSatisGrid();
-        InitSonSatisDetayGrid();
-
-        $scope.Seri = UserParam.PosSatis.Seri;
-        $scope.TahSeri = UserParam.PosSatis.TahSeri;
-        $scope.EvrakTip = UserParam.PosSatis.EvrakTip;
-        $scope.CariKodu = UserParam.PosSatis.Cari;
-        $scope.Sube = UserParam.PosSatis.Sube;
-        $scope.Kullanici = UserParam.Kullanici
-        $scope.Miktar = 1;
-
-        $scope.Stok = 
-        [
-            {
-                BIRIM : '',
-                BIRIMPNTR : 0, 
-                FIYAT : 0,
-                TUTAR : 0,
-                INDIRIM : 0,
-                KDV : 0,
-                TOPTUTAR :0
-            }
-        ];
-
-        // CARI GETIR
-        if($scope.CariKodu != "")
+        db.Connection(async function(data)
         {
-            db.GetData($scope.Firma,'PosCariGetir',[$scope.CariKodu,''],function(data)
+            db.On("SerialBarcode",function(data)
             {
-                if(data.length > 0)
+                $scope.TxtBarkod = data.result.substring(1,data.result.length).toString().trim();
+                TxtBarkodKeyPress();
+            })
+
+            Init();
+            InitIslemGrid();
+            InitParkIslemGrid();
+            InitTahIslemGrid();
+            InitCariGrid();
+            InitStokGrid();
+            InitSonSatisGrid();
+            InitSonSatisDetayGrid();
+
+            $scope.Seri = UserParam.PosSatis.Seri;
+            $scope.TahSeri = UserParam.PosSatis.TahSeri;
+            $scope.EvrakTip = UserParam.PosSatis.EvrakTip;
+            $scope.CariKodu = UserParam.PosSatis.Cari;
+            $scope.Sube = UserParam.PosSatis.Sube;
+            $scope.Kullanici = UserParam.Kullanici
+            $scope.Miktar = 1;
+
+            $scope.Stok = 
+            [
                 {
-                    $scope.CariListe = data;
-                
-                    $("#TblCari").jsGrid({data : $scope.CariListe});
-    
-                    let Obj = $("#TblCari").data("JSGrid");
-                    let Item = Obj.rowByItem(data[0]);
+                    BIRIM : '',
+                    BIRIMPNTR : 0, 
+                    FIYAT : 0,
+                    TUTAR : 0,
+                    INDIRIM : 0,
+                    KDV : 0,
+                    TOPTUTAR :0
+                }
+            ];
+
+            // CARI GETIR
+            if($scope.CariKodu != "")
+            {
+                db.GetData($scope.Firma,'PosCariGetir',[$scope.CariKodu,''],function(data)
+                {
+                    if(data.length > 0)
+                    {
+                        $scope.CariListe = data;
                     
-                    $scope.CariListeRowClick(0,Item,Obj);
+                        $("#TblCari").jsGrid({data : $scope.CariListe});
+        
+                        let Obj = $("#TblCari").data("JSGrid");
+                        let Item = Obj.rowByItem(data[0]);
+                        
+                        $scope.CariListeRowClick(0,Item,Obj);
+                    }
+                });
+            }
+            //PLU GRUP GETİR
+            db.GetData($scope.Firma,'PosPluGrupGetir',[],function(PluGrpData)
+            {
+                $scope.PluGrpList = PluGrpData;
+                if($scope.PluGrpList.length > 0)
+                {
+                    $scope.PluGetir($scope.PluGrpList[0].GRUP);
                 }
             });
-        }
-        //PLU GRUP GETİR
-        db.GetData($scope.Firma,'PosPluGrupGetir',[],function(PluGrpData)
-        {
-            $scope.PluGrpList = PluGrpData;
-            if($scope.PluGrpList.length > 0)
-            {
-                $scope.PluGetir($scope.PluGrpList[0].GRUP);
-            }
-        });
-        //PARKTAKİ ISLEMLER
-        db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
-        {   
-            $scope.ParkList = ParkData;
-            $scope.ParkIslemSayisi = $scope.ParkList.length;
+            //PARKTAKİ ISLEMLER
+            db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
+            {   
+                $scope.ParkList = ParkData;
+                $scope.ParkIslemSayisi = $scope.ParkList.length;
 
-            $("#TblParkIslem").jsGrid({data : $scope.ParkList}); 
+                $("#TblParkIslem").jsGrid({data : $scope.ParkList}); 
+            });
+            
+            await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
+            await db.MaxSira($scope.Firma,'MaxPosTahSira',[$scope.Sube,$scope.TahSeri,0],function(data){$scope.TahSira = data});
         });
         
-        await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
-        await db.MaxSira($scope.Firma,'MaxPosTahSira',[$scope.Sube,$scope.TahSeri,0],function(data){$scope.TahSira = data});
     }
     $scope.BtnCariGridGetir = function()
     {

@@ -142,10 +142,10 @@ function StokListeCtrl ($scope,$window,db)
         QueryField.Customer.Where = "";
 
         let TmpVal = ""
-        for (let i = 0; i < $scope.Barkod.split(',').length; i++) 
+        for (let i = 0; i < $scope.Barkod.split(' ').length; i++) 
         {
-            TmpVal += "'" + $scope.Barkod.split(',')[i] + "'"
-            if($scope.Barkod.split(',').length > 1 && i !=  ($scope.Barkod.split(',').length - 1))
+            TmpVal += "'" + $scope.Barkod.split(' ')[i] + "'"
+            if($scope.Barkod.split(' ').length > 1 && i !=  ($scope.Barkod.split(' ').length - 1))
             {
                 TmpVal += ","
             }
