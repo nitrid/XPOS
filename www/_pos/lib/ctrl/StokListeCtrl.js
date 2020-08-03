@@ -95,24 +95,28 @@ function StokListeCtrl ($scope,$window,db)
         Unit:
         {
             Field : "",
-            Outer : "",
+            Outer : ""
         },
         Price:
         {
             Field : "",
-            Outer : "",
+            Outer : ""
         },
         Customer:
         {
             Field : "",
             Outer : "",
-            Where : "",
+            Where : ""
         },
         Barcode:
         {
             Field : "",
             Outer : "",
-            Where : "",
+            Where : ""
+        },
+        Code:
+        {
+            Where : ""
         }
     }
     function TblStokInit()
@@ -141,8 +145,13 @@ function StokListeCtrl ($scope,$window,db)
         QueryField.Customer.Field = "";
         QueryField.Customer.Outer = "";        
         QueryField.Customer.Where = "";
+        QueryField.Barcode.Field = "";
+        QueryField.Barcode.Outer = "";
+        QueryField.Barcode.Where = "";
+        QueryField.Code.Where = "";
 
         let TmpVal = ""
+        
         for (let i = 0; i < $scope.Barkod.split(' ').length; i++) 
         {
             TmpVal += "'" + $scope.Barkod.split(' ')[i] + "'"
@@ -174,9 +183,26 @@ function StokListeCtrl ($scope,$window,db)
             {
                 QueryField.Barcode.Field = "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, ";
                 QueryField.Barcode.Outer = "LEFT OUTER JOIN ITEM_BARCODE ON ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ";
-                QueryField.Barcode.Where = "ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR"
+
+                if($scope.Barkod.split(' ').length > 1)
+                {
+                    QueryField.Barcode.Where = "ITEM_BARCODE.BARCODE IN (" + TmpVal + ") OR "
+                }
+                else
+                {
+                    QueryField.Barcode.Where = "ITEM_BARCODE.BARCODE LIKE " + TmpVal + " + '%' OR "
+                }
             }  
         } 
+
+        if($scope.Barkod.split(' ').length > 1)
+        {
+            QueryField.Code.Where = " ITEMS.CODE IN (" + TmpVal + ")) ";
+        }
+        else
+        {
+            QueryField.Code.Where = " ITEMS.CODE LIKE " + TmpVal + " + '%') ";
+        }
 
         let TmpQuery = 
         {
@@ -200,13 +226,15 @@ function StokListeCtrl ($scope,$window,db)
                     QueryField.Barcode.Outer + 
                     QueryField.Price.Outer +
                     QueryField.Customer.Outer +
-                    "WHERE ((" + QueryField.Barcode.Where + " ITEMS.CODE IN (" + TmpVal + ")) " + QueryField.Customer.Where + 
+                    "WHERE ((" + QueryField.Barcode.Where + 
+                    QueryField.Code.Where +
+                    QueryField.Customer.Where + 
                     "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit"],
             value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum]
         }
-
+console.log(TmpQuery)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.Data = Data
