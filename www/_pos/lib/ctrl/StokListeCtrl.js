@@ -123,6 +123,7 @@ function StokListeCtrl ($scope,$window,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
+            sorting: true,
             data : $scope.Data,
             paging : GrdPage,
             pageSize: 200,
