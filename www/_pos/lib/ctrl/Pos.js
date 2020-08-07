@@ -753,28 +753,22 @@ function Pos($scope,$window,db)
     }
     $scope.CariListeRowClick = function(pIndex,pItem,pObj)
     {
-        if(!$scope.EvrakLock)
-        {
-            if ( CariSelectedRow ) { CariSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
-            var $row = pObj.rowByItem(pItem);
-            $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
-            CariSelectedRow = $row;
-            
-            $scope.CariKodu = $scope.CariListe[pIndex].CODE;
-            $scope.CariAdi = $scope.CariListe[pIndex].NAME;
-        }
+        if ( CariSelectedRow ) { CariSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        CariSelectedRow = $row;
+        
+        $scope.CariKodu = $scope.CariListe[pIndex].CODE;
+        $scope.CariAdi = $scope.CariListe[pIndex].NAME;
     }
     $scope.StokListeRowClick = function(pIndex,pItem,pObj)
     {
-        if(!$scope.EvrakLock)
-        {
-            if ( StokSelectedRow ) { StokSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
-            var $row = pObj.rowByItem(pItem);
-            $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
-            StokSelectedRow = $row;
+        if ( StokSelectedRow ) { StokSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        StokSelectedRow = $row;
 
-            $scope.TxtBarkod = $scope.StokListe[pIndex].KODU;
-        }
+        $scope.TxtBarkod = $scope.StokListe[pIndex].KODU;
     }
     $scope.SonSatisRowClick = function(pIndex,pItem,pObj)
     {
