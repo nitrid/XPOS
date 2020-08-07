@@ -933,16 +933,14 @@ function Pos($scope,$window,db)
 
         if($scope.CmbStokAra == "0")
         {
-            Adi = $scope.TxtStokAra.replace("*","%").replace("*","%");
+            Adi = $scope.TxtStokAra + "%";
         }
         else
         {
-            Kodu = $scope.TxtStokAra.replace("*","%").replace("*","%");
+            Kodu = $scope.TxtStokAra + "%";
         }
-        console.log([Kodu,Adi])    
         db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
         {
-            console.log(StokData)
             $scope.StokListe = StokData;
             $("#TblStok").jsGrid({data : $scope.StokListe});
         });
