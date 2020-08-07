@@ -160,7 +160,7 @@ function StokListeCtrl ($scope,$window,db)
                 TmpVal += ","
             }
         }
-        console.log($scope.Kolon)
+
         for (let x = 0; x < $scope.Kolon.length; x++) 
         {
             
