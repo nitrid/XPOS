@@ -770,6 +770,7 @@ function Pos($scope,$window,db)
         StokSelectedRow = $row;
 
         $scope.TxtBarkod = $scope.StokListe[pIndex].KODU;
+        console.log($scope.StokListe[pIndex].KODU)
     }
     $scope.SonSatisRowClick = function(pIndex,pItem,pObj)
     {
