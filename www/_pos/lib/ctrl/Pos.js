@@ -763,6 +763,7 @@ function Pos($scope,$window,db)
     }
     $scope.StokListeRowClick = function(pIndex,pItem,pObj)
     {
+        console.log(11)
         if ( StokSelectedRow ) { StokSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
         var $row = pObj.rowByItem(pItem);
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
