@@ -589,7 +589,7 @@
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
                                         <div class="input-group">
-                                            <input autofocus="true" type="text" class="form-control form-control" ng-model="TxtStokAra" id="TxtStokAra">
+                                            <input autofocus="true" type="text" class="form-control form-control" ng-model="TxtStokAra" id="TxtStokAra" onClick="this.setSelectionRange(0, this.value.length)">
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-block btn-primary form-control" ng-click="BtnStokGridGetir()"><i class="icon wb-search" aria-hidden="true"></i></button>
                                             </div> 
@@ -601,10 +601,10 @@
                                 </div> 
                                 <div class="row py-1">
                                     <div class="col-lg-3 px-1">
-                                            <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnStokGridSec()">Seç</button>
+                                            <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnStokGridSec()"><i class="icon fa-check" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-lg-4 px-1 offset-1">
-                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnStokGridGetir()"><i class="icon fa-check" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnStokGridGetir()"><i class="icon fa-search" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-lg-3 px-1 offset-1">
                                         <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnSilClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
