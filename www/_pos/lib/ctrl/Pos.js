@@ -1538,6 +1538,7 @@ function Pos($scope,$window,db)
         FocusBarkod = false;
         FocusMusteri = false;
         FocusStok = true;
+        document.getElementById('TxtStokAra').setSelectionRange(0, document.getElementById('TxtStokAra').value.length)
     }
     $scope.BtnTahSatirIptal = function()
     {
