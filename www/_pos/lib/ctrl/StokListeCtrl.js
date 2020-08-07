@@ -160,9 +160,10 @@ function StokListeCtrl ($scope,$window,db)
                 TmpVal += ","
             }
         }
-
+        console.log($scope.Kolon)
         for (let x = 0; x < $scope.Kolon.length; x++) 
         {
+            
             if($scope.Kolon[x] == "UNIT")    
             {
                 QueryField.Unit.Field = "ISNULL(ITEM_UNIT.NAME,'') AS UNIT, ";
