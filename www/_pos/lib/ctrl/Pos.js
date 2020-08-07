@@ -939,7 +939,7 @@ function Pos($scope,$window,db)
         {
             Kodu = $scope.TxtStokAra.replace("*","%").replace("*","%");
         }
-        console.log(Kodu)    
+        console.log([Kodu,Adi])    
         db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
         {
             console.log(StokData)
