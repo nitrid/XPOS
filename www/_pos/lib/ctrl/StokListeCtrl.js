@@ -231,11 +231,12 @@ function StokListeCtrl ($scope,$window,db)
                     QueryField.Code.Where +
                     QueryField.Customer.Where + 
                     "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
-                    "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS",
-            param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit"],
-            value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum]
+                    "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS AND " +
+                    "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER=''))",
+            param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
+            value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum,$scope.Tedarikci]
         }
-console.log(TmpQuery)
+
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.Data = Data
@@ -253,6 +254,18 @@ console.log(TmpQuery)
         {
             $scope.GrupList = Data
         });
+    }
+    $scope.TedarikciGetir = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT CODE,NAME FROM CUSTOMERS WHERE TYPE = 1 ORDER BY NAME ASC"
+        }
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            $scope.TedarikciList = Data
+        });
     } 
     $scope.Init = function()
     {
@@ -260,15 +273,18 @@ console.log(TmpQuery)
 
         $scope.Data = [];
         $scope.GrupList = [];
+        $scope.TedarikciList = [];
 
         $scope.Kolon = ["CODE","NAME","BARCODE"];
         $scope.Barkod = "";
         $scope.Adi = "";
         $scope.Grup = "";
+        $scope.Tedarikci = "";
         $scope.Durum = true;
 
         TblStokInit();
         $scope.GrupGetir();
+        $scope.TedarikciGetir();
 
         setTimeout(function () 
         {
