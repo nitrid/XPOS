@@ -694,7 +694,7 @@ var QuerySql =
     StokGetir : 
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),1) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
@@ -711,7 +711,7 @@ var QuerySql =
     BarkodGetir:
     {
         query : "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),'') AS PRICE, " +
+                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND QUANTITY = 1 AND ITEM_CODE = ITEMS.CODE),1) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
