@@ -624,8 +624,6 @@ function Pos($scope,$window,db)
             let TmpKdv = (((value.QUANTITY * value.PRICE) - value.DISCOUNT)) - ((((value.QUANTITY * value.PRICE) - value.DISCOUNT)) / ((value.VAT / 100) + 1)); 
             $scope.ToplamKdv += TmpKdv; 
             $scope.AraToplam += (value.QUANTITY * value.PRICE) - TmpKdv;
-            console.log(value.QUANTITY * value.PRICE)
-            console.log($scope.ToplamKdv)
             $scope.ToplamIskonto += value.DISCOUNT;
         });
 
