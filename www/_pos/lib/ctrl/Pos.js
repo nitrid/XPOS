@@ -1,5 +1,3 @@
-const { timeout } = require("async");
-
 function Pos($scope,$window,db)
 {
     let IslemSelectedRow = null;
