@@ -1072,6 +1072,7 @@ function Pos($scope,$window,db)
                     if(BarkodData[0].PRICE == 0)
                     {
                         alertify.alert("Ürünün fiyat bilgisi tanımsız !");
+                        $scope.TxtBarkod = "";
                         return;
                     }
 
