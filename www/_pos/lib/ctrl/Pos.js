@@ -1,3 +1,5 @@
+const { timeout } = require("async");
+
 function Pos($scope,$window,db)
 {
     let IslemSelectedRow = null;
@@ -1538,7 +1540,12 @@ function Pos($scope,$window,db)
         FocusBarkod = false;
         FocusMusteri = false;
         FocusStok = true;
-        document.getElementById('TxtStokAra').setSelectionRange(0, document.getElementById('TxtStokAra').value.length)
+        setTimeout(function()
+        {
+            document.getElementById('TxtStokAra').focus()
+            document.getElementById('TxtStokAra').setSelectionRange(0, document.getElementById('TxtStokAra').value.length)
+        },500);
+        
     }
     $scope.BtnTahSatirIptal = function()
     {
