@@ -124,7 +124,7 @@
                                         <input class="form-control" ng-model="TxtBarkod" id="TxtBarkod" ng-keypress="TxtBarkodPress($event)" autocomplete="off">
                                         <span class="input-group-append">        
                                         <button type="submit" class="btn btn-primary" ng-click="BtnStokListesi()">Produit<i class="icon wb-search" aria-hidden="true"></i></button>
-                                        <button type="submit" class="btn btn-primary" ng-click="BtnStokListesi()"><i class="icon fa-barcode" aria-hidden="true"></i> ? </button> 
+                                        <button type="submit" class="btn btn-primary" ng-click="BtnBarkodListesi()"><i class="icon fa-barcode" aria-hidden="true"></i> ? </button> 
                                         </span>
                                     </div>
                                 </div>
@@ -569,7 +569,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
                 <!-- Ürün Listesi -->
                 <div class="modal fade " id="MdlStokListele" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-simple modal-center modal-primary modal-lg">
@@ -1323,6 +1323,24 @@
                             </div>
                         </div>      
                     </div>              
+                </div>
+                <!-- Barkod Ara-->
+                <div class="modal fade " id="MdlBarkodListele" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-simple modal-center modal-primary modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                                <h4 class="modal-title">Barkod Listesi</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel-body px-0 py-1">
+                                    <div id="TblBarkod"></div>
+                                </div> 
+                            </div>
+                        </div>                        
+                    </div>
                 </div>
             </div>
              <!--Fatura Dizayn -->

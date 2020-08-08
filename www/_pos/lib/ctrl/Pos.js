@@ -3,6 +3,7 @@ function Pos($scope,$window,db)
     let IslemSelectedRow = null;
     let CariSelectedRow = null;
     let StokSelectedRow = null;
+    let BarkodSelectedRow = null;
     let ParkIslemSelectedRow = null;
     let TahIslemSelectedRow = null;
     let SonSatisSelectedRow = null;
@@ -114,10 +115,11 @@ function Pos($scope,$window,db)
 
         $scope.CariListe = [];
         $scope.StokListe = [];
+        $scope.BarkodListe = []; 
         $scope.Stok = [];
         $scope.PluList = [];
         $scope.PluGrpList = [];
-        $scope.SatisList = []; 
+        $scope.SatisList = [];        
         $scope.SatisFisList = []; 
         $scope.TahList = [];   
         $scope.ParkList =[];     
@@ -222,6 +224,39 @@ function Pos($scope,$window,db)
             rowClick: function(args)
             {
                 $scope.StokListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
+    function InitBarkodGrid()
+    {
+        $("#TblBarkod").jsGrid
+        ({
+            width: "100%",
+            height: "300px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.BarkodListe,
+            fields: 
+            [
+                {
+                    name: "BARCODE",
+                    type: "text",
+                    align: "center",
+                    width: 100
+                    
+                },
+                {
+                    name: "NAME",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ],
+            rowClick: function(args)
+            {
+                $scope.BarkodListeRowClick(args.itemIndex,args.item,this);
                 $scope.$apply();
             }
         });
@@ -768,7 +803,17 @@ function Pos($scope,$window,db)
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
         StokSelectedRow = $row;
 
-        $scope.TxtBarkod = $scope.StokListe[pIndex].CODE;
+        $scope.TxtBarkod = $scope.StokListe[pIndex].BARCODE;
+    }
+    $scope.BarkodListeRowClick = function(pIndex,pItem,pObj)
+    {
+        if ( BarkodSelectedRow ) { BarkodSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        BarkodSelectedRow = $row;
+        $scope.TxtBarkod = $scope.BarkodListe[pIndex].BARCODE;
+        $scope.StokGetir($scope.TxtBarkod);
+        $("#MdlBarkodListele").modal("hide");
     }
     $scope.SonSatisRowClick = function(pIndex,pItem,pObj)
     {
@@ -806,6 +851,7 @@ function Pos($scope,$window,db)
             InitTahIslemGrid();
             InitCariGrid();
             InitStokGrid();
+            InitBarkodGrid();
             InitSonSatisGrid();
             InitSonSatisDetayGrid();
 
@@ -1543,6 +1589,33 @@ function Pos($scope,$window,db)
             document.getElementById('TxtStokAra').focus()
             document.getElementById('TxtStokAra').setSelectionRange(0, document.getElementById('TxtStokAra').value.length)
         },500);
+    }
+    $scope.BtnBarkodListesi = function()
+    {
+        if($scope.TxtBarkod != '')
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT [BARCODE] AS BARCODE,ISNULL((SELECT NAME FROM ITEMS WHERE CODE = [ITEM_CODE]),'') NAME FROM [dbo].[ITEM_BARCODE] WHERE BARCODE LIKE '%' + @BARCODE",
+                param : ["BARCODE:string|50"],
+                value : [$scope.TxtBarkod]
+            }
+            db.GetDataQuery(TmpQuery,function(Data)
+            {
+                $scope.BarkodListe = Data;
+                if(Data.length == 1)
+                {
+                    $scope.TxtBarkod = $scope.BarkodListe[0].BARCODE;
+                    $scope.StokGetir($scope.TxtBarkod);
+                }
+                else if(Data.length > 1)
+                {
+                    $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                    $("#MdlBarkodListele").modal("show");
+                }
+            });
+        }
     }
     $scope.BtnTahSatirIptal = function()
     {
