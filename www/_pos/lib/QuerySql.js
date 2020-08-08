@@ -672,7 +672,7 @@ var QuerySql =
     },
     PosSatisParkListe:
     {
-        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], SUM([PRICE] * [QUANTITY]) AS [AMOUNT],MAX(CONVERT(varchar(10),CDATE, 121)) AS [DATE] " +
+        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], ROUND(SUM([PRICE] * [QUANTITY]),2) AS [AMOUNT],MAX(CONVERT(varchar(10),CDATE, 121)) AS [DATE] " +
               "FROM POS_SALES WHERE [DEPARTMENT] = @DEPARTMENT AND [TYPE] = @TYPE AND [LUSER] = @LUSER AND STATUS = @STATUS GROUP BY REF,REF_NO",
         param: ['DEPARTMENT','TYPE','LUSER','STATUS'],
         type:  ['int','int','string|25','int']  

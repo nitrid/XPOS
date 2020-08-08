@@ -621,8 +621,11 @@ function Pos($scope,$window,db)
 
         angular.forEach($scope.SatisList,function(value)
         {
-            $scope.ToplamKdv += (((value.QUANTITY * value.PRICE) - value.DISCOUNT)) / 100 * value.VAT; 
-            $scope.AraToplam += (value.QUANTITY * value.PRICE) - $scope.ToplamKdv;
+            let TmpKdv = (((value.QUANTITY * value.PRICE) - value.DISCOUNT)) - ((((value.QUANTITY * value.PRICE) - value.DISCOUNT)) / ((value.VAT / 100) + 1)); 
+            $scope.ToplamKdv += TmpKdv; 
+            $scope.AraToplam += (value.QUANTITY * value.PRICE) - TmpKdv;
+            console.log(value.QUANTITY * value.PRICE)
+            console.log($scope.ToplamKdv)
             $scope.ToplamIskonto += value.DISCOUNT;
         });
 
