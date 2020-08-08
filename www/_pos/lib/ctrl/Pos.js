@@ -710,6 +710,22 @@ function Pos($scope,$window,db)
             resolve();
         });
     }  
+    function SatirBirlestir()
+    {
+        let TmpStatus = false;
+        let TmpIndex = -1;
+
+        for (let i = 0; i < $scope.SatisList.length; i++) 
+        {
+            if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
+            {
+                TmpStatus = true;
+                TmpIndex = i;
+            }
+        }
+
+        return {Status : TmpStatus,Index : TmpIndex};
+    }
     document.onkeydown = function(e)
     {
         if($window.location.hash == "#!/POSSatis")
@@ -803,7 +819,7 @@ function Pos($scope,$window,db)
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
         StokSelectedRow = $row;
 
-        $scope.TxtBarkod = $scope.StokListe[pIndex].BARCODE;
+        $scope.TxtBarkod = $scope.StokListe[pIndex].CODE;
     }
     $scope.BarkodListeRowClick = function(pIndex,pItem,pObj)
     {
@@ -1037,8 +1053,6 @@ function Pos($scope,$window,db)
 
                 });
 
-               
-
                 $scope.TxtBarkod = "";
                 return;
             }
@@ -1055,12 +1069,18 @@ function Pos($scope,$window,db)
             {
                 if(BarkodData.length > 0)
                 { 
+                    if(BarkodData[0].PRICE == 0)
+                    {
+                        alertify.alert("Ürünün fiyat bilgisi tanımsız !");
+                        return;
+                    }
+
                     $scope.Stok = BarkodData;
                     if(TmpFiyat > 0 )
                     {
                         $scope.Stok[0].PRICE = TmpFiyat;
                     }
-
+                    
                     //$scope.Stok[0].TUTAR = 0;
                     //$scope.Stok[0].INDIRIM = 0;
                     //$scope.Stok[0].KDV = 0;
@@ -1069,8 +1089,16 @@ function Pos($scope,$window,db)
                     //$scope.Stok[0].TUTAR = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
                     //$scope.Stok[0].KDV = (($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) / 100) * $scope.Stok[0].VAT;
                     //$scope.Stok[0].TOPTUTAR = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) + $scope.Stok[0].KDV;
-
-                    $scope.PosSatisInsert();
+                    let TmpSatirBirlestir = SatirBirlestir();
+                    if(TmpSatirBirlestir.Status)
+                    {
+                        $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
+                    }
+                    else
+                    {
+                        $scope.PosSatisInsert();
+                    }
+                    
                 }
                 else   
                 {
@@ -1107,7 +1135,7 @@ function Pos($scope,$window,db)
             $scope.Stok[0].VAT,
             0  //DURUM
         ];
-        console.log(InsertData)
+        
         db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,async function(InsertResult)
         {               
             if(typeof(InsertResult.result.err) == 'undefined')
