@@ -1545,7 +1545,6 @@ function Pos($scope,$window,db)
             document.getElementById('TxtStokAra').focus()
             document.getElementById('TxtStokAra').setSelectionRange(0, document.getElementById('TxtStokAra').value.length)
         },500);
-        
     }
     $scope.BtnTahSatirIptal = function()
     {
