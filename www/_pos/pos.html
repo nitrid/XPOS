@@ -104,7 +104,7 @@
     <div>
         <div class="col-12">
             <div class="row">
-                <div class="col-5 pr-1">
+                <div class="col-6 pr-1">
                     <div class="panel">
                         <div class="panel-body px-1 py-1">
                             <div class="row">
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-7 pl-1">
+                <div class="col-6 pl-1">
                     <div class="panel">
                         <div class="panel-body py-1">
                             <!-- Plular -->
@@ -230,8 +230,21 @@
                             </div> -->
                             <div class="row">
                                 <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-danger my-1" ng-click="BtnBelgeIptal()" style="height:70px;">Belge İptal</button>
-                                </div>
+                                    <button class="form-group btn btn-block btn-success my-1" ng-click="BtnUpClick()" style="height:70px;"><i class="fas fa-arrow-up fa-lg"></i></button>
+                                </div>    
+                                <div class="col-4">
+                                    <div class="row">
+                                        <div class="col-4 px-1">
+                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('7')" style="height:70px;">7</button>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('8')" style="height:70px;">8</button>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('9')" style="height:70px;">9</button>
+                                        </div>
+                                    </div>
+                                </div>                            
                                 <div class="col-2 px-1">
                                     <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnParkdakiIslem()" style="height:70px;">
                                         <div class="row">
@@ -248,35 +261,13 @@
                                     <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
                                 </div>
                                 <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1" ng-click="BtnUpClick()" style="height:70px;"><i class="fas fa-arrow-up fa-lg"></i></button>
-                                </div>
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col-4 px-1">
-                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('7')" style="height:70px;">7</button>
-                                        </div>
-                                        <div class="col-4 px-1">
-                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('8')" style="height:70px;">8</button>
-                                        </div>
-                                        <div class="col-4 px-1">
-                                            <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('9')" style="height:70px;">9</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <button class="form-group btn btn-block btn-danger my-1" ng-click="BtnBelgeIptal()" style="height:70px;">Belge İptal</button>
+                                </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-danger my-1" ng-click="BtnSatirIptal()" style="height:70px;">Satır İptal</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnParkaAl()" style="height:70px;">Parka Al</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnMusteriListesi()" data-toggle="modal" style="height:70px;">Cari</button>
-                                </div>
-                                <div class="col-2 px-1">
                                     <button class="form-group btn btn-block btn-success my-1" ng-click="BtnDownClick()" style="height:70px;"><i class="fas fa-arrow-down fa-lg"></i></button>
-                                </div>
+                                </div>            
                                 <div class="col-4">
                                     <div class="row">
                                         <div class="col-4 px-1">
@@ -289,20 +280,20 @@
                                             <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnTusClick('6')" style="height:70px;">6</button>
                                         </div>
                                     </div>
+                                </div>                    
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnParkaAl()" style="height:70px;">Parka Al</button>
                                 </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-primary my-1" ng-click="BtnMusteriListesi()" data-toggle="modal" style="height:70px;">Cari</button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-danger my-1" ng-click="BtnSatirIptal()" style="height:70px;">Satır İptal</button>
+                                </div>                                
                             </div>
                             <div class="row">
                                 <div class="col-2 px-1">
                                     <button class="form-group btn btn-block btn-danger my-1" style="height:70px;" ng-click="BtnIadeAl(0)">İade Al</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnSonSatis()" style="height:70px;">Son Yapılan Satışlar</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-info btn-block my-1" ng-click = "BtnAraToplam(0)" style="height:70px;">Tahsilat</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-info my-1" ng-click="BtnAraToplam(1)" style="height:70px;">Kasa Aç</button>
                                 </div>
                                 <div class="col-4">
                                     <div class="row">
@@ -317,17 +308,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnSonSatis()" style="height:70px;">Son Yapılan Satışlar</button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-info btn-block my-1" ng-click = "BtnAraToplam(0)" style="height:70px;">Tahsilat</button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-info my-1" ng-click="BtnAraToplam(1)" style="height:70px;">Kasa Aç</button>
+                                </div>                                
                             </div>
                             <div class="row">
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button data-target="#MdlAraToplam" role="menu-item" class="form-group btn btn-block btn-default my-1" style="height:70px;"></button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-default my-1" data-toggle="modal" style="height:70px;"></button>
-                                </div>
                                 <div class="col-2 px-1">
                                     <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
                                 </div>
@@ -344,17 +335,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-2 px-1">
+                                    <button data-target="#MdlAraToplam" role="menu-item" class="form-group btn btn-block btn-default my-1" style="height:70px;"></button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-block btn-default my-1" data-toggle="modal" style="height:70px;"></button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
+                                </div>                                
                             </div>
                             <div class="row">
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
-                                </div>
                                 <div class="col-2 px-1">
                                     <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
                                 </div>
@@ -371,6 +362,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
+                                </div>
+                                <div class="col-2 px-1">
+                                    <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
+                                </div>                                
                             </div>
                         </div>
                     </div>
