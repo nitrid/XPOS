@@ -1107,7 +1107,7 @@ function Pos($scope,$window,db)
             $scope.Stok[0].VAT,
             0  //DURUM
         ];
-        
+        console.log(InsertData)
         db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,async function(InsertResult)
         {               
             if(typeof(InsertResult.result.err) == 'undefined')
