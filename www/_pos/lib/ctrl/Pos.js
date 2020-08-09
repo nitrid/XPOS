@@ -671,7 +671,8 @@ function Pos($scope,$window,db)
         }
     }
     function TahSonYenile()
-    {        
+    {  
+        FirstKey = false;      
         $("#TblTahIslem").jsGrid({data : $scope.TahList}); 
         
         if($scope.OdemeTip == 1)
