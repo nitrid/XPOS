@@ -1363,12 +1363,20 @@ function Pos($scope,$window,db)
     $scope.BtnTusClick = function(Key)
     {   
         if(FocusBarkod)
-        {
+        {            
             $scope.TxtBarkod = $scope.TxtBarkod + Key; 
         }
         else if(FocusAraToplam)
         {
-            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar + Key; 
+            if(FirstKey)
+            {
+                $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar + Key; 
+            }
+            else
+            {
+                $scope.TxtAraToplamTutar = Key; 
+                FirstKey = true;
+            }
         }
         else if(FocusMusteri)
         {
@@ -1604,6 +1612,8 @@ function Pos($scope,$window,db)
             FocusStok = false;
             FocusSeri = false;
 
+            FirstKey = false;
+            
             //EKRANA GİRDİĞİNDE OTOMATİK NAKİT SEÇİLİ GELSİN
             if($scope.TahTip != 2)
             {
