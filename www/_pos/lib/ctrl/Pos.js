@@ -13,6 +13,7 @@ function Pos($scope,$window,db)
     let FocusSeriSira = false;
     let FocusStok = false;
     let FocusMiktarGuncelle = false;
+    let FirstKey = false;
     let UserParam = null;
 
     $('#MdlAraToplam').on('hide.bs.modal', function () 
@@ -1390,7 +1391,16 @@ function Pos($scope,$window,db)
         }
         else if(FocusMiktarGuncelle)
         {
-            $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle + Key; 
+            if(FirstKey)
+            {
+                $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle + Key; 
+            }
+            else
+            {
+                $scope.TxtMiktarGuncelle = Key; 
+                FirstKey = true;
+            }
+            
         }
     }
     $scope.TxtSeriSira = function(Data)
@@ -2045,5 +2055,7 @@ function Pos($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
         FocusSeri = false;
+
+        FirstKey = false;
     }
 }
