@@ -50,6 +50,10 @@ function Pos($scope,$window,db)
         FocusSeri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        db.SafeApply($scope,function()
+        {
+            $scope.TxtBarkod = "";
+        })
     });
     $('#MdlIadeGetir').on('hide.bs.modal', function () 
     {
@@ -1005,8 +1009,8 @@ function Pos($scope,$window,db)
     }
     $scope.BtnStokGridSec = function()
     {
-        $("#MdlStokListele").modal('hide');
         $scope.StokGetir($scope.TxtBarkod);
+        $("#MdlStokListele").modal('hide');
     }
     $scope.PluGetir = function(pGrup)
     {
