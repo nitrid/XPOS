@@ -339,7 +339,7 @@ function Pos($scope,$window,db)
         $("#TblTahIslem").jsGrid({
             responsive: true,
             width: "100%",
-            height: "100px",
+            height: "135px",
             updateOnResize: true,
             heading: false,
             selecting: true,
