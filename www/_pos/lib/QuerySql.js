@@ -776,7 +776,7 @@ var QuerySql =
     PosSatisGetir : 
     {
         query:  "SELECT " +
-                "ROW_NUMBER() OVER (ORDER BY ITEM_CODE) AS NO, " +
+                "ROW_NUMBER() OVER (ORDER BY LINE_NO) AS NO, " +
                 "GUID AS GUID, " +
                 "CUSER AS CUSER, " +
                 "REF AS REF, " +
