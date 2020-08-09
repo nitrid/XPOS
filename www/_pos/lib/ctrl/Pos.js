@@ -1579,20 +1579,6 @@ function Pos($scope,$window,db)
     {   
         $scope.OdemeTip = pTip;
 
-        $("#InputFatura").removeClass("active");
-        $("#InputFis").removeClass("active");
-
-        if($scope.CariKodu != UserParam.PosSatis.Cari)
-        {   
-            $("#InputFatura").addClass("active");
-            $("#InputFatura input")[0].checked = true;
-        }
-        else
-        {
-            $("#InputFis").addClass("active");
-            $("#InputFis input")[0].checked = true;
-        }
-
         if($scope.OdemeTip == 1 && $scope.SatisList.length < 1)
         {
             alertify.okBtn("Tamam");
@@ -1613,7 +1599,7 @@ function Pos($scope,$window,db)
             FocusSeri = false;
 
             FirstKey = false;
-            
+
             //EKRANA GİRDİĞİNDE OTOMATİK NAKİT SEÇİLİ GELSİN
             if($scope.TahTip != 2)
             {

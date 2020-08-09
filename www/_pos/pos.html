@@ -850,11 +850,6 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="row text-center">
-                                            <h5 class="col-12 my-2">
-                                            <span style="color:dodgerblue;">{{CariAdi}}</span> -- Bakiye : {{CariBakiye}}</h5>
-                                        </div>
-        
                                         <div class="row">
                                             <div class="col-lg-2 px-1">
                                                 <label><h5><span style="color:dodgerblue;">Toplam :</span></h5></label>
@@ -895,26 +890,6 @@
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row my-2">
-                                    <div class="col-6">
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            <label id="InputFis" class="btn btn-outline btn-info" ng-click="BtnCikti(0)" >
-                                                <input type="radio" name="options" autocomplete="off" />
-                                                <i class="icon wb-check text-active" aria-hidden="true"></i> Fiş
-                                            </label>
-                                            <label id="InputFatura" class="btn btn-outline btn-info" ng-click="BtnCikti(1)">
-                                                <input type="radio" name="options" autocomplete="off"/>
-                                                <i class="icon wb-check text-active" aria-hidden="true"></i> Fatura
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <label class="col-2 px-0 col-form-label text-primary" ng-show="KasaSecim">Kasa Seçim: </label>
-                                    <div class="col-4 px-0" ng-show="KasaSecim">
-                                        <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="Kasa">
-                                            <option ng-repeat="option in KasaListe" value="{{option.KODU}}">{{option.ADI}}</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="row">
