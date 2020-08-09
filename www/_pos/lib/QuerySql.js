@@ -776,7 +776,7 @@ var QuerySql =
     PosSatisGetir : 
     {
         query:  "SELECT " +
-                "ROW_NUMBER() OVER (ORDER BY LINE_NO) AS NO, " +
+                "ROW_NUMBER() OVER (ORDER BY LDATE) AS NO, " +
                 "GUID AS GUID, " +
                 "CUSER AS CUSER, " +
                 "REF AS REF, " +
@@ -794,7 +794,7 @@ var QuerySql =
                 "VAT AS VAT, " +
                 "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
                 "ROUND(QUANTITY * PRICE,4) AS AMOUNT " +
-                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO DESC" ,
+                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
@@ -974,7 +974,7 @@ var QuerySql =
     },
     PosSatisMiktarUpdate : 
     {
-        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY WHERE GUID = @GUID",
+        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,LDATE = GETDATE() WHERE GUID = @GUID",
         param: ['QUANTITY','GUID'],
         type:  ['float','string|50']
     },
