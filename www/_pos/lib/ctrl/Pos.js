@@ -74,10 +74,7 @@ function Pos($scope,$window,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
     });
-    setInterval(function()
-    {
-        $window.document.getElementById("TxtBarkod").focus();
-    },500)
+
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
@@ -739,54 +736,51 @@ function Pos($scope,$window,db)
     }
     document.onkeydown = function(e)
     {
-        if($window.location.hash == "#!/POSSatis")
+        if(FocusBarkod == true)
         {
-            if(FocusBarkod == true)
-            {
-                $window.document.getElementById("TxtBarkod").focus();
+            $window.document.getElementById("TxtBarkod").focus();
 
-                if(e.which == 38)
+            if(e.which == 38)
+            {
+                if($scope.SatisList.length > 0)
                 {
-                    if($scope.SatisList.length > 0)
-                    {
-                        $scope.BtnUpClick();
-                    }
-                }
-                else if(e.which == 40)
-                {
-                    if($scope.SatisList.length > 0)
-                    {
-                        $scope.BtnDownClick();
-                    }
+                    $scope.BtnUpClick();
                 }
             }
-            else if(FocusAraToplam == true)
+            else if(e.which == 40)
             {
-                $window.document.getElementById("TxtAraToplamTutar").focus();
-            }
-            else if(FocusMusteri == true)
-            {
-                $window.document.getElementById("TxtCariAra").focus();
-            }
-            else if(FocusStok == true)
-            {
-                $window.document.getElementById("TxtStokAra").focus();
-            }
-            else if(FocusSeriSira == true)
-            {   
-                if($scope.SeriSira == 'Seri')
+                if($scope.SatisList.length > 0)
                 {
-                    $window.document.getElementById("Seri").focus();
-                }
-                else
-                {
-                    $window.document.getElementById("Sira").focus();
+                    $scope.BtnDownClick();
                 }
             }
-            else if(FocusMiktarGuncelle)
+        }
+        else if(FocusAraToplam == true)
+        {
+            $window.document.getElementById("TxtAraToplamTutar").focus();
+        }
+        else if(FocusMusteri == true)
+        {
+            $window.document.getElementById("TxtCariAra").focus();
+        }
+        else if(FocusStok == true)
+        {
+            $window.document.getElementById("TxtStokAra").focus();
+        }
+        else if(FocusSeriSira == true)
+        {   
+            if($scope.SeriSira == 'Seri')
             {
-                $window.document.getElementById("TxtMiktarGuncelle").focus();
+                $window.document.getElementById("Seri").focus();
             }
+            else
+            {
+                $window.document.getElementById("Sira").focus();
+            }
+        }
+        else if(FocusMiktarGuncelle)
+        {
+            $window.document.getElementById("TxtMiktarGuncelle").focus();
         }
     }
     $scope.IslemListeRowClick = function(pIndex,pItem)
