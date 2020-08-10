@@ -74,6 +74,10 @@ function Pos($scope,$window,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
     });
+    setInterval(function()
+    {
+        $window.document.getElementById("TxtBarkod").focus();
+    },500)
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
