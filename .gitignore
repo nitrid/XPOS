@@ -3,3 +3,4 @@ log/
 config.json
 .prettierrc
 daemon/
+pc/release-builds/
