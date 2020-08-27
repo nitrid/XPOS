@@ -50,7 +50,7 @@ function Login ($scope,$rootScope,$window,db)
                 
                 $window.sessionStorage.setItem('User', i);
                 
-                var url = "main.html";
+                var url = "pos.html";
                 $window.location.href = url;
                 return;
             }
