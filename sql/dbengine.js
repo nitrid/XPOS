@@ -2,7 +2,7 @@ let fs = require('fs');
 let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
-let escpos = require('escpos');
+// let escpos = require('escpos');
 // escpos.USB = require('escpos-usb');
 // escpos.Serial = require('escpos-serialport');
 // escpos.Screen = require('escpos-screen');
@@ -217,9 +217,6 @@ io.on('connection', function(socket)
     socket.on("EscposPrint",function(pData,fn)
     {
         
-        // const usbDevice = new escpos.USB();
-        // const usbPrinter = new escpos.Printer(usbDevice);
-        // console.log(usbPrinter)
         let device  = new escpos.USB();
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
@@ -231,7 +228,6 @@ io.on('connection', function(socket)
             for (let i = 0; i < pData.length; i++) 
             {
                 printer.size(1,1);
-
                 printer.font(pData[i].font);
                 printer.align(pData[i].align);
 
