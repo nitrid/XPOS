@@ -220,7 +220,6 @@ io.on('connection', function(socket)
             for (let i = 0; i < pData.length; i++) 
             {
                 printer.size(1,1);
-
                 printer.font(pData[i].font);
                 printer.align(pData[i].align);
 
