@@ -2,19 +2,12 @@ let fs = require('fs');
 let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
-let escpos = require('escpos');
-// escpos.USB = require('escpos-usb');
-// escpos.Serial = require('escpos-serialport');
-// escpos.Screen = require('escpos-screen');
-// //let serialport = require('serialport')
 
 let msql;
 let tsql;
 
 let LicKullanici = 0;
 let LicMenu = "";
-
-//let port = new serialport("COM1")
 
 function dbengine(config)
 {    
@@ -216,10 +209,6 @@ io.on('connection', function(socket)
     });
     socket.on("EscposPrint",function(pData,fn)
     {
-        
-        // const usbDevice = new escpos.USB();
-        // const usbPrinter = new escpos.Printer(usbDevice);
-        // console.log(usbPrinter)
         let device  = new escpos.USB();
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
