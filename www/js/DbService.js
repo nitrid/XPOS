@@ -259,6 +259,11 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _EscposPrint(pData,fn)
     {
+        if(typeof require == 'undefined')
+        {
+            fn();
+            return;
+        }
         const escpos = require('escpos');
         escpos.USB = require('escpos-usb');
 
@@ -303,6 +308,11 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _EscposCaseOpen()
     {
+        if(typeof require == 'undefined')
+        {
+            return;
+        }
+
         const escpos = require('escpos');
         escpos.USB = require('escpos-usb');
 
@@ -322,6 +332,11 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _LCDPrint(pData)
     {
+        if(typeof require == 'undefined')
+        {
+            return;
+        }
+        
         const escpos = require('escpos');
         escpos.Serial = require('escpos-serialport');
         escpos.Screen = require('escpos-screen');
@@ -339,6 +354,11 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _LCDClear()
     {
+        if(typeof require == 'undefined')
+        {
+            return;
+        }
+
         const escpos = require('escpos');
         escpos.Serial = require('escpos-serialport');
         escpos.Screen = require('escpos-screen');

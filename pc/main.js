@@ -17,7 +17,7 @@ app.on('ready',function()
         }
     });
 
-    mainWindow.loadURL('http://192.168.1.70:8088/_pos');
+    mainWindow.loadURL('http://localhost:8088/_pos');
 
     // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
     // Menu.setApplicationMenu(mainMenu);

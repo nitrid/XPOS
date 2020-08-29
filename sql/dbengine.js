@@ -9,14 +9,6 @@ let tsql;
 let LicKullanici = 0;
 let LicMenu = "";
 
-const SerialPort = require('serialport')
-const Ready = require('@serialport/parser-ready')
-const port = new SerialPort('COM1')
-
-const parser = port.pipe(new Ready({ delimiter: 'READY' }))
-parser.on('ready', () => console.log('the ready byte sequence has been received'))
-parser.on('data', console.log) // all data after READY is received
-
 function dbengine(config)
 {    
     this.config = config;
@@ -25,41 +17,6 @@ function dbengine(config)
 
 io.on('connection', function(socket) 
 {
-    //console.log(io.engine.clientsCount);
-    // if(Object.keys(io.sockets.connected).length > LicKullanici)
-    // {
-    //     socket.emit('MaxUserCounted');
-    // }
-    // else
-    // {
-    //     socket.emit('MaxUserCounted',LicMenu);
-    // }
-    
-    // SerialBarcode();
-
-    // function SerialBarcode()
-    // {        
-    //     let SerialCount = 0;
-    //     let Barcode = "";
-
-    //     port.on('data', function (data) 
-    //     {  
-    //         SerialCount++;
-    //         Barcode = Barcode + data.toString("utf8")
-
-    //         if(SerialCount == 2)
-    //         {
-    //             socket.emit('SerialBarcode',
-    //             {
-    //                 result : Barcode
-    //             });
-                
-    //             SerialCount = 0;
-    //             Barcode = "";            
-    //         }
-    //     })
-    // }
-
     socket.on('GetMenu',function(pParam,pFn)
     {
         if(Object.keys(io.sockets.connected).length > LicKullanici)

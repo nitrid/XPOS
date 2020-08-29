@@ -74,17 +74,6 @@ function Pos($scope,$window,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
     });
-    SerialPort();
-    function SerialPort()
-    {
-        let serialport = require('serialport')
-        let port = new serialport("COM1")
-
-        port.on('data', function (data) 
-        { 
-            console.log(data.toString("utf8"));
-        });
-    }
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
