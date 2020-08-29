@@ -74,7 +74,17 @@ function Pos($scope,$window,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
     });
+    SerialPort();
+    function SerialPort()
+    {
+        let serialport = require('serialport')
+        let port = new serialport("COM1")
 
+        port.on('data', function (data) 
+        { 
+            console.log(data.toString("utf8"));
+        });
+    }
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
@@ -1162,10 +1172,11 @@ function Pos($scope,$window,db)
                         {
                             blink : 0,
                             text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                    db.PrintText(PosSatisData[PosSatisData.length - 1].AMOUNT.toString() + "EUR" ,8,"Start") +
+                                    db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
                                     "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
                         }                        
                     );
+
                     InsertSonYenile(PosSatisData);      
                     $scope.TxtBarkod = ""; 
                     $scope.IslemListeRowClick(0,$scope.SatisList[0]);
@@ -1291,6 +1302,16 @@ function Pos($scope,$window,db)
                 {  
                     InsertFisYenile(PosSatisFisData);   
                 }); 
+
+                db.LCDPrint
+                (
+                    {
+                        blink : 0,
+                        text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
+                                db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
+                                "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                    }                        
+                );
             });          
         });
     }

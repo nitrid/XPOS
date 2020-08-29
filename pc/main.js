@@ -3,16 +3,24 @@ const url = require('url');
 const path = require('path');
 
 const {app,BrowserWindow,Menu} = electron;
-
+app.allowRendererProcessReuse = false
 let mainWindow;
 
 app.on('ready',function()
 {
-    mainWindow = new BrowserWindow({});
-    mainWindow.loadURL('http://localhost:8088/_pos');
+    mainWindow = new BrowserWindow(
+    {
+        webPreferences: 
+        {
+            nodeIntegration: true,
+            nodeIntegrationInWorker: true
+        }
+    });
 
-    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-    Menu.setApplicationMenu(mainMenu);
+    mainWindow.loadURL('http://192.168.1.70:8088/_pos');
+
+    // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+    // Menu.setApplicationMenu(mainMenu);
 });
 
 const mainMenuTemplate = 
