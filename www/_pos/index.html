@@ -138,10 +138,14 @@
       </footer>
     </div>
     <!-- End Page -->
+    <script>
+      if (typeof module === 'object') {window.module = module; module = undefined;}
+    </script>
 
     <!-- Core  -->
     <script src="theme/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
     <script src="theme/global/vendor/jquery/jquery.js"></script>
+    <script>if (window.module) module = window.module;</script>
     <script src="theme/global/vendor/popper-js/umd/popper.min.js"></script>
     <script src="theme/global/vendor/bootstrap/bootstrap.js"></script>
     <script src="theme/global/vendor/animsition/animsition.js"></script>

@@ -11,7 +11,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">  
     <title>Nitro | Powered by TONE</title>
-    
+
     <link rel="apple-touch-icon" href="theme/base/assets/images/apple-touch-icon.png">
     <link rel="shortcut icon" href="theme/base/assets/images/favicon.ico">
     
@@ -194,7 +194,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-info my-1" ng-click="BtnAraToplam(1)" style="height:70px;">
+                                    <button class="form-group btn btn-block btn-info my-1" ng-click="BtnTest()" style="height:70px;">
                                         <i class="icon wb-inbox" aria-hidden="true" style="font-size: 24px;"></i>
                                     </button>
                                 </div> 
@@ -1661,10 +1661,15 @@
     </div>
     <!-- Sayfa Bitir -->
     
-    <!-- Script Basla -->
+    <!-- Script Basla -->    
+    <script>
+        if (typeof module === 'object') {window.module = module; module = undefined;}
+    </script>
+
     <!-- Core  -->
     <script src="theme/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
     <script src="theme/global/vendor/jquery/jquery.js"></script>
+    <script>if (window.module) module = window.module;</script>
     <script src="theme/global/vendor/popper-js/umd/popper.min.js"></script>
     <script src="theme/global/vendor/bootstrap/bootstrap.js"></script>
     <script src="theme/global/vendor/animsition/animsition.js"></script>

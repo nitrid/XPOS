@@ -5,14 +5,24 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"XPOS\""
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"XPOS\""
   },
   "author": "Ali Kemal KARACA",
   "license": "ISC",
   "dependencies": {
-    "electron": "^10.0.1"
+    "electron": "^10.0.1",
+    "escpos": "^3.0.0-alpha.6",
+    "escpos-screen": "^3.0.0-alpha.6",
+    "escpos-serialport": "^3.0.0-alpha.4",
+    "escpos-usb": "^3.0.0-alpha.4",
+    "g": "^2.0.1",
+    "jquery": "^3.5.1",
+    "modules": "^0.4.0",
+    "serialport": "^9.0.1",
+    "windows-build-tools": "^5.2.2"
   },
   "devDependencies": {
-    "electron-packager": "^15.1.0"
+    "electron-packager": "^15.1.0",
+    "electron-rebuild": "^2.0.1"
   }
 }

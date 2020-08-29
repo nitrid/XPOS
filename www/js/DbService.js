@@ -257,6 +257,101 @@ angular.module('app.db', []).service('db',function($rootScope)
         
         return Sum;
     }
+    function _EscposPrint(pData,fn)
+    {
+        const escpos = require('escpos');
+        escpos.USB = require('escpos-usb');
+
+        let device  = new escpos.USB();
+        let options = { encoding: "GB18030" /* default */ }
+        let printer = new escpos.Printer(device, options);
+        //B FONT 64 CHAR
+        device.open(function(error)
+        {            
+            printer.flush();
+
+            for (let i = 0; i < pData.length; i++) 
+            {
+                printer.size(0,0);
+                printer.font(pData[i].font);
+                printer.align(pData[i].align);
+
+                if(typeof pData[i].style != 'undefined')
+                {
+                    printer.style(pData[i].style);
+                }
+                else
+                {
+                    printer.style("normal");
+                }
+                
+                if(typeof pData[i].size != 'undefined')
+                {
+                    printer.size(pData[i].size[0],pData[i].size[1]);
+                }
+                
+                printer.text(pData[i].data);
+            }                                    
+            printer.cut().close
+            (
+                function()
+                {
+                    fn();
+                }
+            );
+        });      
+    }
+    function _EscposCaseOpen()
+    {
+        const escpos = require('escpos');
+        escpos.USB = require('escpos-usb');
+
+        let device  = new escpos.USB();
+        let options = { encoding: "GB18030" /* default */ }
+        let printer = new escpos.Printer(device, options);
+
+        device.open(function(error)
+        {
+            // for (let i = 0; i < 5; i++) 
+            // {
+            //     printer.cashdraw(i+1);
+            // }
+            printer.cashdraw(2);
+            printer.close();
+        })
+    }
+    function _LCDPrint(pData)
+    {
+        const escpos = require('escpos');
+        escpos.Serial = require('escpos-serialport');
+        escpos.Screen = require('escpos-screen');
+
+        let device  = new escpos.Serial("COM3", { baudRate: 9600, autoOpen: false });
+        let options = { encoding: "GB18030" /* default */ }
+        let usbScreen = new escpos.Screen(device,options);
+
+        device.open(function(error)
+        {
+            usbScreen.blink(pData.blink);
+            usbScreen.clear();
+            usbScreen.text(pData.text).close();
+        });
+    }
+    function _LCDClear()
+    {
+        const escpos = require('escpos');
+        escpos.Serial = require('escpos-serialport');
+        escpos.Screen = require('escpos-screen');
+
+        let device  = new escpos.Serial("COM3", { baudRate: 9600, autoOpen: false });
+        let options = { encoding: "GB18030" /* default */ }
+        let usbScreen = new escpos.Screen(device,options);
+
+        device.open(function(error)
+        {
+            usbScreen.clear();
+        });
+    }
     //#region "PUBLIC"
     this.Socket = _Socket;
     this.Connection = _Connection;
@@ -593,21 +688,19 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"a",style:"b",align:"ct",data:"Merci de votre fidelite a tres bientot ..."});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
-
-        _Socket.emit('EscposPrint', TmpData,function()
-        {
-            _Socket.emit('EscposCaseOpen');
-        });
-
         
+        _EscposPrint(TmpData,function()
+        {
+            _EscposCaseOpen();
+        });
     }
     this.LCDPrint = function(pData)
     {
-        _Socket.emit('LCDPrint', pData);
+        _LCDPrint(pData);
     }
     this.LCDClear = function()
     {
-        _Socket.emit('LCDClear');
+        _LCDClear();
     }
      //#endregion "PUBLIC"
 });
