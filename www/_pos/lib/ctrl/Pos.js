@@ -1434,6 +1434,8 @@ function Pos($scope,$window,db)
                 $scope.IslemListeSelectedIndex -= 1;
 
             $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);
+
+            $("#TblIslem").find( ".jsgrid-grid-body").scrollTop(IslemSelectedRow.position().top)
         }
     }
     $scope.BtnDownClick = function()
@@ -1446,6 +1448,7 @@ function Pos($scope,$window,db)
                 $scope.IslemListeSelectedIndex += 1;
 
             $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);
+            $("#TblIslem").find( ".jsgrid-grid-body").scrollTop(IslemSelectedRow.position().top)
         }
     }
     $scope.BtnBelgeIptal = function()
@@ -2062,5 +2065,9 @@ function Pos($scope,$window,db)
         FocusSeri = false;
 
         FirstKey = false;
+    }
+    $scope.BtnKasaAc = function()
+    {
+        db.EscposCaseOpen();
     }
 }

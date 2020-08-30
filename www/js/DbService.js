@@ -714,6 +714,10 @@ angular.module('app.db', []).service('db',function($rootScope)
             _EscposCaseOpen();
         });
     }
+    this.EscposCaseOpen = function()
+    {
+        _EscposCaseOpen();
+    }
     this.LCDPrint = function(pData)
     {
         _LCDPrint(pData);
