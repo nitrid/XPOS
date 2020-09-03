@@ -2070,4 +2070,8 @@ function Pos($scope,$window,db)
     {
         db.EscposCaseOpen();
     }
+    $scope.BtnKartOdeme = function()
+    {
+        db.PaymentSend();
+    }
 }
