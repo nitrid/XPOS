@@ -21,7 +21,6 @@ var syncSerialPort = function(config, req, listAction){
        });
     port.on('data', (function(config, listAction, line){
         config.lastReceive = line.toString();
-        
         port.close(function()
         {
             if (typeof listAction[line] == 'function')
@@ -29,10 +28,15 @@ var syncSerialPort = function(config, req, listAction){
             else if (listAction['default'])
             listAction['default'](config);
             else
-            console.log(listAction, line);
+            {
+                console.log(listAction, line);
+                send_eot_signal(config)
+            }
+            
         })
     }).bind(null, config, listAction));
-    port.on('open',(function(req){
+    port.on('open',(function(req)
+    {
          port.write(req);
          data = port.read();
     }).bind(null, req));
@@ -140,12 +144,14 @@ var syncSerialPort = function(config, req, listAction){
             // Init
            console.log('Signal ENQ sent to terminal');
            listAction = {};
-           listAction[String.fromCharCode(6)] = (function(config){
+           listAction[String.fromCharCode(6)] = (function(config)
+           {
                console.log('ACK received from terminal');
                send_message(config);
            }).bind(null, config);
            syncSerialPort(config, String.fromCharCode(5),listAction);
-         } catch (e){
+         } catch (e)
+         {
             console.log(e);            
          }
     };
@@ -164,7 +170,7 @@ var config = {
     DEVICE : 'COM6',
     DEVICE_RATE : 9600,
     PAYMENT_MODE : 'card',
-    AMOUNT : 1.10
+    AMOUNT : 0.10
 }
 
 transaction_start(config);
