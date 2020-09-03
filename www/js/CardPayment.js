@@ -18,6 +18,7 @@ var CardPayment =
         }
         function syncSerialPort(req, listAction)
         {
+            console.log(config)
             const port = new SerialPort(config.DEVICE, 
             {
                 baudRate:config.DEVICE_RATE,
