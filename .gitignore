@@ -1,6 +1,7 @@
 node_modules/
 log/
-config.json
+/config.json
 .prettierrc
 daemon/
 pc/release-builds/
+/package-lock.json
