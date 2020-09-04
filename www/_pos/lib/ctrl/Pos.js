@@ -91,7 +91,25 @@ function Pos($scope,$window,db)
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
     });
-    
+    //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
+    db.CardPayment.On("PaymentEvent",function(pData)
+    {
+        if(pData.tag == "response")
+        {
+            if(JSON.parse(pData.msg).transaction_result != 0)
+            {
+                $("#MdlKartYukleniyor").modal("hide"); 
+                alertify.confirm('Ödeme gerçekleşmedi', function()
+                {
+                    $("#MdlKartYukleniyor").modal("show");
+                });
+            }
+            else
+            {
+                $scope.PosTahInsert()
+            }
+        }
+    })
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];
@@ -2140,25 +2158,13 @@ function Pos($scope,$window,db)
     }
     $scope.BtnKartOdemeGonder = function()
     {
-
         $("#MdlKartOdeme").modal("hide");
         $("#MdlKartYukleniyor").modal("show");        
 
-        db.PaymentSend();
-
-        db.CardPayment.On("PaymentEvent",function(pData)
-        {
-            console.log(pData);
-        })
-    }
+        db.PaymentSend($scope.TxtAraToplamTutar);        
+    }    
     $scope.BtnKartIptal = function()
     {
-        $scope.PosTahInsert(function()
-        {
-            if($scope.TahKalan <= 0)
-            {
-                
-            }
-        });
-    }
+        $("#MdlKartYukleniyor").modal("hide");
+    }    
 }

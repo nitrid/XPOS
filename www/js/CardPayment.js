@@ -145,8 +145,9 @@ var CardPayment =
 
             syncSerialPort(tpe_msg, listAction);
         }
-        function transaction_start()
+        function transaction_start(pTutar)
         {
+            config.AMOUNT = pTutar;
             try 
             {                
                 // Init

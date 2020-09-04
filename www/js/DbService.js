@@ -373,9 +373,9 @@ angular.module('app.db', []).service('db',function($rootScope)
             usbScreen.clear();
         });
     }
-    function _PaymentSend()
+    function _PaymentSend(pTutar)
     {
-        _CardPayment.transaction_start();
+        _CardPayment.transaction_start(pTutar);
     }
     //#region "PUBLIC"
     this.Socket = _Socket;
