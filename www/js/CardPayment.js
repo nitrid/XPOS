@@ -2,6 +2,11 @@ var CardPayment =
 (
     function()
     {
+        if(typeof require == 'undefined')
+        {
+            return CardPayment;
+        }
+
         const SerialPort = require('serialport');
         let Listeners = Object();
         let config = 
