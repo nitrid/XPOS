@@ -13,6 +13,7 @@ function Pos($scope,$window,db)
     let FocusSeriSira = false;
     let FocusStok = false;
     let FocusMiktarGuncelle = false;
+    let FocusKartOdeme = false;
     let FirstKey = false;
     let UserParam = null;
 
@@ -24,6 +25,7 @@ function Pos($scope,$window,db)
         FocusSeri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
     });
     $('#MdlMusteriListele').on('hide.bs.modal', function () 
     {
@@ -33,6 +35,7 @@ function Pos($scope,$window,db)
         FocusSeri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
     });
     $('#MdlSeriSira').on('hide.bs.modal', function () 
     {
@@ -42,6 +45,7 @@ function Pos($scope,$window,db)
         FocusSeri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
     });
     $('#MdlStokListele').on('hide.bs.modal', function () 
     {
@@ -55,6 +59,7 @@ function Pos($scope,$window,db)
         {
             $scope.TxtBarkod = "";
         })
+        FocusKartOdeme = false;
     });
     $('#MdlIadeGetir').on('hide.bs.modal', function () 
     {
@@ -64,6 +69,7 @@ function Pos($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
     });
     $('#MdlMiktarGuncelle').on('hide.bs.modal', function () 
     {
@@ -73,6 +79,17 @@ function Pos($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
         FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
+    });
+    $('#MdlCardOdeme').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusSeri = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
     });
     
     function Init()
@@ -692,6 +709,7 @@ function Pos($scope,$window,db)
                 $scope.TahParaUstu = 0; 
             }
 
+            $scope.TxtKartOdemeTutar = parseFloat($scope.TahKalan).toFixed(2);
             $scope.TxtAraToplamTutar = parseFloat($scope.TahKalan).toFixed(2);
         }
         else
@@ -781,6 +799,10 @@ function Pos($scope,$window,db)
         else if(FocusMiktarGuncelle)
         {
             $window.document.getElementById("TxtMiktarGuncelle").focus();
+        }
+        else if(FocusKartOdeme == true)
+        {
+            $window.document.getElementById("TxtKartOdemeTutar").focus();
         }
     }
     $scope.IslemListeRowClick = function(pIndex,pItem)
@@ -1364,6 +1386,10 @@ function Pos($scope,$window,db)
         {
             $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle.substring(0,$scope.TxtMiktarGuncelle.length-1); 
         }
+        else if(FocusKartOdeme)
+        {
+            $scope.TxtKartOdemeTutar = $scope.TxtKartOdemeTutar.substring(0,$scope.TxtKartOdemeTutar.length-1);
+        }
     }
     $scope.BtnOnayClick = function()
     {
@@ -1418,7 +1444,18 @@ function Pos($scope,$window,db)
                 $scope.TxtMiktarGuncelle = Key; 
                 FirstKey = true;
             }
-            
+        }
+        else if(FocusKartOdeme)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtKartOdemeTutar = $scope.TxtKartOdemeTutar + Key; 
+            }
+            else
+            {
+                $scope.TxtKartOdemeTutar = Key; 
+                FirstKey = true;
+            }
         }
     }
     $scope.TxtSeriSira = function(Data)
@@ -1610,6 +1647,7 @@ function Pos($scope,$window,db)
             FocusMusteri = false;
             FocusStok = false;
             FocusSeri = false;
+            FocusKartOdeme = false;
 
             FirstKey = false;
 
@@ -1629,6 +1667,7 @@ function Pos($scope,$window,db)
         FocusBarkod = false;
         FocusMusteri = true;
         FocusStok = false;
+        FocusKartOdeme = false;
     }
     $scope.BtnStokListesi = function()
     {
@@ -1637,6 +1676,8 @@ function Pos($scope,$window,db)
         FocusBarkod = false;
         FocusMusteri = false;
         FocusStok = true;
+        FocusKartOdeme = false;
+
         setTimeout(function()
         {
             document.getElementById('TxtStokAra').focus()
@@ -1820,6 +1861,7 @@ function Pos($scope,$window,db)
                             FocusAraToplam = false;
                             FocusMusteri = false;
                             FocusStok = false;
+                            FocusKartOdeme = false;
                         }
                         else
                         {   
@@ -2064,6 +2106,7 @@ function Pos($scope,$window,db)
         FocusMusteri = false;
         FocusStok = false;
         FocusSeri = false;
+        FocusKartOdeme = false;
 
         FirstKey = false;
     }
@@ -2073,11 +2116,21 @@ function Pos($scope,$window,db)
     }
     $scope.BtnKartOdeme = function()
     {
-        db.PaymentSend();
+        // db.PaymentSend();
 
-        db.CardPayment.On("PaymentEvent",function(pData)
-        {
-            console.log(pData);
-        })
+        // db.CardPayment.On("PaymentEvent",function(pData)
+        // {
+        //     console.log(pData);
+        // })
+        $("#MdlCardOdeme").modal("show");
+        FocusBarkod = false;
+        FocusSeriSira = false;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusKartOdeme = true;
+
+        FirstKey = false;
+        TahSonYenile();
     }
 }
