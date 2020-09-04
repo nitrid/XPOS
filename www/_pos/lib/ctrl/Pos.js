@@ -81,7 +81,7 @@ function Pos($scope,$window,db)
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
     });
-    $('#MdlCardOdeme').on('hide.bs.modal', function () 
+    $('#MdlKartOdeme').on('hide.bs.modal', function () 
     {
         FocusBarkod = true;
         FocusAraToplam = false;
@@ -711,6 +711,7 @@ function Pos($scope,$window,db)
 
             $scope.TxtKartOdemeTutar = parseFloat($scope.TahKalan).toFixed(2);
             $scope.TxtAraToplamTutar = parseFloat($scope.TahKalan).toFixed(2);
+            console.log($scope.TxtKartOdemeTutar )
         }
         else
         {   
@@ -2115,14 +2116,18 @@ function Pos($scope,$window,db)
         db.EscposCaseOpen();
     }
     $scope.BtnKartOdeme = function()
-    {
-        // db.PaymentSend();
+    {        
+        $scope.OdemeTip = 1;
 
-        // db.CardPayment.On("PaymentEvent",function(pData)
-        // {
-        //     console.log(pData);
-        // })
-        $("#MdlCardOdeme").modal("show");
+        if($scope.OdemeTip == 1 && $scope.SatisList.length < 1)
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Satış işlemi yapmadan tahsilat giremezsiniz !");
+            return;
+        }
+
+        $("#MdlKartOdeme").modal("show");
+
         FocusBarkod = false;
         FocusSeriSira = false;
         FocusAraToplam = false;
@@ -2131,6 +2136,19 @@ function Pos($scope,$window,db)
         FocusKartOdeme = true;
 
         FirstKey = false;
+
         TahSonYenile();
+    }
+    $scope.BtnKartOdemeGonder = function()
+    {
+
+        $("#MdlKartOdeme").modal("hide");
+        $("#MdlKartYukleniyor").modal("show");
+        // db.PaymentSend();
+
+        // db.CardPayment.On("PaymentEvent",function(pData)
+        // {
+        //     console.log(pData);
+        // })
     }
 }

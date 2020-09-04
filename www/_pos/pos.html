@@ -1438,7 +1438,7 @@
                     </div>
                 </div>
                 <!-- Card Ödeme -->
-                <div class="modal fade" id="MdlCardOdeme" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                <div class="modal fade" id="MdlKartOdeme" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-simple modal-primary modal-center modal-sm">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -1452,16 +1452,16 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Toplam :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;font-size: 12px;">Toplam :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><div class="float-left">{{(GenelToplam | number:2) + " TL"}}</div></h5></label>
+                                                <label><h5><span style="font-size: 12px;">{{(GenelToplam | number:2) + " TL"}}</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Kalan :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;font-size: 12px;">Kalan :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><div class="float-left">{{(TahKalan | number:2) + " TL"}}</div></h5></label>
+                                                <label><h5><span style="font-size: 12px;">{{(TahKalan | number:2) + " TL"}}</span></h5></label>
                                             </div>
                                         </div>
                                     </div>
@@ -1532,7 +1532,25 @@
                                     <div class="col-6">
                                     </div>
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahSatirIptal()">Gönder</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">Gönder</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kart Yükleniyor -->
+                <div class="modal fade" id="MdlKartYukleniyor" aria-hidden="true" role="dialog" tabindex="-1" data-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);"> 
+                    <div class="modal-dialog modal-sm modal-center">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h5 class="text-primary text-center">Kart cihazından cevap bekleniyor.</h5>
+                                <div class="row py-1">
+                                    <div class="col-6">
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">Zorla</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">İptal</button>
                                     </div>
                                 </div>
                             </div>
