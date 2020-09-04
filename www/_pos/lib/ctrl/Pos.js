@@ -709,9 +709,7 @@ function Pos($scope,$window,db)
                 $scope.TahParaUstu = 0; 
             }
 
-            $scope.TxtKartOdemeTutar = parseFloat($scope.TahKalan).toFixed(2);
             $scope.TxtAraToplamTutar = parseFloat($scope.TahKalan).toFixed(2);
-            console.log($scope.TxtKartOdemeTutar )
         }
         else
         {   
@@ -1389,7 +1387,7 @@ function Pos($scope,$window,db)
         }
         else if(FocusKartOdeme)
         {
-            $scope.TxtKartOdemeTutar = $scope.TxtKartOdemeTutar.substring(0,$scope.TxtKartOdemeTutar.length-1);
+            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.substring(0,$scope.TxtAraToplamTutar.length-1);
         }
     }
     $scope.BtnOnayClick = function()
@@ -1450,11 +1448,11 @@ function Pos($scope,$window,db)
         {
             if(FirstKey)
             {
-                $scope.TxtKartOdemeTutar = $scope.TxtKartOdemeTutar + Key; 
+                $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar + Key; 
             }
             else
             {
-                $scope.TxtKartOdemeTutar = Key; 
+                $scope.TxtAraToplamTutar = Key; 
                 FirstKey = true;
             }
         }
@@ -2118,6 +2116,7 @@ function Pos($scope,$window,db)
     $scope.BtnKartOdeme = function()
     {        
         $scope.OdemeTip = 1;
+        $scope.TahTip = 1;
 
         if($scope.OdemeTip == 1 && $scope.SatisList.length < 1)
         {
@@ -2143,12 +2142,23 @@ function Pos($scope,$window,db)
     {
 
         $("#MdlKartOdeme").modal("hide");
-        $("#MdlKartYukleniyor").modal("show");
-        // db.PaymentSend();
+        $("#MdlKartYukleniyor").modal("show");        
 
-        // db.CardPayment.On("PaymentEvent",function(pData)
-        // {
-        //     console.log(pData);
-        // })
+        db.PaymentSend();
+
+        db.CardPayment.On("PaymentEvent",function(pData)
+        {
+            console.log(pData);
+        })
+    }
+    $scope.BtnKartIptal = function()
+    {
+        $scope.PosTahInsert(function()
+        {
+            if($scope.TahKalan <= 0)
+            {
+                
+            }
+        });
     }
 }
