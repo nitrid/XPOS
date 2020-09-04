@@ -4,7 +4,6 @@ var CardPayment =
     {
         const SerialPort = require('serialport');
         let Listeners = Object();
-
         let config = 
         {
             DEVICE : 'COM6',
@@ -12,13 +11,13 @@ var CardPayment =
             PAYMENT_MODE : 'card',
             AMOUNT : 0.10
         }
+
         function CardPayment()
         {
            
         }
         function syncSerialPort(req, listAction)
         {
-            console.log(config)
             const port = new SerialPort(config.DEVICE, 
             {
                 baudRate:config.DEVICE_RATE,
@@ -36,19 +35,18 @@ var CardPayment =
                     listAction['default'](config);
                     else
                     {
-                        console.log(listAction, line);
-                        send_eot_signal(config)
+                        console.log(listAction, line);                        
                     }
                     
                 })
             }).bind(null, config, listAction));
             port.on('open',(function(req)
             {
-                    port.write(req);
-                    data = port.read();
+                port.write(req);
+                data = port.read();
             }).bind(null, req));
         
-            port.on('error', function(err){console.log(err)});
+            port.on('error', function(err){});
             //Make Timeout (serial Port is Busy, process in while, ..., terrorist)
             setTimeout(()=>{ port.close(); }, 120000); // It's dirty & you can remove this ;)
             return new Promise(function(resolve)
@@ -75,17 +73,17 @@ var CardPayment =
             listAction[String.fromCharCode(5)] = (function(config)
             {
                 console.log('ENQ received from terminal');
-                send_enq_signal(config);
+                send_enq_signal();
             }).bind(null, config); 
 
-            syncSerialPort(config, String.fromCharCode(4),listAction); //EOT
+            syncSerialPort(String.fromCharCode(4),listAction); //EOT
         }
         function send_enq_signal()
         {
             console.log('Signal ACK sent to terminal');
             listAction = {};
             listAction['default'] = get_answer_from_terminal.bind(null, config)
-            syncSerialPort(config, String.fromCharCode(6),listAction); //ACK
+            syncSerialPort(String.fromCharCode(6),listAction); //ACK
         }
         function get_answer_from_terminal()
         {
@@ -103,6 +101,8 @@ var CardPayment =
                 'private'           : config.lastReceive.substr(15, 11)
             };
             console.log('response : ', JSON.stringify(response));
+            LocalEvent({tag:"response",msg:JSON.stringify(response)});     
+            setTimeout(() => {send_eot_signal()},1000);
         }
         function send_message()
         {
@@ -135,31 +135,59 @@ var CardPayment =
             listAction[String.fromCharCode(6)] = ((config)=>
             { 
                 console.log('ACK received from terminal'); 
-                send_eot_signal(config);
+                send_eot_signal();
             }).bind(null, config);
 
-            syncSerialPort(config, tpe_msg, listAction);
+            syncSerialPort(tpe_msg, listAction);
         }
         function transaction_start()
         {
             try 
-            {
+            {                
                 // Init
                 console.log('Signal ENQ sent to terminal');
                 listAction = {};
                 listAction[String.fromCharCode(6)] = (function(config){
                     console.log('ACK received from terminal');
-                    send_message(config);
+                    send_message();
                 }).bind(null, config);
-                syncSerialPort(config, String.fromCharCode(5),listAction);
+                syncSerialPort(String.fromCharCode(5),listAction);
             } catch (e)
             {
                 console.log(e);            
             }
         }
-
         CardPayment.prototype.transaction_start = transaction_start;
+        //#region "EVENT TRIGGER"        
+        function LocalEvent(pData)
+        {
+            EventTrigger('PaymentEvent',pData);
+        }
+        function EventTrigger(evt, params) 
+        {
+            if (evt in Listeners) 
+            {
+                callbacks = Listeners[evt];
+                for (var x in callbacks)
+                {
+                    callbacks[x](params);
+                }
+            } 
+            else
+            {
+                console.log("No listeners found for " + evt);
+            }
+        }
         
+        CardPayment.prototype.On = function(evt, callback) 
+        {
+            if (!Listeners.hasOwnProperty(evt))
+                Listeners[evt] = Array();
+    
+                Listeners[evt].push(callback);      
+        }
+        CardPayment.prototype.Emit = EventTrigger;
+        //#endregion EVENT TRIGGER
         return CardPayment;
     }
 )();

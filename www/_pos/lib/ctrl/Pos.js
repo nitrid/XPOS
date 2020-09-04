@@ -74,6 +74,10 @@ function Pos($scope,$window,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
     });
+    db.CardPayment.On("PaymentEvent",function(pData)
+    {
+        console.log(pData);
+    })
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];

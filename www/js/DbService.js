@@ -379,6 +379,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     //#region "PUBLIC"
     this.Socket = _Socket;
+    this.CardPayment = _CardPayment;
     this.Connection = _Connection;
     this.ConnectionPromise = _ConnectionPromise;
     this.Disconnect = _Disconnect;
