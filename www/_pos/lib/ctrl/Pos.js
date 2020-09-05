@@ -236,7 +236,7 @@ function Pos($scope,$window,$rootScope,db)
                     width: 300
                 },
                 {
-                    name: "COMPANY",
+                    name: "ADRESS",
                     type: "text",
                     align: "center",
                     width: 300
