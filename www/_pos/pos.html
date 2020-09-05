@@ -169,7 +169,7 @@
                             </div>                            
                             <div class="row">
                                 <div class="col-2 px-1">
-                                    <button class="form-group btn btn-info btn-block my-1" ng-click = "BtnAraToplam(1)" style="height:70px;">
+                                    <button class="form-group btn btn-info btn-block my-1" ng-click = "BtnAraToplam()" style="height:70px;">
                                         <i class="icon fa-money" aria-hidden="true" style="font-size: 24px;"></i>
                                     </button>
                                 </div> 
@@ -897,17 +897,17 @@
                                                 <i class="icon fa-money" aria-hidden="true" style="font-size: 23px;"></i>
                                                 &nbsp;ESC
                                             </label>
-                                            <label id="ChkKredi" class="btn btn-outline btn-primary" ng-click="BtnKartOdeme()">
+                                            <label id="ChkKredi" class="btn btn-outline btn-primary" ng-click="BtnTahTip(1)">
                                                 <input type="radio" autocomplete="off"/>
                                                 <i class="icon fa-credit-card" aria-hidden="true" style="font-size: 23px;"></i>
                                                 &nbsp;CB
                                             </label>
-                                            <label id="ChkAcikHesap" class="btn btn-outline btn-primary" ng-click="BtnTahTip(1)">
+                                            <label id="ChkAcikHesap" class="btn btn-outline btn-primary" ng-click="BtnTahTip(2)">
                                                 <input type="radio" autocomplete="off"/>
                                                 <i class="icon fa-eraser" aria-hidden="true" style="font-size: 23px;"></i>
                                                 &nbsp;CHQ
                                             </label>
-                                            <label id="ChkTicket" class="btn btn-outline btn-primary" ng-click="BtnTahTip(1)">
+                                            <label id="ChkTicket" class="btn btn-outline btn-primary" ng-click="BtnTahTip(3)">
                                                 <input type="radio" autocomplete="off"/>
                                                 <i class="icon fa-ticket" aria-hidden="true" style="font-size: 23px;"></i>
                                                 &nbsp;T.R.
@@ -939,17 +939,17 @@
                                     <div class="col-3">
                                         <div class="row py-1">
                                             <div class="col-12">
-                                                <button type="text" class="form-control btn btn-block font-size-15" style="height:60px;background-image: url(img/1€.png); background-size:55% 100% ;background-repeat: no-repeat; background-position: center;" ng-click="BtnTusClick('9')"></button>
+                                                <button type="text" class="form-control btn btn-block font-size-15" style="height:60px;background-image: url(img/1€.png); background-size:55% 100% ;background-repeat: no-repeat; background-position: center;" ng-click="BtnPara('1')"></button>
                                             </div>
                                         </div>
                                         <div class="row py-1">
                                             <div class="col-12">
-                                                <button type="text" class="form-control btn btn-block font-size-15" style="height:60px;background-image: url(img/2€.png); background-size:55% 100% ;background-repeat: no-repeat; background-position: center;" ng-click="BtnTusClick('9')"></button>
+                                                <button type="text" class="form-control btn btn-block font-size-15" style="height:60px;background-image: url(img/2€.png); background-size:55% 100% ;background-repeat: no-repeat; background-position: center;" ng-click="BtnPara('2')"></button>
                                             </div>
                                         </div>
                                         <div class="row py-1">
                                             <div class="col-12">
-                                                <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/5€.jfif); background-size: cover;" ng-click="BtnTusClick('9')"></button>
+                                                <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/5€.jfif); background-size: cover;" ng-click="BtnPara('5')"></button>
                                             </div>
                                         </div>
                                     </div>                                                                  
@@ -965,10 +965,10 @@
                                         <button type="text" class="form-control btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('9')">9</button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahSatirIptal()">Satır İptal</button>
+                                        
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/10€.jpg); background-size: cover;" ng-click="BtnTusClick('10')"></button>
+                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/10€.jpg); background-size: cover;" ng-click="BtnPara('10')"></button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
@@ -982,10 +982,10 @@
                                         <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('6')">6</button>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="text" class="form-control-lg btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahBelgeIptal()">Vazgeç</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahSatirIptal()">Satır İptal</button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/20€.jpg); background-size: cover;" ng-click="BtnTusClick('20')"></button>
+                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/20€.jpg); background-size: cover;" ng-click="BtnPara('20')"></button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
@@ -999,10 +999,10 @@
                                         <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('3')">3</button>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button ng-disabled="TahPanelKontrol" type="text" class="form-control-lg btn-raised btn btn-warning btn-success btn-block font-size-15" style="height:60px;" ng-click="PosSatisKapatUpdate()">Satışı Bitir</button>
+                                        <button type="text" class="form-control-lg btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahBelgeIptal()">Vazgeç</button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/50€.jpg); background-size: cover;" ng-click="BtnTusClick('50')"></button>
+                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/50€.jpg); background-size: cover;" ng-click="BtnPara('50')"></button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
@@ -1016,10 +1016,10 @@
                                         <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnSilClick()"><i class="fas fa-backspace fa-lg" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button ng-disabled="TahPanelKontrol" type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="PosTahInsert()"><i class="fas fa-check fa-lg"></i></button>
+                                        <button ng-disabled="TahPanelKontrol" type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="BtnTahOnay()"><i class="fas fa-check fa-lg"></i></button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/100€.jpg); background-size: cover;" ng-click="BtnTusClick('100')"></button>
+                                        <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/100€.jpg); background-size: cover;" ng-click="BtnPara('100')"></button>
                                     </div>
                                 </div>
                             </div>
@@ -1121,191 +1121,6 @@
                                     <span aria-hidden="true">X</span>
                                 </button>
                                 <h5 class="text-primary text-center">Yükleniyor...</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Evrak Seri Sira -->
-                <div class="modal fade" id="MdlSeriSira" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
-                    <div class="modal-dialog modal-simple modal-primary modal-center">
-                        <div class="modal-content">
-                            <div class="modal-header py-2">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">X</span>
-                                </button>
-                                <h4 class="modal-title">SERİ - SIRA</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row py-2">
-                                    <div class="col-4 offset-1">
-                                        <h6 class="example-title">Seri</h6>
-                                        <input type="text" class="form-control" id="Seri" ng-model="Seri" ng-focus="TxtSeriSira('Seri')">
-                                    </div>
-                                    <div class="col-6">
-                                        <h6 class="example-title">Sira</h6>
-                                        <input type="text" class="form-control" id="Sira" ng-model="Sira" ng-focus="TxtSeriSira('Sira')">
-                                    </div>
-                                </div>
-                                <div class="row py-2">
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-block btn-success" ng-click="BtnKlavye()">Klavye</button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn btn-block btn-info" ng-click="BtnKaydetYazdir()">Kaydet ve Yazdır</button>
-                                    </div>
-                                </div>
-                                <!-- Klavye Başlangıç -->
-                                <div ng-show="Klavye">
-                                    <div class="row py-1 pt-20">
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('1')">1</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('2')">2</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('3')">3</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('4')">4</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('5')">5</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('6')">6</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('7')">7</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('8')">8</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('9')">9</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('0')">0</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick(',')">,</button>
-                                            </div>
-                                            <div class="col-1 px-1">
-                                                <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('.')">.</button>
-                                            </div>
-                                    </div>
-                                    <div class="row py-1">
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Q')">Q</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('W')">W</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('E')">E</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('R')">R</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('T')">T</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Y')">Y</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('U')">U</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('I')">I</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('O')">O</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('P')">P</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ğ')">Ğ</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ü')">Ü</button>
-                                        </div>
-                                    </div>
-                                    <div class="row py-1">
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('A')">A</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('S')">S</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('D')">D</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('F')">F</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('G')">G</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('H')">H</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('J')">J</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('K')">K</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('L')">L</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ş')">Ş</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('İ')">İ</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('-')">-</button>
-                                        </div>
-                                    </div>
-                                    <div class="row py-1">
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Z')">Z</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('X')">X</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('C')">C</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('V')">V</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('B')">B</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick(' ')">SPACE</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('N')">N</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('M')">M</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ö')">Ö</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ç')">Ç</button>
-                                        </div>
-                                        <div class="col-1 px-1">
-                                            <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ü')">Ü</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1555,7 +1370,7 @@
                                 </div>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">Zorla</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartZorla()">Zorla</button>
                                     </div>
                                 </div>
                             </div>
