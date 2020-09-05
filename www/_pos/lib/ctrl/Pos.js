@@ -1891,14 +1891,16 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonSatis = function()
     {   
-        $('#MdlSonSatis').modal('show');
+        $("#TbSatisListesi").addClass('active');
+        $("#TbMain").removeClass('active');
+        // $('#MdlSonSatis').modal('show');
 
-        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube],function(PosSonSatis)
-        {  
-            $scope.SonSatisList = PosSonSatis;
-            $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
-            $scope.TxtBarkod = "";
-        });
+        // db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube],function(PosSonSatis)
+        // {  
+        //     $scope.SonSatisList = PosSonSatis;
+        //     $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
+        //     $scope.TxtBarkod = "";
+        // });
     }
     $scope.BtnCikis = function()
     {
