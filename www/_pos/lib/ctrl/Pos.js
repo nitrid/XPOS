@@ -805,6 +805,10 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 db.GetDataQuery(TmpQuery,function(pData)
                 {
+                    $scope.TmpParaUstu = $scope.TahParaUstu;
+                    $("#MdlParaUstu").modal("show");
+                    setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData);
     
                     $('#MdlAraToplam').modal('hide');
@@ -1323,12 +1327,7 @@ function Pos($scope,$window,$rootScope,db)
                             }                        
                         );
                         $scope.TahList = PosTahData;
-                        TahSonYenile();   
-
-                        $scope.TmpParaUstu = $scope.TahParaUstu;
-                        $("#MdlParaUstu").modal("show");
-                        setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
-
+                        TahSonYenile();                           
                         SatisKapat();                   
                         $scope.TahPanelKontrol = false;                        
                         
