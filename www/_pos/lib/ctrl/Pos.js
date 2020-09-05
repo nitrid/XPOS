@@ -1,4 +1,4 @@
-function Pos($scope,$window,db)
+function Pos($scope,$window,$rootScope,db)
 {
     let IslemSelectedRow = null;
     let CariSelectedRow = null;
@@ -74,6 +74,15 @@ function Pos($scope,$window,db)
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
     });
+    $('#MdlParaUstu').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
+    });
 
     if(typeof require != 'undefined')
     {
@@ -97,11 +106,23 @@ function Pos($scope,$window,db)
             }
         })
     }
-    
+
+    $rootScope.LoadingShow = function() 
+    {
+        $("#loading").show();
+    }
+    $rootScope.LoadingHide = function() 
+    {
+        $("#loading").hide();
+    }
+    $rootScope.MessageBox = function(pMsg)
+    {
+        alertify.alert(pMsg);
+    }
     function Init()
     {
-        UserParam = Param[$window.sessionStorage.getItem('User')];
-        
+        UserParam = Param[$window.sessionStorage.getItem('User')];                
+
         $scope.Seri = "";
         $scope.TahSeri = "";
         $scope.Sira = 0;
@@ -178,6 +199,12 @@ function Pos($scope,$window,db)
             );
         }, 10000);
         
+        InitClass();
+    }
+    function InitClass()
+    {
+        $scope.Class = {};
+        $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1";
     }
     function InitCariGrid()
     {
@@ -685,10 +712,10 @@ function Pos($scope,$window,db)
         {
             $scope.BtnIskonto($scope.TxtBarkod.split("/")[1]);
         }
-        else if($scope.TxtBarkod.indexOf("*") != -1)
-        {
-            $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("*")[1] * $scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY);
-        }
+        // else if($scope.TxtBarkod.indexOf("*") != -1)
+        // {
+        //     $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("*")[1] * $scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY);
+        // }
         else
         {   
             $scope.StokGetir($scope.TxtBarkod);
@@ -829,7 +856,7 @@ function Pos($scope,$window,db)
         {
             $window.document.getElementById("TxtKartOdemeTutar").focus();
         }
-    }
+    }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
     {
         if ( IslemSelectedRow ) { IslemSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
@@ -1070,11 +1097,14 @@ function Pos($scope,$window,db)
     {
         if(pBarkod != '')
         {   
-                  
-            // if(pBarkod.indexOf("*") != -1)
-            // {
-            //     $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("*")[1] * $scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY);
-            // }
+            $scope.Miktar = 1;
+
+            if(pBarkod.indexOf("*") != -1)
+            {
+                $scope.Miktar = pBarkod.split("*")[0];
+                pBarkod = pBarkod.split("*")[1];
+            }
+
             if(pBarkod.length >= 16)
             {
                 let TmpTicket = pBarkod.substring(11,16)
@@ -1139,6 +1169,15 @@ function Pos($scope,$window,db)
                         $scope.Stok[0].PRICE = TmpFiyat;
                     }
                     
+                    //EĞER BİLGİ BUTONUNA BASILDIYSA FİYAT GÖR EKRANI ÇIKACAK.
+                    if($scope.Class.BtnFiyatGor == "form-group btn btn-warning btn-block my-1")
+                    {
+                        $scope.TxtBarkod = ""; 
+                        $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1"
+                        $('#MdlFiyatGor').modal('show');
+                        return;
+                    }
+                    //BARKOD OKUTULDUKDAN SONRA INSERT İŞLEMİ
                     let TmpSatirBirlestir = SatirBirlestir();
                     if(TmpSatirBirlestir.Status)
                     {
@@ -1148,7 +1187,6 @@ function Pos($scope,$window,db)
                     {
                         $scope.PosSatisInsert();
                     }
-                    
                 }
                 else   
                 {
@@ -1286,9 +1324,14 @@ function Pos($scope,$window,db)
                         );
                         $scope.TahList = PosTahData;
                         TahSonYenile();   
-                        SatisKapat();                   
-                        $scope.TahPanelKontrol = false;
 
+                        $scope.TmpParaUstu = $scope.TahParaUstu;
+                        $("#MdlParaUstu").modal("show");
+                        setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+
+                        SatisKapat();                   
+                        $scope.TahPanelKontrol = false;                        
+                        
                         if(typeof(pCallBack) != 'undefined')
                         {
                             pCallBack();
@@ -2025,4 +2068,23 @@ function Pos($scope,$window,db)
         }
         $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY -1);
     } 
+    $scope.BtnHesapMakinesi = function()
+    {
+        if(typeof require == 'undefined')
+        {
+            return;
+        }
+        const exec = require('child_process').exec;
+
+        exec("calc", (error, stdout, stderr) => { 
+            console.log(stdout); 
+        });
+    }
+    $scope.BtnFiyatGor = function()
+    {
+        if($scope.Class.BtnFiyatGor == "form-group btn btn-info btn-block my-1")
+            $scope.Class.BtnFiyatGor = "form-group btn btn-warning btn-block my-1"
+        else
+            $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1"
+    }
 }
