@@ -1049,7 +1049,7 @@ function Pos($scope,$window,$rootScope,db)
             }
             db.ExecuteQuery(TmpQuery,function(UpdateResult)
             {
-            
+                
             });
         }
 
