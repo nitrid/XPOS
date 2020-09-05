@@ -144,6 +144,9 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ParkIslemSayisi = 0;
         $scope.CiktiTip = 1;
         
+        $scope.Kullanici = UserParam.Kullanici;
+        $scope.KasaNo = 1;
+        
         $scope.TahPanelKontrol = false;
         $scope.Klavye = false;
 
