@@ -1069,7 +1069,12 @@ function Pos($scope,$window,db)
     $scope.StokGetir = function(pBarkod)
     {
         if(pBarkod != '')
-        {            
+        {   
+                  
+            // if(pBarkod.indexOf("*") != -1)
+            // {
+            //     $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("*")[1] * $scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY);
+            // }
             if(pBarkod.length >= 16)
             {
                 let TmpTicket = pBarkod.substring(11,16)
@@ -1134,14 +1139,6 @@ function Pos($scope,$window,db)
                         $scope.Stok[0].PRICE = TmpFiyat;
                     }
                     
-                    //$scope.Stok[0].TUTAR = 0;
-                    //$scope.Stok[0].INDIRIM = 0;
-                    //$scope.Stok[0].KDV = 0;
-                    //$scope.Stok[0].TOPTUTAR = 0;
-
-                    //$scope.Stok[0].TUTAR = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
-                    //$scope.Stok[0].KDV = (($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) / 100) * $scope.Stok[0].VAT;
-                    //$scope.Stok[0].TOPTUTAR = ($scope.Stok[0].TUTAR - $scope.Stok[0].INDIRIM) + $scope.Stok[0].KDV;
                     let TmpSatirBirlestir = SatirBirlestir();
                     if(TmpSatirBirlestir.Status)
                     {
@@ -1975,7 +1972,7 @@ function Pos($scope,$window,db)
 
         db.PaymentSend($scope.TxtAraToplamTutar);        
     }    
-    $scope.BtnKartIptal = function()
+    $scope.BtnKartVazgec = function()
     {
         $("#MdlKartYukleniyor").modal("hide");
     } 
@@ -2015,4 +2012,17 @@ function Pos($scope,$window,db)
             $scope.PosTahInsert();
         }
     }
+    $scope.BtnArti = function()
+    {
+        $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY + 1);
+    } 
+    $scope.BtnEksi = function()
+    {
+        if($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY == 1)
+        {
+            alertify.alert("Miktar 1 den küçük olamaz.")
+            return;
+        }
+        $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY -1);
+    } 
 }

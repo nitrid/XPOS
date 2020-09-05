@@ -636,7 +636,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             size : [1,2],
             style: "b",
             align: "lt",
-            data: _PrintText("Total TTC",33) + 
+            data: _PrintText("Total TTC",30) + 
                   _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")
         }
         TmpData.push(TmpLine);
