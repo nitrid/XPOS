@@ -851,6 +851,10 @@ function Pos($scope,$window,$rootScope,db)
         else if(FocusMusteri == true)
         {
             $window.document.getElementById("TxtCariAra").focus();
+            if(e.which == 13)
+            {
+                $scope.BtnCariGridGetir();
+            }
         }
         else if(FocusStok == true)
         {

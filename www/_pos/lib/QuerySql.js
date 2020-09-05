@@ -649,7 +649,7 @@ var QuerySql =
                 "FROM CUSTOMERS " + 
                 "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                 "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
-                "WHERE (([CODE] LIKE @ARA + '%') OR ([NAME] LIKE @ARA + '%') OR (@ARA = '')) ORDER BY [CODE] ASC",
+                "WHERE ((UPPER([CODE]) LIKE UPPER(@ARA) + '%') OR (UPPER([NAME]) LIKE UPPER(@ARA) + '%') OR (@ARA = '')) ORDER BY [CODE] ASC",
         param : ['ARA'],
         type : ['string|25'] 
     },
