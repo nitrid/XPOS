@@ -216,6 +216,10 @@ function Pos($scope,$window,$rootScope,db)
             heading: true,
             selecting: true,
             data : $scope.CariListe,
+            paging : true,
+            pageSize: 30,
+            pageButtonCount: 5,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: 
             [
                 {
@@ -1018,18 +1022,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnCariGridGetir = function()
     {
-        let Kodu = '';
-        let Adi = '';
-
-        if($scope.TxtCariAra != "")
-        {
-            if($scope.CmbCariAra == "0")
-                Adi = $scope.TxtCariAra;
-            else
-                Kodu = $scope.TxtCariAra;
-        }
-        
-        db.GetData($scope.Firma,'PosCariListeGetir',[Kodu,Adi],function(data)
+        db.GetData($scope.Firma,'PosCariListeGetir',[$scope.TxtCariAra],function(data)
         {
             $scope.CariListe = data;   
             $("#TblCari").jsGrid({data : $scope.CariListe});

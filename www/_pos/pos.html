@@ -84,6 +84,7 @@
     </head>
   
     <body class="animsition site-navbar-small site-menubar-fold site-menubar-keep" ng-controller="Pos" ng-Init = "YeniEvrak()">
+    <div id="loading" style="display:none"></div>
     <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -114,8 +115,7 @@
     </div>
     </nav>
     <!-- Sayfa Basla -->
-    <div>
-        <div id="loading" style="display:none"></div>
+    <div>        
         <div class="col-12">
             <div class="tab-content">
                 <div id="TbMain" class="tab-pane active">
@@ -499,13 +499,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="row py-10">
-                                <div class="col-4">
-                                    <select class="form-control form-control-sm ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="CmbCariAra">
-                                        <option value="0" selected="selected">ADI</option>
-                                        <option value="1">KODU</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-8 col-sm-8 col-md-8">
+                                <div class="col-12">
                                     <div class="input-group">
                                         <input autofocus="true" type="text" class="form-control" ng-model="TxtCariAra" id="TxtCariAra">
                                         <div class="input-group-append">

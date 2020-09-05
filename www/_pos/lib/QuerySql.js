@@ -649,9 +649,9 @@ var QuerySql =
                 "FROM CUSTOMERS " + 
                 "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                 "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
-                "WHERE (([CODE] LIKE '%' + @CODE + '%') OR (@CODE = '')) AND (([NAME] LIKE '%' + @NAME + '%') OR (@NAME = '')) ORDER BY [CODE] ASC",
-        param : ['CODE','NAME'],
-        type : ['string|25','string|25'] 
+                "WHERE (([CODE] LIKE '%' + @ARA + '%') OR ([NAME] LIKE '%' + @ARA + '%') OR (@ARA = '')) ORDER BY [CODE] ASC",
+        param : ['ARA'],
+        type : ['string|25'] 
     },
     PosPluGrupGetir:
     {
