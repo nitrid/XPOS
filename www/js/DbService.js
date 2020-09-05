@@ -633,7 +633,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpLine = 
         {
             font: "b",
-            size : [1,2],
+            size : [1,1],
             style: "b",
             align: "lt",
             data: _PrintText("Total TTC",17) + 
