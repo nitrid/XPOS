@@ -872,7 +872,7 @@ function Pos($scope,$window,$rootScope,db)
 
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
                     {
-                        if($scope.TahTip == 0)
+                        if(db.SumColumn($scope.TahList,"TYPE") == 0)
                         {
                             db.EscposCaseOpen();
                         }
