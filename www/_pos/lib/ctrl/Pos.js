@@ -178,7 +178,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ParkList =[];     
         $scope.SonSatisList = [];
         $scope.SonSatisDetayList = [];   
-        
+        $scope.SonSatisTahDetayList = [];  
+
         setTimeout(function()
         { 
             db.LCDPrint
@@ -597,26 +598,19 @@ function Pos($scope,$window,$rootScope,db)
             fields: 
             [
             {
-                name: "TYPE",
-                title: "TIP",
-                type: "TEXT",
-                align: "center",
-                width: 75
-            },
-            {
-                name: "REF",
-                title: "SERI",
-                type: "TEXT",
-                align: "center",
-                width: 35
-            },
-            {
-                name: "REF_NO",
-                title: "SIRA",
+                name: "BARCODE",
+                title: "BARKOD",
                 type: "number",
                 align: "center",
-                width: 35
+                width: 100
             },
+            {
+                name: "NAME",
+                title: "NAME",
+                type: "TEXT",
+                align: "center",
+                width: 150
+            },            
             {
                 name: "QUANTITY",
                 title: "MIKTAR",
@@ -637,18 +631,54 @@ function Pos($scope,$window,$rootScope,db)
                 type: "number",
                 align: "center",
                 width: 50
-            },
-            {
-                name: "BARCODE",
-                title: "BARKOD",
-                type: "number",
-                align: "center",
-                width: 100
             }],
             rowClick: function(args)
             {
                 // $scope.SonSatisDetayRowClick(args.itemIndex,args.item);
                 // $scope.$apply();
+            }
+        });
+    }
+    function InitSonSatisTahDetayGrid()
+    {
+        $("#TblSonSatisTahDetay").jsGrid({
+            responsive: true,
+            width: "100%",
+            height: "350px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            
+            data : $scope.SonSatisTahDetayList,
+            rowClass: function (item, itemIndex)
+            {
+                return "rowheight";
+            },
+            fields: 
+            [
+            {
+                name: "TYPE",
+                title: "TIP",
+                type: "text",
+                align: "center",
+                width: 75
+            },
+            {
+                name: "AMOUNT",
+                title: "AMOUNT",
+                type: "number",
+                align: "center",
+                width: 35
+            },
+            {
+                name: "CHANGE",
+                title: "CHANGE",
+                type: "number",
+                align: "center",
+                width: 35
+            }],
+            rowClick: function(args)
+            {
             }
         });
     }
@@ -934,16 +964,18 @@ function Pos($scope,$window,$rootScope,db)
         SonSatisSelectedRow = $row;
         $scope.SonSatisListeSelectedIndex = pIndex;
 
-         let SonSatisDetay = pItem;
+        let SonSatisDetay = pItem;
         
         db.GetData($scope.Firma,'PosSonSatisDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisDetay)
         {  
             $scope.SonSatisDetayList = PosSonSatisDetay;
             $("#TblSonSatisDetay").jsGrid({data : $scope.SonSatisDetayList});
         });
-
-        $('#MdlSonSatis').modal('hide');
-        $('#MdlSonSatisDetay').modal('show');
+        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisTahDetay)
+        {  
+            $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
+            $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+        });
     }
     $scope.YeniEvrak = async function()
     {
@@ -964,6 +996,7 @@ function Pos($scope,$window,$rootScope,db)
             InitBarkodGrid();
             InitSonSatisGrid();
             InitSonSatisDetayGrid();
+            InitSonSatisTahDetayGrid();
 
             $scope.Seri = UserParam.PosSatis.Seri;
             $scope.TahSeri = UserParam.PosSatis.TahSeri;
@@ -1892,29 +1925,15 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonSatis = function()
     {   
-        $("#TbSatisListesi").addClass('active');
+        $("#TbSonSatisListesi").addClass('active');
         $("#TbMain").removeClass('active');
-        // $('#MdlSonSatis').modal('show');
 
-        // db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube],function(PosSonSatis)
-        // {  
-        //     $scope.SonSatisList = PosSonSatis;
-        //     $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
-        //     $scope.TxtBarkod = "";
-        // });
-    }
-    $scope.BtnCikis = function()
-    {
-        $('#MdlSonSatis').modal('hide');
-    }
-    $scope.BtnCikiss = function()
-    {
-        $('#MdlSonSatisDetay').modal('hide');
-    }
-    $scope.BtnGeri = function()
-    {
-        $('#MdlSonSatisDetay').modal('hide');
-        $('#MdlSonSatis').modal('show');
+        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube],function(PosSonSatis)
+        {  
+            $scope.SonSatisList = PosSonSatis;
+            $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
+            $scope.TxtBarkod = "";
+        });
     }
     $scope.BtnIskonto = function(pIskonto)
     {   

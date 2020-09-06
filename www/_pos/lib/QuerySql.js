@@ -952,16 +952,22 @@ var QuerySql =
     PosSonSatisDetayGetir : 
     {
         query:  "SELECT " +
-                "(SELECT MAX(CASE WHEN TYPE = 0 THEN 'NAKİT' WHEN TYPE = 1 THEN 'KREDİKARTI' WHEN TYPE = 2 THEN 'AÇIKHESAP' END) AS TYPE FROM POS_SALES AS PT WHERE PT.REF = PS.REF AND PT.REF_NO = PS.REF_NO) AS TYPE, " +
-                "REF AS REF, " +
-                "REF AS REF_NO, " +
-                "ITEM_CODE AS CODE, " + 
                 "BARCODE AS BARCODE, " +   
                 "ISNULL((SELECT [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS [NAME], " +
                 "CAST(QUANTITY AS decimal(10,2)) AS QUANTITY, " +
                 "CAST(PRICE AS decimal(10,2))  AS PRICE, " +
                 "CAST((QUANTITY * PRICE) AS decimal(10,2)) AS AMOUNT " +
                 "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS <> 0 " ,
+        param: ['DEPARTMENT','REF','REF_NO'],
+        type: ['int','string|25','int']
+    },
+    PosSonSatisTahDetayGetir : 
+    {
+        query:  "SELECT " +
+                "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'CHQ' WHEN TYPE = 3 THEN 'T.R.' END AS TYPE, " +
+                "AMOUNT AS AMOUNT, " +
+                "CHANGE AS CHANGE " +
+                "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS <> 0 " ,
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
