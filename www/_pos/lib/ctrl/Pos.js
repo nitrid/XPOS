@@ -155,7 +155,7 @@ function Pos($scope,$window,$rootScope,db)
         
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
-        $scope.Saat = moment(new Date(),"HH:mm:ss").format("hh:mm:ss");
+        $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
         console.log($scope.Saat)
 
         $scope.TahPanelKontrol = false;
@@ -218,7 +218,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             db.SafeApply($scope,function()
             {
-                $scope.Saat = moment(new Date(),"HH:mm:ss").format("hh:mm:ss");
+                $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
             })
         },1000);
 
@@ -867,8 +867,8 @@ function Pos($scope,$window,$rootScope,db)
                 db.GetDataQuery(TmpQuery,function(pData)
                 {
                     //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
-                    $scope.TmpParaUstu = $scope.TahParaUstu;
-                    if($scope.TmpParaUstu > 0)
+                    //$scope.TmpParaUstu = $scope.TahParaUstu;
+                    if($scope.TahParaUstu > 0)
                     {
                         $("#MdlParaUstu").modal("show");                    
                         setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
