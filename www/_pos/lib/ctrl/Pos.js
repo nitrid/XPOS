@@ -146,7 +146,7 @@ function Pos($scope,$window,$rootScope,db)
         
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
-        
+
         $scope.TahPanelKontrol = false;
         $scope.Klavye = false;
 
@@ -1363,7 +1363,8 @@ function Pos($scope,$window,$rootScope,db)
             //**************************************************************** */
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
             {  
-                InsertSonYenile(PosSatisData);  
+                InsertSonYenile(PosSatisData);
+                $scope.IslemListeSelectedIndex = 0;  
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);
                 $scope.ToplamMiktar = db.SumColumn($scope.SatisList,"QUANTITY")
                 $scope.ToplamSatir =  $scope.SatisList.length    
