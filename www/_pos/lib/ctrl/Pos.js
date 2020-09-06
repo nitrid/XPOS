@@ -872,7 +872,10 @@ function Pos($scope,$window,$rootScope,db)
 
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
                     {
-                        db.EscposCaseOpen();
+                        if($scope.TahTip == 0)
+                        {
+                            db.EscposCaseOpen();
+                        }
                     });
     
                     $('#MdlAraToplam').modal('hide');
