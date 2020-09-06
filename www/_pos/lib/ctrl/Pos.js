@@ -871,7 +871,7 @@ function Pos($scope,$window,$rootScope,db)
                     setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
 
                     let TmpTahTip = db.SumColumn($scope.TahList,"TYPE");
-
+                    console.log(TmpTahTip);
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
                     {
                         if(TmpTahTip == 0)
