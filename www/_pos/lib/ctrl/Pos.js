@@ -491,7 +491,7 @@ function Pos($scope,$window,$rootScope,db)
         $("#TblSonSatis").jsGrid({
             responsive: true,
             width: "100%",
-            height: "350px",
+            height: "250px",
             updateOnResize: true,
             heading: true,
             selecting: true,
@@ -503,11 +503,18 @@ function Pos($scope,$window,$rootScope,db)
             fields: 
             [
             {
-                name: "TYPE",
-                title: "TIP",
-                type: "TEXT",
+                name: "CDATE",
+                title: "TARIH",
+                type: "date",
                 align: "center",
-                width: 75
+                width: 50
+            },
+            {
+                name: "CHOUR",
+                title: "SAAT",
+                type: "date",
+                align: "center",
+                width: 50
             },
             {
                 name: "REF",
@@ -538,40 +545,12 @@ function Pos($scope,$window,$rootScope,db)
                 width: 75
             },
             {
-                name: "QUANTITY",
-                title: "MIKTAR",
-                type: "number",
-                align: "center",
-                width: 50
-            },
-            {
-                name: "PRICE",
-                title: "FIYAT",
-                type: "number",
-                align: "center",
-                width: 50
-            },
-            {
                 name: "AMOUNT",
                 title: "TUTAR",
                 type: "number",
                 align: "center",
                 width: 50
-            },
-            {
-                name: "CHOUR",
-                title: "SAAT",
-                type: "date",
-                align: "center",
-                width: 50
-            },
-            {
-                name: "CDATE",
-                title: "TARIH",
-                type: "date",
-                align: "center",
-                width: 50
-            },
+            }
             ],
             rowClick: function(args)
             {
@@ -585,11 +564,13 @@ function Pos($scope,$window,$rootScope,db)
         $("#TblSonSatisDetay").jsGrid({
             responsive: true,
             width: "100%",
-            height: "350px",
+            height: "250px",
             updateOnResize: true,
             heading: true,
             selecting: true,
-            
+            paging : true,
+            pageSize: 5,
+            pageButtonCount: 3,
             data : $scope.SonSatisDetayList,
             rowClass: function (item, itemIndex)
             {
@@ -642,14 +623,17 @@ function Pos($scope,$window,$rootScope,db)
     function InitSonSatisTahDetayGrid()
     {
         $("#TblSonSatisTahDetay").jsGrid({
-            responsive: true,
             width: "100%",
-            height: "350px",
+            height: "250px",
             updateOnResize: true,
             heading: true,
             selecting: true,
-            
+            editing: true,
             data : $scope.SonSatisTahDetayList,
+            paging : true,
+            pageSize: 5,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",            
             rowClass: function (item, itemIndex)
             {
                 return "rowheight";
@@ -659,26 +643,35 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "TYPE",
                 title: "TIP",
-                type: "text",
                 align: "center",
                 width: 75
             },
             {
                 name: "AMOUNT",
                 title: "AMOUNT",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 35
             },
             {
                 name: "CHANGE",
                 title: "CHANGE",
-                type: "number",
                 align: "center",
                 width: 35
-            }],
-            rowClick: function(args)
+            },
+            { type: "control", modeSwitchButton: true, editButton: false,deleteButton:false }
+            ],
+            onItemUpdated: function(args)
             {
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT WHERE GUID = @GUID",
+                    param:  ['AMOUNT','GUID'],
+                    type:   ['float','string|50'],
+                    value:  [args.item.AMOUNT,args.item.GUID]
+                }
+                db.ExecuteQuery(TmpQuery,function(){});
             }
         });
     }
@@ -2107,5 +2100,43 @@ function Pos($scope,$window,$rootScope,db)
             $scope.Class.BtnFiyatGor = "form-group btn btn-warning btn-block my-1"
         else
             $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1"
+    }
+    $scope.BtnFisYazdir = function()
+    {
+        let TmpSeri = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF;
+        let TmpSira = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO;
+
+        db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,TmpSeri,TmpSira],function(PosSatisData)
+        {   
+            db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,TmpSeri,TmpSira],function(PosTahData)
+            {
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT " + 
+                            "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
+                            "VAT AS VAT, " +  
+                            "(SUM(QUANTITY) * SUM(PRICE)) - (((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT) AS HT, " + 
+                            "((SUM(QUANTITY) * SUM(PRICE)) / 100) * VAT AS TVA, " +
+                            "ROUND(SUM(QUANTITY) * SUM(PRICE),4) AS TTC, " +
+                            "ISNULL((SELECT COUNT(REF) AS TICKET FROM (SELECT REF FROM POS_SALES " + 
+                            "WHERE DOC_DATE >= CONVERT(NVARCHAR(10),GETDATE(),112) " + 
+                            "AND DOC_DATE <= CONVERT(NVARCHAR(10),GETDATE(),112) " + 
+                            "AND DEPARTMENT = @DEPARTMENT " + 
+                            "AND STATUS = 1 " + 
+                            "GROUP BY REF,REF_NO) AS TMP),1) AS TICKET " + 
+                            "FROM POS_SALES AS POS " +
+                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO " +
+                            "GROUP BY VAT",
+                    param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
+                    type:   ['int','int','string|25','int'],
+                    value:  [$scope.Sube,$scope.EvrakTip,TmpSeri,TmpSira]
+                }
+                db.GetDataQuery(TmpQuery,function(pData)
+                {
+                    db.EscposPrint(PosSatisData,PosTahData,pData);
+                });
+            });
+        });
     }
 }

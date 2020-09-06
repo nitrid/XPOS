@@ -80,11 +80,11 @@ function StokCtrl ($scope,$window,$location,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
+            editing: true,
             data : $scope.FiyatListe,
             paging : true,
             pageSize: 5,
-            pageButtonCount: 3,
-            editing: true,
+            pageButtonCount: 3,            
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields:
             [

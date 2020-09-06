@@ -290,7 +290,7 @@
                                             </button>
                                         </div> 
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-info btn-block my-1" style="height:70px;">
+                                            <button class="form-group btn btn-info btn-block my-1" style="height:70px;" ng-click="BtnSonSatis()">
                                                 <i class="icon fa-print" aria-hidden="true" style="font-size: 24px;"></i>
                                             </button>
                                         </div> 
@@ -375,26 +375,6 @@
                                             <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[5].GRUP)">{{PluGrpList[4].GRUP}}</button>
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[6].GRUP)">{{PluGrpList[6].GRUP}}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[0].GRUP)">{{PluGrpList[0].GRUP}}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[8].GRUP)">{{PluGrpList[8].GRUP}}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[9].GRUP)">{{PluGrpList[9].GRUP}}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[10].GRUP)">{{PluGrpList[10].GRUP}}</button>
-                                        </div>
-                                        <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[11].GRUP)">{{PluGrpList[11].GRUP}}</button>
-                                        </div>
-                                    </div> -->
                                     <div class="row">
                                         <div class="col-2 px-1">
                                             <button class="form-group btn btn-block btn-danger my-1" ng-click="BtnSatirIptal()" style="height:70px;">Satır İptal</button>
@@ -486,7 +466,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-warning my-1" ng-click="BtnSonSatis()" style="height:70px;">
+                                            <button class="form-group btn btn-block btn-warning my-1" style="height:70px;">
                                                 <i class="icon wb-order" aria-hidden="true" style="font-size: 24px;"></i>
                                             </button>
                                         </div>
@@ -515,6 +495,12 @@
                     <div class="page-header">
                         <h1 class="page-title">SON SATIŞ LİSTESİ</h1>
                         <div class="page-header-actions">
+                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip">
+                                <i class="icon fa-file-text" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnFisYazdir()">
+                                <i class="icon fa-print" aria-hidden="true"></i>
+                            </button>
                             <button type="button" class="btn btn-sm btn-icon btn-round btn-danger" style="width: 50px;height: 50px;" data-toggle="tooltip" onclick="$('#TbMain').addClass('active');$('#TbSonSatisListesi').removeClass('active');">
                                 <i class="icon fa-close" aria-hidden="true"></i>
                             </button>

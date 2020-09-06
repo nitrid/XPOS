@@ -934,14 +934,11 @@ var QuerySql =
     {
         query:  "SELECT " +
                 "TOP 100 MAX(GUID) AS GUID, " +
-                "(SELECT MAX(CASE WHEN TYPE = 0 THEN 'NAKİT' WHEN TYPE = 1 THEN 'KREDİKARTI' WHEN TYPE = 2 THEN 'AÇIKHESAP' END) AS TYPE FROM POS_SALES AS PT WHERE PT.REF = PS.REF AND PT.REF_NO = PS.REF_NO) AS TYPE, " +
                 "REF AS REF, " +
                 "REF_NO AS REF_NO, " +
                 "COUNT(LINE_NO) AS LINE_NO, " +
                 "MAX(CUSER) AS [USER], " +
-                "CAST(MAX(QUANTITY) AS DECIMAL(10,2)) AS QUANTITY, " +
-                "CAST(MAX(PRICE) AS DECIMAL(10,2))  AS PRICE, " +
-                "CAST((MAX(QUANTITY) * MAX(PRICE)) AS DECIMAL(10,2)) AS AMOUNT, " +
+                "CAST((SUM(QUANTITY * PRICE)) AS DECIMAL(10,2)) AS AMOUNT, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
                 "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS <> 0 " +
@@ -964,6 +961,7 @@ var QuerySql =
     PosSonSatisTahDetayGetir : 
     {
         query:  "SELECT " +
+                "GUID AS GUID, " +
                 "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'CHQ' WHEN TYPE = 3 THEN 'T.R.' END AS TYPE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
