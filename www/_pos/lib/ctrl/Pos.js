@@ -105,7 +105,10 @@ function Pos($scope,$window,$rootScope,db)
 
                     $scope.PosTahInsert(()=>
                     {
-                        $scope.BtnAraToplam();
+                        if($scope.TahKalan > 0)
+                        {
+                            $scope.BtnAraToplam();
+                        }
                     });
                 }
             }
