@@ -101,7 +101,10 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 else
                 {
-                    $scope.PosTahInsert();
+                    $scope.PosTahInsert(()=>
+                    {
+                        BtnAraToplam();
+                    });
                 }
             }
         })
@@ -119,6 +122,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         alertify.alert(pMsg);
     }
+    
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];                
@@ -146,6 +150,8 @@ function Pos($scope,$window,$rootScope,db)
         
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
+        $scope.Saat = moment(new Date(),"HH:mm:ss").format("hh:mm:ss");
+        console.log($scope.Saat)
 
         $scope.TahPanelKontrol = false;
         $scope.Klavye = false;
@@ -203,6 +209,14 @@ function Pos($scope,$window,$rootScope,db)
             );
         }, 10000);
         
+        setInterval(()=>
+        {
+            db.SafeApply($scope,function()
+            {
+                $scope.Saat = moment(new Date(),"HH:mm:ss").format("hh:mm:ss");
+            })
+        },1000);
+
         InitClass();
     }
     function InitClass()
@@ -663,15 +677,27 @@ function Pos($scope,$window,$rootScope,db)
             ],
             onItemUpdated: function(args)
             {
-                let TmpQuery = 
+                if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT") <= $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
                 {
-                    db : $scope.Firma,
-                    query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT WHERE GUID = @GUID",
-                    param:  ['AMOUNT','GUID'],
-                    type:   ['float','string|50'],
-                    value:  [args.item.AMOUNT,args.item.GUID]
+                    let TmpQuery = 
+                    {
+                        db : $scope.Firma,
+                        query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT WHERE GUID = @GUID",
+                        param:  ['AMOUNT','GUID'],
+                        type:   ['float','string|50'],
+                        value:  [args.item.AMOUNT,args.item.GUID]
+                    }
+                    db.ExecuteQuery(TmpQuery,function(){});
                 }
-                db.ExecuteQuery(TmpQuery,function(){});
+                else
+                {
+                    db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO],function(PosSonSatisTahDetay)
+                    {  
+                        $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
+                        $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+                    });
+                    alertify.alert("Girilen tutar hatalıdır !")
+                }
             }
         });
     }
@@ -839,7 +865,10 @@ function Pos($scope,$window,$rootScope,db)
                     $("#MdlParaUstu").modal("show");
                     setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
 
-                    db.EscposPrint($scope.SatisList,$scope.TahList,pData);
+                    db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
+                    {
+                        db.EscposCaseOpen();
+                    });
     
                     $('#MdlAraToplam').modal('hide');
                     $scope.YeniEvrak();
@@ -2134,7 +2163,10 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 db.GetDataQuery(TmpQuery,function(pData)
                 {
-                    db.EscposPrint(PosSatisData,PosTahData,pData);
+                    db.EscposPrint(PosSatisData,PosTahData,pData,function()
+                    {
+                        
+                    });
                 });
             });
         });

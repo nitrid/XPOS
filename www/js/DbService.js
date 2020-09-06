@@ -584,7 +584,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }
-    this.EscposPrint = function(pSData,pTData,pVData)
+    this.EscposPrint = function(pSData,pTData,pVData,pCallback)
     {
         let TmpData = [];
         let TmpLine = {};
@@ -729,7 +729,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         
         _EscposPrint(TmpData,function()
         {
-            _EscposCaseOpen();
+            pCallback();
         });
     }
      //#endregion "PUBLIC"
