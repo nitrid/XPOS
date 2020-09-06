@@ -101,9 +101,11 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 else
                 {
+                    $("#MdlKartYukleniyor").modal("hide");
+
                     $scope.PosTahInsert(()=>
                     {
-                        BtnAraToplam();
+                        $scope.BtnAraToplam();
                     });
                 }
             }
