@@ -870,9 +870,11 @@ function Pos($scope,$window,$rootScope,db)
                     $("#MdlParaUstu").modal("show");
                     setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
 
+                    let TmpTahTip = db.SumColumn($scope.TahList,"TYPE");
+
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
                     {
-                        if(db.SumColumn($scope.TahList,"TYPE") == 0)
+                        if(TmpTahTip == 0)
                         {
                             db.EscposCaseOpen();
                         }
