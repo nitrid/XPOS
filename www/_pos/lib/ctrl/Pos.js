@@ -866,24 +866,31 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 db.GetDataQuery(TmpQuery,function(pData)
                 {
+                    //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                     $scope.TmpParaUstu = $scope.TahParaUstu;
-                    $("#MdlParaUstu").modal("show");
-                    setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
-
-                    let TmpTahTip = db.SumColumn($scope.TahList,"TYPE");
-                    console.log(TmpTahTip);
+                    if($scope.TmpParaUstu > 0)
+                    {
+                        $("#MdlParaUstu").modal("show");                    
+                        setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+                    }
+                                        
                     db.EscposPrint($scope.SatisList,$scope.TahList,pData,function()
                     {
-                        if(TmpTahTip == 0)
+                        //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA BUNUN İÇİN TAHSİLAT TABLOSUNDAKİ TYPE ALANININ TOPLAM DEĞERİNE BAKIYORUM.
+                        if(db.SumColumn($scope.TahList,"TYPE") == 0)
                         {
                             db.EscposCaseOpen();
                         }
                     });
     
-                    $('#MdlAraToplam').modal('hide');
-                    $scope.YeniEvrak();
-                    $scope.TxtBarkod = "";
-                    $scope.TahPanelKontrol = false;
+                    setTimeout(()=>
+                    {
+                        $('#MdlAraToplam').modal('hide');
+                        $scope.YeniEvrak();
+                        $scope.TxtBarkod = "";
+                        $scope.TahPanelKontrol = false;
+                    },1000)
+                    
                 });                                  
             });
         }
