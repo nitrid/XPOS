@@ -1747,7 +1747,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnAraToplam = function()
     {   
-
         if($scope.SatisList.length < 1)
         {
             alertify.okBtn("Tamam");
