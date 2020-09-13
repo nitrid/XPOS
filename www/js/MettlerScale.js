@@ -67,6 +67,13 @@ var MettlerScale =
                     port.close();
                 }
             })
+            
+            setTimeout(()=>{ port.close(); }, 20000);
+
+            return new Promise(function(resolve)
+            {
+                return port.on("close", resolve)
+            });
         }
         function toHex(str) 
         {
