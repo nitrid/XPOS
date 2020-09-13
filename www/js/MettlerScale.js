@@ -70,7 +70,7 @@ var MettlerScale =
             
             setTimeout(()=>
             { 
-                if(!port.isOpen)
+                if(port.isOpen)
                 {
                     port.close(); 
                 }
