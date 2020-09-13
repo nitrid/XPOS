@@ -65,7 +65,11 @@ var MettlerScale =
                 if(line.toString().substring(1,3) == "02" || ReciveBuffer.substring(1,3) == "02")
                 {
                     ReciveBuffer += line.toString()
-                    console.log(ReciveBuffer);
+                    if(ReciveBuffer.length >= 26)
+                    {
+                        console.log(ReciveBuffer)
+                        port.close();
+                    }
                 }
                 // if(ReciveBuffer.substring(1,3) == "02")
                 // {
