@@ -64,7 +64,7 @@ var MettlerScale =
                 if(line.toString().substring(1,3) == "02")
                 {
                     ReciveBuffer += line.toString()
-                    console.log(line.toString().split(''));
+                    console.log(ReciveBuffer);
                     if(ReciveBuffer.length >= 26)
                     {
                         console.log(ReciveBuffer)
