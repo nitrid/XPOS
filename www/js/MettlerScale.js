@@ -62,10 +62,11 @@ var MettlerScale =
                 }
                 //
                 ReciveBuffer += line.toString()
+                console.log(ReciveBuffer);
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
                 if(ReciveBuffer.substring(1,3) == "02")
                 {
-                    console.log(ReciveBuffer);
+                    
                     if(ReciveBuffer.length >= 26)
                     {
                         console.log(ReciveBuffer)
