@@ -813,12 +813,12 @@ var QuerySql =
                 "SUM(QUANTITY) AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
-                "ROUND(PRICE,4) AS PRICE, " +
+                "ROUND(PRICE,2) AS PRICE, " +
                 "SUM(DISCOUNT) * ((VAT / 100) + 1) AS DISCOUNT, " +
                 "VAT AS VAT, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 104)) AS CDATE, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 108)) AS CHOUR, " +
-                "ROUND(SUM(QUANTITY * PRICE),4) AS AMOUNT " +
+                "ROUND(SUM(QUANTITY * PRICE),2) AS AMOUNT " +
                 "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO GROUP BY REF,REF_NO,ITEM_CODE,BARCODE,UNIT,PRICE,VAT ",
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
