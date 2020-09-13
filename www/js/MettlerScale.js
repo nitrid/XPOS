@@ -68,7 +68,13 @@ var MettlerScale =
                 }
             })
             
-            setTimeout(()=>{ port.close(); }, 20000);
+            setTimeout(()=>
+            { 
+                if(!port.isOpen)
+                {
+                    port.close(); 
+                }
+            }, 20000);
 
             return new Promise(function(resolve)
             {
