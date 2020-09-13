@@ -67,6 +67,8 @@ var MettlerScale =
                     ReciveBuffer += line.toString()
                     if(ReciveBuffer.length >= 26)
                     {
+                        let TmpScale = ReciveBuffer.substring(5,11)
+                        console.log(TmpScale)
                         console.log(ReciveBuffer)
                         port.close();
                     }
