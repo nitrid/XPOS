@@ -1256,6 +1256,7 @@ function Pos($scope,$window,$rootScope,db)
 
                     if(BarkodData[0].WEIGHING == true)
                     {
+                        console.log(1)
                         $("#MdlTeraziYukleniyor").modal("show");
                         db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
                         {
