@@ -60,18 +60,21 @@ var MettlerScale =
                         port.close();
                     }
                 }
-                //
-                ReciveBuffer += line.toString()
-                console.log(ReciveBuffer);
+                
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
-                if(ReciveBuffer.substring(1,3) == "02")
+                if(line.toString().substring(1,3) == "02" || ReciveBuffer.substring(1,3) == "02")
                 {
+                    ReciveBuffer += line.toString()
+                    console.log(ReciveBuffer);
+                }
+                // if(ReciveBuffer.substring(1,3) == "02")
+                // {
                     
-                    if(ReciveBuffer.length >= 26)
-                    {
-                        console.log(ReciveBuffer)
-                        port.close();
-                    }
+                //     if(ReciveBuffer.length >= 26)
+                //     {
+                //         console.log(ReciveBuffer)
+                //         port.close();
+                //     }
                 }
             })
             
