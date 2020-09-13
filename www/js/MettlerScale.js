@@ -22,7 +22,7 @@ var MettlerScale =
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
             {                
-                console.log(line.toString());
+                //console.log(line.toString());
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
                 {
@@ -50,13 +50,28 @@ var MettlerScale =
                     else if(line.toString().substring(4,5) == "0")
                     {
                         //VALİDASYON BAŞARISIZ DURUMU
-                        console.log("Validasyon Başarısız");
+                        //console.log("Validasyon Başarısız");
                         port.write('01' + TmpPrice +'');
                     }
                     else if(line.toString().substring(4,5) == "1")
                     {
                         //VALİDASYON BAŞARILI DURUMU
                         console.log("Validasyon Başarılı");
+
+                        let TmpResult = 
+                        {
+                            Type: "01",
+                            Result :
+                            {
+                                Msg : "Validasyon Başarılı"
+                            }                            
+                        }
+
+                        if (typeof pCallback != 'undefined')
+                        {
+                            pCallback(TmpResult);
+                        }
+                        
                         port.close();
                     }
                 }
@@ -70,10 +85,23 @@ var MettlerScale =
                         let TmpScale = ReciveBuffer.substring(6,11)
                         let TmpPrice = ReciveBuffer.substring(12,18)
                         let TmpAmount = ReciveBuffer.substring(19,25)
-                        console.log(TmpScale)
-                        console.log(TmpPrice)
-                        console.log(TmpAmount)
-                        console.log(ReciveBuffer)
+                        
+                        let TmpResult = 
+                        {
+                            Type: "02",
+                            Result :
+                            {
+                                Scale : TmpScale / 1000,
+                                Price : TmpPrice / 100,
+                                Amount : TmpAmount / 100
+                            }
+                        }
+                        if (typeof pCallback != 'undefined')
+                        {
+                            pCallback(TmpResult);
+                        }
+
+                        ReciveBuffer = '';
                         port.close();
                     }
                 }

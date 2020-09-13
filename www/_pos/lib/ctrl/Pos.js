@@ -2189,6 +2189,12 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnScale = function()
     {
-        db.ScaleSend(10.13);
+        db.ScaleSend(10.13,(pResult) =>
+        {
+            if(pResult.Type == "02")
+            {
+                
+            }
+        });
     }
 }
