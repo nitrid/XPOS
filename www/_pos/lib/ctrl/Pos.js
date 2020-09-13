@@ -1253,14 +1253,15 @@ function Pos($scope,$window,$rootScope,db)
                         $('#MdlFiyatGor').modal('show');
                         return;
                     }
-                    
+
                     if(BarkodData[0].WEIGHING == true)
                     {
-                        console.log(BarkodData[0].WEIGHING)
+                        $("#MdlTeraziYukleniyor").modal("show");
                         db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
                         {
                             if(pResult.Type == "02")
                             {
+                                $("#MdlTeraziYukleniyor").modal("hide");
                                 console.log(pResult.Result)
                             }
                         });
