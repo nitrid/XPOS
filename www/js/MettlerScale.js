@@ -26,7 +26,7 @@ var MettlerScale =
                 var answers = buffer.split(/\r?\n/); // Split data by new line character or smth-else
                 buffer = answers.pop(); // Store unfinished data
                 console.log(line.toString());
-                if (answer.length > 0)
+                if (answers.length > 0)
                 {
                     console.log(buffer)
                 }
