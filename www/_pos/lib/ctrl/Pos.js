@@ -1259,6 +1259,7 @@ function Pos($scope,$window,$rootScope,db)
                         $("#MdlTeraziYukleniyor").modal("show");
                         db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
                         {
+                            console.log(pResult);
                             if(pResult.Type == "02")
                             {
                                 $("#MdlTeraziYukleniyor").modal("hide");
