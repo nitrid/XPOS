@@ -75,7 +75,7 @@ var MettlerScale =
                 //         console.log(ReciveBuffer)
                 //         port.close();
                 //     }
-                }
+                //}
             })
             
             setTimeout(()=>
