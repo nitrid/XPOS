@@ -2189,6 +2189,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnScale = function()
     {
-        db.ScaleSend(0.01);
+        db.ScaleSend(10.13);
     }
 }
