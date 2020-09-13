@@ -2208,7 +2208,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnTeraziVazgec = function()
     {
-        ('#MdlTeraziYukleniyor').modal('hide');
+        $("#MdlTeraziYukleniyor").modal('hide');
         $scope.TxtBarkod = "";
     }
 }
