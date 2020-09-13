@@ -1,3 +1,5 @@
+const { type } = require('os');
+
 angular.module('app.db', []).service('db',function($rootScope)
 {
     let _Host = "";
@@ -387,7 +389,13 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _ScaleSend(pPrice,pCallback)
     {
-        _MettlerScale.ScaleSend(pPrice,pCallback)
+        _MettlerScale.ScaleSend(pPrice,pData =>
+        {
+           if(typeof pCallback != 'undefined')
+           {
+               pCallback(pData);
+           } 
+        });
     }
     //#region "PUBLIC"
     this.Socket = _Socket;
