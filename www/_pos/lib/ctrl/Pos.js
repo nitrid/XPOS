@@ -1263,6 +1263,8 @@ function Pos($scope,$window,$rootScope,db)
                             if(pResult.Type == "02")
                             {
                                 $("#MdlTeraziYukleniyor").modal("hide");
+                                $scope.Miktar = pResult.Result.Scale;
+                                $scope.PosSatisInsert();
                                 console.log(pResult.Result)
                             }
                         });
@@ -2204,14 +2206,9 @@ function Pos($scope,$window,$rootScope,db)
             });
         });
     }
-    $scope.BtnScale = function()
+    $scope.BtnTeraziVazgec = function()
     {
-        db.ScaleSend(10.13,(pResult) =>
-        {
-            if(pResult.Type == "02")
-            {
-
-            }
-        });
+        ('#MdlTeraziYukleniyor').modal('hide');
+        $scope.TxtBarkod = "";
     }
 }
