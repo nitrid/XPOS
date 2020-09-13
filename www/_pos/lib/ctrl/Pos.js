@@ -1263,7 +1263,7 @@ function Pos($scope,$window,$rootScope,db)
                             console.log(pResult);
                             if(pResult.Type == "02")
                             {
-                                $("#MdlTeraziYukleniyor").modal("hide");
+                                setTimeout(()=> {$("#MdlTeraziYukleniyor").modal("hide");},500); 
                                 $scope.Miktar = pResult.Result.Scale;
                                 $scope.PosSatisInsert();
                                 console.log(pResult.Result)
