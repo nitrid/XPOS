@@ -18,18 +18,11 @@ var MettlerScale =
             let TmpPrice = parseInt(pPrice * 100).toString().padStart(6,'0');
             //TERAZİYE FİYAT GÖNDERİLİYOR.
             port.write('01' + TmpPrice +'');
-            let buffer = '';
+            let ReciveBuffer = '';
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
             {
-                buffer += line;
-                var answers = buffer.split(/\r?\n/); // Split data by new line character or smth-else
-                buffer = answers.pop(); // Store unfinished data
                 console.log(line.toString());
-                if (answers.length > 0)
-                {
-                    console.log(buffer)
-                }
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
                 {
@@ -70,18 +63,23 @@ var MettlerScale =
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
                 if(line.toString().substring(1,3) == "02")
                 {
+                    ReciveBuffer += line.toString()
                     console.log(line.toString().split(''));
-                    //port.close();
+                    if(ReciveBuffer.length >= 26)
+                    {
+                        console.log(ReciveBuffer)
+                        port.close();
+                    }
                 }
             })
             
-            // setTimeout(()=>
-            // { 
-            //     if(port.isOpen)
-            //     {
-            //         port.close(); 
-            //     }
-            // }, 20000);
+            setTimeout(()=>
+            { 
+                if(port.isOpen)
+                {
+                    port.close(); 
+                }
+            }, 20000);
 
             return new Promise(function(resolve)
             {
