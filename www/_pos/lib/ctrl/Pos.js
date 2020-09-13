@@ -1253,8 +1253,8 @@ function Pos($scope,$window,$rootScope,db)
                         $('#MdlFiyatGor').modal('show');
                         return;
                     }
-                    console.log(BarkodData[0].WEIGHING)
-                    if(BarkodData[0].WEIGHING == 1)
+                    
+                    if(BarkodData[0].WEIGHING == true)
                     {
                         console.log(BarkodData[0].WEIGHING)
                         db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
