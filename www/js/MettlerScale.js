@@ -63,7 +63,7 @@ var MettlerScale =
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
                 if(line.toString().substring(1,3) == "02")
                 {
-                    console.log(line.toString().substring(6,20));
+                    console.log(line.toString().split(''));
                     port.close();
                 }
             })
