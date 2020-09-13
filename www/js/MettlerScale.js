@@ -18,11 +18,18 @@ var MettlerScale =
             let TmpPrice = parseInt(pPrice * 100).toString().padStart(6,'0');
             //TERAZİYE FİYAT GÖNDERİLİYOR.
             port.write('01' + TmpPrice +'');
+            let buffer = '';
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
             {
+                buffer += line;
+                var answers = buffer.split(/\r?\n/); // Split data by new line character or smth-else
+                buffer = answers.pop(); // Store unfinished data
                 console.log(line.toString());
-
+                if (answer.length > 0)
+                {
+                    console.log(buffer)
+                }
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
                 {
