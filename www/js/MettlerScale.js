@@ -21,7 +21,7 @@ var MettlerScale =
             let ReciveBuffer = '';
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
-            {
+            {                
                 console.log(line.toString());
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
@@ -60,10 +60,11 @@ var MettlerScale =
                         port.close();
                     }
                 }
+                //
+                ReciveBuffer += line.toString()
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
-                if(line.toString().substring(1,3) == "02")
+                if(ReciveBuffer.substring(1,3) == "02")
                 {
-                    ReciveBuffer += line.toString()
                     console.log(ReciveBuffer);
                     if(ReciveBuffer.length >= 26)
                     {
