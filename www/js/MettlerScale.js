@@ -21,7 +21,7 @@ var MettlerScale =
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
             {
-                console.log(line.toString());
+                //console.log(line.toString());
 
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
@@ -63,7 +63,7 @@ var MettlerScale =
                 //TERAZİ SONUÇ DÖNDÜĞÜNDE
                 if(line.toString().substring(1,3) == "02")
                 {
-                    console.log(line.toString().substring(5,11))
+                    console.log(line.toString().substring(6,11))
                 }
             })
         }
