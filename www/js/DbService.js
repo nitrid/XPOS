@@ -387,6 +387,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _ScaleSend(pPrice,pCallback)
     {
+        console.log(_MettlerScale)
         _MettlerScale.ScaleSend(pPrice)
     }
     //#region "PUBLIC"

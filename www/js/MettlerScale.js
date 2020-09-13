@@ -78,4 +78,4 @@ var MettlerScale =
         MettlerScale.prototype.ScaleSend = _ScaleSend;
         return MettlerScale;
     }
-)
+)();
