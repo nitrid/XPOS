@@ -15,7 +15,7 @@ var MettlerScale =
         function _ScaleSend(pPrice,pCallback)
         {
             let port = new SerialPort("COM2",{baudRate:9600,dataBits:7,parity:'odd',stopBits:1});
-            let TmpPrice = (pPrice * 100).toString().padStart(6,'0');
+            let TmpPrice = parseInt(pPrice * 100).toString().padStart(6,'0');
             //TERAZİYE FİYAT GÖNDERİLİYOR.
             port.write('01' + TmpPrice +'');
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
