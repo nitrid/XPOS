@@ -16,41 +16,54 @@ var MettlerScale =
         {
             let port = new SerialPort("COM2",{baudRate:9600,dataBits:7,parity:'odd',stopBits:1});
             let TmpPrice = (pPrice * 100).toString().padStart(6,'0');
-
+            //TERAZİYE FİYAT GÖNDERİLİYOR.
             port.write('01' + TmpPrice +'');
+            //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
             {
                 console.log(line.toString());
 
+                //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
                 {
                     port.write('')
                 }
+                //TERAZİDEN ONAY GELMEDİĞİNDE
                 else if(toHex(line.toString()) == "15")
                 {
+                    //TEKRAR FİYAT GÖNDERİLİYOR.
                     port.write('01' + TmpPrice +'');
                 }
-
+                //VALİDASYON İŞLEMİ BAŞLANGIÇ
                 if(line.toString().substring(1,3) == "11")
                 {
+                    //VALİDASYON İÇİN GEREKLİ OLAN RANDOM NUMARA
                     if(line.toString().substring(4,5) == "2")
-                    {            
+                    {      
+                        //RANDOM NUMARA BİT ÇEVİRİM İŞLEMİ      
                         let cs = ("000" + parseInt(Rol16(0x2C3C, line.toString().substring(5,6)) & 0xFFFF).toString(16)).slice(-4).toString().toUpperCase();
                         let kw = ("000" + parseInt(Ror16(0xFA07, line.toString().substring(6,7)) & 0xFFFF).toString(16)).slice(-4).toString().toUpperCase();
                         let cskw = cs + kw;
-
+                        //VALİDASYON CS VE KW GÖNDERİLİYOR 
                         port.write('10'+ cskw.toString() + '')
                     }
                     else if(line.toString().substring(4,5) == "0")
                     {
+                        //VALİDASYON BAŞARISIZ DURUMU
                         console.log("Validasyon Başarısız");
                         port.write('01' + TmpPrice +'');
                     }
                     else if(line.toString().substring(4,5) == "1")
                     {
+                        //VALİDASYON BAŞARILI DURUMU
                         console.log("Validasyon Başarılı");
                         port.close();
                     }
+                }
+                //TERAZİ SONUÇ DÖNDÜĞÜNDE
+                if(line.toString().substring(1,3) == "02")
+                {
+                    console.log(line.toString().substring(5,11))
                 }
             })
         }
