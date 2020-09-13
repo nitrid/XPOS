@@ -4,6 +4,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _Socket = null;
     let _MenuData = {};
     let _CardPayment = new CardPayment();
+    let _MettlerScale = new MettlerScale();
     moment.locale('tr');
     let PosNo = "1"
     
@@ -384,6 +385,10 @@ angular.module('app.db', []).service('db',function($rootScope)
     {
         _CardPayment.transaction_start(pTutar);
     }
+    function _ScaleSend(pPrice,pCallback)
+    {
+        _MettlerScale.ScaleSend(pPrice)
+    }
     //#region "PUBLIC"
     this.Socket = _Socket;
     this.CardPayment = _CardPayment;
@@ -403,7 +408,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.LCDPrint = _LCDPrint;
     this.LCDClear = _LCDClear;
     this.PaymentSend = _PaymentSend;
-    
+    this.ScaleSend = _ScaleSend;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
     {
