@@ -1231,7 +1231,7 @@ function Pos($scope,$window,$rootScope,db)
             db.StokBarkodGetir($scope.Firma,pBarkod,function(BarkodData)
             {
                 if(BarkodData.length > 0)
-                { 
+                {                     
                     if(BarkodData[0].PRICE == 0)
                     {
                         alertify.alert("Ürünün fiyat bilgisi tanımsız !");
@@ -1253,15 +1253,29 @@ function Pos($scope,$window,$rootScope,db)
                         $('#MdlFiyatGor').modal('show');
                         return;
                     }
-                    //BARKOD OKUTULDUKDAN SONRA INSERT İŞLEMİ
-                    let TmpSatirBirlestir = SatirBirlestir();
-                    if(TmpSatirBirlestir.Status)
+
+                    if(BarkodData[0].WEIGHING == 1)
                     {
-                        $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
+                        db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
+                        {
+                            if(pResult.Type == "02")
+                            {
+                                console.log(pResult.Result)
+                            }
+                        });
                     }
                     else
                     {
-                        $scope.PosSatisInsert();
+                        //BARKOD OKUTULDUKDAN SONRA INSERT İŞLEMİ
+                        let TmpSatirBirlestir = SatirBirlestir();
+                        if(TmpSatirBirlestir.Status)
+                        {
+                            $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
+                        }
+                        else
+                        {
+                            $scope.PosSatisInsert();
+                        }
                     }
                 }
                 else   
@@ -2193,7 +2207,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(pResult.Type == "02")
             {
-                
+
             }
         });
     }

@@ -699,7 +699,8 @@ var QuerySql =
                 "ITEMS.VAT AS VAT, " +
                 "'' AS BARKOD, " +
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
-                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT " +
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
                 "UNIT.ITEM_CODE = ITEMS.CODE AND UNIT.TYPE = 0" +
@@ -716,7 +717,8 @@ var QuerySql =
                 "ITEMS.VAT AS VAT, " +
                 "ISNULL(BARCODE.BARCODE,'') AS BARCODE, " + 
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " +
-                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT " +
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
                 "UNIT.ITEM_CODE = ITEMS.CODE " +
