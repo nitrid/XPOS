@@ -64,17 +64,17 @@ var MettlerScale =
                 if(line.toString().substring(1,3) == "02")
                 {
                     console.log(line.toString().split(''));
-                    port.close();
+                    //port.close();
                 }
             })
             
-            setTimeout(()=>
-            { 
-                if(port.isOpen)
-                {
-                    port.close(); 
-                }
-            }, 20000);
+            // setTimeout(()=>
+            // { 
+            //     if(port.isOpen)
+            //     {
+            //         port.close(); 
+            //     }
+            // }, 20000);
 
             return new Promise(function(resolve)
             {
