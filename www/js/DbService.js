@@ -1,5 +1,3 @@
-const { type } = require('os');
-
 angular.module('app.db', []).service('db',function($rootScope)
 {
     let _Host = "";

@@ -988,6 +988,12 @@ var QuerySql =
         query: "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE WHERE GUID = @GUID",
         param: ['PRICE','GUID'],
         type:  ['float','string|50']
+    },
+    PosTahTutarUpdate : 
+    {
+        query:  "UPDATE [dbo].[POS_PAYMENT] SET [AMOUNT] = @AMOUNT,[CHANGE] = @CHANGE,LDATE = GETDATE() WHERE GUID = @GUID",
+        param: ['AMOUNT','CHANGE','GUID'],
+        type:  ['float','float','string|50']
     },    
     TicketInsert :
     {

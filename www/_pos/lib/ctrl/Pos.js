@@ -156,7 +156,6 @@ function Pos($scope,$window,$rootScope,db)
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
-        console.log($scope.Saat)
 
         $scope.TahPanelKontrol = false;
         $scope.Klavye = false;
@@ -820,17 +819,31 @@ function Pos($scope,$window,$rootScope,db)
             resolve();
         });
     }  
-    function SatirBirlestir()
+    function SatirBirlestir(pTip)
     {
         let TmpStatus = false;
         let TmpIndex = -1;
 
-        for (let i = 0; i < $scope.SatisList.length; i++) 
+        if(pTip == "SATIS")
         {
-            if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
+            for (let i = 0; i < $scope.SatisList.length; i++) 
             {
-                TmpStatus = true;
-                TmpIndex = i;
+                if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
+                {
+                    TmpStatus = true;
+                    TmpIndex = i;
+                }
+            }
+        }
+        else if(pTip == "TAHSILAT")
+        {
+            for (let i = 0; i < $scope.TahList.length; i++) 
+            {
+                if($scope.TahList[i].TYPE == $scope.TahTip)
+                {
+                    TmpStatus = true;
+                    TmpIndex = i;
+                }
             }
         }
 
@@ -870,6 +883,7 @@ function Pos($scope,$window,$rootScope,db)
                     //$scope.TmpParaUstu = $scope.TahParaUstu;
                     if($scope.TahParaUstu > 0)
                     {
+                        $scope.TmpParaUstu = $scope.TahParaUstu;
                         $("#MdlParaUstu").modal("show");                    
                         setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
                     }
@@ -1256,32 +1270,20 @@ function Pos($scope,$window,$rootScope,db)
 
                     if(BarkodData[0].WEIGHING == true)
                     {
-                        console.log(1)
                         $("#MdlTeraziYukleniyor").modal("show");
                         db.ScaleSend($scope.Stok[0].PRICE,(pResult) =>
                         {
-                            console.log(pResult);
                             if(pResult.Type == "02")
                             {
                                 setTimeout(()=> {$("#MdlTeraziYukleniyor").modal("hide");},500); 
                                 $scope.Miktar = pResult.Result.Scale;
                                 $scope.PosSatisInsert();
-                                console.log(pResult.Result)
                             }
                         });
                     }
                     else
                     {
-                        //BARKOD OKUTULDUKDAN SONRA INSERT İŞLEMİ
-                        let TmpSatirBirlestir = SatirBirlestir();
-                        if(TmpSatirBirlestir.Status)
-                        {
-                            $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
-                        }
-                        else
-                        {
-                            $scope.PosSatisInsert();
-                        }
+                        $scope.PosSatisInsert();
                     }
                 }
                 else   
@@ -1300,6 +1302,14 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.PosSatisInsert = function()
     {    
+        //SATIR BİRLEŞTİRME İŞLEMİ
+        let TmpSatirBirlestir = SatirBirlestir("SATIS");
+        if(TmpSatirBirlestir.Status)
+        {
+            $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
+            return;
+        }
+
         var InsertData = 
         [
             UserParam.Kullanici,
@@ -1362,7 +1372,7 @@ function Pos($scope,$window,$rootScope,db)
             InsertFisYenile(PosFisData);   
         });
     }
-    $scope.PosTahInsert = function(pCallBack)
+    $scope.PosTahInsert = async function(pCallBack)
     {   
         let TahTutar = 0
         let TahParaUstu = 0;
@@ -1378,65 +1388,82 @@ function Pos($scope,$window,$rootScope,db)
             }
             return;
         }
+        
         TahTutar = parseFloat($scope.TxtAraToplamTutar.replace(',','.'));
         if($scope.GenelToplam < (db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.replace(',','.'))))
         {
             TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.replace(',','.'))) - $scope.GenelToplam).toFixed(2);
             TahTutar = parseFloat(parseFloat($scope.TxtAraToplamTutar.replace(',','.')) - TahParaUstu).toFixed(2);
         }
-
-        var InsertData = 
-        [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
-            $scope.Sube,
-            $scope.TahTip,
-            0, //EVRAKTIP
-            $scope.Tarih,
-            $scope.TahSeri,
-            $scope.TahSira,
-            $scope.CariKodu,
-            $scope.Kasa,
-            TahTutar,
-            TahParaUstu,
-            1
-        ];
+                
         if($scope.TxtAraToplamTutar.replace(',','.') > 0)
         {
-            db.ExecuteTag($scope.Firma,'PosTahInsert',InsertData,function(InsertResult)
-            {   
-                if(typeof(InsertResult.result.err) == 'undefined')
-                {                
-                    db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.TahSeri,$scope.TahSira],function(PosTahData)
-                    {   
-                        db.LCDPrint
-                        (
-                            {
-                                blink : 0,
-                                text :  db.PrintText(PosTahData[PosTahData.length - 1].TYPE_NAME,9) + " " + 
-                                        db.PrintText(PosTahData[PosTahData.length - 1].AMOUNT.toString() + "EUR" ,10,"Start") +
-                                        "Rendu : " + db.PrintText(db.SumColumn(PosTahData,"CHANGE").toString() + "EUR",12,"Start")
-                            }                        
-                        );
-                        $scope.TahList = PosTahData;
-                        TahSonYenile();                           
-                        SatisKapat();                   
-                        $scope.TahPanelKontrol = false;                        
-                        
-                        if(typeof(pCallBack) != 'undefined')
+            let Result;            
+            //SATIR BİRLEŞTİRME İŞLEMİ
+            let TmpSatirBirlestir = SatirBirlestir("TAHSILAT");
+            if(TmpSatirBirlestir.Status)
+            {                
+                let UpdateData =
+                [
+                    parseFloat($scope.TahList[TmpSatirBirlestir.Index].AMOUNT) + parseFloat(TahTutar),
+                    TahParaUstu,
+                    $scope.TahList[TmpSatirBirlestir.Index].GUID
+                ];
+
+                Result = await db.ExecutePromiseTag($scope.Firma,'PosTahTutarUpdate',UpdateData);
+            }
+            else
+            {
+                let InsertData = 
+                [
+                    UserParam.Kullanici,
+                    UserParam.Kullanici,
+                    $scope.Sube,
+                    $scope.TahTip,
+                    0, //EVRAKTIP
+                    $scope.Tarih,
+                    $scope.TahSeri,
+                    $scope.TahSira,
+                    $scope.CariKodu,
+                    $scope.Kasa,
+                    TahTutar,
+                    TahParaUstu,
+                    1
+                ];
+                Result = await db.ExecutePromiseTag($scope.Firma,'PosTahInsert',InsertData);
+            }
+
+            if(typeof(Result.result.err) == 'undefined')
+            {
+                db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.TahSeri,$scope.TahSira],function(PosTahData)
+                {   
+                    db.LCDPrint
+                    (
                         {
-                            pCallBack();
-                        }
-                    });
-                }
-                else
-                {
+                            blink : 0,
+                            text :  db.PrintText(PosTahData[PosTahData.length - 1].TYPE_NAME,9) + " " + 
+                                    db.PrintText(PosTahData[PosTahData.length - 1].AMOUNT.toString() + "EUR" ,10,"Start") +
+                                    "Rendu : " + db.PrintText(db.SumColumn(PosTahData,"CHANGE").toString() + "EUR",12,"Start")
+                        }                        
+                    );
+                    $scope.TahList = PosTahData;
+                    TahSonYenile();                           
+                    SatisKapat();                   
+                    $scope.TahPanelKontrol = false;                        
+                    
                     if(typeof(pCallBack) != 'undefined')
                     {
                         pCallBack();
                     }
+                });
+            }
+            else
+            {
+                if(typeof(pCallBack) != 'undefined')
+                {
+                    pCallBack();
                 }
-            });
+            }
         }
     
         localStorage.KasaKodu = $scope.Kasa
@@ -2107,7 +2134,6 @@ function Pos($scope,$window,$rootScope,db)
     }   
     $scope.BtnTahOnay = function()
     {
-        console.log($scope.TahTip)
         if($scope.TahTip == 0)
         {
             $scope.PosTahInsert();
