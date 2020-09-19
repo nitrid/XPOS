@@ -794,7 +794,7 @@ var QuerySql =
                 "DISCOUNT AS DISCOUNT, " +
                 "VAT AS VAT, " +
                 "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
-                "ROUND(QUANTITY * PRICE,4) AS AMOUNT " +
+                "ROUND(QUANTITY * PRICE,2) AS AMOUNT " +
                 "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
