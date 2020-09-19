@@ -944,7 +944,7 @@ var QuerySql =
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
                 "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS <> 0 " +
-                "GROUP BY REF,REF_NO ORDER BY LINE_NO DESC " ,
+                "GROUP BY REF,REF_NO ORDER BY REF_NO DESC " ,
         param: ['DEPARTMENT'],
         type: ['int']
     },
