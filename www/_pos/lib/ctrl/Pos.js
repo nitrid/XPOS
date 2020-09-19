@@ -127,7 +127,6 @@ function Pos($scope,$window,$rootScope,db)
     {
         alertify.alert(pMsg);
     }
-    
     function Init()
     {
         UserParam = Param[$window.sessionStorage.getItem('User')];                
@@ -513,6 +512,7 @@ function Pos($scope,$window,$rootScope,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
+            sorting: true,
             data : $scope.SonSatisList,
             rowClass: function (item, itemIndex)
             {
