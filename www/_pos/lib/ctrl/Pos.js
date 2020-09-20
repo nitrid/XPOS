@@ -2175,15 +2175,17 @@ function Pos($scope,$window,$rootScope,db)
     } 
     $scope.BtnHesapMakinesi = function()
     {
-        if(typeof require == 'undefined')
-        {
-            return;
-        }
-        const exec = require('child_process').exec;
+        $("#MdlHesapMakinesi").modal('show');
+        
+        // if(typeof require == 'undefined')
+        // {
+        //     return;
+        // }
+        // const exec = require('child_process').exec;
 
-        exec("calc", (error, stdout, stderr) => { 
-            console.log(stdout); 
-        });
+        // exec("calc", (error, stdout, stderr) => { 
+        //     console.log(stdout); 
+        // });
     }
     $scope.BtnFiyatGor = function()
     {
