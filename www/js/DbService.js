@@ -600,6 +600,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         let TmpData = [];
         let TmpLine = {};
         // ÜST BİLGİ
+        TmpData.push({font:"a",style:"b",align:"ct",data:""});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGVILLE LES ST AVOLD"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
