@@ -1738,6 +1738,16 @@ function Pos($scope,$window,$rootScope,db)
                                 DipToplamHesapla();
                                 $scope.TxtBarkod = ""; 
                                 $scope.IslemListeRowClick($scope.SatisList.length-1,$scope.SatisList[$scope.SatisList.length-1]);   
+
+                                db.LCDPrint
+                                (
+                                    {
+                                        blink : 0,
+                                        text :  db.PrintText(" ",11) + " " + 
+                                                db.PrintText(" " ,11,"Start") +
+                                                "TOTAL : " + db.PrintText(db.SumColumn($scope.SatisList,"AMOUNT").toString() + "EUR",12,"Start")
+                                    }                        
+                                );
                             });
                         }
                     }
@@ -1787,6 +1797,16 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.TahList = PosTahData;
                 TahSonYenile(); 
             });
+
+            db.LCDPrint
+            (
+                {
+                    blink : 0,
+                    text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
+                            db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
+                            "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                }                        
+            );
 
             $scope.ToplamMiktar = db.SumColumn($scope.SatisList,"QUANTITY");
             $scope.ToplamSatir =  $scope.SatisList.length
