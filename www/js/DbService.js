@@ -282,8 +282,6 @@ angular.module('app.db', []).service('db',function($rootScope)
         //B FONT 64 CHAR
         device.open(function(error)
         {            
-            printer.flush();
-
             for (let i = 0; i < pData.length; i++) 
             {
                 printer.size(0,0);
