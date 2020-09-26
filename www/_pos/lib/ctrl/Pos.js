@@ -1350,8 +1350,8 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             blink : 0,
                             text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                    db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
-                                    "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                                    db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toFixed(2).toString() + "EUR" ,8,"Start") +
+                                    "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toFixed(2).toString() + "EUR",12,"Start")
                         }                        
                     );
 
@@ -1442,8 +1442,8 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             blink : 0,
                             text :  db.PrintText(PosTahData[PosTahData.length - 1].TYPE_NAME,9) + " " + 
-                                    db.PrintText(PosTahData[PosTahData.length - 1].AMOUNT.toString() + "EUR" ,10,"Start") +
-                                    "Rendu : " + db.PrintText(db.SumColumn(PosTahData,"CHANGE").toString() + "EUR",12,"Start")
+                                    db.PrintText(parseFloat(PosTahData[PosTahData.length - 1].AMOUNT).toFixed(2).toString() + "EUR" ,10,"Start") +
+                                    "Rendu : " + db.PrintText(parseFloat(db.SumColumn(PosTahData,"CHANGE")).toFixed(2).toString() + "EUR",12,"Start")
                         }                        
                     );
                     $scope.TahList = PosTahData;
@@ -1498,8 +1498,8 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         blink : 0,
                         text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
-                                "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                                db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toFixed(2).toString() + "EUR" ,8,"Start") +
+                                "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toFixed(2).toString() + "EUR",12,"Start")
                     }                        
                 );
             });          
@@ -1745,7 +1745,7 @@ function Pos($scope,$window,$rootScope,db)
                                         blink : 0,
                                         text :  db.PrintText(" ",11) + " " + 
                                                 db.PrintText(" " ,8,"Start") +
-                                                "TOTAL : " + db.PrintText(db.SumColumn($scope.SatisList,"AMOUNT").toString() + "EUR",12,"Start")
+                                                "TOTAL : " + db.PrintText(parseFloat(db.SumColumn($scope.SatisList,"AMOUNT")).toFixed(2).toString() + "EUR",12,"Start")
                                     }                        
                                 );
                             });
@@ -1803,8 +1803,8 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     blink : 0,
                     text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                            db.PrintText(PosSatisData[PosSatisData.length - 1].PRICE.toString() + "EUR" ,8,"Start") +
-                            "TOTAL : " + db.PrintText(db.SumColumn(PosSatisData,"AMOUNT").toString() + "EUR",12,"Start")
+                            db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toFixed(2).toString() + "EUR" ,8,"Start") +
+                            "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toFixed(2).toString() + "EUR",12,"Start")
                 }                        
             );
 
