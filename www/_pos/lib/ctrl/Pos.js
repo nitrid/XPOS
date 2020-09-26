@@ -1744,7 +1744,7 @@ function Pos($scope,$window,$rootScope,db)
                                     {
                                         blink : 0,
                                         text :  db.PrintText(" ",11) + " " + 
-                                                db.PrintText(" " ,11,"Start") +
+                                                db.PrintText(" " ,8,"Start") +
                                                 "TOTAL : " + db.PrintText(db.SumColumn($scope.SatisList,"AMOUNT").toString() + "EUR",12,"Start")
                                     }                        
                                 );
