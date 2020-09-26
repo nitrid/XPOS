@@ -115,6 +115,18 @@ function Pos($scope,$window,$rootScope,db)
         })
     }
 
+    setTimeout(function()
+    { 
+        db.LCDPrint
+        (
+            {
+                blink : 0,
+                text :  db.PrintText("Bonjour",20) + 
+                        db.PrintText(moment(new Date()).format("DD.MM.YYYY"),20)
+            }
+        );
+    }, 1000);
+
     $rootScope.LoadingShow = function() 
     {
         $("#loading").show();
@@ -187,30 +199,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ParkList =[];     
         $scope.SonSatisList = [];
         $scope.SonSatisDetayList = [];   
-        $scope.SonSatisTahDetayList = [];  
-
-        setTimeout(function()
-        { 
-            db.LCDPrint
-            (
-                {
-                    blink : 0,
-                    text :  db.PrintText("A tres bientot",20)
-                }
-            );
-        }, 5000);
-
-        setTimeout(function()
-        { 
-            db.LCDPrint
-            (
-                {
-                    blink : 0,
-                    text :  db.PrintText("Bonjour",20) + 
-                            db.PrintText(moment(new Date()).format("DD.MM.YYYY"),20)
-                }
-            );
-        }, 10000);
+        $scope.SonSatisTahDetayList = [];         
         
         setInterval(()=>
         {
@@ -903,6 +892,30 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.YeniEvrak();
                         $scope.TxtBarkod = "";
                         $scope.TahPanelKontrol = false;
+
+                        setTimeout(function()
+                        { 
+                            db.LCDPrint
+                            (
+                                {
+                                    blink : 0,
+                                    text :  db.PrintText("A tres bientot",20)
+                                }
+                            );
+                        }, 1000); 
+
+                        setTimeout(function()
+                        { 
+                            db.LCDPrint
+                            (
+                                {
+                                    blink : 0,
+                                    text :  db.PrintText("Bonjour",20) + 
+                                            db.PrintText(moment(new Date()).format("DD.MM.YYYY"),20)
+                                }
+                            );
+                        }, 3000);
+
                     },1000)
                     
                 });                                  
