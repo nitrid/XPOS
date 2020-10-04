@@ -83,7 +83,19 @@ function Pos($scope,$window,$rootScope,db)
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
     });
-
+    $('#MdlPluEdit').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusMiktarGuncelle = false;
+        FocusKartOdeme = false;
+        $scope.DivPlu = false;
+        $scope.PluGrupAdi = "";
+        $scope.PluStokKod = "";
+        $scope.PluIndex = "";
+    });
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
@@ -163,7 +175,12 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ToplamSatir = 0;
         $scope.ParkIslemSayisi = 0;
         $scope.CiktiTip = 1;
-        
+        $scope.PluGrupAdi = "";
+        $scope.DivPlu = false;
+        $scope.PluGrupIndex = "";
+        $scope.PluStokKod = "";
+        $scope.PluIndex = 0;
+
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
@@ -215,6 +232,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         $scope.Class = {};
         $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1";
+        $scope.Class.BtnEdit = "icon wb-lock"
     }
     function InitCariGrid()
     {
@@ -1104,12 +1122,17 @@ function Pos($scope,$window,$rootScope,db)
                 });
             }
             //PLU GRUP GETİR
-            db.GetData($scope.Firma,'PosPluGrupGetir',[],function(PluGrpData)
+            db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,-1,0],function(PluGrpData)
             {
                 $scope.PluGrpList = PluGrpData;
+                
                 if($scope.PluGrpList.length > 0)
                 {
-                    $scope.PluGetir($scope.PluGrpList[0].GRUP);
+                    $scope.PluGrupIndex = PluGrpData[0].GRUP_INDEX
+                    db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,$scope.PluGrpList[0].GRUP_INDEX,1],function(PluGrpData)
+                    {   
+                        $scope.PluList = PluGrpData
+                    });
                 }
             });
             //PARKTAKİ ISLEMLER
@@ -1188,14 +1211,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         $scope.StokGetir($scope.TxtBarkod);
         $("#MdlStokListele").modal('hide');
-    }
-    $scope.PluGetir = function(pGrup)
-    {
-        db.GetData($scope.Firma,'PosPluGetir',[pGrup],function(PluData)
-        {
-            $scope.PluList = PluData;
-        });
-    }
+    }    
     $scope.StokGetir = function(pBarkod)
     {
         if(pBarkod != '')
@@ -2272,5 +2288,189 @@ function Pos($scope,$window,$rootScope,db)
     {
         $("#MdlTeraziYukleniyor").modal('hide');
         $scope.TxtBarkod = "";
+    }
+    $scope.BtnEdit = function()
+    {
+        if($scope.Class.BtnEdit == "icon wb-lock")
+        {
+            alertify.alert("Dikkat Plu Düzenleme Aktifleştirildi.");
+            $scope.Class.BtnEdit = "icon wb-unlock"
+        }
+        else
+        {
+            alertify.alert("Dikkat Plu Düzenleme Devre Dışı Bırakıldı.");
+            $scope.Class.BtnEdit = "icon wb-lock"
+        }
+    }
+    async function PosPluGetir(pIndex,pType)
+    {
+        let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,pIndex,pType])
+
+        if(PluData.length > 0)
+        {
+            for (let i = 0; i < PluData.length; i++) 
+            {
+                if(pType == 0 && PluData[i].LOCATION == pIndex)
+                {
+                    $scope.PluGrupAdi = PluData[i].NAME
+                }
+            }
+        }
+    }
+    $scope.PluGetir = async function(pBarkod,pIndex,pType)
+    {
+        if($scope.Class.BtnEdit == "icon wb-unlock")
+        {
+            if(pType == 1)
+            {
+                $scope.DivPlu = true;
+            }
+                    
+            $scope.PluIndex = pIndex;
+            FocusBarkod = false;
+            FocusAraToplam = false;
+            FocusMusteri = false;
+            FocusStok = false;
+            FocusMiktarGuncelle = false;
+            FocusKartOdeme = false;
+            FocusYetkiliSifre = false;
+            FocusAvans = false;
+            await PosPluGetir(pIndex,pType);
+            $("#MdlPluEdit").modal("show");
+        }
+        else
+        {
+            if(pType == 0)
+            {
+                db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,pIndex,pType],function(PluData)
+                {
+                    $scope.PluGrupIndex = PluData[0].GRUP_INDEX;
+                    if(PluData.length > 0)
+                    {
+                        db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,PluData[0].GRUP_INDEX,1],function(PluData)
+                        {
+                            $scope.PluList = PluData;
+                        });
+                    }
+                });
+            }
+            else if (pType == 1)
+            {
+                $scope.TxtBarkod = pBarkod;
+                $scope.StokGetir($scope.TxtBarkod);
+            }
+        }
+    }
+    $scope.BtnPluKaydet = async function()
+    {
+        if($scope.DivPlu) //GRUP INSERT Mİ PLU İNSERT Mİ İŞLEMİNİ BURADAN ANLIYORUZ.
+        {
+            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,$scope.PluIndex,$scope.PluGrupIndex,1])
+            
+            if(PluData.length == 0)
+            {
+                let InsertData = 
+                [
+                    $scope.Kullanici,
+                    $scope.Kullanici,
+                    $scope.Tarih,
+                    $scope.Tarih,
+                    $scope.PluGrupAdi,
+                    $scope.PluIndex,
+                    1, //TYPE
+                    $scope.PluStokKod,//ITEMS CODE
+                    $scope.PluGrupIndex  //GRUPINDEX
+                ]
+    
+                db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
+                {
+                    if(typeof(InsertResult.result.err) == 'undefined')
+                    {   
+                        alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
+                        $("#MdlPluEdit").modal("hide");
+                        $scope.PluGrupAdi = "";
+                        $scope.PluIndex = "";
+                        $scope.PluStokKod = "";
+                        $scope.YeniEvrak();
+                    }
+                    else
+                    {
+                        console.log(InsertResult.result.err);
+                    }
+                });
+            }
+            else
+            {
+                db.ExecuteTag($scope.Firma,'PosPluUpdate',[$scope.PluGrupAdi,$scope.PluStokKod,1,$scope.PluIndex,PluData[0].GRUP_INDEX],function(InsertResult)
+                {
+                    if(typeof(InsertResult.result.err) == 'undefined')
+                    {   
+                        alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
+                        $("#MdlPluEdit").modal("hide");
+                        $scope.PluGrupAdi = "";
+                        $scope.PluIndex = "";
+                        $scope.PluStokKod = "";
+                        $scope.YeniEvrak();
+                    }
+                    else
+                    {
+                        console.log(InsertResult.result.err);
+                    }
+                });
+            }
+        }
+        else
+        {            
+            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,$scope.PluIndex,0])
+            if(PluData.length == 0)
+            {
+                let InsertData = 
+                [
+                    $scope.Kullanici,
+                    $scope.Kullanici,
+                    $scope.Tarih,
+                    $scope.Tarih,
+                    $scope.PluGrupAdi,
+                    $scope.PluIndex,
+                    0, //TYPE
+                    '',//ITEMS CODE
+                    $scope.PluIndex  //GRUPINDEX
+                ]
+    
+                db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
+                {
+                    if(typeof(InsertResult.result.err) == 'undefined')
+                    {   
+                        alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
+                        $("#MdlPluEdit").modal("hide");
+                        $scope.PluGrupAdi = "";
+                        $scope.PluIndex = "";
+                        $scope.YeniEvrak();
+                    }
+                    else
+                    {
+                        console.log(InsertResult.result.err);
+                    }
+                });
+            }
+            else
+            {
+                db.ExecuteTag($scope.Firma,'PosPluGrupUpdate',[$scope.PluGrupAdi,'',$scope.PluIndex,0,$scope.PluIndex],function(InsertResult)
+                {
+                    if(typeof(InsertResult.result.err) == 'undefined')
+                    {   
+                        alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
+                        $("#MdlPluEdit").modal("hide");
+                        $scope.PluGrupAdi = "";
+                        $scope.PluIndex = "";
+                        $scope.YeniEvrak();
+                    }
+                    else
+                    {
+                        console.log(InsertResult.result.err);
+                    }
+                });
+            }
+        }
     }
 }

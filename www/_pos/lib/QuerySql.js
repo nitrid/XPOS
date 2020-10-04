@@ -653,21 +653,56 @@ var QuerySql =
         param : ['ARA'],
         type : ['string|25'] 
     },
+    //PLU
     PosPluGrupGetir:
     {
-        query : "SELECT " +
-                "ITEM_GRP AS GRUP " +
-                "FROM ITEMS WHERE PLU = 1 GROUP BY ITEM_GRP"
+        query : "SELECT * FROM POS_PLU WHERE CUSER = @CUSER AND ((GRUP_INDEX = @GRUP_INDEX) OR (@GRUP_INDEX = -1)) AND TYPE = @TYPE ORDER BY LOCATION ",
+        param : ['CUSER','GRUP_INDEX','TYPE'],
+        type : ['string|10','int','int']
     },
     PosPluGetir:
     {
-        query : "SELECT " +
-                "[CODE] AS [CODE], " +
-                "[SNAME] AS [SNAME], " +
-                "[ITEM_GRP] AS [ITEM_GRP] " +
-                "FROM ITEMS WHERE PLU = 1 AND ITEM_GRP = @ITEM_GRP",
-        param : ['ITEM_GRP'],
-        type : ['string|25'] 
+        query : "SELECT * FROM POS_PLU WHERE CUSER = @CUSER AND ((LOCATION = @LOCATION) OR (@LOCATION = -1)) AND ((GRUP_INDEX = @GRUP_INDEX) OR (@GRUP_INDEX = -1)) AND TYPE = @TYPE ORDER BY LOCATION ",
+        param : ['CUSER','LOCATION','GRUP_INDEX','TYPE'],
+        type : ['string|10','int','int','int']
+    },
+    PosPluInsert : 
+    {
+        query : "INSERT INTO [POS_PLU] " +
+                "([CUSER] " +
+                ",[LUSER] " +
+                ",[CDATE] " +
+                ",[LDATE] " +
+                ",[NAME] " +
+                ",[LOCATION] " +
+                ",[TYPE] " +
+                ",[ITEMS_CODE] " +
+                ",[GRUP_INDEX] " +
+                ") " +
+                "VALUES " +
+                "(@CUSER						--<CUSER, nvarchar(10),> \n" +  
+                ",@LUSER						--<LUSER, nvarchar(10),> \n" +  
+                ",@CDATE							--<CDATE, datetime,> \n" +  
+                ",@LDATE							--<LDATE, datetime,> \n" +  
+                ",@NAME							    --<NAME, nvarchar(50),> \n" +  
+                ",@LOCATION							--<LOCATION, int,> \n" +  
+                ",@TYPE                             --<TYPE, int,> \n" +
+                ",@ITEMS_CODE                             --<ITEMS_CODE, int,> \n" +
+                ",@GRUP_INDEX)                            --<ITEMS_CODE, int,> " ,
+        param : ['CUSER','LUSER','CDATE','LDATE','NAME','LOCATION','TYPE','ITEMS_CODE','GRUP_INDEX'],
+        type : ['string|10','string|10','date','date','string|50','int','int','string|25','int'] 
+    },
+    PosPluGrupUpdate : 
+    {
+        query : "UPDATE POS_PLU SET NAME = @NAME,ITEMS_CODE = @ITEMS_CODE, GRUP_INDEX = @GRUP_INDEX WHERE TYPE = @TYPE AND LOCATION = @LOCATION ",
+        param : ['NAME','ITEMS_CODE','GRUP_INDEX','TYPE','LOCATION'],
+        type : ['string|25','string|25','int','int','int']
+    },
+    PosPluUpdate : 
+    {
+        query : "UPDATE POS_PLU SET NAME = @NAME,ITEMS_CODE = @ITEMS_CODE WHERE TYPE = @TYPE AND LOCATION = @LOCATION AND GRUP_INDEX = @GRUP_INDEX ",
+        param : ['NAME','ITEMS_CODE','TYPE','LOCATION','GRUP_INDEX'],
+        type : ['string|25','string|25','int','int','int']
     },
     PosSatisParkListe:
     {

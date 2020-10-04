@@ -127,6 +127,11 @@
             <!-- End Navbar Toolbar -->
             <!-- Navbar Toolbar Right -->
             <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                <li class="nav-item" style="width: 80px;" ng-click = "BtnEdit()">
+                    <a class="nav-link">
+                    <i ng-class="Class.BtnEdit" aria-hidden="true"><div class="row" style="font-family: 'Roboto', sans-serif;"></div></i>                    
+                    </a>
+                </li>
                 <li class="nav-item" style="width: 80px;">
                     <a class="nav-link" data-toggle="site-sidebar" href="#">
                     <i class="icon wb-signal" aria-hidden="true"><div class="row" style="font-family: 'Roboto', sans-serif;">Online</div></i>                    
@@ -319,19 +324,19 @@
                                             <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnUpClick()" style="height:70px;"><i class="fas fa-arrow-up fa-lg"></i></button>
                                         </div> 
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[1].CODE)">{{PluList[1].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[0].ITEMS_CODE,0,1)" style="font-size: 14px;">{{PluList[0].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[0].CODE)">{{PluList[0].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[1].ITEMS_CODE,1,1)" style="font-size: 14px;">{{PluList[1].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[1].CODE)">{{PluList[1].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[2].ITEMS_CODE,2,1)" style="font-size: 14px;">{{PluList[2].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[2].CODE)">{{PluList[2].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[3].ITEMS_CODE,3,1)" style="font-size: 14px;">{{PluList[3].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[3].CODE)">{{PluList[3].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[4].ITEMS_CODE,4,1)" style="font-size: 14px;">{{PluList[4].NAME}}</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -339,19 +344,19 @@
                                             <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnDownClick()" style="height:70px;"><i class="fas fa-arrow-down fa-lg"></i></button>
                                         </div> 
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[5].CODE)">{{PluList[7].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[5].ITEMS_CODE,5,1)" style="font-size: 14px;">{{PluList[5].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[4].CODE)">{{PluList[4].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[6].ITEMS_CODE,6,1)" style="font-size: 14px;">{{PluList[6].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[5].CODE)">{{PluList[5].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[7].ITEMS_CODE,7,1)" style="font-size: 14px;">{{PluList[7].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[6].CODE)">{{PluList[6].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[8].ITEMS_CODE,8,1)" style="font-size: 14px;">{{PluList[8].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="BtnPluClick(PluList[7].CODE)">{{PluList[7].SNAME}}</button>
+                                            <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(PluList[9].ITEMS_CODE,9,1)" style="font-size: 14px;">{{PluList[9].NAME}}</button>
                                         </div>
                                     </div>
                                     <!-- Gruplar -->
@@ -360,19 +365,19 @@
                                             <button class="form-group btn btn-block btn-danger my-2" style="height:70px;" ng-click="BtnBelgeIptal()" style="height:70px;">Belge İptal</button>
                                         </div> 
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[1].GRUP)">{{PluGrpList[1].GRUP}}</button>
+                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px; font-size: 14px;" ng-click="PluGetir('',0,0)">{{PluGrpList[0].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[2].GRUP)">{{PluGrpList[1].GRUP}}</button>
+                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px; font-size: 14px;" ng-click="PluGetir('',1,0)">{{PluGrpList[1].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[3].GRUP)">{{PluGrpList[2].GRUP}}</button>
+                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px; font-size: 14px;" ng-click="PluGetir('',2,0)">{{PluGrpList[2].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[4].GRUP)">{{PluGrpList[3].GRUP}}</button>
+                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px; font-size: 14px;" ng-click="PluGetir('',3,0)">{{PluGrpList[3].NAME}}</button>
                                         </div>
                                         <div class="col-2 px-1">
-                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px;" ng-click="PluGetir(PluGrpList[5].GRUP)">{{PluGrpList[4].GRUP}}</button>
+                                            <button class="form-group btn btn-block btn-info my-2" style="height:70px; font-size: 14px;" ng-click="PluGetir('',4,0)">{{PluGrpList[4].NAME}}</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1506,6 +1511,209 @@
                         </div>
                     </div>      
                 </div>              
+            </div>
+            <!-- Plu Edit -->
+            <div class="modal fade" id="MdlPluEdit" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                <div class="modal-dialog modal-simple modal-primary modal-lg modal-center">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                            <h4 class="modal-title">PLU Düzenleme</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row py-1">
+                                <div class="col-2">
+                                    <h5 class="text-right"><span style="color:dodgerblue;">Index : </span></h5>
+                                </div>
+                                <div class="col-10">
+                                <input type="text" class="form-control" ng-model = "PluIndex" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row py-1">
+                                <div class="col-2">
+                                    <h5 class="text-right"><span style="color:dodgerblue;">Görünen Ad : </span></h5>
+                                </div>
+                                <div class="col-10">
+                                <input type="text" class="form-control" ng-model = "PluGrupAdi">
+                                </div>
+                            </div>
+                            <div ng-show = "DivPlu">
+                                <div class="form-group row py-1">
+                                    <div class="col-2">
+                                        <h5 class="text-right"><span style="color:dodgerblue;">Stok Kodu : </span></h5>
+                                    </div>
+                                    <div class="col-10">
+                                    <input type="text" class="form-control" ng-model = "PluStokKod">
+                                    </div>
+                                </div>
+                                <div class="form-group row py-1">
+                                    <div class="col-2">
+                                        <h5 class="text-right"><span style="color:dodgerblue;">Grup Index : </span></h5>
+                                    </div>
+                                    <div class="col-10">
+                                    <input type="text" class="form-control" ng-model = "PluGrupIndex" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row py-1">
+                                <div class="col-12">
+                                    <button type="text" class="form-control btn-danger btn btn-block font-size-10" style="height:60px;" ng-click="BtnPluKaydet()">Kaydet</button>
+                                </div>
+                            </div>
+                            <div class="row py-1">
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('1')">1</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('2')">2</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('3')">3</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('4')">4</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('5')">5</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('6')">6</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('7')">7</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('8')">8</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('9')">9</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('0')">0</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick(',')">,</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('.')">.</button>
+                                </div>
+                            </div>
+                            <div class="row py-1">
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Q')">Q</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('W')">W</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('E')">E</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('R')">R</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('T')">T</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Y')">Y</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('U')">U</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('I')">I</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('O')">O</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('P')">P</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ğ')">Ğ</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ü')">Ü</button>
+                                </div>
+                            </div>
+                            <div class="row py-1">
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('A')">A</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('S')">S</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('D')">D</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('F')">F</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('G')">G</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('H')">H</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('J')">J</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('K')">K</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('L')">L</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ş')">Ş</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('İ')">İ</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('-')">-</button>
+                                </div>
+                            </div>
+                            <div class="row py-1">
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Z')">Z</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('X')">X</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('C')">C</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('V')">V</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('B')">B</button>
+                                </div>
+                                <div class="col-lg-2 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick(' ')">SPACE</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('N')">N</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('M')">M</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ö')">Ö</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ç')">Ç</button>
+                                </div>
+                                <div class="col-lg-1 px-1">
+                                    <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" ng-click="BtnTusClick('Ü')">Ü</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
