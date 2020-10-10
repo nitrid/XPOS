@@ -2304,7 +2304,6 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.Class.BtnEdit == "icon wb-unlock")
         {
-            console.log(pType)
             if(pType == 1 || typeof pType == 'undefined')
             {
                 $scope.DivPlu = true;
