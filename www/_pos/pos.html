@@ -533,13 +533,13 @@
                     <div class="page-header">
                         <h1 class="page-title">SON SATIŞ LİSTESİ</h1>
                         <div class="page-header-actions">
-                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip">
+                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnPluStokGrupLast()">
                                 <i class="icon fa-arrow-left" aria-hidden="true"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnFisYazdir()">
+                            <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnPluStokGrupNext()">
                                 <i class="icon fa-arrow-right" aria-hidden="true"></i>
                             </button>
-                            <button type="button" class="btn btn-sm btn-icon btn-round btn-danger" style="width: 50px;height: 50px;" data-toggle="tooltip" onclick="$('#TbMain').addClass('active');$('#TbSonSatisListesi').removeClass('active');">
+                            <button type="button" class="btn btn-sm btn-icon btn-round btn-danger" style="width: 50px;height: 50px;" data-toggle="tooltip" onclick="$('#TbMain').addClass('active');$('#TbPluStokGrup').removeClass('active');">
                                 <i class="icon fa-close" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -547,45 +547,9 @@
                     <div class="panel">
                         <div class="panel-body container-fluid" style="padding-top: 5px;">
                             <div class="row pt-5">
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(0,(PluList | filter : {'LOCATION':0})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':0})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(1,(PluList | filter : {'LOCATION':1})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':1})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(2,(PluList | filter : {'LOCATION':2})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':2})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(3,(PluList | filter : {'LOCATION':3})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':3})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
-                                <div class="col-2 px-1">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(4,(PluList | filter : {'LOCATION':4})[0].TYPE)" style="font-size: 14px;">{{(PluList | filter : {'LOCATION':4})[0].NAME}}</button>
-                                </div>
+                                <div class="col-1 px-1" ng-repeat="x in PagePluStokGrupList">
+                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(0,(PluList | filter : {'LOCATION':0})[0].TYPE)" style="font-size: 14px;">{{x.NAME}}</button>
+                                </div>                               
                             </div>
                         </div>
                     </div>

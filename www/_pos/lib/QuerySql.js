@@ -661,6 +661,16 @@ var QuerySql =
         param : ['CUSER','LOCATION','GRUP_INDEX','TYPE'],
         type : ['string|10','int','int','string|10']
     },
+    PosPluStokGrupGetir:
+    {
+        query : "SELECT " +
+                "NAME AS NAME, " +
+                "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),'') AS BARCODE " +
+                "FROM ITEMS WHERE ITEM_GRP = @ITEM_GRP " +
+                "AND ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),'') <> ''",
+        param : ['ITEM_GRP'],
+        type : ['string|25']
+    },
     PosPluInsert : 
     {
         query : "INSERT INTO [POS_PLU] " +
