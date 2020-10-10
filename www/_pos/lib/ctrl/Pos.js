@@ -180,6 +180,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.PluGrupIndex = "";
         $scope.PluStokKod = "";
         $scope.PluIndex = 0;
+        $scope.PluStokGrup = false;
 
         $scope.Kullanici = UserParam.Kullanici;
         $scope.KasaNo = 1;
@@ -1102,7 +1103,6 @@ function Pos($scope,$window,$rootScope,db)
                     TOPTUTAR :0
                 }
             ];
-
             // CARI GETIR
             if($scope.CariKodu != "")
             {
@@ -1122,14 +1122,13 @@ function Pos($scope,$window,$rootScope,db)
                 });
             }
             //PLU GRUP GETİR
-            db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,-1,0],function(PluGrpData)
+            db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,-1,0],function(PluGrpData)
             {
                 $scope.PluGrpList = PluGrpData;
-                
                 if($scope.PluGrpList.length > 0)
                 {
                     $scope.PluGrupIndex = PluGrpData[0].GRUP_INDEX
-                    db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,$scope.PluGrpList[0].GRUP_INDEX,1],function(PluGrpData)
+                    db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluGrpList[0].GRUP_INDEX,'1,2'],function(PluGrpData)
                     {   
                         $scope.PluList = PluGrpData
                     });
@@ -1140,7 +1139,6 @@ function Pos($scope,$window,$rootScope,db)
             {   
                 $scope.ParkList = ParkData;
                 $scope.ParkIslemSayisi = $scope.ParkList.length;
-
                 $("#TblParkIslem").jsGrid({data : $scope.ParkList}); 
             });
             
@@ -2302,22 +2300,7 @@ function Pos($scope,$window,$rootScope,db)
             $scope.Class.BtnEdit = "icon wb-lock"
         }
     }
-    async function PosPluGetir(pIndex,pType)
-    {
-        let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,pIndex,pType])
-
-        if(PluData.length > 0)
-        {
-            for (let i = 0; i < PluData.length; i++) 
-            {
-                if(pType == 0 && PluData[i].LOCATION == pIndex)
-                {
-                    $scope.PluGrupAdi = PluData[i].NAME
-                }
-            }
-        }
-    }
-    $scope.PluGetir = async function(pBarkod,pIndex,pType)
+    $scope.PluGetir = async function(pIndex,pType)
     {
         if($scope.Class.BtnEdit == "icon wb-unlock")
         {
@@ -2334,20 +2317,19 @@ function Pos($scope,$window,$rootScope,db)
             FocusMiktarGuncelle = false;
             FocusKartOdeme = false;
             FocusYetkiliSifre = false;
-            FocusAvans = false;
-            await PosPluGetir(pIndex,pType);
+            FocusAvans = false;            
             $("#MdlPluEdit").modal("show");
         }
         else
         {
             if(pType == 0)
             {
-                db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,pIndex,pType],function(PluData)
+                db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,pIndex,pType],function(PluData)
                 {
                     $scope.PluGrupIndex = PluData[0].GRUP_INDEX;
                     if(PluData.length > 0)
                     {
-                        db.GetData($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,PluData[0].GRUP_INDEX,1],function(PluData)
+                        db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,PluData[0].GRUP_INDEX,'1,2'],function(PluData)
                         {
                             $scope.PluList = PluData;
                         });
@@ -2356,8 +2338,13 @@ function Pos($scope,$window,$rootScope,db)
             }
             else if (pType == 1)
             {
-                $scope.TxtBarkod = pBarkod;
+                $scope.TxtBarkod = $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
                 $scope.StokGetir($scope.TxtBarkod);
+            }
+            else if(pType == 2)
+            {
+                $("#TbPluStokGrup").addClass('active');
+                $("#TbMain").removeClass('active');
             }
         }
     }
@@ -2369,6 +2356,12 @@ function Pos($scope,$window,$rootScope,db)
             
             if(PluData.length == 0)
             {
+                let TmpType = 1;
+                if($scope.PluStokGrup == true)
+                {
+                    TmpType = 2;
+                }
+
                 let InsertData = 
                 [
                     $scope.Kullanici,
@@ -2377,7 +2370,7 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.Tarih,
                     $scope.PluGrupAdi,
                     $scope.PluIndex,
-                    1, //TYPE
+                    TmpType, //TYPE
                     $scope.PluStokKod,//ITEMS CODE
                     $scope.PluGrupIndex  //GRUPINDEX
                 ]
@@ -2421,9 +2414,9 @@ function Pos($scope,$window,$rootScope,db)
         }
         else
         {            
-            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGrupGetir',[$scope.Kullanici,$scope.PluIndex,0])
+            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluIndex,0])
             if(PluData.length == 0)
-            {
+            {                
                 let InsertData = 
                 [
                     $scope.Kullanici,

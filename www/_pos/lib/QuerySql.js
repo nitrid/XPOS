@@ -654,17 +654,12 @@ var QuerySql =
         type : ['string|25'] 
     },
     //PLU
-    PosPluGrupGetir:
-    {
-        query : "SELECT * FROM POS_PLU WHERE CUSER = @CUSER AND ((GRUP_INDEX = @GRUP_INDEX) OR (@GRUP_INDEX = -1)) AND TYPE = @TYPE ORDER BY LOCATION ",
-        param : ['CUSER','GRUP_INDEX','TYPE'],
-        type : ['string|10','int','int']
-    },
     PosPluGetir:
     {
-        query : "SELECT * FROM POS_PLU WHERE CUSER = @CUSER AND ((LOCATION = @LOCATION) OR (@LOCATION = -1)) AND ((GRUP_INDEX = @GRUP_INDEX) OR (@GRUP_INDEX = -1)) AND TYPE = @TYPE ORDER BY LOCATION ",
+        query : "SELECT * FROM POS_PLU WHERE CUSER = @CUSER AND ((LOCATION = @LOCATION) OR (@LOCATION = -1)) AND ((GRUP_INDEX = @GRUP_INDEX) OR (@GRUP_INDEX = -1)) AND " +
+                "TYPE IN(SELECT CONVERT(INT,VALUE) FROM STRING_SPLIT(@TYPE,',')) ORDER BY LOCATION ",
         param : ['CUSER','LOCATION','GRUP_INDEX','TYPE'],
-        type : ['string|10','int','int','int']
+        type : ['string|10','int','int','string|10']
     },
     PosPluInsert : 
     {
