@@ -211,7 +211,6 @@ function Pos($scope,$window,$rootScope,db)
         $scope.Stok = [];
         $scope.PluList = [];
         $scope.PluGrpList = [];
-        $scope.PluStokGrupList = [];
         $scope.SatisList = [];        
         $scope.SatisFisList = []; 
         $scope.TahList = [];   
@@ -2482,37 +2481,31 @@ function Pos($scope,$window,$rootScope,db)
         if($scope.PluStokGrupEndIndex + 60 > $scope.PluStokGrupList.length)
         {
             $scope.PluStokGrupEndIndex = $scope.PluStokGrupList.length;
-            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
+            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex + 60,$scope.PluStokGrupEndIndex);
         }
-        else if($scope.PluStokGrupCurrentIndex + 60 <= $scope.PluStokGrupList.length)
+        else if($scope.PluStokGrupEndIndex + 60 <= $scope.PluStokGrupList.length)
         {
             $scope.PluStokGrupStartIndex += 60
             $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 60;
             $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
         }
         
-        // console.log($scope.PluStokGrupCurrentIndex)
-        // if($scope.PluStokGrupCurrentIndex + 60 > $scope.PluStokGrupList.length)
-        // {
-        //     $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupCurrentIndex,$scope.PluStokGrupList.length);
-        // }
-        // else if($scope.PluStokGrupCurrentIndex + 60 <= $scope.PluStokGrupList.length)
-        // {
-        //     console.log($scope.PluStokGrupCurrentIndex +60)
-        //     $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupCurrentIndex,$scope.PluStokGrupCurrentIndex + 60);
-        //     $scope.PluStokGrupCurrentIndex += 60  
-        // }
     }
     $scope.BtnPluStokGrupLast = function()
     {
-        $scope.PluStokGrupStartIndex -= 60
-        $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 60;
-        $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
-        // console.log($scope.PluStokGrupCurrentIndex)
-        // if($scope.PluStokGrupCurrentIndex - 60 >= 0)
-        // {            console.log($scope.PluStokGrupCurrentIndex -60)
-        //     $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupCurrentIndex-60,$scope.PluStokGrupCurrentIndex);
-        //     $scope.PluStokGrupCurrentIndex -= 60;
-        // }
+        if($scope.PluStokGrupStartIndex - 60 >= 0)
+        {
+            $scope.PluStokGrupStartIndex -= 60
+            $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 60;
+            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
+        }
+    }
+    $scope.PluStokGrupGetir = function(pBarkod)
+    {
+        $("#TbMain").addClass('active');
+        $("#TbPluStokGrup").removeClass('active');
+        
+        $scope.TxtBarkod = pBarkod;
+        $scope.StokGetir($scope.TxtBarkod);
     }
 }

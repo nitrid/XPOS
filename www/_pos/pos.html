@@ -548,7 +548,7 @@
                         <div class="panel-body container-fluid" style="padding-top: 5px;">
                             <div class="row pt-5">
                                 <div class="col-1 px-1" ng-repeat="x in PagePluStokGrupList">
-                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluGetir(0,(PluList | filter : {'LOCATION':0})[0].TYPE)" style="font-size: 14px;">{{x.NAME}}</button>
+                                    <button class="form-group btn btn-block btn-success my-1 h-80" ng-click="PluStokGrupGetir(x.BARCODE)" style="font-size: 14px;">{{x.NAME}}</button>
                                 </div>                               
                             </div>
                         </div>
