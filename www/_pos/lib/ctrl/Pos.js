@@ -234,6 +234,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.Class = {};
         $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1";
         $scope.Class.BtnEdit = "icon wb-lock"
+        $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1"
     }
     function InitCariGrid()
     {
@@ -1210,10 +1211,25 @@ function Pos($scope,$window,$rootScope,db)
         $scope.StokGetir($scope.TxtBarkod);
         $("#MdlStokListele").modal('hide');
     }    
-    $scope.StokGetir = function(pBarkod)
+    $scope.StokGetir = async function(pBarkod)
     {
         if(pBarkod != '')
         {   
+            //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
+            if($scope.Class.BtnCariBarSec == "form-group btn btn-warning btn-block my-1")
+            {
+
+                let TmpCari = await db.GetPromiseTag($scope.Firma,'PosCariGetir',[pBarkod,'']);
+                if(TmpCari.length > 0)
+                {
+                    $scope.CariKodu = TmpCari[0].CODE;
+                    $scope.CariAdi = TmpCari[0].NAME;                                       
+                }                
+
+                $scope.TxtBarkod = ""; 
+                $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1" 
+                return;
+            }
             $scope.Miktar = 1;
 
             if(pBarkod.indexOf("*") != -1)
@@ -2506,5 +2522,12 @@ function Pos($scope,$window,$rootScope,db)
         
         $scope.TxtBarkod = pBarkod;
         $scope.StokGetir($scope.TxtBarkod);
+    }
+    $scope.BtnCariBarSec = function()
+    {
+        if($scope.Class.BtnCariBarSec == "form-group btn btn-info btn-block my-1")
+            $scope.Class.BtnCariBarSec = "form-group btn btn-warning btn-block my-1"
+        else
+            $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1"
     }
 }
