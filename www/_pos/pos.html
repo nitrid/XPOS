@@ -1258,6 +1258,83 @@
                     </div>      
                 </div>              
             </div>
+            <!-- Fiyat Güncelle-->
+            <div class="modal fade " id="MdlFiyatGuncelle" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">X</span>
+                            </button>
+                            <h4 class="modal-title">Fiyat</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12 py-10">
+                                    <input class="form-control" ng-model="TxtFiyatGuncelle" id="TxtFiyatGuncelle" ng-keypress="TxtFiyatGuncellePress($event)" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row py-1">
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('7')">7</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('8')">8</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('9')">9</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row py-1">
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('4')">4</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('5')">5</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('6')">6</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row py-1">
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('1')">1</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('2')">2</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('3')">3</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row py-1">
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('0')">0</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('.')">.</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnSilClick()"><i class="fas fa-backspace fa-lg" aria-hidden="true"></i></button>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="TxtFiyatGuncellePress()"><i class="fas fa-check fa-lg"></i></button>
+                                </div>                                    
+                            </div>
+                        </div>
+                    </div>      
+                </div>              
+            </div>
             <!-- Barkod Ara-->
             <div class="modal fade " id="MdlBarkodListele" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
                 <div class="modal-dialog modal-simple modal-center modal-primary modal-md">
@@ -1457,7 +1534,11 @@
                             <h4 class="modal-title">Hesap Makinesi</h4>
                         </div>
                         <div class="modal-body">
-                            <form name="Calculator">                            
+                            <form name="Calculator">   
+                                <div class="row">
+                                    <div class="col-12 py-10" id="CalcStatus">
+                                    </div>
+                                </div>                         
                                 <div class="row">
                                     <div class="col-12 py-10">
                                         <input class="form-control" name="CalcSonuc" autocomplete="off">
@@ -1529,8 +1610,32 @@
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value = eval(Calculator.CalcSonuc.value)">=</button>
-                                    </div>                                    
+                                        <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="CalcEqual()">=</button>
+                                    </div>      
+                                    <script>
+                                        let CalcStatus = "";
+                                        function CalcEqual()
+                                        {                                            
+                                            Calculator.CalcSonuc.value = eval(Calculator.CalcSonuc.value);
+                                            CalcStatus = CalcStatus + '<br>' + Calculator.CalcSonuc.value;
+
+                                            if(CalcStatus.split('<br>').length > 5)
+                                            {
+                                                let i = 0;
+                                                let TmpStatus = "";
+                                                CalcStatus.split('<br>').forEach(item => 
+                                                {
+                                                    if(i > 1)
+                                                    {
+                                                        TmpStatus = TmpStatus + '<br>' + item;
+                                                    }
+                                                    i++;
+                                                });
+                                                CalcStatus = TmpStatus;
+                                            }
+                                            document.getElementById('CalcStatus').innerHTML = CalcStatus;
+                                        }
+                                    </script>                              
                                 </div>
                             </form>
                         </div>

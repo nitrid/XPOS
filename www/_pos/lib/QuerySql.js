@@ -1025,6 +1025,12 @@ var QuerySql =
     },
     PosSatisFiyatUpdate : 
     {
+        query:  "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE,LDATE = GETDATE() WHERE GUID = @GUID",
+        param: ['PRICE','GUID'],
+        type:  ['float','string|50']
+    },
+    PosSatisFiyatUpdate : 
+    {
         query: "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE WHERE GUID = @GUID",
         param: ['PRICE','GUID'],
         type:  ['float','string|50']
