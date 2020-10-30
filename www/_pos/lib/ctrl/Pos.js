@@ -114,6 +114,10 @@ function Pos($scope,$window,$rootScope,db)
         $scope.PluStokKod = "";
         $scope.PluIndex = "";
     });
+    $('#MdlBarkodListele').on('hide.bs.modal', function () 
+    {
+        $scope.TxtBarkod = "";
+    });
 
     if(typeof require != 'undefined')
     {
