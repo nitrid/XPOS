@@ -14,14 +14,16 @@ var MettlerScale =
         }
         function _ScaleSend(pPrice,pCallback)
         {
-            let port = new SerialPort("COM2",{baudRate:9600,dataBits:7,parity:'odd',stopBits:1});
+            let port = new SerialPort("COM1",{baudRate:9600,dataBits:7,parity:'odd',stopBits:1});
             let TmpPrice = parseInt(pPrice * 100).toString().padStart(6,'0');
             //TERAZİYE FİYAT GÖNDERİLİYOR.
             port.write('01' + TmpPrice +'');
             let ReciveBuffer = '';
+            console.log(1)
             //TERAZİDEN DÖNEN DEĞERLERİN OKUNMASI
             port.on('data',line =>
-            {                
+            {         
+                console.log(2)       
                 //console.log(line.toString());
                 //TERAZİDEN ONAY GELDİĞİNDE..
                 if(toHex(line.toString()) == "6")
