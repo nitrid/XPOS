@@ -836,7 +836,7 @@ function Pos($scope,$window,$rootScope,db)
             let TmpFiyat = pData.PRICE;
 
             let TmpFiyatData = await db.GetPromiseTag($scope.Firma,'PosSatisFiyatGetir',[pData.ITEM_CODE,TmpMiktar]);
-                            
+            console.log(TmpFiyatData)                            
             if(TmpFiyatData.length > 0)
             {
                 TmpFiyat = TmpFiyatData[0].PRICE;
