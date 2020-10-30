@@ -191,7 +191,7 @@
                                                     <h5 class="text-left"><span style="color:dodgerblue;">Toplam Ürün Miktarı : </span> {{ToplamMiktar}}</h5>
                                                 </div>
                                                 <div class="col-5 offset-1">
-                                                    <h5 class="text-right"><span style="color:dodgerblue;">Ara Toplam :</span> {{(AraToplam | number:2) + " TL"}}</h5>
+                                                    <h5 class="text-right"><span style="color:dodgerblue;">Ara Toplam :</span> {{(AraToplam | number:2) + " €"}}</h5>
                                                 </div>
                                             </div>
                                             <div class="row" style="height: 20px;">
@@ -199,7 +199,7 @@
                                                     <h5 class="text-left"><span style="color:dodgerblue;">Toplam Satır        : </span> {{ToplamSatir}}</h5>
                                                 </div>
                                                 <div class="col-5 offset-1">
-                                                    <h5 class="text-right"><span style="color:dodgerblue;">Kdv : </span> {{(ToplamKdv | number:2) + " TL"}}</h5>
+                                                    <h5 class="text-right"><span style="color:dodgerblue;">Kdv : </span> {{(ToplamKdv | number:2) + " €"}}</h5>
                                                 </div>
                                             </div>
                                             <div class="row" style="height: 20px;">
@@ -207,12 +207,12 @@
                                                     
                                                 </div>
                                                 <div class="col-5 offset-1">
-                                                    <h5 class="text-right"><span style="color:dodgerblue;">İndirim : </span> {{(ToplamIskonto | number:2) + " TL"}}</h5>
+                                                    <h5 class="text-right"><span style="color:dodgerblue;">İndirim : </span> {{(ToplamIskonto | number:2) + " €"}}</h5>
                                                 </div>
                                             </div>
                                             <div class="row" style="height: 25px;">
                                                 <div class="col-12">
-                                                    <h3 class="text-center">{{(ToplamKalan | number:2) + " TL"}}</h4>
+                                                    <h3 class="text-center">{{(ToplamKalan | number:2) + " €"}}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -957,19 +957,19 @@
                                             <label><h5><span style="color:dodgerblue;">Toplam :</span></h5></label>
                                         </div>
                                         <div class="col-lg-2 px-1">
-                                            <label><h5><div class="float-left">{{(GenelToplam | number:2) + " TL"}}</div></h5></label>
+                                            <label><h5><div class="float-left">{{(GenelToplam | number:2) + " €"}}</div></h5></label>
                                         </div>
                                         <div class="col-lg-2 px-1">
                                             <label><h5><span style="color:dodgerblue;">Kalan :</span></h5></label>
                                         </div>
                                         <div class="col-lg-2 px-1">
-                                            <label><h5><div class="float-left">{{(TahKalan | number:2) + " TL"}}</div></h5></label>
+                                            <label><h5><div class="float-left">{{(TahKalan | number:2) + " €"}}</div></h5></label>
                                         </div>
                                         <div class="col-lg-2 px-1">
                                             <label><h5><span style="color:dodgerblue;"><div class="float-right">Para Üstü :</div></span></h5></label>
                                         </div>
                                         <div class="col-lg-2 px-1">
-                                            <label><h5><div class="float-right">{{(TahParaUstu | number:2) + " TL"}}</div></h5></label>
+                                            <label><h5><div class="float-right">{{(TahParaUstu | number:2) + " €"}}</div></h5></label>
                                         </div>
                                     </div>
                                 </div>
@@ -1371,13 +1371,13 @@
                                             <label><h5><span style="color:dodgerblue;font-size: 12px;">Toplam :</span></h5></label>
                                         </div>
                                         <div class="col-lg-3 px-1">
-                                            <label><h5><span style="font-size: 12px;">{{(GenelToplam | number:2) + " TL"}}</span></h5></label>
+                                            <label><h5><span style="font-size: 12px;">{{(GenelToplam | number:2) + " €"}}</span></h5></label>
                                         </div>
                                         <div class="col-lg-3 px-1">
                                             <label><h5><span style="color:dodgerblue;font-size: 12px;">Kalan :</span></h5></label>
                                         </div>
                                         <div class="col-lg-3 px-1">
-                                            <label><h5><span style="font-size: 12px;">{{(TahKalan | number:2) + " TL"}}</span></h5></label>
+                                            <label><h5><span style="font-size: 12px;">{{(TahKalan | number:2) + " €"}}</span></h5></label>
                                         </div>
                                     </div>
                                 </div>
@@ -1615,9 +1615,10 @@
                                     <script>
                                         let CalcStatus = "";
                                         function CalcEqual()
-                                        {                                            
+                                        {   
+                                            CalcStatus = CalcStatus + '<br>' + Calculator.CalcSonuc.value + '=' + eval(Calculator.CalcSonuc.value);                                         
                                             Calculator.CalcSonuc.value = eval(Calculator.CalcSonuc.value);
-                                            CalcStatus = CalcStatus + '<br>' + Calculator.CalcSonuc.value;
+                                            
 
                                             if(CalcStatus.split('<br>').length > 5)
                                             {
