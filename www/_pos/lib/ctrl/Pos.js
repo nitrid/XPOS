@@ -1203,7 +1203,7 @@ function Pos($scope,$window,$rootScope,db)
             //CARİ UPDATE
             var TmpQuery = 
             {
-                db : '{M}.' + $scope.Firma,
+                db : $scope.Firma,
                 query:  "UPDATE POS_SALES SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE REF = @REF AND REF_NO = @REF_NO AND DEPARTMENT = @DEPARTMENT",
                 param:  ['CUSTOMER_CODE','REF','REF_NO','DEPARTMENT'],
                 type:   ['string|25','string|25','int','int'],
