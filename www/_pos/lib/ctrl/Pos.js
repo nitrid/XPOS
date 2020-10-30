@@ -71,6 +71,16 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
     });
+    $('#MdlFiyatGuncelle').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusKartOdeme = false;
+    });
     $('#MdlKartOdeme').on('hide.bs.modal', function () 
     {
         FocusBarkod = true;
@@ -104,6 +114,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.PluStokKod = "";
         $scope.PluIndex = "";
     });
+
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
