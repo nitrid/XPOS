@@ -1013,7 +1013,7 @@ var QuerySql =
     },
     PosSatisFiyatGetir : 
     {
-        query: "SELECT dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE())",
+        query: "SELECT dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) AS PRICE",
         param: ['ITEM_CODE','QUANTITY'],
         type:  ['string|50','float']
     },

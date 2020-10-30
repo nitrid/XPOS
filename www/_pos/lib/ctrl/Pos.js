@@ -836,7 +836,7 @@ function Pos($scope,$window,$rootScope,db)
             let TmpFiyat = pData.PRICE;
 
             let TmpFiyatData = await db.GetPromiseTag($scope.Firma,'PosSatisFiyatGetir',[pData.ITEM_CODE,TmpMiktar]);
-            console.log(TmpFiyatData)                            
+                                       
             if(TmpFiyatData.length > 0)
             {
                 TmpFiyat = TmpFiyatData[0].PRICE;
@@ -1375,7 +1375,7 @@ function Pos($scope,$window,$rootScope,db)
             $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
             return;
         }
-        console.log($scope.Stok[0].PRICE)
+        
         var InsertData = 
         [
             UserParam.Kullanici,
