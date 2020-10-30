@@ -733,7 +733,7 @@ var QuerySql =
     StokGetir : 
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND (QUANTITY = 1 OR QUANTITY = 0) AND ITEM_CODE = ITEMS.CODE),0) AS PRICE, " +
+                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
@@ -751,7 +751,7 @@ var QuerySql =
     BarkodGetir:
     {
         query : "SELECT ITEMS.CODE AS CODE, " +
-                "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE [TYPE] = 0 AND (QUANTITY = 1 OR QUANTITY = 0) AND ITEM_CODE = ITEMS.CODE),0) AS PRICE, " +
+                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
@@ -1013,7 +1013,7 @@ var QuerySql =
     },
     PosSatisFiyatGetir : 
     {
-        query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY BETWEEN 1 AND @QUANTITY ORDER BY QUANTITY DESC",
+        query: "SELECT dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE())",
         param: ['ITEM_CODE','QUANTITY'],
         type:  ['string|50','float']
     },
@@ -1026,12 +1026,6 @@ var QuerySql =
     PosSatisFiyatUpdate : 
     {
         query:  "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE,LDATE = GETDATE() WHERE GUID = @GUID",
-        param: ['PRICE','GUID'],
-        type:  ['float','string|50']
-    },
-    PosSatisFiyatUpdate : 
-    {
-        query: "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE WHERE GUID = @GUID",
         param: ['PRICE','GUID'],
         type:  ['float','string|50']
     },

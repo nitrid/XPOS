@@ -350,6 +350,12 @@ function Pos($scope,$window,$rootScope,db)
                     type: "text",
                     align: "center",
                     width: 300
+                },
+                {
+                    name: "PRICE",
+                    type: "text",
+                    align: "center",
+                    width: 100
                 }
             ],
             rowClick: function(args)
@@ -1996,7 +2002,7 @@ function Pos($scope,$window,$rootScope,db)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [BARCODE] AS BARCODE,ISNULL((SELECT NAME FROM ITEMS WHERE CODE = [ITEM_CODE]),'') NAME FROM [dbo].[ITEM_BARCODE] WHERE BARCODE LIKE '%' + @BARCODE",
+                query:  "SELECT [BARCODE] AS BARCODE,ISNULL((SELECT NAME FROM ITEMS WHERE CODE = [ITEM_CODE]),'') NAME,dbo.FN_PRICE_SALE(ITEM_CODE,1,GETDATE()) AS PRICE FROM [dbo].[ITEM_BARCODE] WHERE BARCODE LIKE '%' + @BARCODE",
                 param : ["BARCODE:string|50"],
                 value : [$scope.TxtBarkod]
             }
