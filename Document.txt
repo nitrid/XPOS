@@ -8,3 +8,18 @@ npm install node-machine-id
 npm install node-windows
 npm install escpos
 npm install serialport
+
+# POS_PAYMENT
+--------------------------
+TYPE = 0 => ESC
+TYPE = 1 => CB
+TYPE = 2 => CHQ
+TYPE = 3 => T.R.
+
+DOC_TYPE = 0 => TAHSİLAT
+DOC_TYPE = 1 => ÖDEME
+--------------------------
+# POS_SALE 
+TYPE = 0 => SATIŞ
+TYPE = 1 => İADE
+--------------------------

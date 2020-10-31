@@ -14,8 +14,10 @@ function Pos($scope,$window,$rootScope,db)
     let FocusMiktarGuncelle = false;
     let FocusFiyatGuncelle = false;
     let FocusKartOdeme = false;
+    let FocusSonTahGuncelle = false;
     let FirstKey = false;
     let UserParam = null;
+    let SonTahIndex = 0;
 
     $('#MdlAraToplam').on('hide.bs.modal', function () 
     {
@@ -26,6 +28,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
+        FocusSonTahGuncelle = false;
     });
     $('#MdlMusteriListele').on('hide.bs.modal', function () 
     {
@@ -36,6 +39,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
+        FocusSonTahGuncelle = false;
     });
     $('#MdlStokListele').on('hide.bs.modal', function () 
     {
@@ -45,6 +49,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
         db.SafeApply($scope,function()
         {
             $scope.TxtBarkod = "";
@@ -59,6 +64,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
     });
     $('#MdlMiktarGuncelle').on('hide.bs.modal', function () 
@@ -69,6 +75,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
     });
     $('#MdlFiyatGuncelle').on('hide.bs.modal', function () 
@@ -79,6 +86,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
     });
     $('#MdlKartOdeme').on('hide.bs.modal', function () 
@@ -89,6 +97,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
     });
     $('#MdlParaUstu').on('hide.bs.modal', function () 
@@ -109,6 +118,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
+        FocusSonTahGuncelle = false;
         $scope.DivPlu = false;
         $scope.PluGrupAdi = "";
         $scope.PluStokKod = "";
@@ -241,7 +251,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonSatisList = [];
         $scope.SonSatisDetayList = [];   
         $scope.SonSatisTahDetayList = [];         
-        
+        $scope.TRDetayListe = [];
+
         setInterval(()=>
         {
             db.SafeApply($scope,function()
@@ -719,33 +730,51 @@ function Pos($scope,$window,$rootScope,db)
                 title: "CHANGE",
                 align: "center",
                 width: 35
-            },
-            { type: "control", modeSwitchButton: true, editButton: false,deleteButton:false }
-            ],
-            onItemUpdated: function(args)
-            {
-                if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT") <= $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
-                {
-                    let TmpQuery = 
-                    {
-                        db : $scope.Firma,
-                        query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT WHERE GUID = @GUID",
-                        param:  ['AMOUNT','GUID'],
-                        type:   ['float','string|50'],
-                        value:  [args.item.AMOUNT,args.item.GUID]
-                    }
-                    db.ExecuteQuery(TmpQuery,function(){});
-                }
-                else
-                {
-                    db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO],function(PosSonSatisTahDetay)
-                    {  
-                        $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
-                        $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
-                    });
-                    alertify.alert("Girilen tutar hatalıdır !")
-                }
             }
+            ],
+            rowClick: function(args)
+            {
+                $('#MdlSonSatisTahGuncelle').modal('show');
+               
+                SonTahIndex = args.itemIndex;
+                $scope.TxtSonTahGuncelle = args.item.AMOUNT
+                FocusSonTahGuncelle = true;
+                FocusFiyatGuncelle = false;
+                FocusAraToplam = false;
+                FocusBarkod = false;
+                FocusMusteri = false;
+                FocusStok = false;
+                FocusKartOdeme = false;
+                FocusMiktarGuncelle = false;                
+            }
+        });
+    }
+    function InitTRDetayGrid()
+    {
+        $("#TblTRDetay").jsGrid
+        ({
+            width: "100%",
+            height: "300px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.TRDetayListe,
+            fields: 
+            [
+                {
+                    name: "AMOUNT",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                    
+                },
+                {
+                    name: "COUNT",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ]
         });
     }
     function InsertSonYenile(pData)
@@ -922,6 +951,21 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 db.GetDataQuery(TmpQuery,function(pData)
                 {
+                    //EĞER MÜŞTERİ KARTI İSE PUAN KAYIT EDİLİYOR.
+                    if($scope.CariKodu != 'C001')
+                    {
+                        let TmpPuanData = 
+                        [
+                            UserParam.Kullanici,
+                            UserParam.Kullanici,
+                            0,
+                            $scope.CariKodu,
+                            $scope.Seri,
+                            $scope.Sira,
+                            Math.floor($scope.GenelToplam)
+                        ]
+                        db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
+                    }
                     //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                     //$scope.TmpParaUstu = $scope.TahParaUstu;
                     if($scope.TahParaUstu > 0)
@@ -1020,6 +1064,10 @@ function Pos($scope,$window,$rootScope,db)
         else if(FocusFiyatGuncelle)
         {
             $window.document.getElementById("TxtFiyatGuncelle").focus();
+        }
+        else if(FocusSonTahGuncelle)
+        {
+            $window.document.getElementById("TxtSonTahGuncelle").focus();
         }
         else if(FocusKartOdeme == true)
         {
@@ -1121,6 +1169,7 @@ function Pos($scope,$window,$rootScope,db)
             InitSonSatisGrid();
             InitSonSatisDetayGrid();
             InitSonSatisTahDetayGrid();
+            InitTRDetayGrid();
 
             $scope.Seri = UserParam.PosSatis.Seri;
             $scope.TahSeri = UserParam.PosSatis.TahSeri;
@@ -1275,7 +1324,7 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.Miktar = pBarkod.split("*")[0];
                 pBarkod = pBarkod.split("*")[1];
             }
-
+            //TICKET RESTORANT İÇİN YAPILDI
             if(pBarkod.length >= 16)
             {
                 let TmpTicket = pBarkod.substring(11,16)
@@ -1295,7 +1344,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.TahTip = 3;
                         $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);
 
-                        db.ExecuteTag($scope.Firma,'TicketInsert',[UserParam.Kullanici,UserParam.Kullanici,pBarkod],function(InsertResult)
+                        db.ExecuteTag($scope.Firma,'TicketInsert',[UserParam.Kullanici,UserParam.Kullanici,pBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira],function(InsertResult)
                         {
                             $scope.PosTahInsert(function()
                             {   
@@ -1314,7 +1363,7 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.TxtBarkod = "";
                 return;
             }
-
+            //***************************** */
             let TmpFiyat = 0;
 
             if(pBarkod.length >= 12 && pBarkod.length <= 14 && (pBarkod.substring(0,2) == "20" || pBarkod.substring(0,2) == "02"))
@@ -1678,31 +1727,35 @@ function Pos($scope,$window,$rootScope,db)
     {   
         if(FocusBarkod)
         {
-            $scope.TxtBarkod = $scope.TxtBarkod.substring(0,$scope.TxtBarkod.length-1);
+            $scope.TxtBarkod = $scope.TxtBarkod.toString().substring(0,$scope.TxtBarkod.length-1);
         }
         else if(FocusAraToplam)
         {
-            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.substring(0,$scope.TxtAraToplamTutar.length-1);
+            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.toString().substring(0,$scope.TxtAraToplamTutar.length-1);
         }
         else if(FocusMusteri)
         {
-            $scope.TxtCariAra = $scope.TxtCariAra.substring(0,$scope.TxtCariAra.length-1);
+            $scope.TxtCariAra = $scope.TxtCariAra.toString().substring(0,$scope.TxtCariAra.length-1);
         }
         else if(FocusStok)
         {
-            $scope.TxtStokAra = $scope.TxtStokAra.substring(0,$scope.TxtStokAra.length-1);
+            $scope.TxtStokAra = $scope.TxtStokAra.toString().substring(0,$scope.TxtStokAra.length-1);
         }
         else if(FocusMiktarGuncelle)
         {
-            $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle.substring(0,$scope.TxtMiktarGuncelle.length-1); 
+            $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle.toString().substring(0,$scope.TxtMiktarGuncelle.length-1); 
         }
         else if(FocusFiyatGuncelle)
         {
-            $scope.TxtFiyatGuncelle = $scope.TxtFiyatGuncelle.substring(0,$scope.TxtFiyatGuncelle.length-1); 
+            $scope.TxtFiyatGuncelle = $scope.TxtFiyatGuncelle.toString().substring(0,$scope.TxtFiyatGuncelle.length-1); 
+        }
+        else if(FocusSonTahGuncelle)
+        {
+            $scope.TxtSonTahGuncelle = $scope.TxtSonTahGuncelle.toString().substring(0,$scope.TxtSonTahGuncelle.length-1); 
         }
         else if(FocusKartOdeme)
         {
-            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.substring(0,$scope.TxtAraToplamTutar.length-1);
+            $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.toString().substring(0,$scope.TxtAraToplamTutar.length-1);
         }
     }
     $scope.BtnOnayClick = function()
@@ -1757,6 +1810,18 @@ function Pos($scope,$window,$rootScope,db)
             else
             {
                 $scope.TxtFiyatGuncelle = Key; 
+                FirstKey = true;
+            }
+        }
+        else if(FocusSonTahGuncelle)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtSonTahGuncelle = $scope.TxtSonTahGuncelle + Key; 
+            }
+            else
+            {
+                $scope.TxtSonTahGuncelle = Key; 
                 FirstKey = true;
             }
         }
@@ -2253,6 +2318,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusKartOdeme = false;
         FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
 
         FirstKey = false;
     }
@@ -2268,6 +2334,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusKartOdeme = false;
         FocusMiktarGuncelle = false;
+        FocusSonTahGuncelle = false;
 
         FirstKey = false;
     }
@@ -2453,6 +2520,7 @@ function Pos($scope,$window,$rootScope,db)
             FocusStok = false;
             FocusMiktarGuncelle = false;
             FocusFiyatGuncelle = false;
+            FocusSonTahGuncelle = false;
             FocusKartOdeme = false;
             FocusYetkiliSifre = false;
             FocusAvans = false;            
@@ -2651,5 +2719,73 @@ function Pos($scope,$window,$rootScope,db)
             $scope.Class.BtnCariBarSec = "form-group btn btn-warning btn-block my-1"
         else
             $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1"
+    }
+    $scope.BtnTRDetay = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT AMOUNT AS AMOUNT,COUNT(AMOUNT) AS COUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO GROUP BY AMOUNT",
+            param : ["REF:string|25",'REF_NO:int'],
+            value : [$scope.Seri,$scope.Sira]
+        }
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            $scope.TRDetayListe = Data;
+            if(Data.length > 0)
+            {
+                $("#TblTRDetay").jsGrid({data : $scope.TRDetayListe});
+                $('#MdlAraToplam').modal('hide');
+                $('#MdlTRDetay').modal('show');
+            }
+        });
+    }
+    $scope.BtnSonTahTip = function(pTip)
+    {
+        $scope.SonSatisTahDetayList[SonTahIndex].AMOUNT = parseFloat($scope.TxtSonTahGuncelle);
+        $scope.SonSatisTahDetayList[SonTahIndex].TYPENO = pTip;
+
+        if(pTip == 0)
+        {
+            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'ESC';
+        }
+        else if(pTip == 1)
+        {
+            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CB';
+        }
+        else if(pTip == 2)
+        {
+            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CHQ';
+        }
+
+        $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+        $('#MdlSonSatisTahGuncelle').modal('hide');
+    }
+    $scope.BtnSonTahKaydet = function()
+    {
+        if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT") == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
+        {
+            for (let i = 0; i < $scope.SonSatisTahDetayList.length; i++) 
+            {
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT,TYPE = @TYPE WHERE GUID = @GUID",
+                    param:  ['AMOUNT','TYPE','GUID'],
+                    type:   ['float','int','string|50'],
+                    value:  [$scope.SonSatisTahDetayList[i].AMOUNT,$scope.SonSatisTahDetayList[i].TYPENO,$scope.SonSatisTahDetayList[i].GUID]
+                }
+                db.ExecuteQuery(TmpQuery,function(){});
+            }
+        }
+        else
+        {
+            db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO],function(PosSonSatisTahDetay)
+            {  
+                $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
+                $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+            });
+            alertify.alert("Girilen tutar hatalıdır !")
+        }
     }
 }

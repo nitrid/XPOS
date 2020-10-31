@@ -934,13 +934,13 @@ var QuerySql =
                 "REF AS REF, " +
                 "REF_NO AS REF_NO, " +
                 "CASE WHEN TYPE = 0 THEN " +
-                "'Espece' " +
+                "'ESC' " +
                 "WHEN TYPE = 1 THEN " +
                 "'CB' " +
                 "WHEN TYPE = 2 THEN " + 
-                "'T.Rest' " +
+                "'CHQ' " +
                 "WHEN TYPE = 3 THEN " + 
-                "'CHEQUE' " +
+                "'T.R' " +
                 "WHEN TYPE = 4 THEN " + 
                 "'BONE AVOIR' " +
                 "WHEN TYPE = 5 THEN " + 
@@ -1004,6 +1004,7 @@ var QuerySql =
     {
         query:  "SELECT " +
                 "GUID AS GUID, " +
+                "TYPE AS TYPENO, " + 
                 "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'CHQ' WHEN TYPE = 3 THEN 'T.R.' END AS TYPE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
@@ -1038,26 +1039,57 @@ var QuerySql =
     TicketInsert :
     {
         query : "INSERT INTO [dbo].[TICKET] (  " +
-            "[GUID] " +
+            " [GUID] " +
             ",[CUSER] " +
             ",[CDATE] " +
             ",[LUSER] " +
             ",[LDATE] " +
-            ",[CODE]) " +
-        "VALUES " + 
-            "(NEWID()                --<GUID, uniqueidentifier,> \n" + 
+            ",[CODE] " +
+            ",[AMOUNT] " +
+            ",[REF] " +
+            ",[REF_NO] " +
+            ") VALUES ( " + 
+            " NEWID()                --<GUID, uniqueidentifier,> \n" + 
             ",@CUSER                 --<CUSER, nvarchar(25),> \n" + 
             ",GETDATE()              --<CDATE, datetime,> \n" + 
             ",@LUSER                 --<LUSER, nvarchar(25),> \n" + 
             ",GETDATE()              --<LDATE, datetime,> \n" + 
             ",@CODE                  --<CODE, nvarchar(50),> \n" + 
+            ",@AMOUNT                --<AMOUNT, float,> \n" + 
+            ",@REF                   --<REF, nvarchar(25),> \n" + 
+            ",@REF_NO                --<REF_NO, int,> \n" + 
             " ) ",
-        param : ['CUSER:string','LUSER:string','CODE:string']
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|50','AMOUNT:float','REF:string|25','REF_NO:int']
     },
     TicketControl :
     {
         query : "SELECT * FROM TICKET WHERE CODE = @CODE ",
         param :['CODE:string']
+    },
+    MusteriPuanInsert :
+    {
+        query : "INSERT INTO [dbo].[CUSTOMER_POINT] ( " +
+                " [CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[TYPE] " +
+                ",[CUSTOMER] " +
+                ",[REF] " +
+                ",[REF_NO] " +
+                ",[POINT] " +
+                ") VALUES ( " +
+                " @CUSER			--<CUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<CDATE, datetime,> \n" +
+                ",@LUSER			--<LUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<LDATE, datetime,> \n" +
+                ",@TYPE			--<TYPE, int,> \n" +
+                ",@CUSTOMER		--<CUSTOMER, nvarchar(25),> \n" +
+                ",@REF			--<REF, nvarchar(25),> \n" +
+                ",@REF_NO		--<REF_NO, int,> \n" +
+                ",@POINT			--<POINT, float,> \n" +
+                ")",
+        param : ['CUSER:string|25','LUSER:string|25','TYPE:int','CUSTOMER:string|25','REF:string|25','REF_NO:int','POINT:float']
     }
 };
 
