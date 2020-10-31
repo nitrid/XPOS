@@ -1303,7 +1303,7 @@ function Pos($scope,$window,$rootScope,db)
         if(pBarkod != '')
         {   
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
-            if($scope.Class.BtnCariBarSec == "form-group btn btn-warning btn-block my-1")
+            if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
 
                 let TmpCari = await db.GetPromiseTag($scope.Firma,'PosCariGetir',[pBarkod,'']);
@@ -2716,7 +2716,7 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnCariBarSec = function()
     {
         if($scope.Class.BtnCariBarSec == "form-group btn btn-info btn-block my-1")
-            $scope.Class.BtnCariBarSec = "form-group btn btn-warning btn-block my-1"
+            $scope.Class.BtnCariBarSec = "form-group btn btn-danger btn-block my-1"
         else
             $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1"
     }
