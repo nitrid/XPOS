@@ -1305,10 +1305,11 @@ function Pos($scope,$window,$rootScope,db)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
-
+                console.log(1)
                 let TmpCari = await db.GetPromiseTag($scope.Firma,'PosCariGetir',[pBarkod,'']);
                 if(TmpCari.length > 0)
                 {
+                    console.log(TmpCari)
                     $scope.CariKodu = TmpCari[0].CODE;
                     $scope.CariAdi = TmpCari[0].NAME;                                       
                 }                
