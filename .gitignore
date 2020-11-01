@@ -5,3 +5,4 @@ log/
 daemon/
 pc/release-builds/
 /package-lock.json
+data/
