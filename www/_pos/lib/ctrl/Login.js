@@ -1,6 +1,7 @@
 function Login ($scope,$rootScope,$window,db)
 {
     let Firma = "TEST1";
+    let FocusObject;
     localStorage.mode = true;
 
     $scope.server_adress = localStorage.host;
@@ -42,6 +43,9 @@ function Login ($scope,$rootScope,$window,db)
     }
     $scope.BtnEntry = function()
     {
+        $scope.Kullanici = document.getElementById('Kullanici').value;
+        $scope.Password = document.getElementById('Sifre').value;
+        
         for(i = 0;i < Param.length;i++)
         {
             if(Param[i].Kullanici == $scope.Kullanici && Param[i].Sifre == $scope.Password)
@@ -86,13 +90,20 @@ function Login ($scope,$rootScope,$window,db)
             $scope.$apply();            
         });
     }
-    $scope.BtnClose = function()
+    $scope.BtnTusClick = function(Key)
     {
-        if(typeof require != 'undefined')
-        {
-          const remote = require('electron').remote;
-          console.log(remote)
-          remote.getCurrentWindow().close();
-        }
+        FocusObject.value = FocusObject.value + Key
     }
+    $scope.BtnSilClick = function()
+    {   
+        FocusObject.value = FocusObject.value.toString().substring(0,FocusObject.value.length-1);
+    }
+    document.getElementById('Kullanici').addEventListener('focus', (event) => 
+    {
+        FocusObject = document.getElementById('Kullanici');
+    });
+    document.getElementById('Sifre').addEventListener('focus', (event) => 
+    {
+        FocusObject = document.getElementById('Sifre');
+    });
 }

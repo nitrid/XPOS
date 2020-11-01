@@ -1,6 +1,6 @@
 var Param = [
 	{
-		"Kullanici": "Admin",
+		"Kullanici": "ADMIN",
 		"Sifre": "123456",
 		"Adi": "Mahir",
 		"Soyadi": "Yönetici",
