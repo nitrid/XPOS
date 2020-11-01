@@ -86,4 +86,13 @@ function Login ($scope,$rootScope,$window,db)
             $scope.$apply();            
         });
     }
+    $scope.BtnClose = function()
+    {
+        if(typeof require != 'undefined')
+        {
+          const remote = require('electron').remote;
+          console.log(remote)
+          remote.getCurrentWindow().close();
+        }
+    }
 }

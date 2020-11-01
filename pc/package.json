@@ -1,7 +1,7 @@
 {
-  "name": "xpos",
+  "name": "piqpos",
   "version": "1.0.0",
-  "description": "XPOS",
+  "description": "piqpos - piqsoft",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

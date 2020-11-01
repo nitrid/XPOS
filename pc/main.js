@@ -14,9 +14,11 @@ app.on('ready',function()
         {
             nodeIntegration: true,
             nodeIntegrationInWorker: true
-        }
+        },
+        //fullscreen: true
     });
-
+    mainWindow.maximize()
+    //mainWindow.setMenu(null)
     mainWindow.loadURL('http://localhost:8088/_pos');
 
     // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
