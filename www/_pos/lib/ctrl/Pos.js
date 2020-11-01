@@ -294,7 +294,8 @@ function Pos($scope,$window,$rootScope,db)
                     
                 },
                 {
-                    name: "NAME",
+                    title: "LAST NAME",
+                    name: "LAST_NAME",
                     type: "text",
                     align: "center",
                     width: 300
@@ -1305,11 +1306,9 @@ function Pos($scope,$window,$rootScope,db)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
-                console.log(1)
                 let TmpCari = await db.GetPromiseTag($scope.Firma,'PosCariGetir',[pBarkod,'']);
                 if(TmpCari.length > 0)
                 {
-                    console.log(TmpCari)
                     $scope.CariKodu = TmpCari[0].CODE;
                     $scope.CariAdi = TmpCari[0].NAME;                                       
                 }                
@@ -2787,6 +2786,31 @@ function Pos($scope,$window,$rootScope,db)
                 $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
             });
             alertify.alert("Girilen tutar hatalıdır !")
+        }
+    }
+    $scope.BtnCariDegistir = function()
+    {
+        if($scope.CariKodu != 'C001')
+        {
+            alertify.okBtn('Evet');
+            alertify.cancelBtn('Hayır');
+
+            alertify.confirm('Müşteriden çıkış yapmak istiyormusunuz ?', () => 
+            {
+                $scope.CariKodu = 'C001'
+                $scope.CariAdi = ''
+                //CARİ UPDATE
+                var TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "UPDATE POS_SALES SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE REF = @REF AND REF_NO = @REF_NO AND DEPARTMENT = @DEPARTMENT",
+                    param:  ['CUSTOMER_CODE','REF','REF_NO','DEPARTMENT'],
+                    type:   ['string|25','string|25','int','int'],
+                    value:  [$scope.CariKodu,$scope.Seri,$scope.Sira,$scope.Sube]
+                }
+                db.ExecuteQuery(TmpQuery);
+            },() => {});
+            
         }
     }
 }

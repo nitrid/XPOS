@@ -593,7 +593,7 @@ var QuerySql =
                 "CUSTOMERS.[CODE] AS [CODE], " +
                 "CONVERT(NVARCHAR,CUSTOMERS.[TYPE]) AS [TYPE], " +
                 "CONVERT(NVARCHAR,CUSTOMERS.[GENUS]) AS [GENUS], " +
-                "CUSTOMERS.[NAME] AS [NAME], " +
+                "CUSTOMERS.[LAST_NAME] + ' ' + CUSTOMERS.[NAME] AS [NAME], " +
                 "CUSTOMERS.[LAST_NAME] AS [LAST_NAME], " +
                 "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
                 "CUSTOMERS.[PHONE1] AS [PHONE1], " +
@@ -626,7 +626,7 @@ var QuerySql =
                 "CUSTOMERS.[CODE] AS [CODE], " +
                 "CONVERT(NVARCHAR,CUSTOMERS.[TYPE]) AS [TYPE], " +
                 "CONVERT(NVARCHAR,CUSTOMERS.[GENUS]) AS [GENUS], " +
-                "CUSTOMERS.[NAME] AS [NAME], " +
+                "CUSTOMERS.[LAST_NAME] + ' ' + CUSTOMERS.[NAME] AS [NAME], " +
                 "CUSTOMERS.[LAST_NAME] AS [LAST_NAME], " +
                 "CUSTOMERS.[CUSTOMER_GRP] AS [CUSTOMER_GRP], " +
                 "CUSTOMERS.[PHONE1] AS [PHONE1], " +
