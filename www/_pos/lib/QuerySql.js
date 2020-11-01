@@ -612,7 +612,8 @@ var QuerySql =
                 "ISNULL(CUSTOMER_ADRESS.[ADRESS],'') AS [ADRESS], " +
                 "ISNULL(CUSTOMER_ADRESS.[ZIPCODE],'') AS [ZIPCODE], " +
                 "ISNULL(CUSTOMER_ADRESS.[CITY],'') AS [CITY], " +
-                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY] " +
+                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY], " +
+                "dbo.FN_CUSTOMER_TOTAL_POINT(CUSTOMERS.[CODE],GETDATE()) AS [POINT] " +
                 "FROM CUSTOMERS " + 
                 "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                 "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
@@ -645,7 +646,8 @@ var QuerySql =
                 "ISNULL(CUSTOMER_ADRESS.[ADRESS],'') AS [ADRESS], " +
                 "ISNULL(CUSTOMER_ADRESS.[ZIPCODE],'') AS [ZIPCODE], " +
                 "ISNULL(CUSTOMER_ADRESS.[CITY],'') AS [CITY], " +
-                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY] " +
+                "ISNULL(CUSTOMER_ADRESS.[COUNTRY],'') AS [COUNTRY], " +
+                "dbo.FN_CUSTOMER_TOTAL_POINT(CUSTOMERS.[CODE],GETDATE()) AS [POINT] " +
                 "FROM CUSTOMERS " + 
                 "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                 "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +

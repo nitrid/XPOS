@@ -195,6 +195,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.EvrakTip = 0;
         $scope.CariKodu = "";
         $scope.CariAdi = "";
+        $scope.CariPoint = 0;
         $scope.Tarih = new Date().toLocaleDateString('tr-TR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
         $scope.Sube = "0";
         $scope.TxtBarkod = "";
@@ -305,6 +306,12 @@ function Pos($scope,$window,$rootScope,db)
                     type: "text",
                     align: "center",
                     width: 300
+                },
+                {
+                    name: "POINT",
+                    type: "number",
+                    align: "center",
+                    width: 100
                 }
             ],
             rowClick: function(args)
@@ -1108,6 +1115,7 @@ function Pos($scope,$window,$rootScope,db)
         
         $scope.CariKodu = $scope.CariListe[pIndex].CODE;
         $scope.CariAdi = $scope.CariListe[pIndex].NAME;
+        $scope.CariPuan = $scope.CariListe[pIndex].POINT;
     }
     $scope.StokListeRowClick = function(pIndex,pItem,pObj)
     {
