@@ -15,6 +15,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusFiyatGuncelle = false;
     let FocusKartOdeme = false;
     let FocusSonTahGuncelle = false;
+    let FocusSadakatIndirim = false;
     let FirstKey = false;
     let UserParam = null;
     let SonTahIndex = 0;
@@ -29,6 +30,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
         FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlMusteriListele').on('hide.bs.modal', function () 
     {
@@ -40,6 +42,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
         FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlStokListele').on('hide.bs.modal', function () 
     {
@@ -50,6 +53,8 @@ function Pos($scope,$window,$rootScope,db)
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
+
         db.SafeApply($scope,function()
         {
             $scope.TxtBarkod = "";
@@ -66,6 +71,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlMiktarGuncelle').on('hide.bs.modal', function () 
     {
@@ -77,6 +83,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlFiyatGuncelle').on('hide.bs.modal', function () 
     {
@@ -88,6 +95,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlKartOdeme').on('hide.bs.modal', function () 
     {
@@ -99,6 +107,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
         FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlParaUstu').on('hide.bs.modal', function () 
     {
@@ -108,6 +117,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusStok = false;
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
     });
     $('#MdlPluEdit').on('hide.bs.modal', function () 
     {
@@ -119,6 +129,8 @@ function Pos($scope,$window,$rootScope,db)
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
         FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
+
         $scope.DivPlu = false;
         $scope.PluGrupAdi = "";
         $scope.PluStokKod = "";
@@ -127,6 +139,18 @@ function Pos($scope,$window,$rootScope,db)
     $('#MdlBarkodListele').on('hide.bs.modal', function () 
     {
         $scope.TxtBarkod = "";
+    });
+    $('#MdlSadakatIndirim').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusKartOdeme = false;
+        FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
     });
 
     if(typeof require != 'undefined')
@@ -195,7 +219,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.EvrakTip = 0;
         $scope.CariKodu = "";
         $scope.CariAdi = "";
-        $scope.CariPoint = 0;
+        $scope.CariPuan = 0;
+        $scope.CariKullanPuan = 0;
         $scope.Tarih = new Date().toLocaleDateString('tr-TR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
         $scope.Sube = "0";
         $scope.TxtBarkod = "";
@@ -753,7 +778,8 @@ function Pos($scope,$window,$rootScope,db)
                 FocusMusteri = false;
                 FocusStok = false;
                 FocusKartOdeme = false;
-                FocusMiktarGuncelle = false;                
+                FocusMiktarGuncelle = false;   
+                FocusSadakatIndirim = false;             
             }
         });
     }
@@ -809,6 +835,7 @@ function Pos($scope,$window,$rootScope,db)
     }  
     function DipToplamHesapla()
     {
+        $scope.CariKullanPuan = $scope.SatisList[0].LOYALTY * 100
         $scope.AraToplam = 0;
         $scope.ToplamKdv = 0;
         $scope.GenelToplam = 0;
@@ -823,8 +850,16 @@ function Pos($scope,$window,$rootScope,db)
             $scope.ToplamIskonto += value.DISCOUNT;
         });
 
+        let TmpKdvOran = ($scope.ToplamKdv / $scope.AraToplam) * 100;
+        let TmpAraToplam = ($scope.AraToplam + $scope.ToplamKdv) - $scope.SatisList[0].LOYALTY;
+        $scope.AraToplam =  TmpAraToplam / ((TmpKdvOran / 100) + 1)
+        $scope.ToplamKdv = TmpAraToplam - $scope.AraToplam
+
         $scope.ToplamKalan = (($scope.AraToplam - $scope.ToplamIskonto) + $scope.ToplamKdv) - db.SumColumn($scope.TahList,"AMOUNT");
         $scope.GenelToplam = (($scope.AraToplam - $scope.ToplamIskonto) + $scope.ToplamKdv);
+
+        // console.log(parseFloat($scope.GenelToplam - 1) / ((TmpKdvOran.toFixed(2) / 100) + 1))
+        // console.log(parseFloat($scope.GenelToplam - 1) - (parseFloat($scope.GenelToplam - 1) / ((TmpKdvOran.toFixed(2) / 100) + 1)))
     }
     function DipToplamFisHesapla()
     {
@@ -972,7 +1007,23 @@ function Pos($scope,$window,$rootScope,db)
                             $scope.Sira,
                             Math.floor($scope.GenelToplam)
                         ]
+
                         db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
+
+                        if($scope.CariKullanPuan > 0)
+                        {
+                            let TmpPuanData = 
+                            [
+                                UserParam.Kullanici,
+                                UserParam.Kullanici,
+                                1,
+                                $scope.CariKodu,
+                                $scope.Seri,
+                                $scope.Sira,
+                                $scope.CariKullanPuan * -1
+                            ]
+                            db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
+                        }
                     }
                     //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                     //$scope.TmpParaUstu = $scope.TahParaUstu;
@@ -1080,6 +1131,10 @@ function Pos($scope,$window,$rootScope,db)
         else if(FocusKartOdeme == true)
         {
             $window.document.getElementById("TxtKartOdemeTutar").focus();
+        }
+        else if(FocusSadakatIndirim)
+        {
+            $window.document.getElementById("TxtSadakatIndirim").focus();
         }
     }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
@@ -1267,10 +1322,7 @@ function Pos($scope,$window,$rootScope,db)
                 type:   ['string|25','string|25','int','int'],
                 value:  [$scope.CariKodu,$scope.Seri,$scope.Sira,$scope.Sube]
             }
-            db.ExecuteQuery(TmpQuery,function(UpdateResult)
-            {
-                
-            });
+            db.ExecuteQuery(TmpQuery);
         }
 
         if($scope.CariKodu != UserParam.PosSatis.Cari && $scope.SatisList.length > 0)
@@ -1318,7 +1370,23 @@ function Pos($scope,$window,$rootScope,db)
                 if(TmpCari.length > 0)
                 {
                     $scope.CariKodu = TmpCari[0].CODE;
-                    $scope.CariAdi = TmpCari[0].NAME;                                       
+                    $scope.CariAdi = TmpCari[0].NAME;  
+                    $scope.CariPuan = TmpCari[0].POINT;    
+                    
+                    //CARİ UPDATE
+                    var TmpQuery = 
+                    {
+                        db : $scope.Firma,
+                        query:  "UPDATE POS_SALES SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE REF = @REF AND REF_NO = @REF_NO AND DEPARTMENT = @DEPARTMENT",
+                        param:  ['CUSTOMER_CODE','REF','REF_NO','DEPARTMENT'],
+                        type:   ['string|25','string|25','int','int'],
+                        value:  [$scope.CariKodu,$scope.Seri,$scope.Sira,$scope.Sube]
+                    }
+                    db.ExecuteQuery(TmpQuery);
+                }
+                else
+                {
+                    alertify.alert("Müşteri bulunamadı !");
                 }                
 
                 $scope.TxtBarkod = ""; 
@@ -1392,6 +1460,7 @@ function Pos($scope,$window,$rootScope,db)
                     }
 
                     $scope.Stok = BarkodData;
+                    
                     if(TmpFiyat > 0 )
                     {
                         $scope.Stok[0].PRICE = TmpFiyat;
@@ -1464,6 +1533,7 @@ function Pos($scope,$window,$rootScope,db)
             $scope.Stok[0].UNIT,
             $scope.Stok[0].PRICE = parseFloat($scope.Stok[0].PRICE).toFixed(2),
             0, //ISKONTO TUTAR 1
+            $scope.CariKullanPuan / 100, //SADAKAT TUTAR 1
             $scope.Stok[0].VAT,
             0  //DURUM
         ];
@@ -1473,13 +1543,13 @@ function Pos($scope,$window,$rootScope,db)
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
                 //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
-                let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
-                $scope.SatisList = TmpSatisData;
+                // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                // $scope.SatisList = TmpSatisData;
 
-                for (let i = 0; i < $scope.SatisList.length; i++) 
-                {               
-                    await FiyatUpdate($scope.SatisList[i]);
-                }  
+                // for (let i = 0; i < $scope.SatisList.length; i++) 
+                // {               
+                //     await FiyatUpdate($scope.SatisList[i]);
+                // }  
                 /***************************************************************** */
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
                 {   
@@ -1613,10 +1683,10 @@ function Pos($scope,$window,$rootScope,db)
         db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pData.GUID],async function(data)
         {    
             //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */      
-            for (let i = 0; i < $scope.SatisList.length; i++) 
-            {               
-                await FiyatUpdate($scope.SatisList[i]);
-            }
+            // for (let i = 0; i < $scope.SatisList.length; i++) 
+            // {               
+            //     await FiyatUpdate($scope.SatisList[i]);
+            // }
             //**************************************************************** */
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
             {  
@@ -1765,6 +1835,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtAraToplamTutar = $scope.TxtAraToplamTutar.toString().substring(0,$scope.TxtAraToplamTutar.length-1);
         }
+        else if(FocusSadakatIndirim)
+        {
+            $scope.TxtSadakatIndirim = $scope.TxtSadakatIndirim.toString().substring(0,$scope.TxtSadakatIndirim.length-1); 
+        }
     }
     $scope.BtnOnayClick = function()
     {
@@ -1842,6 +1916,18 @@ function Pos($scope,$window,$rootScope,db)
             else
             {
                 $scope.TxtAraToplamTutar = Key; 
+                FirstKey = true;
+            }
+        }
+        else if(FocusSadakatIndirim)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtSadakatIndirim = $scope.TxtSadakatIndirim + Key; 
+            }
+            else
+            {
+                $scope.TxtSadakatIndirim = Key; 
                 FirstKey = true;
             }
         }
@@ -1944,13 +2030,13 @@ function Pos($scope,$window,$rootScope,db)
                         else
                         {
                             //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
-                            let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
-                            $scope.SatisList = TmpSatisData;
+                            // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                            // $scope.SatisList = TmpSatisData;
 
-                            for (let i = 0; i < $scope.SatisList.length; i++) 
-                            {               
-                                await FiyatUpdate($scope.SatisList[i]);
-                            }  
+                            // for (let i = 0; i < $scope.SatisList.length; i++) 
+                            // {               
+                            //     await FiyatUpdate($scope.SatisList[i]);
+                            // }  
                             /***************************************************************** */
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                             {
@@ -2005,6 +2091,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 $scope.CariAdi = data[0].NAME;
                 $scope.CariKodu = data[0].CODE;
+                $scope.CariPuan = data[0].POINT;  
             });
 
             InsertSonYenile(PosSatisData);
@@ -2327,7 +2414,8 @@ function Pos($scope,$window,$rootScope,db)
         FocusKartOdeme = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
-
+        FocusSadakatIndirim = false;
+        
         FirstKey = false;
     }
     $scope.BtnFiyatGuncelle = function()
@@ -2343,6 +2431,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusKartOdeme = false;
         FocusMiktarGuncelle = false;
         FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
 
         FirstKey = false;
     }
@@ -2531,7 +2620,9 @@ function Pos($scope,$window,$rootScope,db)
             FocusSonTahGuncelle = false;
             FocusKartOdeme = false;
             FocusYetkiliSifre = false;
-            FocusAvans = false;            
+            FocusAvans = false;    
+            FocusSadakatIndirim = false;
+
             $("#MdlPluEdit").modal("show");
         }
         else
@@ -2807,6 +2898,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 $scope.CariKodu = 'C001'
                 $scope.CariAdi = ''
+                $scope.CariPuan = 0;  
                 //CARİ UPDATE
                 var TmpQuery = 
                 {
@@ -2820,5 +2912,89 @@ function Pos($scope,$window,$rootScope,db)
             },() => {});
             
         }
+    }
+    $scope.BtnSadakatIndirim = function()
+    {            
+        if($scope.SatisList.length == 0)
+        {
+            alertify.alert("Satış yapmadan puan kullanamazsınız !");
+            return;
+        }
+        if($scope.CariPuan == 0)
+        {
+            alertify.alert("Kullanılacak puan yok !");
+            return;
+        }
+
+        $('#MdlSadakatIndirim').modal('show');
+
+        $scope.TxtSadakatIndirim = $scope.CariPuan - $scope.CariKullanPuan;
+        
+        FirstKey = false;
+        FocusSadakatIndirim = true;
+        FocusAraToplam = false;
+        FocusBarkod = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusKartOdeme = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;     
+        
+    }
+    $scope.BtnSadakatIndirimOnay = function()
+    {
+        let TmpPuanTutar = $scope.TxtSadakatIndirim / 100;
+        if($scope.TxtSadakatIndirim > ($scope.CariPuan - $scope.CariKullanPuan))
+        {
+            FirstKey = false;
+            alertify.alert("Girdiğiniz puan mevcut puandan fazla olamaz !");
+            return;
+        }
+        if(TmpPuanTutar > $scope.GenelToplam)
+        {
+            FirstKey = false;
+            alertify.alert("Girdiğiniz puan satış tutarından fazla olamaz !");
+            return;
+        }
+
+        db.ExecuteTag($scope.Firma,'PosSatisSadakat',[TmpPuanTutar,$scope.Seri,$scope.Sira],function(pData)
+        {  
+            $('#MdlSadakatIndirim').modal('hide');
+            $scope.CariKullanPuan = $scope.TxtSadakatIndirim;
+
+            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
+            {   
+                db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
+                {  
+                    InsertFisYenile(PosSatisFisData);   
+                }); 
+
+                InsertSonYenile(PosSatisData);      
+                $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
+                $scope.ToplamMiktar = db.SumColumn($scope.SatisList,"QUANTITY")
+                $scope.ToplamSatir =  $scope.SatisList.length
+            });
+        });        
+    }
+    $scope.BtnSadakatIndirimTemizle = function()
+    {
+        db.ExecuteTag($scope.Firma,'PosSatisSadakat',[0,$scope.Seri,$scope.Sira],function(pData)
+        {  
+            $scope.CariKullanPuan = 0;
+            
+            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
+            {   
+                db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
+                {  
+                    InsertFisYenile(PosSatisFisData);   
+                }); 
+
+                InsertSonYenile(PosSatisData);      
+                $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
+                $scope.ToplamMiktar = db.SumColumn($scope.SatisList,"QUANTITY")
+                $scope.ToplamSatir =  $scope.SatisList.length
+            });
+        });        
     }
 }

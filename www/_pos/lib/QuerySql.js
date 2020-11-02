@@ -739,7 +739,7 @@ var QuerySql =
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
-                "'' AS BARKOD, " +
+                "'' AS BARCODE, " +
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
                 "[WEIGHING] AS [WEIGHING] " +
@@ -790,6 +790,7 @@ var QuerySql =
                 ",[UNIT] " +
                 ",[PRICE] " +
                 ",[DISCOUNT] " +
+                ",[LOYALTY] " +
                 ",[VAT] " +
                 ",[STATUS] " +
                 ") VALUES ( " +
@@ -810,16 +811,17 @@ var QuerySql =
                 ",@UNIT                                 --<UNIT, nvarchar(50),> \n" +
                 ",@PRICE                                --<PRICE, float,> \n" +
                 ",@DISCOUNT                             --<DISCOUNT, float,> \n" +
+                ",@LOYALTY                             --<LOYALTY, float,> \n" +
                 ",@VAT                                  --<VAT, float,> \n" +
                 ",@STATUS                               --<STATUS, int,> \n" +
                 ") ",
         param : ['CUSER:string','LUSER:string','DEPARTMENT:int','TYPE:int','DOC_DATE:date','REF:string|25','REF_NO:int','CUSTOMER_CODE:string|25','ITEM_CODE:string|25',
-                 'BARCODE:string|50','QUANTITY:float','UNIT:string','PRICE:float','DISCOUNT:float','VAT:float',"STATUS:int"]
+                 'BARCODE:string|50','QUANTITY:float','UNIT:string','PRICE:float','DISCOUNT:float','LOYALTY:float','VAT:float',"STATUS:int"]
     },
     PosSatisGetir : 
     {
         query:  "SELECT " +
-                "ROW_NUMBER() OVER (ORDER BY LDATE) AS NO, " +
+                "ROW_NUMBER() OVER (ORDER BY LDATE ASC) AS NO, " +
                 "GUID AS GUID, " +
                 "CUSER AS CUSER, " +
                 "REF AS REF, " +
@@ -834,10 +836,11 @@ var QuerySql =
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "PRICE AS PRICE, " +
                 "DISCOUNT AS DISCOUNT, " +
+                "LOYALTY AS LOYALTY, " +
                 "VAT AS VAT, " +
                 "CASE WHEN VAT = 20 THEN 'B' WHEN VAT = 5.5 THEN 'C' END AS VAT_TYPE, " + 
                 "ROUND(QUANTITY * PRICE,2) AS AMOUNT " +
-                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC" ,
+                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
@@ -857,6 +860,7 @@ var QuerySql =
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "ROUND(PRICE,2) AS PRICE, " +
                 "SUM(DISCOUNT) * ((VAT / 100) + 1) AS DISCOUNT, " +
+                "SUM(LOYALTY) * ((VAT / 100) + 1) AS LOYALTY, " +
                 "VAT AS VAT, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 104)) AS CDATE, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 108)) AS CHOUR, " +
@@ -967,6 +971,12 @@ var QuerySql =
         query : "UPDATE [dbo].[POS_SALES] SET [DISCOUNT] = @DISCOUNT WHERE GUID = @GUID",
         param : ['DISCOUNT','GUID'],
         type : ['float','string|50']
+    },
+    PosSatisSadakat :
+    {
+        query : "UPDATE [dbo].[POS_SALES] SET [LOYALTY] = @LOYALTY WHERE REF = @REF AND REF_NO = @REF_NO",
+        param : ['LOYALTY','REF','REF_NO'],
+        type : ['float','string|50','int']
     },
     PosSatisKapatUpdate : 
     {
