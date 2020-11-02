@@ -183,7 +183,6 @@ function Pos($scope,$window,$rootScope,db)
             }
         })
     }
-
     setTimeout(function()
     { 
         db.LCDPrint
@@ -195,7 +194,6 @@ function Pos($scope,$window,$rootScope,db)
             }
         );
     }, 1000);
-
     $rootScope.LoadingShow = function() 
     {
         $("#loading").show();
@@ -1680,7 +1678,7 @@ function Pos($scope,$window,$rootScope,db)
     {   
         pData.QUANTITY = pMiktar;
 
-        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pData.GUID],async function(data)
+        db.GetData($scope.Firma,'PosSatisMiktarUpdate',[pMiktar,pData.ITEM_CODE,pData.GUID],async function(data)
         {    
             //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */      
             // for (let i = 0; i < $scope.SatisList.length; i++) 
@@ -1865,11 +1863,27 @@ function Pos($scope,$window,$rootScope,db)
         }
         else if(FocusMusteri)
         {
-            $scope.TxtCariAra = $scope.TxtCariAra + Key; 
+            if(FirstKey)
+            {
+                $scope.TxtCariAra = $scope.TxtCariAra + Key; 
+            }
+            else
+            {
+                $scope.TxtCariAra = Key; 
+                FirstKey = true;
+            }            
         }
         else if(FocusStok)
         {
-            $scope.TxtStokAra = $scope.TxtStokAra + Key; 
+            if(FirstKey)
+            {
+                $scope.TxtStokAra = $scope.TxtStokAra + Key; 
+            }
+            else
+            {
+                $scope.TxtStokAra = Key; 
+                FirstKey = true;
+            }            
         }
         else if(FocusMiktarGuncelle)
         {
@@ -2149,19 +2163,21 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnMusteriListesi = function()
     {
         $("#MdlMusteriListele").modal("show");
-        FocusAraToplam = false;
-        FocusBarkod = false;
+        FirstKey = false;
         FocusMusteri = true;
+        FocusAraToplam = false;
+        FocusBarkod = false;        
         FocusStok = false;
         FocusKartOdeme = false;
     }
     $scope.BtnStokListesi = function()
     {
         $("#MdlStokListele").modal("show");
+        FirstKey = false;
+        FocusStok = true;
         FocusAraToplam = false;
         FocusBarkod = false;
-        FocusMusteri = false;
-        FocusStok = true;
+        FocusMusteri = false;        
         FocusKartOdeme = false;
 
         setTimeout(function()

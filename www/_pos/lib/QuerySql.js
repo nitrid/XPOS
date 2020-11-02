@@ -1032,9 +1032,9 @@ var QuerySql =
     },
     PosSatisMiktarUpdate : 
     {
-        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,LDATE = GETDATE() WHERE GUID = @GUID",
-        param: ['QUANTITY','GUID'],
-        type:  ['float','string|50']
+        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,PRICE = dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()), LDATE = GETDATE() WHERE GUID = @GUID",
+        param: ['QUANTITY','ITEM_CODE','GUID'],
+        type:  ['float','string|25','string|50']
     },
     PosSatisFiyatUpdate : 
     {
