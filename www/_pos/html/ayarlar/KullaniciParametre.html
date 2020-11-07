@@ -1,100 +1,132 @@
-<div class="col-12">
-    <div class="row" ng-controller="KullaniciParametreCtrl" ng-init="Init()">
-        <div class="col-12" style="padding:10px 5px;" >
-            <div class="panel-group" aria-multiselectable="true" role="tablist">
-                <div class="panel py-1">
-                    <div class="btn-group pr-10 py-1 float-right">
-                        <button type="button" class="btn btn-primary dropdown-toggle" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
-                        <div class="dropdown-menu dropdown-menu-right" role="menu" x-placement="bottom-start">
-                            <button class="dropdown-item" data-target="#MdlKullanici" data-toggle="modal"  role="menu-item" ng-click="BtnYeni()">Ekle</button>
-                            <button class="dropdown-item" data-target="#MdlKullanici" data-toggle="modal" role="menu-item" ng-click="BtnDuzenle()">Düzenle</a>
-                            <button class="dropdown-item" role="menu-item" ng-click="BtnSil()">Sil</button>
-                            <button class="dropdown-item" role="menu-item" ng-click="BtnParametre()">Parametre Ayarları</button>
-                            <button class="dropdown-item" role="menu-item" ng-click="BtnParamGuncelle()">Parametre Güncelle</button>
+<div class="col-12" ng-controller="KullaniciParametreCtrl" ng-init="YeniEvrak()">
+    <div class="row">
+        <div class="col-12">
+            <div class="tab-content">
+                <div id="TbMain" class="tab-pane active">
+                    <div class="row">
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4>KULLANICI TANIMLAMA</h4></label>
+                        </div>
+                        <div class="col-2 offset-7 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnKullaniciInsert(0)">Yeni Ekle</button>
                         </div>
                     </div>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div id="TblKullanici"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TbParametre" class="tab-pane">
                     <div class="row">
-                        <h4 class="pl-45 text-primary">KULLANICILAR</h4>
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4>KULLANICI PARAMETRELERİ</h4></label>
+                        </div>
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4>KULLANICI : {{KullaniciID}}</h4></label>
+                        </div>
+                        <div class="col-2 offset-2 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnParamGuncelle()">Güncelle</button>
+                        </div>
+                        <div class="col-2 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnGeri()"><i class="icon wb-reply" aria-hidden="true"></i></button>
+                        </div>
                     </div>
-                </div>
-                <div class="panel panel-bordered" id="Grup1">
-                    <div class="panel-body">
-                        <div id="TblKullanici"></div>
-                    </div>
-                </div>
-                <div class="panel panel-bordered" id="Grup2">
-                    <div class="panel-body">
-                            <h4 class="text-primary">Parametre Ayarları</h4>
-                            <div class="form-group row">
-                                <select class="form-control form-control-sm col-4" ng-model="ParamName" ng-change="CmbParamChange()">
-                                    <option ng-repeat="option in CmbParamList" value="{{option.Name}}">{{option.Name}}</option>
-                                </select>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary form-control-sm btn-block" ng-click="ParamKaydet()">Kaydet</button>
-                                </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-primary form-control-sm btn-block" ng-click="ParamCikis()">Çıkış</button>
-                                </div>
-                            </div>
-                            <div id="ParamView">
-                                
-                            </div>
+                    <div class="panel">
+                        <div class="panel-body">
+                  
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="MdlKullanici" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-simple modal-primary modal-center px-10">
-                <div class="modal-content ">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">X</span>
-                        </button>
-                        <h4 class="modal-title">Kullanıcı</h4>
+    </div>
+    <!-- KULLANICI EKLE -->
+    <div class="modal fade" id="MdlKullanici" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Kullanıcı</h4>
+                </div>
+                <div class="modal-body py-10">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>KullanıcıID :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Kodu">
                     </div>
-                    <div class="modal-body py-10">
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Kullanıcı :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Kullanici">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Kullanıcı :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Kullanici">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Şifre :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Sifre">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Yetki :</b></span></div></label>
+                        <select class="form-control col-9 ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="Yetki">
+                            <option value="0" selected="selected">Kullanıcı</option>
+                            <option value="1">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Aktif / Pasif :</b></span></div></label>
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" ng-model="AktifPasif">
+                            <label for="inputUnchecked"></label>
                         </div>
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Şifre :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Sifre">
-                        </div>
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Adı :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Adi">
-                        </div>
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Soyadı :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Soyadi">
-                        </div>
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Telefon :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Telefon">
-                        </div>
-                        <div class="form-group row my-10">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Email :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="Email">
-                        </div>
-                        <div class="form-group row mt-10 mb-0">
-                            <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Mikro Id :</b></span></div></label>
-                            <input type="text" class="form-control col-lg-10 col-md-10 col-sm-8 offset-0" ng-model="MikroId">
-                        </div>
-                        <div class="row">
-                            <div class="col-2 offset-5">
-                                <div class="checkbox-custom checkbox-primary">
-                                    <input type="checkbox" ng-model="Yetkili">
-                                    <label for="inputUnchecked"><span style="color:dodgerblue;"><b>Yetkili</b></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row my-5">
-                            <button type="submit" class="btn btn-primary form-control-sm btn-block col-lg-12 col-sm-12 col-sm-12" ng-click="Kaydet()">Kaydet</button>
-                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <button type="submit" class="btn btn-primary form-control btn-block col-12" style="height:40px; font-size: 16px;" ng-click="BtnKullaniciInsert(1)">Kaydet</button>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
+    </div>
+    <!-- KULLANICI GÜNCELLE -->
+    <div class="modal fade" id="MdlKullaniciGuncelle" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">Kullanıcı Güncelle</h4>
+                </div>
+                <div class="modal-body py-10">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>KullanıcıID :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Kodu">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Kullanıcı :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Kullanici">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Şifre :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="Sifre">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Yetki :</b></span></div></label>
+                        <select class="form-control col-9 ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="Yetki">
+                            <option value="0" selected="selected">Kullanıcı</option>
+                            <option value="1">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b>Aktif / Pasif :</b></span></div></label>
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" ng-model="AktifPasif">
+                            <label for="inputUnchecked"></label>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <button type="submit" class="btn btn-primary form-control btn-block col-12" style="height:40px; font-size: 16px;" ng-click="BtnKullaniciGuncelle(1,'')">Güncelle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,11 +1,8 @@
 {
     "port":"8090",
-    "server":"DESKTOP-QJ2C4RA,1433",
-    "database":"XPOS",
-    "uid":"nitro",
+    "server":"BILGISAYAR",
+    "database":"PIQPOS",
+    "uid":"piqpos",
     "pwd":"1122334455",
-    "trustedConnection" : false,
-    "EpsonUSB" : {"Vid:" : "04B8","Pid" : "0E15"},
-    "LineDisplay" : "COM3",
-    "BarkodSerial" : "COM1" 
+    "trustedConnection" : false
 }

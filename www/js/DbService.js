@@ -273,45 +273,65 @@ angular.module('app.db', []).service('db',function($rootScope)
             fn();
             return;
         }
+        const path = require('path');
         const escpos = require('escpos');
         escpos.USB = require('escpos-usb');
 
         let device  = new escpos.USB();
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
-        //B FONT 64 CHAR
-        device.open(function(error)
-        {            
-            for (let i = 0; i < pData.length; i++) 
-            {
-                printer.size(0,0);
-                printer.font(pData[i].font);
-                printer.align(pData[i].align);
 
-                if(typeof pData[i].style != 'undefined')
+        const imgpath = path.join(__dirname, '../../Logo.png');
+        //B FONT 64 CHAR
+        escpos.Image.load(imgpath, function(image)
+        {
+            device.open(function(error)
+            {   
+                printer.align('ct')
+                .image(image, 's8')
+                .then(() => 
+                { 
+                    //printer.cut().close(); 
+                });
+                for (let i = 0; i < pData.length; i++) 
                 {
-                    printer.style(pData[i].style);
-                }
-                else
-                {
-                    printer.style("normal");
-                }
-                
-                if(typeof pData[i].size != 'undefined')
-                {
-                    printer.size(pData[i].size[0],pData[i].size[1]);
-                }
-                
-                printer.text(pData[i].data);
-            }                                    
-            printer.cut().close
-            (
-                function()
-                {
-                    fn();
-                }
-            );
-        });      
+                    if(typeof pData[i].barcode != 'undefined')
+                    {
+                        printer.align(pData[i].align).barcode(pData[i].barcode,'CODE39',pData[i].options);                    
+                    }
+                    else
+                    {                    
+                        printer.size(0,0);
+                        printer.font(pData[i].font);
+                        printer.align(pData[i].align);
+        
+                        if(typeof pData[i].style != 'undefined')
+                        {
+                            printer.style(pData[i].style);
+                        }
+                        else
+                        {
+                            printer.style("normal");
+                        }
+                        
+                        if(typeof pData[i].size != 'undefined')
+                        {
+                            printer.size(pData[i].size[0],pData[i].size[1]);
+                        }
+                        
+                        printer.text(pData[i].data);
+                    }                
+                }                                    
+                printer.cut().close
+                (
+                    function()
+                    {
+                        fn();
+                    }
+                );
+            });      
+        });
+       
     }
     function _EscposCaseOpen()
     {
@@ -348,7 +368,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         escpos.Serial = require('escpos-serialport');
         escpos.Screen = require('escpos-screen');
 
-        let device  = new escpos.Serial("COM3", { baudRate: 9600, autoOpen: false });
+        let device  = new escpos.Serial(pData.port, { baudRate: 9600, autoOpen: false });
         let options = { encoding: "GB18030" /* default */ }
         let usbScreen = new escpos.Screen(device,options);
 
@@ -359,7 +379,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             usbScreen.text(pData.text).close();
         });
     }
-    function _LCDClear()
+    function _LCDClear(pPort)
     {
         if(typeof require == 'undefined')
         {
@@ -370,7 +390,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         escpos.Serial = require('escpos-serialport');
         escpos.Screen = require('escpos-screen');
 
-        let device  = new escpos.Serial("COM3", { baudRate: 9600, autoOpen: false });
+        let device  = new escpos.Serial(pPort, { baudRate: 9600, autoOpen: false });
         let options = { encoding: "GB18030" /* default */ }
         let usbScreen = new escpos.Screen(device,options);
 
@@ -379,18 +399,28 @@ angular.module('app.db', []).service('db',function($rootScope)
             usbScreen.clear();
         });
     }
-    function _PaymentSend(pTutar)
+    function _PaymentSend(pPort,pTutar)
     {
-        _CardPayment.transaction_start(pTutar);
+        _CardPayment.transaction_start(pPort,pTutar);
     }
-    function _ScaleSend(pPrice,pCallback)
+    function _ScaleSend(pPort,pPrice,pCallback)
     {
-        _MettlerScale.ScaleSend(pPrice,pData =>
+        _MettlerScale.ScaleSend(pPort,pPrice,pData =>
         {
            if(typeof pCallback != 'undefined')
            {
                pCallback(pData);
            } 
+        });
+    }
+    function _toBase64(file)
+    {
+        return new Promise((resolve, reject) => 
+        {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
         });
     }
     //#region "PUBLIC"
@@ -413,6 +443,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.LCDClear = _LCDClear;
     this.PaymentSend = _PaymentSend;
     this.ScaleSend = _ScaleSend;
+    this.toBase64 = _toBase64;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
     {
@@ -593,7 +624,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }
-    this.EscposPrint = function(pSData,pTData,pVData,pCallback)
+    this.EscposPrint = function(pSData,pTData,pVData,pParamData,pCallback)
     {
         let TmpData = [];
         let TmpLine = {};
@@ -646,6 +677,16 @@ angular.module('app.db', []).service('db',function($rootScope)
             TmpData.push(TmpLine);
         }
         TmpData.push({font:"b",style:"bu",align:"lt",data:_PrintText(" ",64)});
+
+        TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
+        if(pParamData[3] > 0)
+        {            
+            TmpData.push({font:"a",align:"lt",data:_PrintText("Remise Fidelite ",33) + _PrintText(parseFloat(parseFloat(pParamData[3]) / 100).toFixed(2).toString() + ' EUR',15,"Start")});
+        }
+        if(_SumColumn(pSData,"DISCOUNT") > 0)
+        {
+            TmpData.push({font:"a",align:"lt",data:_PrintText("Remise ",33) + _PrintText(parseFloat(_SumColumn(pSData,"DISCOUNT")).toFixed(2).toString() + ' EUR',15,"Start")});
+        }
         //DİP TOPLAM
         TmpLine = 
         {
@@ -654,7 +695,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             style: "b",
             align: "lt",
             data: _PrintText("Total TTC",17) + 
-                  _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")
+                  _PrintText(parseFloat(parseFloat(_SumColumn(pSData,"AMOUNT")) - (_SumColumn(pSData,"DISCOUNT") + parseFloat(parseFloat(pParamData[3]) / 100))).toFixed(2) + " EUR",15,"Start")
         }
         TmpData.push(TmpLine);
         //ÖDEME TOPLAMLARI
@@ -696,7 +737,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                   _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
         }
         TmpData.push(TmpLine);
-        
+
         TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
 
         TmpLine = 
@@ -730,8 +771,25 @@ angular.module('app.db', []).service('db',function($rootScope)
 
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",align:"lt",data:_PrintText(pSData.length.toString() + " Aricle(s)",14)});
+        
+        if(pSData[0].CUSTOMER_CODE != pParamData[0])
+        {            
+            TmpData.push({align:"ct",barcode:pSData[0].CUSTOMER_CODE,options:{width: 1,height:30}});
+            TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText("****************************************************************",64)});
+            TmpData.push({font:"b",align:"lt",data:_PrintText("CARTE DE FIDELITE / " + pSData[0].CUSTOMER_NAME,64)});
+            TmpData.push({font:"b",align:"lt",data:_PrintText("ANCIEN CUMUL ",56) + _PrintText(pParamData[1] + ' Pts',8,"Start")});
+            TmpData.push({font:"b",align:"lt",data:_PrintText("POINT ACQUIS SUR CE TICKET ",56) + _PrintText(pParamData[2] + ' Pts',8,"Start")});
+            if(pParamData[3] > 0)
+            {
+                TmpData.push({font:"b",align:"lt",data:_PrintText("UTILISE POINT ",56) + _PrintText(pParamData[3] + ' Pts',8,"Start")});
+            }
+            TmpData.push({font:"b",align:"lt",data:_PrintText("NOUVEAU CUMUL ",56) + _PrintText((parseInt(pParamData[4]) - parseInt(pParamData[3])) + ' Pts',8,"Start")});
+            TmpData.push({font:"b",align:"lt",data:_PrintText("EQUIVALENT REMISE ",56) + _PrintText(parseFloat(parseFloat(pParamData[4] - pParamData[3]) / 100).toFixed(2).toString() + ' EUR',8,"Start")});
 
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
+            TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText("****************************************************************",64)});
+        }
+        
+        //TmpData.push({font:"a",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Merci de votre fidelite a tres bientot ..."});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});

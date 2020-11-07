@@ -1,19 +1,53 @@
 function Login ($scope,$rootScope,$window,db)
 {
-    let Firma = "TEST1";
     let FocusObject;
     localStorage.mode = true;
 
     $scope.server_adress = localStorage.host;
-    $scope.server_port = localStorage.port;
-    $scope.socket_port = localStorage.socketport;        
- 
+    $scope.socket_port = localStorage.socketport;
+    $scope.device = localStorage.device;
+
+    $rootScope.LoadingShow = function() 
+    {
+        $("#loading").show();
+    }
+    $rootScope.LoadingHide = function() 
+    {
+        $("#loading").hide();
+    }
+    $rootScope.MessageBox = function(pMsg)
+    {
+        alertify.alert(pMsg);
+    }
+
     $scope.Init = function()
     {
         db.SetHost($scope.server_adress,$scope.socket_port);
 
+        $scope.Kullanici = "";
+        $scope.Password = "";
+        $scope.Firma = "PIQPOS";
+        $scope.KullaniciListe = [];
+
+        if (typeof localStorage.host == 'undefined')
+        {
+            localStorage.mode = "true";
+            $scope.server_adress = window.location.hostname;
+            $scope.socket_port = "";
+            $scope.device = "";
+            $scope.HostSettingSave();
+        }
+
         db.Connection(function(data)
-        {                
+        {     
+            if(data == true)
+            {
+                db.GetData($scope.Firma,'KullaniciGetir',[''],function(data)
+                {   
+                    $scope.KullaniciListe = data;
+                });
+            }
+                       
             if(data == true)
             {
                 $('#alert').alert('close');
@@ -35,32 +69,49 @@ function Login ($scope,$rootScope,$window,db)
     $scope.HostSettingSave = function()
     {
         localStorage.host = $scope.server_adress;
-        localStorage.port = $scope.server_port;
         localStorage.socketport = $scope.socket_port;
+        localStorage.device = $scope.device;
 
-        db.SetHost($scope.server_adress,$scope.socket_port);
+        db.SetHost($scope.server_adress);
         $window.location.reload();
     }
     $scope.BtnEntry = function()
-    {
-        $scope.Kullanici = document.getElementById('Kullanici').value;
-        $scope.Password = document.getElementById('Sifre').value;
-        
-        for(i = 0;i < Param.length;i++)
-        {
-            if(Param[i].Kullanici == $scope.Kullanici && Param[i].Sifre == $scope.Password)
-            {
-                console.log("Kullanıcı adı ve şifre doğru");
-                
-                $window.sessionStorage.setItem('User', i);
-                
-                var url = "pos.html";
-                $window.location.href = url;
-                return;
-            }
+    {        
+        if(typeof(localStorage.device) != 'undefined')
+        {      
+            // $scope.Kullanici = document.getElementById('Kullanici').value;
+            // $scope.Password = document.getElementById('Password').value;
+
+            // for(i = 0;i < $scope.KullaniciListe.length;i++)
+            // {
+            //     if($scope.KullaniciListe[i].CODE == $scope.Kullanici && $scope.KullaniciListe[i].PASSWORD == $scope.Password)
+            //     {
+            //         console.log("Kullanıcı adı ve şifre doğru");
+            //         $window.sessionStorage.setItem('User', $scope.Kullanici);
+                    
+            //         var url = "";
+            //         if($scope.KullaniciListe[i].TAG == 0)
+            //             url = "pos.html";
+            //         else
+            //             url = "main.html";
+
+            //         $window.location.href = url;
+            //         return;
+            //     }
+            // }
+
+            $scope.Kullanici = "P001";
+            $window.sessionStorage.setItem('User', $scope.Kullanici);
+            $scope.Password = "1";
+            $window.location.href = "pos.html";
+
+            alertify.okBtn("Tamam");
+            alertify.alert("Kullanıcı adı veya şifre yanlış");
         }
-        alertify.okBtn("Tamam");
-        alertify.alert("Kullanıcı adı veya şifre yanlış");
+        else
+        {
+            alertify.alert("CihazID Tanımsız Giriş Yapılamaz.")
+        }
     }
     $scope.BtnTryConnect = function()
     {
@@ -102,8 +153,8 @@ function Login ($scope,$rootScope,$window,db)
     {
         FocusObject = document.getElementById('Kullanici');
     });
-    document.getElementById('Sifre').addEventListener('focus', (event) => 
+    document.getElementById('Password').addEventListener('focus', (event) => 
     {
-        FocusObject = document.getElementById('Sifre');
+        FocusObject = document.getElementById('Password');
     });
 }

@@ -1,28 +1,38 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
+const fs = require("fs");
 
 const {app,BrowserWindow,Menu} = electron;
 app.allowRendererProcessReuse = false
 let mainWindow;
 
 app.on('ready',function()
-{
-    mainWindow = new BrowserWindow(
+{    
+    fs.readFile('config.json', function (err, data) 
     {
-        webPreferences: 
+        if (err) 
         {
-            nodeIntegration: true,
-            nodeIntegrationInWorker: true
-        },
-        //fullscreen: true
-    });
-    mainWindow.maximize()
-    //mainWindow.setMenu(null)
-    mainWindow.loadURL('http://localhost:8088/_pos');
+          return console.error(err);
+        }
 
-    // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
-    // Menu.setApplicationMenu(mainMenu);
+        mainWindow = new BrowserWindow(
+        {
+            webPreferences: 
+            {
+                nodeIntegration: true,
+                nodeIntegrationInWorker: true
+            },
+            //fullscreen: true
+        });
+        mainWindow.maximize();
+        //mainWindow.setMenu(null)
+        let TmpConfig = JSON.parse(data.toString())
+        mainWindow.loadURL(TmpConfig.host);
+        
+        // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+        // Menu.setApplicationMenu(mainMenu);
+    });
 });
 
 const mainMenuTemplate = 

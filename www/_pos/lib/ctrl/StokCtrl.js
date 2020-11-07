@@ -1,6 +1,5 @@
 function StokCtrl ($scope,$window,$location,db)
 {
-    let UserParam = {};
     let SecimSelectedRow = null;
     let ModalTip = "";
     $scope.Birim =
@@ -669,6 +668,8 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if(StokData.length > 0)
             {
+                ResimGetir('dropify', StokData[0].IMAGE, 'Image.jpg');
+
                 $scope.StyleAll = {'visibility': 'visible'};
                 $scope.RefReadOnly = true;
 
@@ -742,8 +743,8 @@ function StokCtrl ($scope,$window,$location,db)
         {
             InsertData =
             [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
+                $scope.Kullanici,
+                $scope.Kullanici,
                 $scope.StokListe[0].CODE,
                 $scope.BirimModal.Tip,
                 $scope.BirimModal.Adi,
@@ -759,8 +760,8 @@ function StokCtrl ($scope,$window,$location,db)
         {
             InsertData =
             [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
+                $scope.Kullanici,
+                $scope.Kullanici,
                 $scope.StokListe[0].CODE,
                 pData[0],
                 pData[1],
@@ -793,9 +794,24 @@ function StokCtrl ($scope,$window,$location,db)
             }
         });
     }
+    function ResimGetir(pName, pSrc, pFName='')
+    {
+        let input 	 = $('input[name="'+pName+'"]');
+        let wrapper  = input.closest('.dropify-wrapper');
+        let preview  = wrapper.find('.dropify-preview');
+        let filename = wrapper.find('.dropify-filename-inner');
+        let render 	 = wrapper.find('.dropify-render').html('');
+        
+        input.val('').attr('title', pFName);
+        wrapper.removeClass('has-error').addClass('has-preview');
+        filename.html(pFName);
+        
+        render.append($('<img />').attr('src', pSrc).css('max-height', input.data('height') || ''));
+        preview.fadeIn();
+    }
     $scope.Init = function(pClone)
     {
-        UserParam = Param[$window.sessionStorage.getItem('User')];
+        $scope.Kullanici = $window.sessionStorage.getItem('User');
 
         $scope.StyleAll = {'visibility': 'hidden'};
         $scope.RefReadOnly = false;
@@ -861,6 +877,7 @@ function StokCtrl ($scope,$window,$location,db)
                 StokGetir($location.$$search.Id);
             }
         }
+        $('.dropify').dropify()
     }
     $scope.Yeni = function()
     {
@@ -908,8 +925,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         let InsertData =
         [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
+            $scope.Kullanici,
+            $scope.Kullanici,
             $scope.StokListe[0].CODE,
             $scope.StokListe[0].NAME,
             $scope.StokListe[0].SNAME,
@@ -995,8 +1012,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         let InsertData =
         [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
+            $scope.Kullanici,
+            $scope.Kullanici,
             $scope.FiyatModal.StokKodu,
             $scope.FiyatModal.Tip,
             $scope.FiyatModal.Depo,
@@ -1064,8 +1081,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         let InsertData =
         [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
+            $scope.Kullanici,
+            $scope.Kullanici,
             $scope.StokListe[0].CODE,
             $scope.BarkodModal.Barkod,
             $scope.BarkodModal.Birim,
@@ -1104,8 +1121,8 @@ function StokCtrl ($scope,$window,$location,db)
         }
         let InsertData =
         [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
+            $scope.Kullanici,
+            $scope.Kullanici,
             $scope.StokListe[0].CODE,
             $scope.TedarikciModal.Kodu,
             $scope.TedarikciModal.StokKodu
@@ -1164,8 +1181,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         let InsertData =
         [
-            UserParam.Kullanici,
-            UserParam.Kullanici,
+            $scope.Kullanici,
+            $scope.Kullanici,
             $scope.UrunGrupModal.Kodu,
             $scope.UrunGrupModal.Adi
         ];
@@ -1548,8 +1565,8 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     let InsertData =
                     [
-                        UserParam.Kullanici,
-                        UserParam.Kullanici,
+                        $scope.Kullanici,
+                        $scope.Kullanici,
                         $scope.StokListe[0].CODE,
                         1,
                         0,
@@ -1756,4 +1773,20 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }
     }
+    $scope.Upload = async function()
+    {
+        let TmpImg = await db.toBase64(document.getElementById('dropify').files[0]);
+        let InsertData =
+        [
+            $scope.Kullanici,
+            $scope.Kullanici,
+            $scope.StokListe[0].CODE,
+            TmpImg
+        ];
+
+        db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData,function(InsertResult)
+        {
+            console.log(InsertResult)
+        });
+    }    
 }

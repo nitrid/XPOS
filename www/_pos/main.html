@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="theme/global/fonts/font-awesome/font-awesome.css">
     <link rel="stylesheet" href="theme/global/vendor/bootstrap-select/bootstrap-select.css">
     <link rel="stylesheet" href="theme/global/vendor/bootstrap-tokenfield/bootstrap-tokenfield.css">
-    
+    <link rel="stylesheet" href="theme/global/dropify/dropify.css">
     <!-- Datatables -->
     <!-- <link rel="stylesheet" href="theme/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="theme/global/vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.css">
@@ -55,7 +55,6 @@
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
- 
     <!-- <link rel="stylesheet" href="theme/global/vendor/datetimepicker.css"> -->
     <!--[if lt IE 9]>
     <script src="theme/global/vendor/html5shiv/html5shiv.min.js"></script>
@@ -147,7 +146,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="site-menu" data-plugin="menu" id="menu">
+            <ul class="site-menu" data-plugin="menu">
               <li class="site-menu-item has-sub">
                 <a href="#!StokListesi">
                   <i class='site-menu-icon fa-barcode'></i>
@@ -184,7 +183,10 @@
                       <span class='site-menu-title'>Cari Listesi</span>
                     </a>
                   </li>
-                </ul>
+                </ul>                
+              </li>
+              <li class="site-menu-item has-sub" id="menu" >
+                
               </li>
             </ul>
           </div>
@@ -245,6 +247,8 @@
     <script src="theme/global/vendor/icheck/icheck.min.js"></script>
     <script src="theme/global/vendor/bootstrap-select/bootstrap-select.js"></script>
     <script src="theme/global/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.js"></script>
+    <script src="theme/global/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="theme/global/dropify/dropify.js"></script>
 
     <!-- Scripts -->
     <script src="theme/global/js/Component.js"></script>
@@ -272,7 +276,6 @@
     <script src="theme/global/js/Plugin/aspaginator.js"></script>
     <script src="theme/global/js/Plugin/responsive-tabs.js"></script>
     <script src="theme/global/js/Plugin/tabs.js"></script>
-    <!-- <script src="theme/global/js/Plugin/bootstrap-tagsinput.js"></script> -->
     <script src="theme/global/js/Plugin/icheck.js"></script>
     <script src="theme/global/vendor/switchery/switchery.js"></script>
     <script src="theme/global/js/Plugin/bootstrap-select.js"></script>
@@ -314,7 +317,8 @@
     
     <script src="lib/ctrl/Login.js"></script>
     <script src="lib/ctrl/Main.js"></script>
-    <script src="lib/ctrl/KullaniciParametreCtrl.js"></script>
+    <script src="lib/ctrl/ayarlar/KullaniciParametreCtrl.js"></script>
+    <script src="lib/ctrl/ayarlar/CihazParametreCtrl.js"></script>
     <script src="lib/ctrl/StokCtrl.js"></script>
     <script src="lib/ctrl/CariCtrl.js"></script>
     <script src="lib/ctrl/StokListeCtrl.js"></script>
@@ -359,7 +363,7 @@
         }
       });
       jsGrid.fields.decimal = DecimalField;
-      //*******************************************//
+      //*******************************************//      
   </script>
 
   </body>

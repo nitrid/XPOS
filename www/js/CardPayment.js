@@ -19,7 +19,7 @@ var CardPayment =
 
         function CardPayment()
         {
-           
+            
         }
         function syncSerialPort(req, listAction)
         {
@@ -145,8 +145,9 @@ var CardPayment =
 
             syncSerialPort(tpe_msg, listAction);
         }
-        function transaction_start(pTutar)
+        function transaction_start(pPort,pTutar)
         {
+            config.DEVICE = pPort;
             config.AMOUNT = pTutar;
             try 
             {                

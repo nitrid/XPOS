@@ -19,7 +19,7 @@
                 <i class="icon fa-clone" aria-hidden="true"></i>
             </button>
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
-                <i class="icon fa-print" aria-hidden="true"></i>
+                <i class="icon fa-print" aria-hidden="true" ng-click="Upload()"></i>
             </button>
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" onclick="window.location='#!StokListesi'">
                 <i class="icon fa-close" aria-hidden="true"></i>
@@ -222,8 +222,7 @@
                 <div class="col-md-12 col-lg-2">
                     <div class="form-group row" ng-style="StyleAll">
                         <div class="col-md-12">
-                            <img class="rounded" width="150" height="150" src="theme/global/photos/placeholder.png"
-                                alt="..." />
+                            <input type="file" class="dropify" id="dropify" name="dropify" data-height="150" data-allowed-file-extensions="png jpg" data-max-file-size="3M"/>
                         </div>
                     </div>
                 </div>
@@ -824,5 +823,5 @@
     });
     $("#BitTarih").datepicker({
         language: "tr"
-    });
+    });    
 </script>
