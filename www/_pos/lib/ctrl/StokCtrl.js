@@ -941,7 +941,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].WEIGHING
         ];
 
-        db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,function(InsertResult)
+        db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)
         {
             if(typeof(InsertResult.result.err) == 'undefined')
             {
@@ -967,6 +967,21 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);
                 }
+                //ÜRÜN RESİM KAYIT İŞLEMİ
+                if(typeof document.getElementById('dropify').files[0] != 'undefined')
+                {
+                    let TmpImg = await db.toBase64(document.getElementById('dropify').files[0]);
+                    let InsertData =
+                    [
+                        $scope.Kullanici,
+                        $scope.Kullanici,
+                        $scope.StokListe[0].CODE,
+                        TmpImg
+                    ];
+
+                    db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData);
+                }
+                
             }
 
             //window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
@@ -1773,20 +1788,4 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }
     }
-    $scope.Upload = async function()
-    {
-        let TmpImg = await db.toBase64(document.getElementById('dropify').files[0]);
-        let InsertData =
-        [
-            $scope.Kullanici,
-            $scope.Kullanici,
-            $scope.StokListe[0].CODE,
-            TmpImg
-        ];
-
-        db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData,function(InsertResult)
-        {
-            console.log(InsertResult)
-        });
-    }    
 }

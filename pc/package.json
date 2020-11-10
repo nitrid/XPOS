@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"XPOS\""
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"piqpos\""
   },
   "author": "Ali Kemal KARACA",
   "license": "ISC",
@@ -24,5 +24,20 @@
   "devDependencies": {
     "electron-packager": "^15.1.0",
     "electron-rebuild": "^2.0.1"
+  },
+  "build": 
+  {
+    "files": 
+    [
+      "config.json"
+    ],
+    "directories": 
+    {
+      "buildResources": "resources"
+    },
+    "extraFiles": [
+      "credentials"
+    ],
+    "publish": null
   }
 }

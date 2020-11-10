@@ -31,7 +31,7 @@ var QuerySql =
     StokKartKaydet : 
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
-                "SET @TMPCODE = ISNULL((SELECT CODE FROM ITEMS WHERE CODE = @CODE),'') " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 CODE FROM ITEMS WHERE CODE = @CODE),'') " +
                 "IF @TMPCODE = '' " +
                 "INSERT INTO [dbo].[ITEMS] " +
                 "([CUSER] " +
@@ -232,9 +232,9 @@ var QuerySql =
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
                 "IF @TYPE = 1 " + 
-                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
                 "ELSE " +
-                "SET @TMPCODE = ISNULL((SELECT [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
                 "IF @TMPCODE = '' " +
                 "BEGIN " +
                 "INSERT INTO [dbo].[ITEM_UNIT] " +
@@ -697,12 +697,12 @@ var QuerySql =
     {
         query : "SELECT " +
                 "NAME AS NAME, " +
-                "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),'') AS BARCODE, " +
+                "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),CODE) AS BARCODE, " +
                 "ISNULL((SELECT TOP 1 IMAGE FROM ITEM_IMAGE WHERE ITEM_CODE = CODE),'') AS IMAGE " +
-                "FROM ITEMS WHERE ITEM_GRP = @ITEM_GRP " +
-                "AND ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),'') <> ''",
-        param : ['ITEM_GRP'],
-        type : ['string|25']
+                "FROM ITEMS WHERE ((ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((NAME LIKE @NAME + '%') OR (@NAME = '')) AND STATUS = 1 " +
+                "ORDER BY NAME ASC",
+        param : ['ITEM_GRP','NAME'],
+        type : ['string|25','string|25']
     },
     PosPluInsert : 
     {
@@ -729,12 +729,6 @@ var QuerySql =
                 ",@GRUP_INDEX)                            --<ITEMS_CODE, int,> " ,
         param : ['CUSER','LUSER','CDATE','LDATE','NAME','LOCATION','TYPE','ITEMS_CODE','GRUP_INDEX'],
         type : ['string|10','string|10','date','date','string|50','int','int','string|25','int'] 
-    },
-    PosPluGrupUpdate : 
-    {
-        query : "UPDATE POS_PLU SET NAME = @NAME,ITEMS_CODE = @ITEMS_CODE, GRUP_INDEX = @GRUP_INDEX WHERE TYPE = @TYPE AND LOCATION = @LOCATION ",
-        param : ['NAME','ITEMS_CODE','GRUP_INDEX','TYPE','LOCATION'],
-        type : ['string|25','string|25','int','int','int']
     },
     PosPluUpdate : 
     {
@@ -793,6 +787,12 @@ var QuerySql =
                 "WHERE BARCODE.BARCODE = @BARCODE" ,
         param : ['BARCODE'],
         type : ['string|50']
+    },
+    StokGrupGetir : 
+    {
+        query:  "SELECT CODE AS CODE,NAME AS NAME FROM ITEM_GROUP WHERE ((UPPER(NAME) LIKE UPPER(@NAME) + '%') OR (UPPER(@NAME) = '')) ORDER BY CODE ASC " ,
+        param : ['NAME'],
+        type : ['string|25']
     },
     PosSatisInsert : 
     {
@@ -862,6 +862,7 @@ var QuerySql =
                 "QUANTITY AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
+                "(SELECT UNIT.[SHORT] FROM UNIT WHERE UNIT.NAME = (SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT)) AS UNIT_SHORT, " +
                 "PRICE AS PRICE, " +
                 "DISCOUNT AS DISCOUNT, " +
                 "LOYALTY AS LOYALTY, " +
@@ -871,7 +872,7 @@ var QuerySql =
                 "TVA AS TVA, " + 
                 "TTC AS TTC, " + 
                 "ROUND(AMOUNT,2) AS AMOUNT " +
-                "FROM POS_SALES_VW_01 AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
+                "FROM POS_SALES_VW_01 AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
@@ -896,19 +897,19 @@ var QuerySql =
                 "MAX(CONVERT(NVARCHAR, CDATE, 104)) AS CDATE, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 108)) AS CHOUR, " +
                 "ROUND(SUM(QUANTITY * PRICE),2) AS AMOUNT " +
-                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO GROUP BY REF,REF_NO,ITEM_CODE,BARCODE,UNIT,PRICE,VAT ",
+                "FROM POS_SALES AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 GROUP BY REF,REF_NO,ITEM_CODE,BARCODE,UNIT,PRICE,VAT ",
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
     PosSatisBelgeIptal : 
     {
-        query: "DELETE FROM POS_SALES WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        query: "UPDATE POS_SALES SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
         param: ['REF','REF_NO','TYPE'],
         type:  ['string|25','int','int']
     },
     PosSatisSatirIptal : 
     {
-        query: "DELETE FROM POS_SALES WHERE GUID = @GUID",
+        query: "UPDATE POS_SALES SET STATUS = -1 WHERE GUID = @GUID",
         param: ['GUID'],
         type:  ['string|50']
     },
@@ -956,13 +957,13 @@ var QuerySql =
     },
     PosTahIptal : 
     {
-        query: "DELETE FROM POS_PAYMENT WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        query: "UPDATE POS_PAYMENT SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
         param: ['REF','REF_NO','TYPE'],
         type:  ['string|25','int','int']
     },
     PosTahSatirIptal : 
     {
-        query: "DELETE FROM POS_PAYMENT WHERE GUID = @GUID",
+        query: "UPDATE POS_PAYMENT SET STATUS = -1 WHERE GUID = @GUID",
         param: ['GUID'],
         type:  ['string|50']
     },
@@ -996,7 +997,7 @@ var QuerySql =
                 "CUSTOMER_CODE AS CUSTOMER_CODE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
-                "FROM POS_PAYMENT WHERE DEPARTMENT = @DEPARTMENT AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO" ,
+                "FROM POS_PAYMENT WHERE DEPARTMENT = @DEPARTMENT AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0" ,
         param:   ['DEPARTMENT','DOC_TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
@@ -1008,13 +1009,13 @@ var QuerySql =
     },
     PosSatisSadakat :
     {
-        query : "UPDATE [dbo].[POS_SALES] SET [LOYALTY] = @LOYALTY WHERE REF = @REF AND REF_NO = @REF_NO",
+        query : "UPDATE [dbo].[POS_SALES] SET [LOYALTY] = @LOYALTY WHERE REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0",
         param : ['LOYALTY','REF','REF_NO'],
         type : ['float','string|50','int']
     },
     PosSatisKapatUpdate : 
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [STATUS] = 1 WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        query: "UPDATE [dbo].[POS_SALES] SET [STATUS] = 1 WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND STATUS >= 0",
         param: ['DEPARTMENT','REF','REF_NO','TYPE'],
         type:  ['int','string|25','int','int']
     },
@@ -1029,7 +1030,7 @@ var QuerySql =
                 "CAST((SUM(QUANTITY * PRICE)) AS DECIMAL(10,2)) AS AMOUNT, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
-                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS <> 0 " +
+                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS >= 0 " +
                 "GROUP BY REF,REF_NO ORDER BY REF_NO DESC " ,
         param: ['DEPARTMENT'],
         type: ['int']
@@ -1042,7 +1043,7 @@ var QuerySql =
                 "CAST(QUANTITY AS decimal(10,2)) AS QUANTITY, " +
                 "CAST(PRICE AS decimal(10,2))  AS PRICE, " +
                 "CAST((QUANTITY * PRICE) AS decimal(10,2)) AS AMOUNT " +
-                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS <> 0 " ,
+                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " ,
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
@@ -1054,7 +1055,7 @@ var QuerySql =
                 "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'CHQ' WHEN TYPE = 3 THEN 'T.R.' END AS TYPE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
-                "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS <> 0 " ,
+                "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " ,
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
@@ -1136,6 +1137,57 @@ var QuerySql =
                 ",@POINT			--<POINT, float,> \n" +
                 ")",
         param : ['CUSER:string|25','LUSER:string|25','TYPE:int','CUSTOMER:string|25','REF:string|25','REF_NO:int','POINT:float']
+    },
+    XRaporGetir :
+    {
+        query : "SELECT  " +
+                "'Nombre de ticket' AS TITLE, " +
+                "COUNT(TTC) AS COUNT, " +
+                "ISNULL(SUM(TTC),0) AS AMOUNT  " +
+                "FROM (SELECT SUM(TTC) AS TTC FROM POS_SALES_VW_01  " +
+                "WHERE TYPE = 0 AND STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY REF,REF_NO) AS TMP " +
+                "UNION ALL " +
+                "SELECT  " +
+                "'Remoursements' AS TITLE, " +
+                "COUNT(TTC) AS COUNT, " +
+                "ISNULL(SUM(TTC) * -1,0) AS AMOUNT  " +
+                "FROM (SELECT SUM(TTC) AS TTC FROM POS_SALES_VW_01  " +
+                "WHERE TYPE = 1 AND STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY REF,REF_NO) AS TMP " +
+                "UNION ALL " +
+                "SELECT  " +
+                "'Lignes supprimees' AS TITLE,  " +
+                "COUNT(TTC) AS COUNT, " +
+                "ISNULL(SUM(TTC),0) AS AMOUNT  " +
+                "FROM (SELECT SUM(TTC) AS TTC FROM POS_SALES_VW_01  " +
+                "WHERE TYPE = 0 AND STATUS = -1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY REF,REF_NO) AS TMP " +
+                "UNION ALL " +
+                "SELECT  " +
+                "'Tickets annules' AS TITLE,  " +
+                "COUNT(TTC) AS COUNT, " +
+                "ISNULL(SUM(TTC),0) AS AMOUNT  " +
+                "FROM (SELECT SUM(TTC) AS TTC FROM POS_SALES_VW_01  " +
+                "WHERE TYPE = 0 AND STATUS = -2 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY REF,REF_NO) AS TMP " +
+                "SELECT  " +
+                "VAT AS VAT, " +
+                "SUM(HT) AS HT, " +
+                "SUM(TVA) AS TVA,  " +
+                "SUM(TTC) AS TTC  " +
+                "FROM POS_SALES_VW_01  " +
+                "WHERE TYPE = 0 AND STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY VAT " +
+                "SELECT * FROM  " +
+                "(SELECT  " +
+                "CASE WHEN DOC_TYPE = 1 THEN 'Espece - Remboursement' ELSE dbo.FN_POS_PAYMENT_TYPE_NAME(TYPE) END AS TYPE, " +
+                "COUNT(TYPE) AS COUNT, " +
+                "CASE WHEN DOC_TYPE = 1 THEN SUM(AMOUNT) * -1 ELSE SUM(AMOUNT) END AS AMOUNT  " +
+                "FROM POS_PAYMENT  " +
+                "WHERE DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND STATUS = 1 AND DEVICE = @DEVICE " +
+                "GROUP BY TYPE,DOC_TYPE) AS TMP " +
+                "SELECT FORMAT(GETDATE(),'D','fr-FR') AS DATE, " +
+                "(SELECT TOP 1 FORMAT(CDATE,'HH:mm') FROM POS_SALES WHERE STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE ORDER BY CDATE ASC) AS START_TIME, " +
+                "(SELECT TOP 1 FORMAT(CDATE,'HH:mm') FROM POS_SALES WHERE STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE ORDER BY CDATE DESC) AS FINISH_TIME, " +
+                "@DEVICE AS DEVICE ",
+        param : ['DEVICE:string|25']
+        
     },
     //KULLANICI PARAMETRE
     KullaniciGetir :

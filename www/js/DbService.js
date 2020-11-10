@@ -624,7 +624,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }
-    this.EscposPrint = function(pSData,pTData,pVData,pParamData,pCallback)
+    this.ReceiptPrint = function(pSData,pTData,pVData,pParamData,pCallback)
     {
         let TmpData = [];
         let TmpLine = {};
@@ -654,14 +654,15 @@ angular.module('app.db', []).service('db',function($rootScope)
         // SATIŞ LİSTESİ
         for (let i = 0; i < pSData.length; i++) 
         {
-            let TmpQt = ""
-            if(pSData[i].UNIT != "U")
+            let TmpQt = ""            
+            
+            if(Number.isInteger(parseFloat(pSData[i].QUANTITY)))
             {
-                TmpQt = parseFloat(pSData[i].QUANTITY).toFixed(3) + pSData[i].UNIT;
+                TmpQt = pSData[i].QUANTITY + " " + pSData[i].UNIT_SHORT;
             }
             else
             {
-                TmpQt = pSData[i].QUANTITY;
+                TmpQt = parseFloat(parseFloat(pSData[i].QUANTITY).toFixed(3)) + " " + pSData[i].UNIT_SHORT;
             }
 
             TmpLine = 
@@ -795,9 +796,135 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+
+
         _EscposPrint(TmpData,function()
         {
             pCallback();
+        });
+    }
+    this.XReportPrint = function(pData,pCallback)
+    {
+        let TmpData = [];
+        let TmpLine = {};
+        // ÜST BİLGİ
+        TmpData.push({font:"a",style:"b",align:"ct",data:""});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGVILLE LES ST AVOLD"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
+
+        TmpData.push({font:"a",align:"ct",data:"------------------------------------------------"});
+        TmpData.push({font:"a",align:"ct",data:"RAPPORT Z no : "});
+        TmpData.push({font:"a",align:"ct",data: pData[3][0].DATE + " " + pData[3][0].START_TIME + " - " + pData[3][0].FINISH_TIME});
+        TmpData.push({font:"a",align:"ct",data: "No caisse : " + pData[3][0].DEVICE});
+        TmpData.push({font:"a",align:"ct",data:"------------------------------------------------"});
+
+        //HEADER
+        TmpLine = 
+        {
+            font:"b",
+            style:"bu",
+            align:"lt",
+            data:_PrintText(" ",38) + " " + 
+                _PrintText("Nombre",9) + " " + 
+                _PrintText("Montant",12,"Start")
+        }
+        TmpData.push(TmpLine);        
+
+        for (let i = 0; i < pData[0].length; i++) 
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[0][i].TITLE,40) + " " +
+                      _PrintText(pData[0][i].COUNT,7) + " " +
+                      _PrintText(parseFloat(pData[0][i].AMOUNT).toFixed(2),12,"Start")
+            }
+            TmpData.push(TmpLine);
+        }
+
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+        
+        TmpLine = 
+        {
+            font: "b",
+            style: "bu",
+            align: "lt",
+            data: _PrintText("Taux",35) + " " +
+                  _PrintText("HT",10) + " " +
+                  _PrintText("TVA",10) + " " +
+                  _PrintText("TTC",5,"Start")
+        }
+
+        TmpData.push(TmpLine);    
+
+        for (let i = 0; i < pData[1].length; i++) 
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[1][i].VAT + "%",35) + " " +
+                      _PrintText(parseFloat(pData[1][i].HT).toFixed(2),10) + " " + 
+                      _PrintText(parseFloat(pData[1][i].TVA).toFixed(2),10) + " " + 
+                      _PrintText(parseFloat(pData[1][i].TTC).toFixed(2),5,"Start")
+            }
+            TmpData.push(TmpLine);  
+        }
+
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText("Encaissements Tickets",64)});
+
+        TmpLine = 
+        {
+            font: "b",
+            style: "bu",
+            align: "lt",
+            data: _PrintText("Mode",35) + " " +
+                  _PrintText("Lib.",10,"Start") + " " +
+                  _PrintText("Montant",15,"Start") + " "
+        }
+        TmpData.push(TmpLine); 
+
+        for (let i = 0; i < pData[2].length; i++) 
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][i].TYPE ,35) + " " +
+                      _PrintText(pData[2][i].COUNT,10,"Start") + " " + 
+                      _PrintText(parseFloat(pData[2][i].AMOUNT).toFixed(2),15,"Start")
+            }
+            TmpData.push(TmpLine);  
+        }
+
+        TmpLine = 
+        {
+            font: "b",
+            style: "b",
+            align: "lt",
+            data: _PrintText("TOTAL : ",35,"Start") + " " +
+                  _PrintText(_SumColumn(pData[2],"COUNT"),10,"Start") + " " +
+                  _PrintText(parseFloat(_SumColumn(pData[2],"AMOUNT")).toFixed(2),15,"Start") + " "
+        }
+
+        TmpData.push(TmpLine); 
+
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+
+        _EscposPrint(TmpData,function()
+        {
+            if(typeof pCallback != 'undefined')
+            {
+                pCallback();
+            }
         });
     }
      //#endregion "PUBLIC"

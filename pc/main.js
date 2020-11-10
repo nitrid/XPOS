@@ -29,7 +29,11 @@ app.on('ready',function()
         //mainWindow.setMenu(null)
         let TmpConfig = JSON.parse(data.toString())
         mainWindow.loadURL(TmpConfig.host);
-        
+        // mainWindow.loadURL(url.format({
+        //     pathname:path.join(__dirname,'www/_pos/index.html'),
+        //     protocol:'file:',
+        //     slashes:true
+        //   }))
         // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
         // Menu.setApplicationMenu(mainMenu);
     });

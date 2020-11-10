@@ -3,6 +3,7 @@ function Pos($scope,$window,$rootScope,db)
     let IslemSelectedRow = null;
     let CariSelectedRow = null;
     let StokSelectedRow = null;
+    let StokGrupSelectedRow = null;
     let BarkodSelectedRow = null;
     let ParkIslemSelectedRow = null;
     let TahIslemSelectedRow = null;
@@ -11,6 +12,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusAraToplam = false;
     let FocusMusteri = false;
     let FocusStok = false;
+    let FocusStokGrup = false;
     let FocusMiktarGuncelle = false;
     let FocusFiyatGuncelle = false;
     let FocusKartOdeme = false;
@@ -26,6 +28,7 @@ function Pos($scope,$window,$rootScope,db)
     let CariParam = "";
     let IskontoTip = "";
     let UrunListeTip = "StokAra";
+    let PluTip = 0;
 
     $('#MdlAraToplam').on('hide.bs.modal', function () 
     {
@@ -33,6 +36,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -50,6 +54,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -66,6 +71,23 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false
         FocusStok = false;
+        FocusStokGrup = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
+        FocusIskontoYuzde = false;
+        FocusIskontoTutar = false;
+        FocusAvans = false;
+        FocusKartOdeme = false;
+    });
+    $('#MdlStokGrupListele').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false
+        FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
@@ -86,6 +108,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
@@ -103,6 +126,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
@@ -120,6 +144,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
@@ -137,6 +162,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusSonTahGuncelle = false;
@@ -152,6 +178,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusKartOdeme = false;
         FocusSadakatIndirim = false;
@@ -165,6 +192,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -174,7 +202,6 @@ function Pos($scope,$window,$rootScope,db)
         FocusPluKodu = false;
         FocusPluAdi = false;
 
-        $scope.DivPlu = false;
         $scope.PluGrupAdi = "";
         $scope.PluStokKod = "";
         $scope.PluIndex = "";
@@ -189,6 +216,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -206,6 +234,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -223,6 +252,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusAraToplam = false;
         FocusMusteri = false;
         FocusStok = false;
+        FocusStokGrup = false;
         FocusMiktarGuncelle = false;
         FocusFiyatGuncelle = false;
         FocusKartOdeme = false;
@@ -291,6 +321,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     function Init()
     {
+        console.log(Number.isInteger(parseFloat(1).toFixed(3)))
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.CihazID = $window.localStorage.getItem('device');
         $scope.Firma = 'PIQPOS'                
@@ -316,11 +347,9 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ParkIslemSayisi = 0;
         $scope.CiktiTip = 1;
         $scope.PluGrupAdi = "";
-        $scope.DivPlu = false;
         $scope.PluGrupIndex = "";
         $scope.PluStokKod = "";
-        $scope.PluIndex = 0;
-        $scope.PluStokGrup = false;        
+        $scope.PluIndex = 0;          
         $scope.TxtMiktarGuncelle = 0;
         $scope.TxtFiyatGuncelle = 0;
         $scope.TxtSonTahGuncelle = 0;
@@ -352,9 +381,11 @@ function Pos($scope,$window,$rootScope,db)
         $scope.CmbIadeTip = "0";
         $scope.TxtCariAra = "";
         $scope.TxtStokAra = "";
+        $scope.TxtStokGrupAra = "";
 
         $scope.CariListe = [];
         $scope.StokListe = [];
+        $scope.StokGrupListe = [];
         $scope.BarkodListe = []; 
         $scope.Stok = [];
         $scope.PluList = [];
@@ -476,6 +507,43 @@ function Pos($scope,$window,$rootScope,db)
             rowClick: function(args)
             {
                 $scope.StokListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
+    function InitStokGrupGrid()
+    {
+        $("#TblStokGrup").jsGrid
+        ({
+            width: "100%",
+            height: "300px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.StokGrupListe,
+            paging : true,
+            pageSize: 10,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: 
+            [
+                {
+                    name: "CODE",
+                    type: "text",
+                    align: "center",
+                    width: 100
+                    
+                },
+                {
+                    name: "NAME",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ],
+            rowClick: function(args)
+            {
+                $scope.StokGrupListeRowClick(args.itemIndex,args.item,this);
                 $scope.$apply();
             }
         });
@@ -1033,7 +1101,7 @@ function Pos($scope,$window,$rootScope,db)
                             "SUM(TTC) AS TTC," +
                             "MAX(REF_NO) AS TICKET " +
                             "FROM [POS_SALES_VW_01] AS POS " +
-                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO " +
+                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " +
                             "GROUP BY VAT",
                     param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
                     type:   ['int','int','string|25','int'],
@@ -1090,7 +1158,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam)
                     ]   
 
-                    db.EscposPrint($scope.SatisList,$scope.TahList,pData,ParamData,function()
+                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,function()
                     {
                         //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA BUNUN İÇİN TAHSİLAT TABLOSUNDAKİ TYPE ALANININ TOPLAM DEĞERİNE BAKIYORUM.
                         if(db.SumColumn($scope.TahList,"TYPE") == 0)
@@ -1139,7 +1207,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     document.onkeydown = function(e)
     {
-        console.log(FocusPluAdi)
         if(FocusBarkod)
         {
             $window.document.getElementById("TxtBarkod").focus();
@@ -1174,6 +1241,10 @@ function Pos($scope,$window,$rootScope,db)
         else if(FocusStok)
         {
             $window.document.getElementById("TxtStokAra").focus();
+        }
+        else if(FocusStokGrup)
+        {
+            $window.document.getElementById("TxtStokGrupAra").focus();
         }
         else if(FocusMiktarGuncelle)
         {
@@ -1262,6 +1333,16 @@ function Pos($scope,$window,$rootScope,db)
         $scope.PluStokKod = $scope.StokListe[pIndex].CODE;
         $scope.PluGrupAdi = $scope.StokListe[pIndex].NAME;
     }
+    $scope.StokGrupListeRowClick = function(pIndex,pItem,pObj)
+    {
+        if ( StokGrupSelectedRow ) { StokGrupSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        StokGrupSelectedRow = $row;
+
+        $scope.PluStokKod = $scope.StokGrupListe[pIndex].CODE;
+        $scope.PluGrupAdi = $scope.StokGrupListe[pIndex].NAME;
+    }
     $scope.BarkodListeRowClick = function(pIndex,pItem,pObj)
     {
         if ( BarkodSelectedRow ) { BarkodSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
@@ -1310,6 +1391,7 @@ function Pos($scope,$window,$rootScope,db)
             InitTahIslemGrid();
             InitCariGrid();
             InitStokGrid();
+            InitStokGrupGrid();
             InitBarkodGrid();
             InitSonSatisGrid();
             InitSonSatisDetayGrid();
@@ -1485,6 +1567,26 @@ function Pos($scope,$window,$rootScope,db)
             $("#MdlPluEdit").modal("show");
             
         }        
+    }  
+    $scope.BtnStokGrupGridGetir = function()
+    {
+        db.GetData($scope.Firma,'StokGrupGetir',[$scope.TxtStokGrupAra],function(pData)
+        {
+            $scope.StokGrupListe = pData;
+            $("#TblStokGrup").jsGrid({data : $scope.StokGrupListe});
+        });
+
+    }
+    $scope.BtnStokGrupGridSec = function()
+    {        
+        console.log(StokGrupSelectedRow);
+        $("#MdlStokGrupListele").modal('hide');
+        FocusBarkod = false;
+        FocusStokGrup = false;
+        FocusPluKodu = false;
+        FocusPluAdi = true;        
+        FirstKey = false;
+        $("#MdlPluEdit").modal("show");      
     }    
     $scope.StokGetir = async function(pBarkod)
     {
@@ -1947,6 +2049,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtStokAra = $scope.TxtStokAra.toString().substring(0,$scope.TxtStokAra.length-1);
         }
+        else if(FocusStokGrup)
+        {
+            $scope.TxtStokGrupAra = $scope.TxtStokGrupAra.toString().substring(0,$scope.TxtStokGrupAra.length-1);
+        }
         else if(FocusMiktarGuncelle)
         {
             $scope.TxtMiktarGuncelle = $scope.TxtMiktarGuncelle.toString().substring(0,$scope.TxtMiktarGuncelle.length-1); 
@@ -2032,6 +2138,18 @@ function Pos($scope,$window,$rootScope,db)
             else
             {
                 $scope.TxtStokAra = Key; 
+                FirstKey = true;
+            }            
+        }
+        else if(FocusStokGrup)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtStokGrupAra = $scope.TxtStokGrupAra + Key; 
+            }
+            else
+            {
+                $scope.TxtStokGrupAra = Key; 
                 FirstKey = true;
             }            
         }
@@ -2502,10 +2620,10 @@ function Pos($scope,$window,$rootScope,db)
                     var TmpQuery = 
                     {
                         db : $scope.Firma,
-                        query:  "UPDATE POS_SALES SET TYPE = 2,STATUS = 1 WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO",
+                        query:  "UPDATE POS_SALES SET TYPE = 1,STATUS = 1 WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0",
                         param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
                         type:   ['int','int','string|25','int'],
-                        value:  [$scope.Sube,1,$scope.Seri,$scope.Sira]
+                        value:  [$scope.Sube,0,$scope.Seri,$scope.Sira]
                     }
 
                     if($scope.CmbIadeTip == "0")
@@ -2756,7 +2874,7 @@ function Pos($scope,$window,$rootScope,db)
                             "SUM(TTC) AS TTC," +
                             "ISNULL((SELECT COUNT(REF) AS TICKET FROM (SELECT REF FROM POS_SALES WHERE DOC_DATE >= GETDATE() AND DOC_DATE <= GETDATE() AND DEPARTMENT = 1 AND STATUS = 1 GROUP BY REF,REF_NO) AS TMP),1) AS TICKET " +
                             "FROM [POS_SALES_VW_01] AS POS " +
-                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO " +
+                            "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " +
                             "GROUP BY VAT",
                     param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
                     type:   ['int','int','string|25','int'],
@@ -2772,7 +2890,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam)
                     ]   
 
-                    db.EscposPrint(PosSatisData,PosTahData,pData,ParamData,function()
+                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,function()
                     {
                         
                     });
@@ -2800,15 +2918,20 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.PluGetir = async function(pIndex,pType)
     {    
+        $scope.PluIndex = pIndex;
+        PluTip = pType;
+
         if($scope.Class.BtnEdit == "icon wb-unlock")
         {            
-            if(pType == 1 || typeof pType == 'undefined')
+            if(pType >= 1 || typeof pType == 'undefined')
             {
-                $scope.DivPlu = true;
-            }
-            
-            $scope.PluIndex = pIndex;
-
+                document.getElementById('PluGrup').style = "visibility : visible";
+            } 
+            else
+            {
+                document.getElementById('PluGrup').style = "visibility : hidden";
+            }                
+            console.log(pType)
             if(pType == 0)
             {
                 $("#MdlPluEdit").modal("show");
@@ -2818,15 +2941,20 @@ function Pos($scope,$window,$rootScope,db)
                 FocusPluAdi = true;        
                 FirstKey = false;
             }
-            else
+            else if(pType == 1)
             {
                 $scope.BtnStokListesi('Plu')  
             }
-                      
+            else if(pType == 2)
+            {
+                $("#MdlStokGrupListele").modal("show");
+                FirstKey = false;
+                FocusStokGrup = true;
+                FocusBarkod = false;
+            }          
         }
         else
         {
-            console.log(pType)
             if(pType == 0)
             {
                 db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,pIndex,pType],function(PluData)
@@ -2848,10 +2976,10 @@ function Pos($scope,$window,$rootScope,db)
             }
             else if(pType == 2)
             {
-                db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE],function(PluData)
+                db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 2).ITEMS_CODE,''],function(PluData)
                 {
                     $scope.PluStokGrupStartIndex = 0
-                    $scope.PluStokGrupEndIndex = 60
+                    $scope.PluStokGrupEndIndex = 30
                     $scope.PluStokGrupList = PluData
                     $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
                     
@@ -2864,152 +2992,233 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnPluKaydet = async function()
     {
-        if($scope.DivPlu) //GRUP INSERT Mİ PLU İNSERT Mİ İŞLEMİNİ BURADAN ANLIYORUZ.
+        if(document.getElementById('PluGrup').style.visibility == 'visible')
         {
             if($scope.PluGrupIndex.toString() == "")
             {
                 alertify.alert('Lütfen önce grup tanımlayınız !')
                 return;
             }
-
-            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,$scope.PluIndex,$scope.PluGrupIndex,1])
-            
-            if(PluData.length == 0)
-            {
-                let TmpType = 1;
-                console.log($scope.PluStokGrup)
-                if($scope.PluStokGrup == true)
-                {
-                    TmpType = 2;
-                }
-
-                let InsertData = 
-                [
-                    $scope.Kullanici,
-                    $scope.Kullanici,
-                    $scope.Tarih,
-                    $scope.Tarih,
-                    $scope.PluGrupAdi,
-                    $scope.PluIndex,
-                    TmpType, //TYPE
-                    $scope.PluStokKod,//ITEMS CODE
-                    $scope.PluGrupIndex  //GRUPINDEX
-                ]
-    
-                db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
-                {
-                    if(typeof(InsertResult.result.err) == 'undefined')
-                    {   
-                        alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
-                        $("#MdlPluEdit").modal("hide");
-                        $scope.PluGrupAdi = "";
-                        $scope.PluIndex = "";
-                        $scope.PluStokKod = "";
-                        $scope.YeniEvrak();
-                    }
-                    else
-                    {
-                        console.log(InsertResult.result.err);
-                    }
-                });
-            }
-            else
-            {
-                db.ExecuteTag($scope.Firma,'PosPluUpdate',[$scope.PluGrupAdi,$scope.PluStokKod,1,$scope.PluIndex,PluData[0].GRUP_INDEX],function(InsertResult)
-                {
-                    if(typeof(InsertResult.result.err) == 'undefined')
-                    {   
-                        alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
-                        $("#MdlPluEdit").modal("hide");
-                        $scope.PluGrupAdi = "";
-                        $scope.PluIndex = "";
-                        $scope.PluStokKod = "";
-                        $scope.YeniEvrak();
-                    }
-                    else
-                    {
-                        console.log(InsertResult.result.err);
-                    }
-                });
-            }
         }
         else
-        {            
-            let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluIndex,0])
-            if(PluData.length == 0)
-            {                
-                let InsertData = 
-                [
-                    $scope.Kullanici,
-                    $scope.Kullanici,
-                    $scope.Tarih,
-                    $scope.Tarih,
-                    $scope.PluGrupAdi,
-                    $scope.PluIndex,
-                    0, //TYPE
-                    '',//ITEMS CODE
-                    $scope.PluIndex  //GRUPINDEX
-                ]
-    
-                db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
-                {
-                    if(typeof(InsertResult.result.err) == 'undefined')
-                    {   
-                        alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
-                        $("#MdlPluEdit").modal("hide");
-                        $scope.PluGrupAdi = "";
-                        $scope.PluIndex = "";
-                        $scope.YeniEvrak();
-                    }
-                    else
-                    {
-                        console.log(InsertResult.result.err);
-                    }
-                });
-            }
-            else
-            {
-                db.ExecuteTag($scope.Firma,'PosPluGrupUpdate',[$scope.PluGrupAdi,'',$scope.PluIndex,0,$scope.PluIndex],function(InsertResult)
-                {
-                    if(typeof(InsertResult.result.err) == 'undefined')
-                    {   
-                        alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
-                        $("#MdlPluEdit").modal("hide");
-                        $scope.PluGrupAdi = "";
-                        $scope.PluIndex = "";
-                        $scope.YeniEvrak();
-                    }
-                    else
-                    {
-                        console.log(InsertResult.result.err);
-                    }
-                });
-            }
+        {
+            $scope.PluGrupIndex = $scope.PluIndex
         }
+
+        let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,$scope.PluIndex,$scope.PluGrupIndex,PluTip])
+            
+        if(PluData.length == 0)
+        {
+            let InsertData = 
+            [
+                $scope.Kullanici,
+                $scope.Kullanici,
+                $scope.Tarih,
+                $scope.Tarih,
+                $scope.PluGrupAdi,
+                $scope.PluIndex,
+                PluTip, //TYPE
+                $scope.PluStokKod,//ITEMS CODE
+                $scope.PluGrupIndex  //GRUPINDEX
+            ]
+
+            db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
+            {
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {   
+                    alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
+                    $("#MdlPluEdit").modal("hide");
+                    $scope.PluGrupAdi = "";
+                    $scope.PluIndex = "";
+                    $scope.PluStokKod = "";
+                    $scope.YeniEvrak();
+                }
+                else
+                {
+                    console.log(InsertResult.result.err);
+                }
+            });
+        }
+        else
+        {
+            db.ExecuteTag($scope.Firma,'PosPluUpdate',[$scope.PluGrupAdi,$scope.PluStokKod,PluTip,$scope.PluIndex,$scope.PluGrupIndex],function(InsertResult)
+            {
+                if(typeof(InsertResult.result.err) == 'undefined')
+                {   
+                    alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
+                    $("#MdlPluEdit").modal("hide");
+                    $scope.PluGrupAdi = "";
+                    $scope.PluIndex = "";
+                    $scope.PluStokKod = "";
+                    $scope.YeniEvrak();
+                }
+                else
+                {
+                    console.log(InsertResult.result.err);
+                }
+            });
+        }
+
+        // if($scope.DivPlu) //GRUP INSERT Mİ PLU İNSERT Mİ İŞLEMİNİ BURADAN ANLIYORUZ.
+        // {
+        //     if($scope.PluGrupIndex.toString() == "")
+        //     {
+        //         alertify.alert('Lütfen önce grup tanımlayınız !')
+        //         return;
+        //     }
+
+        //     let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,$scope.PluIndex,$scope.PluGrupIndex,1])
+            
+        //     if(PluData.length == 0)
+        //     {
+        //         let TmpType = 1;
+                
+        //         if($scope.PluStokGrup == true)
+        //         {
+        //             TmpType = 2;
+        //         }
+
+        //         let InsertData = 
+        //         [
+        //             $scope.Kullanici,
+        //             $scope.Kullanici,
+        //             $scope.Tarih,
+        //             $scope.Tarih,
+        //             $scope.PluGrupAdi,
+        //             $scope.PluIndex,
+        //             TmpType, //TYPE
+        //             $scope.PluStokKod,//ITEMS CODE
+        //             $scope.PluGrupIndex  //GRUPINDEX
+        //         ]
+    
+        //         db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
+        //         {
+        //             if(typeof(InsertResult.result.err) == 'undefined')
+        //             {   
+        //                 alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
+        //                 $("#MdlPluEdit").modal("hide");
+        //                 $scope.PluGrupAdi = "";
+        //                 $scope.PluIndex = "";
+        //                 $scope.PluStokKod = "";
+        //                 $scope.YeniEvrak();
+        //             }
+        //             else
+        //             {
+        //                 console.log(InsertResult.result.err);
+        //             }
+        //         });
+        //     }
+        //     else
+        //     {
+        //         db.ExecuteTag($scope.Firma,'PosPluUpdate',[$scope.PluGrupAdi,$scope.PluStokKod,1,$scope.PluIndex,PluData[0].GRUP_INDEX],function(InsertResult)
+        //         {
+        //             if(typeof(InsertResult.result.err) == 'undefined')
+        //             {   
+        //                 alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
+        //                 $("#MdlPluEdit").modal("hide");
+        //                 $scope.PluGrupAdi = "";
+        //                 $scope.PluIndex = "";
+        //                 $scope.PluStokKod = "";
+        //                 $scope.YeniEvrak();
+        //             }
+        //             else
+        //             {
+        //                 console.log(InsertResult.result.err);
+        //             }
+        //         });
+        //     }
+        // }
+        // else
+        // {            
+        //     let PluData = await db.GetPromiseTag($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluIndex,0])
+        //     if(PluData.length == 0)
+        //     {                
+        //         let InsertData = 
+        //         [
+        //             $scope.Kullanici,
+        //             $scope.Kullanici,
+        //             $scope.Tarih,
+        //             $scope.Tarih,
+        //             $scope.PluGrupAdi,
+        //             $scope.PluIndex,
+        //             0, //TYPE
+        //             '',//ITEMS CODE
+        //             $scope.PluIndex  //GRUPINDEX
+        //         ]
+    
+        //         db.ExecuteTag($scope.Firma,'PosPluInsert',InsertData,function(InsertResult)
+        //         {
+        //             if(typeof(InsertResult.result.err) == 'undefined')
+        //             {   
+        //                 alert("Kayıt İşlemi Başarıyla Gerçekleşti.")
+        //                 $("#MdlPluEdit").modal("hide");
+        //                 $scope.PluGrupAdi = "";
+        //                 $scope.PluIndex = "";
+        //                 $scope.YeniEvrak();
+        //             }
+        //             else
+        //             {
+        //                 console.log(InsertResult.result.err);
+        //             }
+        //         });
+        //     }
+        //     else
+        //     {
+        //         db.ExecuteTag($scope.Firma,'PosPluGrupUpdate',[$scope.PluGrupAdi,'',$scope.PluIndex,0,$scope.PluIndex],function(InsertResult)
+        //         {
+        //             if(typeof(InsertResult.result.err) == 'undefined')
+        //             {   
+        //                 alert("Güncelleme İşlemi Başarıyla Gerçekleşti.")
+        //                 $("#MdlPluEdit").modal("hide");
+        //                 $scope.PluGrupAdi = "";
+        //                 $scope.PluIndex = "";
+        //                 $scope.YeniEvrak();
+        //             }
+        //             else
+        //             {
+        //                 console.log(InsertResult.result.err);
+        //             }
+        //         });
+        //     }
+        // }
     }
     $scope.BtnPluStokGrupNext = function()
     {   
-        if($scope.PluStokGrupEndIndex + 60 > $scope.PluStokGrupList.length)
+        if($scope.PluStokGrupEndIndex + 30 > $scope.PluStokGrupList.length)
         {
             $scope.PluStokGrupEndIndex = $scope.PluStokGrupList.length;
-            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex + 60,$scope.PluStokGrupEndIndex);
+            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex + 30,$scope.PluStokGrupEndIndex);
         }
-        else if($scope.PluStokGrupEndIndex + 60 <= $scope.PluStokGrupList.length)
+        else if($scope.PluStokGrupEndIndex + 30 <= $scope.PluStokGrupList.length)
         {
-            $scope.PluStokGrupStartIndex += 60
-            $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 60;
+            $scope.PluStokGrupStartIndex += 30
+            $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 30;
             $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
         }
         
     }
     $scope.BtnPluStokGrupLast = function()
     {
-        if($scope.PluStokGrupStartIndex - 60 >= 0)
+        if($scope.PluStokGrupStartIndex - 30 >= 0)
         {
-            $scope.PluStokGrupStartIndex -= 60
-            $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 60;
+            $scope.PluStokGrupStartIndex -= 30
+            $scope.PluStokGrupEndIndex = $scope.PluStokGrupStartIndex + 30;
             $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
         }
+    }
+    $scope.BtnPluStokHarfGetir = function(pKey)
+    {   
+        db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == $scope.PluIndex && x.TYPE == 2).ITEMS_CODE,pKey],function(PluData)
+        {
+            $scope.PluStokGrupStartIndex = 0
+            $scope.PluStokGrupEndIndex = 30
+            $scope.PluStokGrupList = PluData
+            $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
+            
+
+            $("#TbPluStokGrup").addClass('active');
+            $("#TbMain").removeClass('active');
+        });
     }
     $scope.PluStokGrupGetir = function(pBarkod)
     {
@@ -3282,10 +3491,6 @@ function Pos($scope,$window,$rootScope,db)
             }
         }
     });
-    $scope.$watch('PluStokGrup', function() 
-    {
-        alert('hey, myVar has changed!');
-    });
     $scope.BtnIskontoKaydet = function()
     {
         if($scope.TxtIskontoTutar <= 0 || $scope.TxtIskontoYuzde <= 0)
@@ -3415,5 +3620,12 @@ function Pos($scope,$window,$rootScope,db)
         FirstKey = false;
         FocusPluAdi = true;
         FocusPluKodu = false;
+    }
+    $scope.BtnXReport = async function()
+    {
+        let TmpData = await db.ExecutePromiseTag($scope.Firma,'XRaporGetir',['001']);
+        console.log(TmpData.result.recordsets)
+        db.XReportPrint(TmpData.result.recordsets)
+        
     }
 }
