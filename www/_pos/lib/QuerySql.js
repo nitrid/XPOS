@@ -1067,7 +1067,7 @@ var QuerySql =
     },
     PosSatisMiktarUpdate : 
     {
-        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,PRICE = dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()), LDATE = GETDATE() WHERE GUID = @GUID",
+        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,PRICE = CASE WHEN dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) = 0 THEN PRICE ELSE dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) END, LDATE = GETDATE() WHERE GUID = @GUID",
         param: ['QUANTITY','ITEM_CODE','GUID'],
         type:  ['float','string|25','string|50']
     },

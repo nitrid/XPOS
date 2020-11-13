@@ -23,7 +23,7 @@ app.on('ready',function()
                 nodeIntegration: true,
                 nodeIntegrationInWorker: true
             },
-            //fullscreen: true
+            fullscreen: true
         });
         mainWindow.maximize();
         //mainWindow.setMenu(null)

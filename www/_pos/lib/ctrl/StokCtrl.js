@@ -802,7 +802,7 @@ function StokCtrl ($scope,$window,$location,db)
         let filename = wrapper.find('.dropify-filename-inner');
         let render 	 = wrapper.find('.dropify-render').html('');
         
-        input.val('').attr('title', pFName);
+        input.val('').attr('title', pFName);        
         wrapper.removeClass('has-error').addClass('has-preview');
         filename.html(pFName);
         
@@ -967,21 +967,38 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);
                 }
+                
                 //ÜRÜN RESİM KAYIT İŞLEMİ
                 if(typeof document.getElementById('dropify').files[0] != 'undefined')
                 {
-                    let TmpImg = await db.toBase64(document.getElementById('dropify').files[0]);
-                    let InsertData =
-                    [
-                        $scope.Kullanici,
-                        $scope.Kullanici,
-                        $scope.StokListe[0].CODE,
-                        TmpImg
-                    ];
+                    var filerdr = new FileReader();                    
+                    filerdr.readAsDataURL(document.getElementById('dropify').files[0]);
+                 
+                    filerdr.onload = function(e) 
+                    {
+                        var img = new Image();
+                        img.src = e.target.result;  
 
-                    db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData);
+                        img.onload = function() 
+                        {
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext('2d');
+                            canvas.width = 120;
+                            canvas.height = canvas.width * (img.height / img.width);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            var data = canvas.toDataURL('image/png');
+                            let InsertData =
+                            [
+                                $scope.Kullanici,
+                                $scope.Kullanici,
+                                $scope.StokListe[0].CODE,
+                                data
+                            ];
+
+                            db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData);
+                        }                        
+                    }
                 }
-                
             }
 
             //window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;

@@ -9,6 +9,7 @@ var CardPayment =
 
         const SerialPort = require('serialport');
         let Listeners = Object();
+        let port = null;
         let config = 
         {
             DEVICE : 'COM6',
@@ -23,7 +24,7 @@ var CardPayment =
         }
         function syncSerialPort(req, listAction)
         {
-            const port = new SerialPort(config.DEVICE, 
+            port = new SerialPort(config.DEVICE, 
             {
                 baudRate:config.DEVICE_RATE,
                 parser: new SerialPort.parsers.Readline()
@@ -34,6 +35,7 @@ var CardPayment =
                 config.lastReceive = line.toString();
                 port.close(function()
                 {
+                    console.log(11)
                     if (typeof listAction[line] == 'function')
                     listAction[line](config);
                     else if (listAction['default'])
@@ -50,10 +52,10 @@ var CardPayment =
                 port.write(req);
                 data = port.read();
             }).bind(null, req));
-        
+            
             port.on('error', function(err){});
             //Make Timeout (serial Port is Busy, process in while, ..., terrorist)
-            setTimeout(()=>{ port.close(); }, 120000); // It's dirty & you can remove this ;)
+            setTimeout(()=>{port.close()}, 120000); // It's dirty & you can remove this ;)
             return new Promise(function(resolve)
             {
                 return port.on("close", resolve)
@@ -106,8 +108,8 @@ var CardPayment =
                 'private'           : config.lastReceive.substr(15, 11)
             };
             console.log('response : ', JSON.stringify(response));
-            LocalEvent({tag:"response",msg:JSON.stringify(response)});     
-            setTimeout(() => {send_eot_signal()},1000);
+            LocalEvent({tag:"response",msg:JSON.stringify(response)});   
+            //setTimeout(() => {send_eot_signal()},1000);
         }
         function send_message()
         {
