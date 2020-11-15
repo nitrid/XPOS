@@ -266,21 +266,21 @@ angular.module('app.db', []).service('db',function($rootScope)
         
         return Sum;
     }
-    function _EscposPrint(pData,fn)
+    function _EscposPrint(pData,pCallback)
     {
         if(typeof require == 'undefined')
         {
-            fn();
+            pCallback();
             return;
         }
         const path = require('path');
         const escpos = require('escpos');
         escpos.USB = require('escpos-usb');
-
+        
         let device  = new escpos.USB();
         let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
-
+        
         const imgpath = path.join(__dirname, '../../Logo.png');
         //B FONT 64 CHAR
         escpos.Image.load(imgpath, function(image)
@@ -293,6 +293,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                 { 
                     //printer.cut().close(); 
                 });
+
                 for (let i = 0; i < pData.length; i++) 
                 {
                     if(typeof pData[i].barcode != 'undefined')
@@ -300,11 +301,11 @@ angular.module('app.db', []).service('db',function($rootScope)
                         printer.align(pData[i].align).barcode(pData[i].barcode,'CODE39',pData[i].options);                    
                     }
                     else
-                    {                    
+                    {                   
                         printer.size(0,0);
                         printer.font(pData[i].font);
                         printer.align(pData[i].align);
-        
+
                         if(typeof pData[i].style != 'undefined')
                         {
                             printer.style(pData[i].style);
@@ -318,15 +319,15 @@ angular.module('app.db', []).service('db',function($rootScope)
                         {
                             printer.size(pData[i].size[0],pData[i].size[1]);
                         }
-                        
                         printer.text(pData[i].data);
                     }                
-                }                                    
+                }                      
+                        
                 printer.cut().close
                 (
                     function()
                     {
-                        fn();
+                        pCallback();
                     }
                 );
             });      
@@ -413,15 +414,41 @@ angular.module('app.db', []).service('db',function($rootScope)
            } 
         });
     }
-    function _toBase64(file)
+    function _Confirm(pMsg)
     {
-        return new Promise((resolve, reject) => 
+        return new Promise(resolve => 
         {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
+            alertify.confirm(pMsg,
+            ()=>
+            {
+                resolve(true);
+            },
+            ()=>
+            {
+                resolve(false)
+            })
         });
+    }
+    function _Equal(pData,pColumn,pValue)
+    {
+        for(i=0;i<pData.length;i++)
+        {
+            if(pData[i][pColumn] == pValue)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    function _IsUnitBarcode(pValue)
+    {
+        if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,2) == "02" || pValue.substring(0,2) == "29"))
+        {                
+           return true;
+        }
+        
+        return false;
     }
     //#region "PUBLIC"
     this.Socket = _Socket;
@@ -443,7 +470,9 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.LCDClear = _LCDClear;
     this.PaymentSend = _PaymentSend;
     this.ScaleSend = _ScaleSend;
-    this.toBase64 = _toBase64;
+    this.Confirm = _Confirm;
+    this.Equal = _Equal;
+    this.IsUnitBarcode = _IsUnitBarcode;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
     {
@@ -628,6 +657,12 @@ angular.module('app.db', []).service('db',function($rootScope)
     {
         let TmpData = [];
         let TmpLine = {};
+        let TmpOperator = "";
+        
+        if(pTData[0].DOC_TYPE == 1)
+        {
+            TmpOperator = "-"
+        }
         // ÜST BİLGİ
         TmpData.push({font:"a",style:"b",align:"ct",data:""});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
@@ -638,6 +673,18 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"b",align:"lt",data:_PrintText(moment(new Date()).locale('fr').format('dddd') + " " + moment(new Date()).format("DD.MM.YYYY"),59) + _PrintText(moment(new Date()).format("LTS"),5)});
         TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,41) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,23)});
         TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+        
+        if(_Equal(pTData,"TYPE",0) && pTData[0].DOC_TYPE == 1)
+        {
+            TmpData.push({font:"b",style:"b",size : [1,1],align:"ct",data:"REMBURSEMENT"});
+            TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+        }
+        else if(_Equal(pTData,"TYPE",4))
+        {
+            TmpData.push({font:"b",style:"b",size : [1,1],align:"ct",data:"BON D'AVOIR"});
+            TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+        }
+
         //HEADER
         TmpLine = 
         {
@@ -679,7 +726,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         TmpData.push({font:"b",style:"bu",align:"lt",data:_PrintText(" ",64)});
 
-        TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
+        TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(TmpOperator + parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
         if(pParamData[3] > 0)
         {            
             TmpData.push({font:"a",align:"lt",data:_PrintText("Remise Fidelite ",33) + _PrintText(parseFloat(parseFloat(pParamData[3]) / 100).toFixed(2).toString() + ' EUR',15,"Start")});
@@ -688,6 +735,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             TmpData.push({font:"a",align:"lt",data:_PrintText("Remise ",33) + _PrintText(parseFloat(_SumColumn(pSData,"DISCOUNT")).toFixed(2).toString() + ' EUR',15,"Start")});
         }
+        
         //DİP TOPLAM
         TmpLine = 
         {
@@ -696,7 +744,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             style: "b",
             align: "lt",
             data: _PrintText("Total TTC",17) + 
-                  _PrintText(parseFloat(parseFloat(_SumColumn(pSData,"AMOUNT")) - (_SumColumn(pSData,"DISCOUNT") + parseFloat(parseFloat(pParamData[3]) / 100))).toFixed(2) + " EUR",15,"Start")
+                  _PrintText(TmpOperator + parseFloat(parseFloat(_SumColumn(pSData,"AMOUNT")) - (_SumColumn(pSData,"DISCOUNT") + parseFloat(parseFloat(pParamData[3]) / 100))).toFixed(2) + " EUR",15,"Start")
         }
         TmpData.push(TmpLine);
         //ÖDEME TOPLAMLARI
@@ -712,7 +760,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             else if(pTData[i].TYPE == 3)
                 TmpType = "CHEQUE"
             else if(pTData[i].TYPE == 4)
-                TmpType = "BONE AVOIR"
+                TmpType = "BON D'AVOIR"
             else if(pTData[i].TYPE == 5)
                 TmpType = "AVOIR"
             else if(pTData[i].TYPE == 6)
@@ -725,7 +773,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                 font: "a",
                 align: "lt",
                 data: _PrintText(TmpType,33) +
-                      _PrintText(parseFloat(_SumColumn(pTData,"AMOUNT","TYPE = " + pTData[i].TYPE)).toFixed(2) + " EUR",15,"Start")
+                      _PrintText(TmpOperator + parseFloat(_SumColumn(pTData,"AMOUNT","TYPE = " + pTData[i].TYPE)).toFixed(2) + " EUR",15,"Start")
             }
             TmpData.push(TmpLine);
         }
@@ -790,14 +838,23 @@ angular.module('app.db', []).service('db',function($rootScope)
             TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText("****************************************************************",64)});
         }
         
-        //TmpData.push({font:"a",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Merci de votre fidelite a tres bientot ..."});
+        
+        if(_Equal(pTData,"TYPE",4))
+        {
+            TmpData.push({align:"ct",barcode:pParamData[5],options:{width: 1,height:90}});
+            TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+            TmpData.push({font:"b",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
+        }
+        else
+        {
+            TmpData.push({font:"b",style:"b",align:"ct",data:"Merci de votre fidelite a tres bientot ..."});    
+        }
+
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         
         TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
-
 
         _EscposPrint(TmpData,function()
         {

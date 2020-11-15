@@ -746,9 +746,9 @@ var QuerySql =
     MaxPosSatisSira : 
     {
         query: "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXREFNO FROM POS_SALES " +
-                "WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND [TYPE] = @TYPE " ,
-        param : ['DEPARTMENT','REF','TYPE'],
-        type : ['int','string|25','int']
+                "WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF " ,
+        param : ['DEPARTMENT','REF'],
+        type : ['int','string|25']
     },
     StokGetir : 
     {
@@ -957,13 +957,21 @@ var QuerySql =
     },
     PosTahIptal : 
     {
-        query: "UPDATE POS_PAYMENT SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        query:  "IF @TYPE = 3 OR @TYPE = 4" +
+                "BEGIN " + 
+                "DELETE FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO " +
+                "END " +
+                "UPDATE POS_PAYMENT SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
         param: ['REF','REF_NO','TYPE'],
         type:  ['string|25','int','int']
     },
     PosTahSatirIptal : 
     {
-        query: "UPDATE POS_PAYMENT SET STATUS = -1 WHERE GUID = @GUID",
+        query:  "IF (SELECT TOP 1 POS_PAYMENT.TYPE FROM POS_PAYMENT WHERE POS_PAYMENT.GUID = @GUID) = 3 OR (SELECT TOP 1 POS_PAYMENT.TYPE FROM POS_PAYMENT WHERE POS_PAYMENT.GUID = @GUID) = 4" +
+                "BEGIN " + 
+                "DELETE FROM TICKET WHERE REF = (SELECT TOP 1 POS_PAYMENT.REF FROM POS_PAYMENT WHERE POS_PAYMENT.GUID = @GUID) AND REF_NO = (SELECT TOP 1 POS_PAYMENT.REF_NO FROM POS_PAYMENT WHERE POS_PAYMENT.GUID = @GUID) " +
+                "END " +
+                "UPDATE POS_PAYMENT SET STATUS = -1 WHERE GUID = @GUID",
         param: ['GUID'],
         type:  ['string|50']
     },
@@ -1095,6 +1103,7 @@ var QuerySql =
             ",[AMOUNT] " +
             ",[REF] " +
             ",[REF_NO] " +
+            ",[TYPE] " +
             ") VALUES ( " + 
             " NEWID()                --<GUID, uniqueidentifier,> \n" + 
             ",@CUSER                 --<CUSER, nvarchar(25),> \n" + 
@@ -1105,12 +1114,13 @@ var QuerySql =
             ",@AMOUNT                --<AMOUNT, float,> \n" + 
             ",@REF                   --<REF, nvarchar(25),> \n" + 
             ",@REF_NO                --<REF_NO, int,> \n" + 
+            ",@TYPE                  --<TYPE, smallint,> \n" + 
             " ) ",
-        param : ['CUSER:string|25','LUSER:string|25','CODE:string|50','AMOUNT:float','REF:string|25','REF_NO:int']
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|50','AMOUNT:float','REF:string|25','REF_NO:int','TYPE:int']
     },
     TicketControl :
     {
-        query : "SELECT * FROM TICKET WHERE CODE = @CODE ",
+        query : "SELECT * FROM TICKET WHERE CODE = @CODE AND TYPE IN (0,2)",
         param :['CODE:string']
     },
     MusteriPuanInsert :

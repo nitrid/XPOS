@@ -79,31 +79,31 @@ function Login ($scope,$rootScope,$window,db)
     {        
         if(typeof(localStorage.device) != 'undefined')
         {      
-            // $scope.Kullanici = document.getElementById('Kullanici').value;
-            // $scope.Password = document.getElementById('Password').value;
+            $scope.Kullanici = document.getElementById('Kullanici').value;
+            $scope.Password = document.getElementById('Password').value;
 
-            // for(i = 0;i < $scope.KullaniciListe.length;i++)
-            // {
-            //     if($scope.KullaniciListe[i].CODE == $scope.Kullanici && $scope.KullaniciListe[i].PASSWORD == $scope.Password)
-            //     {
-            //         console.log("Kullanıcı adı ve şifre doğru");
-            //         $window.sessionStorage.setItem('User', $scope.Kullanici);
+            for(i = 0;i < $scope.KullaniciListe.length;i++)
+            {
+                if($scope.KullaniciListe[i].CODE == $scope.Kullanici && $scope.KullaniciListe[i].PASSWORD == $scope.Password)
+                {
+                    console.log("Kullanıcı adı ve şifre doğru");
+                    $window.sessionStorage.setItem('User', $scope.Kullanici);
                     
-            //         var url = "";
-            //         if($scope.KullaniciListe[i].TAG == 0)
-            //             url = "pos.html";
-            //         else
-            //             url = "main.html";
+                    var url = "";
+                    if($scope.KullaniciListe[i].TAG == 0)
+                        url = "pos.html";
+                    else
+                        url = "main.html";
 
-            //         $window.location.href = url;
-            //         return;
-            //     }
-            // }
+                    $window.location.href = url;
+                    return;
+                }
+            }
 
-            $scope.Kullanici = "P001";
-            $window.sessionStorage.setItem('User', $scope.Kullanici);
-            $scope.Password = "1";
-            $window.location.href = "pos.html";
+            // $scope.Kullanici = "P001";
+            // $window.sessionStorage.setItem('User', $scope.Kullanici);
+            // $scope.Password = "1";
+            // $window.location.href = "pos.html";
 
             alertify.okBtn("Tamam");
             alertify.alert("Kullanıcı adı veya şifre yanlış");

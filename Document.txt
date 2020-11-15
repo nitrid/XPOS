@@ -13,8 +13,9 @@ npm install serialport
 --------------------------
 TYPE = 0 => ESC
 TYPE = 1 => CB
-TYPE = 2 => CHQ
-TYPE = 3 => T.R.
+TYPE = 2 => Chq
+TYPE = 3 => CHQe
+TYPE = 4 => BON D'AVOIR
 
 DOC_TYPE = 0 => TAHSİLAT
 DOC_TYPE = 1 => ÖDEME
@@ -22,4 +23,13 @@ DOC_TYPE = 1 => ÖDEME
 # POS_SALE 
 TYPE = 0 => SATIŞ
 TYPE = 1 => İADE
+--------------------------
+# TICKET
+TYPE = 0 => CHEQUEe
+TYPE = 1 => BON D'AVOIR - GIRIŞ
+TYPE = 2 => BON D'AVOIR - ÇIKIŞ
+--------------------------
+# CUSTOMER_POINT 
+TYPE = 0 => GİRİŞ
+TYPE = 1 => ÇIKIŞ
 --------------------------

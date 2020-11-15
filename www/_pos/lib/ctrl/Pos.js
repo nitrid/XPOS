@@ -29,8 +29,28 @@ function Pos($scope,$window,$rootScope,db)
     let IskontoTip = "";
     let UrunListeTip = "StokAra";
     let PluTip = 0;
-
+    
+    $scope.ModalMsg = {};
+    
     $('#MdlAraToplam').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusStokGrup = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusKartOdeme = false;
+        FocusSonTahGuncelle = false;
+        FocusSadakatIndirim = false;
+        FocusIskontoYuzde = false;
+        FocusIskontoTutar = false;
+        FocusAvans = false;
+        FocusPluKodu = false;
+        FocusPluAdi = false;
+    });
+    $('#MdlNakitOdeme').on('hide.bs.modal', function () 
     {
         FocusBarkod = true;
         FocusAraToplam = false;
@@ -360,7 +380,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtIskontoSatisSonra = 0;
         $scope.TxtAvans = 0;
         $scope.AvansTip = 2;
-
+        
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
         $scope.TahPanelKontrol = false;
@@ -378,7 +398,6 @@ function Pos($scope,$window,$rootScope,db)
 
         $scope.CmbCariAra = "0";
         $scope.CmbStokAra = "0";
-        $scope.CmbIadeTip = "0";
         $scope.TxtCariAra = "";
         $scope.TxtStokAra = "";
         $scope.TxtStokGrupAra = "";
@@ -398,7 +417,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonSatisDetayList = [];   
         $scope.SonSatisTahDetayList = [];         
         $scope.TRDetayListe = [];
-
+        
         $scope.ComPorts = {EkranPort : "",OdemePort:"",TeraziPort:""};
 
         setInterval(()=>
@@ -473,14 +492,14 @@ function Pos($scope,$window,$rootScope,db)
         $("#TblStok").jsGrid
         ({
             width: "100%",
-            height: "300px",
             updateOnResize: true,
             heading: true,
             selecting: true,
             data : $scope.StokListe,
             paging : true,
             pageSize: 10,
-            pageButtonCount: 3,
+            pageButtonCount: 6,
+            pagerContainer: "#externalPager",
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: 
             [
@@ -1065,7 +1084,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
                 {
-                    if($scope.SatisList[i].PRICE == $scope.Stok[0].PRICE)
+                    if($scope.SatisList[i].PRICE == $scope.Stok[0].PRICE && $scope.Stok[0].WEIGHING == false && db.IsUnitBarcode($scope.Stok[0].BARCODE) == false)
                     {
                         TmpStatus = true;
                         TmpIndex = i;
@@ -1138,15 +1157,23 @@ function Pos($scope,$window,$rootScope,db)
                                 $scope.CariKodu,
                                 $scope.Seri,
                                 $scope.Sira,
-                                $scope.CariKullanPuan * -1
+                                $scope.CariKullanPuan
                             ]
                             db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
                         }
                     }
-                    //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
-                    //$scope.TmpParaUstu = $scope.TahParaUstu;
-                    if($scope.TahParaUstu > 0)
+
+                    let TmpBondA = ''
+                    if($scope.TahParaUstu > 0 && db.Equal($scope.TahList,"TYPE",4))
                     {
+                        //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
+                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.TahParaUstu.toFixed(2) * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                        //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
+                        db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.TahParaUstu.toFixed(2)),$scope.Seri,$scope.Sira,1]);
+                    }
+                    else if($scope.TahParaUstu > 0)
+                    {
+                        //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                         $scope.TmpParaUstu = $scope.TahParaUstu;
                         $("#MdlParaUstu").modal("show");                    
                         setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
@@ -1158,21 +1185,26 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan,
                         Math.floor($scope.GenelToplam),
                         $scope.CariKullanPuan,
-                        $scope.CariPuan + Math.floor($scope.GenelToplam)
+                        $scope.CariPuan + Math.floor($scope.GenelToplam),
+                        TmpBondA
                     ]   
-
                     db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,function()
                     {
-                        //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA BUNUN İÇİN TAHSİLAT TABLOSUNDAKİ TYPE ALANININ TOPLAM DEĞERİNE BAKIYORUM.
-                        if(db.SumColumn($scope.TahList,"TYPE") == 0)
+                        //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
+                        for(let item of $scope.TahList)
                         {
-                            db.EscposCaseOpen();
+                            if(item.TYPE == 0)
+                            {
+                                db.EscposCaseOpen();
+                                break;    
+                            }
                         }
                     });
     
                     setTimeout(()=>
                     {
                         $('#MdlAraToplam').modal('hide');
+                        $('#MdlNakitOdeme').modal('hide');
                         $scope.YeniEvrak();
                         $scope.TxtBarkod = "";
                         $scope.TahPanelKontrol = false;
@@ -1548,10 +1580,17 @@ function Pos($scope,$window,$rootScope,db)
 
         if($scope.CmbStokAra == "0")
         {
-            Adi = $scope.TxtStokAra + "%";
+            if($scope.TxtStokAra.indexOf('*') > -1)
+            {
+                Adi = $scope.TxtStokAra.replace('*','%').replace('*','%');
+            }
+            else
+            {
+                Adi = $scope.TxtStokAra + "%";
+            }            
         }
         else
-        {
+        {            
             Kodu = $scope.TxtStokAra + "%";
         }
         db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
@@ -1613,17 +1652,24 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.CariKodu = TmpCari[0].CODE;
                     $scope.CariAdi = TmpCari[0].NAME;  
                     $scope.CariPuan = TmpCari[0].POINT;    
-                    
-                    //CARİ UPDATE
-                    var TmpQuery = 
+
+                    if($scope.SatisList.length > 0)
                     {
-                        db : $scope.Firma,
-                        query:  "UPDATE POS_SALES SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE REF = @REF AND REF_NO = @REF_NO AND DEPARTMENT = @DEPARTMENT",
-                        param:  ['CUSTOMER_CODE','REF','REF_NO','DEPARTMENT'],
-                        type:   ['string|25','string|25','int','int'],
-                        value:  [$scope.CariKodu,$scope.Seri,$scope.Sira,$scope.Sube]
+                        //CARİ UPDATE
+                        var TmpQuery = 
+                        {
+                            db : $scope.Firma,
+                            query:  "UPDATE POS_SALES SET CUSTOMER_CODE = @CUSTOMER_CODE WHERE REF = @REF AND REF_NO = @REF_NO AND DEPARTMENT = @DEPARTMENT",
+                            param:  ['CUSTOMER_CODE','REF','REF_NO','DEPARTMENT'],
+                            type:   ['string|25','string|25','int','int'],
+                            value:  [$scope.CariKodu,$scope.Seri,$scope.Sira,$scope.Sube]
+                        }
+                        db.ExecuteQuery(TmpQuery,() =>
+                        {
+                            $scope.SatisList[0].CUSTOMER_CODE = TmpCari[0].CODE;
+                        });
                     }
-                    db.ExecuteQuery(TmpQuery);
+                    
                 }
                 else
                 {
@@ -1645,18 +1691,37 @@ function Pos($scope,$window,$rootScope,db)
             if(pBarkod.length >= 16)
             {
                 let TmpTicket = pBarkod.substring(11,16)
-                if(pBarkod.length == 22)
-                {
-                    TmpTicket = pBarkod.substring(9,14)
-                }
-
                 let TmpYear = pBarkod.substring(pBarkod.length - 1, pBarkod.length);
-                
-                if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) != TmpYear)
+                let TmpType = 0
+
+                if(pBarkod.substring(0,1) == "Q")
                 {
-                    alertify.alert("Geçersiz ticket.");
-                    $scope.TxtBarkod = "";
-                    return;
+                    TmpType = 2    
+                    TmpTicket = pBarkod.substring(7,12)
+                    $scope.TahTip = 4;
+
+                    if(db.Equal($scope.TahList,"TYPE",0))
+                    {
+                        alertify.alert("Bon d'avoir girmeden önce girili tahsilatları temizleyiniz !");
+                        $scope.TxtBarkod = "";
+                        return;
+                    }
+                }
+                else
+                {
+                    if(pBarkod.length == 22)
+                    {
+                        TmpTicket = pBarkod.substring(9,14)
+                    }                
+                    
+                    if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) != TmpYear)
+                    {
+                        alertify.alert("Geçersiz ticket.");
+                        $scope.TxtBarkod = "";
+                        return;
+                    }
+
+                    $scope.TahTip = 3;
                 }
                 
                 db.GetData($scope.Firma,'TicketControl',[pBarkod],function(data)
@@ -1667,24 +1732,23 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             $scope.TahList = PosTahData;
                             TahSonYenile(); 
-
-                            $scope.TahTip = 3;
-                            $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);
                             
-                            db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,pBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira],function(InsertResult)
+                            $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toFixed(2);                                                                                    
+                            
+                            db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,pBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira,TmpType],function(InsertResult)
                             {
-                                console.log(1)
                                 $scope.PosTahInsert(function()
                                 {   
                                     DipToplamHesapla();
                                     $scope.TahTip = 0;
                                 });
                             })
+                            
                         });
                     }
                     else
                     {
-                        alertify.alert("Bu Ticket Daha Önce Okutulmuş!. ");
+                        alertify.alert("Daha önce kullanılmıştır !");
                     }
 
                 });
@@ -1695,7 +1759,7 @@ function Pos($scope,$window,$rootScope,db)
             //***************************** */
             let TmpFiyat = 0;
 
-            if(pBarkod.length >= 12 && pBarkod.length <= 14 && (pBarkod.substring(0,2) == "20" || pBarkod.substring(0,2) == "02" || pBarkod.substring(0,2) == "29"))
+            if(db.IsUnitBarcode(pBarkod))
             {                
                 if(pBarkod.length == 12)
                 {
@@ -1709,7 +1773,7 @@ function Pos($scope,$window,$rootScope,db)
                 }
             }
 
-            db.StokBarkodGetir($scope.Firma,pBarkod,function(BarkodData)
+            db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
             {
                 if(BarkodData.length > 0)
                 {                                 
@@ -1722,19 +1786,12 @@ function Pos($scope,$window,$rootScope,db)
 
                     if($scope.Stok[0].PRICE == 0)
                     {
-                        let TmpConfirm = confirm("Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?");
+                        let TmpConfirm = await db.Confirm("Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?");
 
                         if(TmpConfirm == false)
                         {
                             $scope.TxtBarkod = "";
-                            FocusBarkod = true;
                             return;
-                        }
-                        else
-                        {
-                            FocusBarkod = true;
-                            document.getElementById("TxtBarkod").focus();
-                            document.getElementById("TxtBarkod").disabled = false;
                         }
                     }                  
                     
@@ -1779,7 +1836,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtBarkod = pBarkod;
         $scope.StokGetir($scope.TxtBarkod);
     }
-    $scope.PosSatisInsert = function()
+    $scope.PosSatisInsert = function(pCallBack)
     {    
         //SATIR BİRLEŞTİRME İŞLEMİ
         let TmpSatirBirlestir = SatirBirlestir("SATIS");
@@ -1843,10 +1900,19 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.IslemListeRowClick(0,$scope.SatisList[0]);
                     $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toFixed(2); 
                     $scope.ToplamSatir =  $scope.SatisList.length  
+
+                    if(typeof pCallBack != 'undefined')
+                    {
+                        pCallBack()
+                    }
                 });
             }
             else
             {
+                if(typeof pCallBack != 'undefined')
+                {
+                    pCallBack()
+                }
                 console.log(InsertResult.result.err);
             }
         });
@@ -1859,7 +1925,7 @@ function Pos($scope,$window,$rootScope,db)
     {   
         let TahTutar = 0
         let TahParaUstu = 0;
-
+        
         if(parseFloat($scope.TxtAraToplamTutar.replace(',','.')) <= 0 || parseFloat($scope.TahKalan) <= 0)
         {
             if(typeof(pCallBack) != 'undefined')
@@ -2493,17 +2559,15 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.CariKodu = data[0].CODE;
                 $scope.CariPuan = data[0].POINT;  
             });
-
-            InsertSonYenile(PosSatisData);
-            $scope.TxtBarkod = ""; 
-            $scope.IslemListeRowClick($scope.SatisList.length-1,$scope.SatisList[$scope.SatisList.length-1]);                  
-
-            $('#MdlParkIslemler').modal('hide');
-
             db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
             {
                 $scope.TahList = PosTahData;
                 TahSonYenile(); 
+                InsertSonYenile(PosSatisData);
+                $scope.TxtBarkod = ""; 
+                $scope.IslemListeRowClick($scope.SatisList.length-1,$scope.SatisList[$scope.SatisList.length-1]);                  
+
+                $('#MdlParkIslemler').modal('hide');
             });
 
             db.LCDPrint
@@ -2614,6 +2678,7 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         $scope.TahList = data;
                         TahSonYenile();
+                        DipToplamHesapla();
                     });
                  
                 }
@@ -2643,91 +2708,168 @@ function Pos($scope,$window,$rootScope,db)
             });
         }
     }
-    $scope.BtnIadeAl = function(pTip)
+    $scope.BtnIadeModal = function()
     {
-        if(pTip == 0)
+        if($scope.SatisList.length > 0)
         {
             $('#MdlIadeTip').modal('show');
         }
         else
-        {    
-            $('#MdlIadeTip').modal('hide'); 
-            alertify.okBtn('Evet');
-            alertify.cancelBtn('Hayır');
+        {
+            alertify.alert("Henüz iade edilecek bir ürün girişi yapmadınız !")
+        }
+    }
+    $scope.BtnIadeAl = function(pTip)
+    {
+        $('#MdlIadeTip').modal('hide'); 
 
-            alertify.confirm('Iade almak istediğinize eminmisiniz ?', 
-            function()
-            { 
-                if($scope.SatisList.length > 0)
+        alertify.okBtn('Evet');
+        alertify.cancelBtn('Hayır');
+
+        alertify.confirm('Iade almak istediğinize eminmisiniz ?', 
+        function()
+        { 
+            if($scope.SatisList.length > 0)
+            {
+                //POS SATIS UPDATE
+                var TmpQuery = 
                 {
-                    let IadeTip = "";
-                    //POS SATIS UPDATE
-                    var TmpQuery = 
+                    db : $scope.Firma,
+                    query:  "UPDATE POS_SALES SET TYPE = 1,STATUS = 1 WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0",
+                    param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
+                    type:   ['int','int','string|25','int'],
+                    value:  [$scope.Sube,0,$scope.Seri,$scope.Sira]
+                }
+
+                db.ExecuteQuery(TmpQuery,function(UpdateResult)
+                {
+                    //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
+                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.GenelToplam.toFixed(2) * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+
+                    //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
+                    if(pTip == 0)
                     {
-                        db : $scope.Firma,
-                        query:  "UPDATE POS_SALES SET TYPE = 1,STATUS = 1 WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0",
-                        param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
-                        type:   ['int','int','string|25','int'],
-                        value:  [$scope.Sube,0,$scope.Seri,$scope.Sira]
+                        $scope.ModalMsg.IadeParaUstu = "Tutarı iade ediniz !"
+                    }
+                    else
+                    {       
+                        $scope.ModalMsg.IadeParaUstu = "Tutarın daki iade fişini müşteriye teslim ediniz !";
+
+                        //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
+                        db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.GenelToplam.toFixed(2)),$scope.Seri,$scope.Sira,1])
+                    }                        
+
+                    //EĞER MÜŞTERİ KARTI İSE PUAN KAYIT EDİLİYOR.
+                    if($scope.CariKodu != CariParam)
+                    {
+                        let TmpPuanData = 
+                        [
+                            $scope.Kullanici,
+                            $scope.Kullanici,
+                            1,
+                            $scope.CariKodu,
+                            $scope.Seri,
+                            $scope.Sira,
+                            Math.floor($scope.GenelToplam)
+                        ]
+                        db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
                     }
 
-                    if($scope.CmbIadeTip == "0")
-                    {
-                        IadeTip = 0; //Nakit
+
+                    $scope.IadeParaUstu = $scope.GenelToplam;
+                    console.log($scope.IadeParaUstu)
+                    $("#MdlIadeParaUstu").modal("show"); 
+
+                    if(typeof(UpdateResult.result.err) == 'undefined')
+                    {                       
+                        var InsertData = 
+                        [
+                            $scope.Kullanici,
+                            $scope.Kullanici,
+                            $scope.CihazID,
+                            $scope.Sube,
+                            pTip, //TIP
+                            1, //EVRAKTIP
+                            $scope.Tarih,
+                            $scope.Seri,
+                            $scope.Sira,
+                            $scope.CariKodu,
+                            "",
+                            $scope.GenelToplam,
+                            0, //PARA USTU
+                            1
+                        ];
+            
+                        db.ExecuteTag($scope.Firma,'PosTahInsert',InsertData,async function(InsertResult)
+                        {                            
+                            if(typeof(InsertResult.result.err) == 'undefined')
+                            {      
+                                let pTahData = await db.GetPromiseTag($scope.Firma,'PosTahGetir',[$scope.Sube,1,$scope.Seri,$scope.Sira]);
+                                if(pTahData.length > 0)
+                                {
+                                    //TİCKET YAZDIRMAK İÇİN DATALAR GETİRİLİYOR.
+                                    let TmpQuery = 
+                                    {
+                                        db : $scope.Firma,
+                                        query:  "SELECT " +
+                                                "MAX(VAT_TYPE) AS VAT_TYPE," +
+                                                "VAT AS VAT," +
+                                                "SUM(HT) AS HT," +
+                                                "SUM(TVA) AS TVA," +
+                                                "SUM(TTC) AS TTC," +
+                                                "MAX(REF_NO) AS TICKET " +
+                                                "FROM [POS_SALES_VW_01] AS POS " +
+                                                "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " +
+                                                "GROUP BY VAT",
+                                        param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
+                                        type:   ['int','int','string|25','int'],
+                                        value:  [$scope.Sube,1,$scope.Seri,$scope.Sira]
+                                    }
+
+                                    db.GetDataQuery(TmpQuery,function(pData)
+                                    {
+                                        let ParamData = 
+                                        [
+                                            CariParam,
+                                            $scope.CariPuan,
+                                            Math.floor($scope.GenelToplam) * -1,
+                                            0,
+                                            $scope.CariPuan + (Math.floor($scope.GenelToplam) * -1),
+                                            TmpBondA
+                                        ]   
+
+                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,function()
+                                        {
+                                            $scope.YeniEvrak();
+                                            $scope.TxtBarkod = "";
+                                            
+                                            if(pTip == 0)
+                                            {
+                                                db.EscposCaseOpen();
+                                            }
+                                        });
+                                    })
+                                }
+                            }
+                            else
+                            {
+                                console.log(InsertResult.result.err);
+                            }
+                        });    
                     }
                     else
                     {
-                        IadeTip = 1; //Kredi Kartı
+                        console.log(UpdateResult.result.err);
                     }
-                    db.ExecuteQuery(TmpQuery,function(UpdateResult)
-                    {
-                        if(typeof(UpdateResult.result.err) == 'undefined')
-                        {                       
-                            var InsertData = 
-                            [
-                                $scope.Kullanici,
-                                $scope.Kullanici,
-                                $scope.CihazID,
-                                $scope.Sube,
-                                IadeTip, //TIP
-                                1, //EVRAKTIP
-                                $scope.Tarih,
-                                $scope.Seri,
-                                $scope.Sira,
-                                $scope.CariKodu,
-                                "",
-                                $scope.GenelToplam,
-                                0, //PARA USTU
-                                1
-                            ];
-                
-                            db.ExecuteTag($scope.Firma,'PosTahInsert',InsertData,function(InsertResult)
-                            {
-                                if(typeof(InsertResult.result.err) == 'undefined')
-                                {                       
-                                    $scope.YeniEvrak();
-                                    $scope.TxtBarkod = "";
-                                }
-                                else
-                                {
-                                    console.log(InsertResult.result.err);
-                                }
-                            });    
-                        }
-                        else
-                        {
-                            console.log(UpdateResult.result.err);
-                        }
-                    });
-                }
-                else
-                {
-                    alertify.okBtn("Tamam");
-                    alertify.alert("Kayıtlı evrak olmadan iade alamazsınız !");
-                }
+                });
             }
-            ,function(){});
-       }
+            else
+            {
+                alertify.okBtn("Tamam");
+                alertify.alert("Kayıtlı evrak olmadan iade alamazsınız !");
+            }
+        }
+        ,function(){});
     }
     $scope.BtnKullaniciDegistir = function()
     {   
@@ -2860,6 +3002,27 @@ function Pos($scope,$window,$rootScope,db)
             $scope.PosTahInsert();
         }
     }
+    $scope.BtnNakitOdeme = function()
+    {                
+        if($scope.SatisList.length < 1)
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Satış işlemi yapmadan tahsilat giremezsiniz !");
+            return;
+        }
+
+        $("#MdlNakitOdeme").modal("show");
+
+        FocusBarkod = false;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusKartOdeme = true;
+
+        FirstKey = false;
+
+        TahSonYenile();
+    }
     $scope.BtnPara = function(pTutar)
     {
         if($scope.TahTip == 0)
@@ -2938,12 +3101,19 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam)
                     ]   
 
-                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,function()
-                    {
-                        
-                    });
+                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData);
                 });
             });
+        });
+    }
+    $scope.BtnTeraziManuelGiris = function()
+    {
+        $scope.Miktar = 1;
+        $scope.PosSatisInsert(() =>
+        {
+            $("#MdlTeraziYukleniyor").modal('hide');
+            $scope.TxtBarkod = "";
+            $scope.BtnMiktarGuncelle();
         });
     }
     $scope.BtnTeraziVazgec = function()
@@ -3680,5 +3850,13 @@ function Pos($scope,$window,$rootScope,db)
         let TmpData = await db.ExecutePromiseTag($scope.Firma,'XRaporGetir',[$scope.CihazID]);
         db.XReportPrint(TmpData.result.recordsets)
         
+    }
+    $scope.BtnCikis = function()
+    {
+        alertify.confirm("Çıkmak istediğinize eminmisiniz",
+        () => 
+        {
+            $window.location.href = "index.html";
+        });
     }
 }
