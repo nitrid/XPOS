@@ -50,6 +50,7 @@ var QuerySql =
                 ",[STATUS] " +
                 ",[PLU] " +
                 ",[WEIGHING] " +
+                ",[SPECIAL1] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -66,7 +67,8 @@ var QuerySql =
                 "@MAX_PRICE,			--<MAX_PRICE, float,> \n" +
                 "@STATUS,				--<STATUS, bit,> \n" +
                 "@PLU,				    --<PLU, bit,> \n" +
-                "@WEIGHING			    --<WEIGHING, bit,> \n" +
+                "@WEIGHING,			    --<WEIGHING, bit,> \n" +
+                "@SPECIAL1			    --<SPECIAL1, bit,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -83,9 +85,10 @@ var QuerySql =
                 ",[STATUS] = @STATUS " +
                 ",[PLU] = @PLU " +
                 ",[WEIGHING] = @WEIGHING " +
+                ",[SPECIAL1] = @SPECIAL1 " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','WEIGHING:bit']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','WEIGHING:bit','SPECIAL1:string|50']
     },
     StokKartSil :
     {
@@ -760,11 +763,12 @@ var QuerySql =
                 "'' AS BARCODE, " +
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[MIN_PRICE] AS [MIN_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
                 "UNIT.ITEM_CODE = ITEMS.CODE AND UNIT.TYPE = 0" +
-                "WHERE ((UPPER(ITEMS.CODE) LIKE UPPER(@CODE)) OR (UPPER(@CODE) = '')) AND ((UPPER(ITEMS.[NAME]) LIKE UPPER(@NAME)) OR (UPPER(@NAME) = '')) " ,
+                "WHERE ((UPPER(ITEMS.CODE) LIKE UPPER(@CODE)) OR (UPPER(@CODE) = '')) AND ((UPPER(ITEMS.[NAME]) LIKE UPPER(@NAME)) OR (UPPER(@NAME) = '')) AND ITEMS.STATUS = 1 ORDER BY NAME ASC" ,
         param : ['CODE','NAME'],
         type : ['string|25','string|250']
     },
@@ -778,13 +782,14 @@ var QuerySql =
                 "ISNULL(BARCODE.BARCODE,'') AS BARCODE, " + 
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " +
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[MIN_PRICE] AS [MIN_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
                 "UNIT.ITEM_CODE = ITEMS.CODE " +
                 "LEFT OUTER JOIN ITEM_BARCODE AS BARCODE ON " +
                 "BARCODE.ITEM_CODE = ITEMS.CODE AND BARCODE.UNIT = UNIT.[GUID] " + 
-                "WHERE BARCODE.BARCODE = @BARCODE" ,
+                "WHERE BARCODE.BARCODE = @BARCODE AND ITEMS.STATUS = 1 " ,
         param : ['BARCODE'],
         type : ['string|50']
     },
@@ -863,6 +868,7 @@ var QuerySql =
                 "UNIT AS UNIT_ID, " +
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "(SELECT UNIT.[SHORT] FROM UNIT WHERE UNIT.NAME = (SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT)) AS UNIT_SHORT, " +
+                "ISNULL((SELECT TOP 1 [MIN_PRICE] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS MIN_PRICE, " +
                 "PRICE AS PRICE, " +
                 "DISCOUNT AS DISCOUNT, " +
                 "LOYALTY AS LOYALTY, " +
@@ -1186,7 +1192,7 @@ var QuerySql =
                 "WHERE TYPE = 0 AND STATUS = 1 AND DOC_DATE >= CONVERT(NVARCHAR,GETDATE(),112) AND DOC_DATE <= CONVERT(NVARCHAR,GETDATE(),112) AND DEVICE = @DEVICE GROUP BY VAT " +
                 "SELECT * FROM  " +
                 "(SELECT  " +
-                "CASE WHEN DOC_TYPE = 1 THEN 'Espece - Remboursement' ELSE dbo.FN_POS_PAYMENT_TYPE_NAME(TYPE) END AS TYPE, " +
+                "CASE WHEN DOC_TYPE = 1 AND TYPE = 0 THEN 'Espece - Remboursement' WHEN DOC_TYPE = 1 AND TYPE = 4 THEN 'Bon D''Avoir - Remboursement' ELSE dbo.FN_POS_PAYMENT_TYPE_NAME(TYPE) END AS TYPE, " +
                 "COUNT(TYPE) AS COUNT, " +
                 "CASE WHEN DOC_TYPE = 1 THEN SUM(AMOUNT) * -1 ELSE SUM(AMOUNT) END AS AMOUNT  " +
                 "FROM POS_PAYMENT  " +

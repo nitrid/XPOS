@@ -938,7 +938,8 @@ function StokCtrl ($scope,$window,$location,db)
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
             $scope.StokListe[0].STATUS,
             $scope.StokListe[0].PLU,
-            $scope.StokListe[0].WEIGHING
+            $scope.StokListe[0].WEIGHING,
+            ''
         ];
 
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)

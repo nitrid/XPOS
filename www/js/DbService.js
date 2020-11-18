@@ -6,8 +6,12 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _CardPayment = new CardPayment();
     let _MettlerScale = new MettlerScale();
     moment.locale('tr');
-    let PosNo = "1"
-    
+    let PosNo = "1";
+
+    Number.prototype.toDigit2 = function()
+    {
+        return Math.round(Number(Math.round((this * 1000)) / 1000) * 100) / 100;
+    }
     if (typeof(localStorage.host) !== "undefined") 
     {
         _Host = 'http://' + localStorage.host + ':' + localStorage.socketport;
@@ -441,14 +445,58 @@ angular.module('app.db', []).service('db',function($rootScope)
 
         return false;
     }
+    function _EqualToIndex(pData,pColumn,pValue)
+    {
+        for(i=0;i<pData.length;i++)
+        {
+            if(pData[i][pColumn] == pValue)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
     function _IsUnitBarcode(pValue)
     {
         if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,2) == "02" || pValue.substring(0,2) == "29"))
-        {                
+        {      
+            console.log(11)          
            return true;
         }
         
         return false;
+    }
+    function _ListEqual(pData,pFiltre)
+    {
+        let Deger = true;
+        if(pData.length > 0)
+        {
+            for(let x = 0;x < pData.length;x++)
+            {  
+                for(let i = 0;i < Object.keys(pFiltre).length;i++)
+                {   
+                    if(pData[x][Object.keys(pFiltre)[i]] != Object.values(pFiltre)[i])
+                    {
+                        Deger = false;
+                    }
+                }
+
+                if(Deger)
+                {   
+                    return pData[x];
+                }
+                else
+                {
+                    Deger = true;
+                }
+            }
+        }
+        else
+        {  
+            return null;
+        }
+        return null;
     }
     //#region "PUBLIC"
     this.Socket = _Socket;
@@ -473,6 +521,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.Confirm = _Confirm;
     this.Equal = _Equal;
     this.IsUnitBarcode = _IsUnitBarcode;
+    this.ListEqual = _ListEqual;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
     {
@@ -569,38 +618,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                 pCallback(data);
             }
         });
-    }    
-    this.ListEqual = function(pData,pFiltre)
-    {
-        let Deger = true;
-        if(pData.length > 0)
-        {
-            for(let x = 0;x < pData.length;x++)
-            {  
-                for(let i = 0;i < Object.keys(pFiltre).length;i++)
-                {   
-                    if(pData[x][Object.keys(pFiltre)[i]] != Object.values(pFiltre)[i])
-                    {
-                        Deger = false;
-                    }
-                }
-
-                if(Deger)
-                {   
-                    return pData[x];
-                }
-                else
-                {
-                    Deger = true;
-                }
-            }
-        }
-        else
-        {  
-            return null;
-        }
-        return null;
-    }
+    }        
     this.MaxSira = function(pFirma,pQueryTag,pQueryParam,pCallback)
     {
         var m = 
@@ -958,6 +976,118 @@ angular.module('app.db', []).service('db',function($rootScope)
                       _PrintText(parseFloat(pData[2][i].AMOUNT).toFixed(2),15,"Start")
             }
             TmpData.push(TmpLine);  
+        }
+
+        TmpLine = 
+        {
+            font: "b",
+            style: "b",
+            align: "lt",
+            data: _PrintText("TOTAL : ",35,"Start") + " " +
+                  _PrintText(_SumColumn(pData[2],"COUNT"),10,"Start") + " " +
+                  _PrintText(parseFloat(_SumColumn(pData[2],"AMOUNT")).toFixed(2),15,"Start") + " "
+        }
+
+        TmpData.push(TmpLine); 
+
+        TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
+        TmpData.push({font:"b",style:"b",size:[1,1],align:"ct",data:_PrintText("REEL")});
+
+        TmpLine = 
+        {
+            font: "b",
+            style: "bu",
+            align: "lt",
+            data: _PrintText("Mode",35) + " " +
+                  _PrintText("Lib.",10,"Start") + " " +
+                  _PrintText("Montant",15,"Start") + " "
+        }
+
+        TmpData.push(TmpLine); 
+
+        let TmpEspece = 0;
+        let TmpEspeceR = 0;
+
+        if(_EqualToIndex(pData[2],"TYPE","Espece") > -1)
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Espece")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Espece")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Espece")].AMOUNT).toFixed(2),15,"Start")
+            }
+            
+            TmpEspece = parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Espece")].AMOUNT);
+            TmpData.push(TmpLine); 
+        }
+
+        if(_EqualToIndex(pData[2],"TYPE","Espece - Remboursement") > -1)
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Espece - Remboursement")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Espece - Remboursement")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Espece - Remboursement")].AMOUNT).toFixed(2),15,"Start")
+            }
+            TmpEspeceR = parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Espece - Remboursement")].AMOUNT);
+            TmpData.push(TmpLine); 
+        }
+
+        TmpLine = 
+        {
+            font: "b",
+            align: "lt",
+            data: _PrintText(" " ,35) + " " +
+                    _PrintText("Sous TOTAL :",10,"Start") + " " + 
+                    _PrintText(parseFloat(TmpEspece + TmpEspeceR).toFixed(2),15,"Start")
+        }
+
+        TmpData.push(TmpLine); 
+
+        if(_EqualToIndex(pData[2],"TYPE","Carte Bancaire TPE") > -1)
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Carte Bancaire TPE")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Carte Bancaire TPE")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Carte Bancaire TPE")].AMOUNT).toFixed(2),15,"Start")
+            }
+            
+            TmpData.push(TmpLine); 
+        }
+
+        if(_EqualToIndex(pData[2],"TYPE","Cheque") > -1)
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Cheque")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","Cheque")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","Cheque")].AMOUNT).toFixed(2),15,"Start")
+            }
+            
+            TmpData.push(TmpLine); 
+        }
+
+        if(_EqualToIndex(pData[2],"TYPE","CHEQUEe") > -1)
+        {
+            TmpLine = 
+            {
+                font: "b",
+                align: "lt",
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].AMOUNT).toFixed(2),15,"Start")
+            }
+            
+            TmpData.push(TmpLine); 
         }
 
         TmpLine = 
