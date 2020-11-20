@@ -461,7 +461,6 @@ angular.module('app.db', []).service('db',function($rootScope)
     {
         if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,2) == "02" || pValue.substring(0,2) == "29"))
         {      
-            console.log(11)          
            return true;
         }
         

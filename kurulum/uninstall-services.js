@@ -3,8 +3,8 @@ const path = require('path');
 
 var svc = new Service
 ({
-    name:'XPOS',
-    description: 'XPOS',
+    name:'piqpos',
+    description: 'piqpos',
     script: path.join(process.cwd(), '..\\server.js'),
     env: 
     [

@@ -620,6 +620,29 @@ var QuerySql =
                 "UPDATE [ITEM_IMAGE] SET [LUSER] = @LUSER ,[LDATE] = GETDATE(),[IMAGE] = @IMAGE WHERE [ITEM_CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','IMAGE:string|max']
     },
+    LabelQueueInsert :
+    {
+        query : "INSERT INTO [dbo].[LABEL_QUEUE] ( " +
+                " [CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[DATA] " +
+                ",[DESIGN] " +
+                ",[PRINT_COUNT] " +
+                ",[STATUS] " +
+                ") VALUES ( " +
+                " @CUSER		--<CUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<CDATE, datetime,> \n" +
+                ",@LUSER		--<LUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<LDATE, datetime,> \n" +
+                ",@DATA			--<DATA, nvarchar(max),> \n" +
+                ",@DESIGN		--<DESIGN, nvarchar(50),> \n" +
+                ",@PRINT_COUNT	--<PRINT_COUNT, int,> \n" +
+                ",@STATUS		--<STATUS, int,> \n" +
+                ")",
+        param : ['CUSER:string|25','LUSER:string|25','DATA:string|max','DESIGN:string|50','PRINT_COUNT:int','STATUS:int']
+    },
     //POS
     PosCariGetir:
     {
@@ -756,6 +779,7 @@ var QuerySql =
     StokGetir : 
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
+                "SPECIAL1 AS SPECIAL1, " +
                 "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
@@ -775,6 +799,7 @@ var QuerySql =
     BarkodGetir:
     {
         query : "SELECT ITEMS.CODE AS CODE, " +
+                "SPECIAL1 AS SPECIAL1, " +
                 "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "SNAME AS SNAME, " +
