@@ -76,18 +76,19 @@
             <div class="row pb-2">
                 <div class="col-md-2">
                     <select class="selectpicker form-control" multiple data-width="auto" title="" ng-model="Kolon" ng-change="KolonChange()">
-                        <option value="CODE">CODE</option>
-                        <option value="NAME">NAME</option>
-                        <option value="SNAME">SNAME</option>
-                        <option value="ITEM_GRP">ITEM_GRP</option>
-                        <option value="VAT">VAT</option>
-                        <option value="COST_PRICE">COST_PRICE</option>
-                        <option value="MIN_PRICE">MIN_PRICE</option>
-                        <option value="MAX_PRICE">MAX_PRICE</option>
-                        <option value="UNIT">UNIT</option>
-                        <option value="BARCODE">BARCODE</option>
-                        <option value="PRICE">PRICE</option>
-                        <option value="CUSTOMER_ITEM_CODE">CUSTOMER_ITEM_CODE</option>
+                        <option value="CODE">ÜRÜN KODU</option>
+                        <option value="NAME">ÜRÜN TAM ADI</option>
+                        <option value="SNAME">ÜRÜN KISA ADI</option>
+                        <option value="ITEM_GRP">ÜRÜN GRUBU</option>
+                        <option value="VAT">VERGİ DİLİMİ</option>
+                        <option value="COST_PRICE">MALİYET FİYATI</option>
+                        <option value="MIN_PRICE">MİNİMUM SATIŞ FİYATI</option>
+                        <option value="MAX_PRICE">MAKSİMUM SATIŞ FİYATI</option>
+                        <option value="UNIT">BİRİM</option>
+                        <option value="BARCODE">BARKODU</option>
+                        <option value="PRICE">SATIŞ FİYATI</option>
+                        <option value="CUSTOMER_ITEM_CODE">TEDARİKÇİ ÜRÜN KODU</option>
+                        <option value="STATUS">DURUM</option>
                     </select>
                 </div>
                 <div class="col-md-2 offset-8">
@@ -98,14 +99,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div id="TblStok" class="jsgrid"></div>
-                </div>
-            </div>
-            <div class="row pt-10">
-                <div class="col-2 offset-10">
-                    <button class="btn btn-block btn-primary " ng-click="BtnAll()">
-                        All
-                    </button>
+                    <div id="TblStok"></div>
                 </div>
             </div>
         </div>

@@ -1621,7 +1621,7 @@ function StokCtrl ($scope,$window,$location,db)
                                 $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
                             });
                             //TEDARİKÇİ FİYAT LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
+                            db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
                             {
                                 $scope.TedaikciFiyatListe = TedarikciFiyatData;
                                 $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});

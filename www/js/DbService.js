@@ -291,6 +291,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             device.open(function(error)
             {   
+                console.log(error)
                 printer.align('ct')
                 .image(image, 's8')
                 .then(() => 
@@ -670,7 +671,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }
-    this.ReceiptPrint = function(pSData,pTData,pVData,pParamData,pCallback)
+    this.ReceiptPrint = function(pSData,pTData,pVData,pParamData,pType,pCallback)
     {
         let TmpData = [];
         let TmpLine = {};
@@ -687,10 +688,32 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
+
+        if(pType == 'Fatura')
+        {
+            TmpData.push({font:"a",align:"ct",data:"------------------------------------------------"});
+            TmpData.push({font:"a",align:"ct",data:"FACTURE"});
+            TmpData.push({font:"a",align:"ct",data:"------------------------------------------------"});
+
+            TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+
+            TmpData.push({font:"b",style:"b",align:"lt",data: "Nom:.........................................................."});
+            TmpData.push({font:"b",style:"b",align:"lt",data: "Adresse:......................................................"});
+            TmpData.push({font:"b",style:"b",align:"lt",data: ".............................................................."});
+            TmpData.push({font:"b",style:"b",align:"lt",data: ".............................................................."});
+
+            TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
+        }
+
         TmpData.push({font:"b",align:"lt",data:_PrintText(moment(new Date()).locale('fr').format('dddd') + " " + moment(new Date()).format("DD.MM.YYYY"),59) + _PrintText(moment(new Date()).format("LTS"),5)});
         TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,41) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,23)});
-        TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
-        
+        TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});                
+
+        if(pType == 'Fatura')
+        {
+            TmpData.push({font:"b",style:"b",align:"ct",data: "DUPLICATA"});    
+        }
+
         if(_Equal(pTData,"TYPE",0) && pTData[0].DOC_TYPE == 1)
         {
             TmpData.push({font:"b",style:"b",size : [1,1],align:"ct",data:"REMBURSEMENT"});

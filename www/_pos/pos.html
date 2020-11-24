@@ -108,16 +108,17 @@
                 <!-- Navbar Toolbar -->
                 <ul class="nav navbar-toolbar">
                     <li class="nav-item hidden-sm-down" id="toggleFullscreen">
-                        <a class="nav-link icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                        <img src="./img/logo2.png" width="50px" height="50px" style="margin-top: 10px">
+                        <!-- <a class="nav-link icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
                             <span class="sr-only">Toggle fullscreen</span>
-                        </a>
+                        </a> -->
                     </li>
-                    <li class="nav-item py-10 px-10" style="width: 218px;">
+                    <li class="nav-item py-10 px-10" style="width: 150px;">
                         <div class="row py-5">
                             <div class="col-12" style="font-size: 15px;color:#fff"><i class="icon fa-user-o" aria-hidden="true"></i>  {{Kullanici}}</div>
                         </div>
                         <div class="row py-5">
-                            <div class="col-12" style="font-size: 15px;color:#fff"><i class="icon fa-tv" aria-hidden="true"></i> {{KasaNo}}</div>
+                            <div class="col-12" style="font-size: 15px;color:#fff"><i class="icon fa-tv" aria-hidden="true"></i> {{CihazID}}</div>
                         </div>
                     </li>
                     <li class="nav-item py-10 px-10" style="width: 320px;" ng-click="BtnCariDegistir()">
@@ -142,6 +143,11 @@
                 <!-- End Navbar Toolbar -->
                 <!-- Navbar Toolbar Right -->
                 <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                    <li class="nav-item" style="width: 80px;" ng-click="BtnRefresh()">
+                        <a class="nav-link">
+                        <i class="icon wb-refresh" aria-hidden="true"></i>                    
+                        </a>
+                    </li>
                     <li class="nav-item" style="width: 80px;" ng-click = "BtnEdit()">
                         <a class="nav-link">
                         <i ng-class="Class.BtnEdit" aria-hidden="true"><div class="row" style="font-family: 'Roboto', sans-serif;"></div></i>                    
@@ -505,10 +511,10 @@
                                 <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnSonTahKaydet()">
                                     <i class="icon fa-floppy-o" aria-hidden="true"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip">
+                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnYazdir('Fatura')">
                                     <i class="icon fa-file-text" aria-hidden="true"></i>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnFisYazdir()">
+                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnYazdir('Fis')">
                                     <i class="icon fa-print" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-icon btn-round btn-danger" style="width: 50px;height: 50px;" data-toggle="tooltip" onclick="$('#TbMain').addClass('active');$('#TbSonSatisListesi').removeClass('active');">
@@ -518,6 +524,29 @@
                         </div>    
                         <div class="panel">
                             <div class="panel-body container-fluid" style="padding-top: 5px;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group row">
+                                            <div class="col-6">
+                                                <div class="input-group input-group-icon">
+                                                    <input type="text" class="form-control" id="SonSatisIlkTarih" type="text" ng-model="SonSatisIlkTarih" data-provide="datepicker"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="input-group input-group-icon">
+                                                    <input type="text" class="form-control" id="SonSatisSonTarih" type="text" ng-model="SonSatisSonTarih" data-provide="datepicker"/>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>  
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <button type="text" class="form-control-lg btn-primary btn font-size-12" style="height:32px;" ng-click="BtnSonSatis()">
+                                                <i class="icon wb-search" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>  
+                                </div>                                
                                 <div class="row">
                                     <div class="col-12">
                                         <div id="TblSonSatis"></div>
@@ -1225,8 +1254,8 @@
                                             </label>
                                             <label id="ChkCek" class="btn btn-outline btn-primary" ng-click="BtnTahTip(2)">
                                                 <input type="radio" autocomplete="off"/>
-                                                <i class="icon fa-eraser" aria-hidden="true" style="font-size: 23px;"></i>
-                                                &nbsp;CHQ
+                                                <i class="icon fa-list-alt" aria-hidden="true" style="font-size: 23px;"></i>
+                                                &nbsp;Chq
                                             </label>
                                         </div>
                                     </div>
@@ -2235,7 +2264,7 @@
                 </div>
                 <!-- Son Satış Tahsilat Güncelle-->
                 <div class="modal fade " id="MdlSonSatisTahGuncelle" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
-                    <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+                    <div class="modal-dialog modal-simple modal-md modal-primary modal-center">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -2245,11 +2274,63 @@
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-12 py-10">
-                                        <input class="form-control" ng-model="TxtSonTahGuncelle" id="TxtSonTahGuncelle" autocomplete="off">
+                                    <div class="col-2 py-10">
+                                        <div class="btn-group-vertical btn-group-toggle" data-toggle="buttons" role="group">
+                                            <label id="ChkNakit" class="btn btn-outline btn-primary" ng-click="BtnTahTip(0)">
+                                                <input type="radio" autocomplete="off"/>
+                                                <i class="icon fa-money" aria-hidden="true" style="font-size: 23px;"></i>
+                                                &nbsp;ESP
+                                            </label>
+                                            <label id="ChkKredi" class="btn btn-outline btn-primary" ng-click="BtnTahTip(1)">
+                                                <input type="radio" autocomplete="off"/>
+                                                <i class="icon fa-credit-card" aria-hidden="true" style="font-size: 23px;"></i>
+                                                &nbsp;CB
+                                            </label>
+                                            <label id="ChkCek" class="btn btn-outline btn-primary" ng-click="BtnTahTip(2)">
+                                                <input type="radio" autocomplete="off"/>
+                                                <i class="icon fa-list-alt" aria-hidden="true" style="font-size: 23px;"></i>
+                                                &nbsp;Chq
+                                            </label>
+                                            <label id="ChkTr" class="btn btn-outline btn-primary" ng-click="BtnTahTip(3)">
+                                                <input type="radio" autocomplete="off"/>
+                                                <i class="icon fa-list-alt" aria-hidden="true" style="font-size: 23px;"></i>
+                                                &nbsp;CHQe
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-10 py-10">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div id="TblSonSatisTahDetay"></div>
+                                            </div>    
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="text-center" style="margin: 0px;"><span style="color:dodgerblue;">{{SonTahDetayKalan | number:2}} €</span></h3>
+                                            </div>  
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-12 py-10">
+                                        <input class="form-control" ng-model="TxtSonTahGuncelle" id="TxtSonTahGuncelle" autocomplete="off">
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class = "row py-1">
+                                            <div class = "col-lg-4">
+                                                <button type="text" class="form-control btn-danger btn btn-block font-size-24" style="height:60px;" ng-click="BtnSonTahTip(0)"><i class="fa-eraser fa-lg"></i></button>
+                                            </div>
+                                            <div class = "col-lg-4">
+                                                <button type="text" class="form-control btn-success btn btn-block font-size-24" style="height:60px;" ng-click="BtnSonTahTip(1)"><i class="fas fa-check fa-lg"></i></button>
+                                            </div>
+                                            <div class = "col-lg-4">
+                                                <button type="text" class="form-control btn-danger btn btn-block font-size-24" style="height:60px;" ng-click="BtnSonTahTip(2)"><i class="icon fa-plus" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>            
                                     <div class="col-12">
                                         <div class="row py-1">
                                             <div class="col-lg-4">
@@ -2301,20 +2382,7 @@
                                                 <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnSilClick()"><i class="fas fa-backspace fa-lg" aria-hidden="true"></i></button>
                                             </div>                                            
                                         </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class = "row py-1">
-                                            <div class = "col-lg-4">
-                                                <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnSonTahTip(0)">ESP</button>
-                                            </div>
-                                            <div class = "col-lg-4">
-                                                <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnSonTahTip(1)">CB</button>
-                                            </div>
-                                            <div class = "col-lg-4">
-                                                <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnSonTahTip(2)">CHQ</button>
-                                            </div>
-                                        </div>
-                                    </div>                                    
+                                    </div>                                                            
                                 </div>
                             </div>
                         </div>      
@@ -2653,7 +2721,7 @@
                                         <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahTip(1,'KalanOdeme')">CB</button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahTip(2,'KalanOdeme')">CHQ</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahTip(2,'KalanOdeme')">CHQe</button>
                                     </div>
                                     <div class="col-3">
                                         <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahTip(3,'KalanOdeme')">T.R</button>
@@ -2796,7 +2864,7 @@
         <script src="theme/global/js/Plugin/asscrollable.js"></script>
         <script src="theme/global/js/Plugin/slidepanel.js"></script>
         <script src="theme/global/js/Plugin/switchery.js"></script>
-        <script src="theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.tr.min.js"></script>
+        <script src="theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.fr.min.js"></script>
         <script src="theme/global/js/Plugin/alertify.js"></script>
         <script src="theme/global/js/Plugin/aspaginator.js"></script>
         <script src="theme/global/js/Plugin/responsive-tabs.js"></script>
@@ -2860,6 +2928,14 @@
                 });
             })(document, window, jQuery);
 
+            $("#SonSatisIlkTarih").datepicker(
+            {
+                language: "fr"
+            });
+            $("#SonSatisSonTarih").datepicker(
+            {
+                language: "fr"
+            });
             //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
             function DecimalField(config) 
             {

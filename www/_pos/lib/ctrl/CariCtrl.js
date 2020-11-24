@@ -1,6 +1,5 @@
 function CariCtrl ($scope,$window,$location,db)
 {
-    let UserParam = {};
     let SecimSelectedRow = null;
     let ModalTip = "";
 
@@ -63,7 +62,7 @@ function CariCtrl ($scope,$window,$location,db)
     $scope.Init = function()
     {
         $scope.StyleKurum = {'visibility': 'visible'};
-        UserParam = Param[$window.sessionStorage.getItem('User')];
+        $scope.Kullanici = $window.sessionStorage.getItem('User');
 
         $scope.CariListe = [];
 
@@ -115,8 +114,8 @@ function CariCtrl ($scope,$window,$location,db)
             {
                 let InsertData =
                 [
-                    UserParam.Kullanici,
-                    UserParam.Kullanici,
+                    $scope.Kullanici,
+                    $scope.Kullanici,
                     $scope.CariListe[0].CODE,
                     $scope.CariListe[0].TYPE,
                     $scope.CariListe[0].GENUS,
@@ -146,8 +145,8 @@ function CariCtrl ($scope,$window,$location,db)
                         {
                             let InsertData =
                             [
-                                UserParam.Kullanici,
-                                UserParam.Kullanici,
+                                $scope.Kullanici,
+                                $scope.Kullanici,
                                 0,
                                 $scope.CariListe[0].CODE,
                                 $scope.CariListe[0].ADRESS,
@@ -301,8 +300,8 @@ function CariCtrl ($scope,$window,$location,db)
 
             let InsertData =
             [
-                UserParam.Kullanici,
-                UserParam.Kullanici,
+                $scope.Kullanici,
+                $scope.Kullanici,
                 $scope.CariGrupModal.Kodu,
                 $scope.CariGrupModal.Adi
             ];

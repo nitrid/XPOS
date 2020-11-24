@@ -234,9 +234,9 @@ var QuerySql =
     BirimKaydet : 
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
-                "IF @TYPE = 1 " + 
-                "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
-                "ELSE " +
+                // "IF @TYPE = 1 " + 
+                // "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_UNIT WHERE [NAME] = @NAME AND [ITEM_CODE] = @ITEM_CODE),'') " +
+                // "ELSE " +
                 "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_UNIT WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE),'') " +
                 "IF @TMPCODE = '' " +
                 "BEGIN " +
@@ -284,7 +284,7 @@ var QuerySql =
                 ",[WIDTH] = @WIDTH " +
                 ",[HEIGHT] = @HEIGHT " +
                 ",[SIZE] = @SIZE " +
-                "WHERE [ITEM_CODE] = @TMPCODE AND [NAME] = @NAME AND [TYPE] = @TYPE " +
+                "WHERE [ITEM_CODE] = @TMPCODE AND [TYPE] = @TYPE " +
                 "SELECT [GUID] FROM ITEM_UNIT WHERE ITEM_CODE = @TMPCODE AND [TYPE] = @TYPE " +
                 "END " ,
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','NAME:string|50','FACTOR:float','WEIGHT:float',
@@ -886,6 +886,7 @@ var QuerySql =
                 "LINE_NO AS LINE_NO, " +
                 "CUSTOMER_CODE AS CUSTOMER_CODE, " +
                 "ISNULL((SELECT LAST_NAME + ' ' + NAME FROM CUSTOMERS WHERE CODE = CUSTOMER_CODE),'') AS CUSTOMER_NAME, " +
+                "dbo.FN_CUSTOMER_TOTAL_POINT(CUSTOMER_CODE,GETDATE()) AS CUSTOMER_POINT, " +
                 "ITEM_CODE AS ITEM_CODE, " +
                 "ISNULL((SELECT TOP 1 [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
                 "BARCODE AS BARCODE, " +
@@ -1006,6 +1007,36 @@ var QuerySql =
         param: ['GUID'],
         type:  ['string|50']
     },
+    PosMasterExtraInsert :
+    {
+        query:  "INSERT INTO [dbo].[POS_MASTER_EXTRA] ( " +
+                " [CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[TABLE_NAME] " +
+                ",[TYPE] " +
+                ",[REF] " +
+                ",[REF_NO] " +
+                ",[DESCRIPTION] " +
+                ") VALUES ( " +
+                " @CUSER		--<CUSER, nvarchar(25),> \n" + 
+                ",GETDATE()		--<CDATE, datetime,> \n" + 
+                ",@LUSER		--<LUSER, nvarchar(25),> \n" + 
+                ",GETDATE()		--<LDATE, datetime,> \n" + 
+                ",@TABLE_NAME	--<TABLE_NAME, nvarchar(25),> \n" + 
+                ",@TYPE			--<TYPE, tinyint,> \n" + 
+                ",@REF			--<REF, nvarchar(25),> \n" + 
+                ",@REF_NO		--<REF_NO, int,> \n" + 
+                ",@DESCRIPTION	--<DESCRIPTION, nvarchar(max),> \n" + 
+                ")",
+        param : ['CUSER:string|25','LUSER:string|25','TABLE_NAME:string|25','TYPE:int','REF:string|25','REF_NO:int','DESCRIPTION:string|max']
+    },
+    PosMasterExtraDelete :
+    {
+        query : "DELETE FROM POS_MASTER_EXTRA WHERE TABLE_NAME = @TABLE_NAME AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO",
+        param : ['TABLE_NAME:string|25','TYPE:int','REF:string|25','REF_NO:int']
+    },
     PosTahGetir : 
     {
         query:  "SELECT " +
@@ -1061,28 +1092,39 @@ var QuerySql =
     PosSonSatisGetir : 
     {
         query:  "SELECT " +
-                "TOP 100 MAX(GUID) AS GUID, " +
+                "MAX(GUID) AS GUID, " +
                 "REF AS REF, " +
                 "REF_NO AS REF_NO, " +
+                "MAX(TYPE) AS TYPE, " +
                 "COUNT(LINE_NO) AS LINE_NO, " +
                 "MAX(CUSER) AS [USER], " +
-                "CAST((SUM(QUANTITY * PRICE)) AS DECIMAL(10,2)) AS AMOUNT, " +
+                "ROUND(SUM(AMOUNT),2) AS AMOUNT, " +
+                "ROUND(SUM(DISCOUNT),2) AS DISCOUNT, " +
+                "SUM(LOYALTY_AMOUNT) AS LOYALTY_AMOUNT, " +
+                "ROUND(SUM(TTC),2) AS TTC, " +                
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
-                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND STATUS >= 0 " +
+                "FROM POS_SALES_VW_01 AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND STATUS = 1 AND DOC_DATE >= @START_DATE AND DOC_DATE <= @END_DATE " +
                 "GROUP BY REF,REF_NO ORDER BY REF_NO DESC " ,
-        param: ['DEPARTMENT'],
-        type: ['int']
+        param: ['DEPARTMENT','REF','START_DATE','END_DATE'],
+        type: ['int','string|25','date','date']
     },
     PosSonSatisDetayGetir : 
     {
         query:  "SELECT " +
+                "DEVICE AS DEVICE, " +
+                "DEPARTMENT AS DEPARTMENT, " +
+                "TYPE AS TYPE, " +
+                "REF AS REF, " +
+                "REF_NO AS REF_NO, " +
+                "DOC_DATE AS DOC_DATE, " +
+                "CUSTOMER_CODE AS CUSTOMER_CODE, " +
                 "BARCODE AS BARCODE, " +   
                 "ISNULL((SELECT [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS [NAME], " +
                 "CAST(QUANTITY AS decimal(10,2)) AS QUANTITY, " +
                 "CAST(PRICE AS decimal(10,2))  AS PRICE, " +
                 "CAST((QUANTITY * PRICE) AS decimal(10,2)) AS AMOUNT " +
-                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " ,
+                "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS = 1 " ,
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
@@ -1091,10 +1133,10 @@ var QuerySql =
         query:  "SELECT " +
                 "GUID AS GUID, " +
                 "TYPE AS TYPENO, " + 
-                "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'CHQ' WHEN TYPE = 3 THEN 'T.R.' END AS TYPE, " +
+                "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' END AS TYPE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
-                "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " ,
+                "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS = 1 " ,
         param: ['DEPARTMENT','REF','REF_NO'],
         type: ['int','string|25','int']
     },
@@ -1166,18 +1208,20 @@ var QuerySql =
                 ",[REF] " +
                 ",[REF_NO] " +
                 ",[POINT] " +
+                ",[DESCRIPTION] " +
                 ") VALUES ( " +
-                " @CUSER			--<CUSER, nvarchar(25),> \n" +
-                ",GETDATE()		--<CDATE, datetime,> \n" +
-                ",@LUSER			--<LUSER, nvarchar(25),> \n" +
-                ",GETDATE()		--<LDATE, datetime,> \n" +
+                " @CUSER		--<CUSER, nvarchar(25),> \n" +
+                ",@CDATE		--<CDATE, datetime,> \n" +
+                ",@LUSER		--<LUSER, nvarchar(25),> \n" +
+                ",@LDATE		--<LDATE, datetime,> \n" +
                 ",@TYPE			--<TYPE, int,> \n" +
                 ",@CUSTOMER		--<CUSTOMER, nvarchar(25),> \n" +
                 ",@REF			--<REF, nvarchar(25),> \n" +
                 ",@REF_NO		--<REF_NO, int,> \n" +
-                ",@POINT			--<POINT, float,> \n" +
+                ",@POINT		--<POINT, float,> \n" +
+                ",@DESCRIPTION  --<DESCRIPTION, float,> \n" +
                 ")",
-        param : ['CUSER:string|25','LUSER:string|25','TYPE:int','CUSTOMER:string|25','REF:string|25','REF_NO:int','POINT:float']
+        param : ['CUSER:string|25','CDATE:date','LUSER:string|25','LDATE:date','TYPE:int','CUSTOMER:string|25','REF:string|25','REF_NO:int','POINT:float','DESCRIPTION:string|250']
     },
     XRaporGetir :
     {

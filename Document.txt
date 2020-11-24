@@ -33,3 +33,7 @@ TYPE = 2 => BON D'AVOIR - ÇIKIŞ
 TYPE = 0 => GİRİŞ
 TYPE = 1 => ÇIKIŞ
 --------------------------
+# UNIT
+TYPE = 0 => ANA BİRİM
+TYPE = 1 => ALT BİRİM
+TYPE = 2 => ÜST BİRİM

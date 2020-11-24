@@ -27,6 +27,26 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/OzelEtiket.html"
     })
+    .when("/SatisFisListesi",
+    {
+        templateUrl : "html/yonetim/SatisFisListesi.html"
+    })
+    .when("/DegismisFisListesi",
+    {
+        templateUrl : "html/yonetim/DegismisFisListesi.html"
+    })
+    .when("/MusteriPuanListesi",
+    {
+        templateUrl : "html/yonetim/MusteriPuanListesi.html"
+    })
+    .when("/EtiketBasim",
+    {
+        templateUrl : "html/yonetim/EtiketBasim.html"
+    })
+    .when("/FiyatListeYonetimi",
+    {
+        templateUrl : "html/yonetim/FiyatListeYonetimi.html"
+    })
     .when("/KullaniciParametre",
     {
         templateUrl : "html/ayarlar/KullaniciParametre.html"

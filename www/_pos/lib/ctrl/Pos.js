@@ -8,6 +8,7 @@ function Pos($scope,$window,$rootScope,db)
     let ParkIslemSelectedRow = null;
     let TahIslemSelectedRow = null;
     let SonSatisSelectedRow = null;
+    let SonSatisTahDetaySelectedRow = null;
     let FocusBarkod = true;
     let FocusAraToplam = false;
     let FocusMusteri = false;
@@ -385,7 +386,10 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtTeraziFiyat = 0;
         $scope.TxtAvans = 0;
         $scope.AvansTip = 2;
-        
+        $scope.SonTahDetayKalan = 0;
+        $scope.SonSatisIlkTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
+        $scope.SonSatisSonTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
+
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
         $scope.TahPanelKontrol = false;
@@ -837,7 +841,21 @@ function Pos($scope,$window,$rootScope,db)
                 width: 75
             },
             {
-                name: "AMOUNT",
+                name: "DISCOUNT",
+                title: "INDIRIM",
+                type: "number",
+                align: "center",
+                width: 50
+            },
+            {
+                name: "LOYALTY_AMOUNT",
+                title: "SADAKAT",
+                type: "number",
+                align: "center",
+                width: 50
+            },
+            {
+                name: "TTC",
                 title: "TUTAR",
                 type: "number",
                 align: "center",
@@ -914,54 +932,49 @@ function Pos($scope,$window,$rootScope,db)
     }
     function InitSonSatisTahDetayGrid()
     {
-        $("#TblSonSatisTahDetay").jsGrid({
-            width: "100%",
-            height: "250px",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            editing: true,
-            data : $scope.SonSatisTahDetayList,
-            paging : true,
-            pageSize: 5,
-            pageButtonCount: 3,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",            
-            rowClass: function (item, itemIndex)
-            {
-                return "rowheight";
-            },
-            fields: 
-            [
-            {
-                name: "TYPE",
-                title: "TIP",
-                align: "center",
-                width: 75
-            },
-            {
-                name: "AMOUNT",
-                title: "AMOUNT",
-                type: "decimal",
-                align: "center",
-                width: 35
-            },
-            {
-                name: "CHANGE",
-                title: "CHANGE",
-                align: "center",
-                width: 35
-            }
-            ],
-            rowClick: function(args)
-            {
-                $('#MdlSonSatisTahGuncelle').modal('show');
-               
-                SonTahIndex = args.itemIndex;
-                $scope.TxtSonTahGuncelle = args.item.AMOUNT
-                FocusSonTahGuncelle = true;
-                FocusBarkod = false;    
-            }
-        });
+        $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+        {
+            $(this).jsGrid({
+                width: "100%",
+                height: "150px",
+                updateOnResize: true,
+                heading: true,
+                selecting: true,
+                editing: true,
+                data : $scope.SonSatisTahDetayList,
+                paging : true,
+                pageSize: 5,
+                pageButtonCount: 3,
+                pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",            
+                rowClass: function (item, itemIndex)
+                {
+                    return "rowheight";
+                },
+                fields: 
+                [
+                {
+                    name: "TYPE",
+                    title: "TIP",
+                    align: "center",
+                    width: 75
+                },
+                {
+                    name: "AMOUNT",
+                    title: "AMOUNT",
+                    type: "decimal",
+                    align: "center",
+                    width: 35
+                }
+                ],
+                rowClick: function(args)
+                {
+                    $('#MdlSonSatisTahGuncelle').modal('show'); 
+                    $scope.SonTahDetayKalan = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC - db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT")
+                    $scope.SonSatisTahDetayRowClick(args.itemIndex,args.item);
+                    $scope.$apply();                                      
+                }
+            });
+        })
     }
     function InitTRDetayGrid()
     {
@@ -1144,12 +1157,15 @@ function Pos($scope,$window,$rootScope,db)
                         let TmpPuanData = 
                         [
                             $scope.Kullanici,
+                            $scope.Tarih,
                             $scope.Kullanici,
+                            $scope.Tarih,
                             0,
                             $scope.CariKodu,
                             $scope.Seri,
                             $scope.Sira,
-                            Math.floor($scope.GenelToplam)
+                            Math.floor($scope.GenelToplam),
+                            ''
                         ]
 
                         db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
@@ -1159,18 +1175,22 @@ function Pos($scope,$window,$rootScope,db)
                             let TmpPuanData = 
                             [
                                 $scope.Kullanici,
+                                $scope.Tarih,
                                 $scope.Kullanici,
+                                $scope.Tarih,
                                 1,
                                 $scope.CariKodu,
                                 $scope.Seri,
                                 $scope.Sira,
-                                $scope.CariKullanPuan
+                                $scope.CariKullanPuan,
+                                ''
                             ]
                             db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
                         }
                     }
 
                     let TmpBondA = ''
+
                     if($scope.TahParaUstu > 0 && db.Equal($scope.TahList,"TYPE",4))
                     {
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
@@ -1195,7 +1215,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam),
                         TmpBondA
                     ]   
-                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,function()
+                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',function()
                     {
                         //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
                         for(let item of $scope.TahList)
@@ -1403,7 +1423,12 @@ function Pos($scope,$window,$rootScope,db)
         var $row = pObj.rowByItem(pItem);
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
         BarkodSelectedRow = $row;
-        $scope.TxtBarkod = $scope.BarkodListe[pIndex].BARCODE;
+        
+        if($scope.TxtBarkod.indexOf('*') > -1)
+            $scope.TxtBarkod = $scope.TxtBarkod.split('*')[0] + '*' + $scope.BarkodListe[pIndex].BARCODE;
+        else
+            $scope.TxtBarkod = $scope.BarkodListe[pIndex].BARCODE;
+
         $scope.StokGetir($scope.TxtBarkod);
         $("#MdlBarkodListele").modal("hide");
     }
@@ -1426,8 +1451,26 @@ function Pos($scope,$window,$rootScope,db)
         db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisTahDetay)
         {  
             $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
-            $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+            $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+            {
+                $(this).jsGrid({data : $scope.SonSatisTahDetayList});
+            });
         });
+    }
+    $scope.SonSatisTahDetayRowClick = function(pIndex,pItem,pObj)
+    {
+        if ( SonSatisTahDetaySelectedRow ) { SonSatisTahDetaySelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+        {
+            $(this).jsGrid("rowByItem", pItem).children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+            SonSatisTahDetaySelectedRow = $(this).jsGrid("rowByItem", pItem);
+        });
+
+        SonTahIndex = pIndex;
+        $scope.TxtSonTahGuncelle = pItem.AMOUNT
+        FocusSonTahGuncelle = true;
+        FocusBarkod = false;    
+       
     }
     $scope.YeniEvrak = async function()
     {
@@ -1654,6 +1697,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if(pBarkod != '')
         {   
+            console.log(pBarkod)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
@@ -1968,7 +2012,10 @@ function Pos($scope,$window,$rootScope,db)
         TahTutar = parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'));
         if($scope.GenelToplam < (db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))))
         {
-            TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2();
+            if($scope.TahTip != 3)
+            {
+                TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2();
+            }
             TahTutar = parseFloat(parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.')) - TahParaUstu).toDigit2();
         }
                
@@ -1982,7 +2029,7 @@ function Pos($scope,$window,$rootScope,db)
                 let UpdateData =
                 [
                     parseFloat($scope.TahList[TmpSatirBirlestir.Index].AMOUNT) + parseFloat(TahTutar),
-                    TahParaUstu,
+                    0,
                     $scope.TahList[TmpSatirBirlestir.Index].GUID
                 ];
 
@@ -2670,6 +2717,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             angular.element('#ChkCek').trigger('click');
         }
+        else if($scope.TahTip == 3)
+        {
+            angular.element('#ChkTr').trigger('click');
+        }
 
         TahSonYenile();
     }
@@ -2705,19 +2756,24 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TxtBarkod != '')
         {
+            console.log($scope.TxtBarkod.split('*')[1])
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT [BARCODE] AS BARCODE,ISNULL((SELECT NAME FROM ITEMS WHERE CODE = [ITEM_CODE]),'') NAME,dbo.FN_PRICE_SALE(ITEM_CODE,1,GETDATE()) AS PRICE FROM [dbo].[ITEM_BARCODE] WHERE BARCODE LIKE '%' + @BARCODE",
+                query:  "SELECT [BARCODE] AS BARCODE,ISNULL((SELECT NAME FROM ITEMS WHERE CODE = [ITEM_CODE]),'') NAME,dbo.FN_PRICE_SALE(ITEM_CODE,1,GETDATE()) AS PRICE FROM [dbo].[ITEM_BARCODE] WHERE BARCODE LIKE '%' + @BARCODE AND ISNULL((SELECT STATUS FROM ITEMS WHERE CODE = [ITEM_CODE]),0) = 1",
                 param : ["BARCODE:string|50"],
-                value : [$scope.TxtBarkod]
+                value : [$scope.TxtBarkod.indexOf('*') > 0 ? $scope.TxtBarkod.split('*')[1] : $scope.TxtBarkod]
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
                 $scope.BarkodListe = Data;
                 if(Data.length == 1)
                 {
-                    $scope.TxtBarkod = $scope.BarkodListe[0].BARCODE;
+                    if($scope.TxtBarkod.indexOf('*') > -1)
+                        $scope.TxtBarkod = $scope.TxtBarkod + $scope.BarkodListe[0].BARCODE;
+                    else
+                        $scope.TxtBarkod = $scope.BarkodListe[0].BARCODE;
+
                     $scope.StokGetir($scope.TxtBarkod);
                 }
                 else if(Data.length > 1)
@@ -2827,12 +2883,15 @@ function Pos($scope,$window,$rootScope,db)
                         let TmpPuanData = 
                         [
                             $scope.Kullanici,
+                            $scope.Tarih,
                             $scope.Kullanici,
+                            $scope.Tarih,
                             1,
                             $scope.CariKodu,
                             $scope.Seri,
                             $scope.Sira,
-                            Math.floor($scope.GenelToplam)
+                            Math.floor($scope.GenelToplam),
+                            ''
                         ]
                         db.ExecuteTag($scope.Firma,'MusteriPuanInsert',TmpPuanData);
                     }
@@ -2900,7 +2959,7 @@ function Pos($scope,$window,$rootScope,db)
                                             TmpBondA
                                         ]   
 
-                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,function()
+                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',function()
                                         {
                                             $scope.YeniEvrak();
                                             $scope.TxtBarkod = "";
@@ -2951,7 +3010,7 @@ function Pos($scope,$window,$rootScope,db)
         $("#TbSonSatisListesi").addClass('active');
         $("#TbMain").removeClass('active');
 
-        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube],function(PosSonSatis)
+        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube,$scope.Seri,$scope.SonSatisIlkTarih,$scope.SonSatisSonTarih],function(PosSonSatis)
         {  
             $scope.SonSatisList = PosSonSatis;
             $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
@@ -3164,15 +3223,18 @@ function Pos($scope,$window,$rootScope,db)
         else
             $scope.Class.BtnFiyatGor = "form-group btn btn-info btn-block my-1"
     }
-    $scope.BtnFisYazdir = function()
+    $scope.BtnYazdir = function(pType)
     {
         let TmpSeri = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF;
         let TmpSira = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO;
+        let TmpEvrakTip = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TYPE;
 
-        db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,TmpSeri,TmpSira],function(PosSatisData)
+        db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,TmpEvrakTip,TmpSeri,TmpSira],function(PosSatisData)
         {   
-            db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,TmpSeri,TmpSira],function(PosTahData)
+            db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,TmpEvrakTip,TmpSeri,TmpSira],function(PosTahData)
             {
+                let TmpBondA = ''
+
                 let TmpQuery = 
                 {
                     db : $scope.Firma,
@@ -3182,25 +3244,44 @@ function Pos($scope,$window,$rootScope,db)
                             "SUM(HT) AS HT," +
                             "SUM(TVA) AS TVA," +
                             "SUM(TTC) AS TTC," +
-                            "ISNULL((SELECT COUNT(REF) AS TICKET FROM (SELECT REF FROM POS_SALES WHERE DOC_DATE >= GETDATE() AND DOC_DATE <= GETDATE() AND DEPARTMENT = 1 AND STATUS = 1 GROUP BY REF,REF_NO) AS TMP),1) AS TICKET " +
+                            "MAX(REF_NO) AS TICKET " +
                             "FROM [POS_SALES_VW_01] AS POS " +
                             "WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 " +
                             "GROUP BY VAT",
                     param:  ['DEPARTMENT','TYPE','REF','REF_NO'],
                     type:   ['int','int','string|25','int'],
-                    value:  [$scope.Sube,$scope.EvrakTip,TmpSeri,TmpSira]
+                    value:  [$scope.Sube,TmpEvrakTip,TmpSeri,TmpSira]
                 }
-                db.GetDataQuery(TmpQuery,function(pData)
+                
+                db.GetDataQuery(TmpQuery,async function(pData)
                 {
+                    //TICKET GETIRILIYOR
+                    TmpQuery = 
+                    {
+                        db : $scope.Firma,
+                        query:  "SELECT TOP 1 CODE AS CODE FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 1",
+                        param:  ['REF','REF_NO'],
+                        type:   ['int','int'],
+                        value:  [TmpSeri,TmpSira]
+                    }
+                    
+                    let TmpTicket = await db.GetPromiseQuery(TmpQuery)
+                    if(TmpTicket.length > 0)
+                    {
+                        TmpBondA = TmpTicket[0].CODE 
+                    }
+                
                     let ParamData = 
                     [
                         CariParam,
-                        $scope.CariPuan,
-                        Math.floor($scope.GenelToplam),
-                        $scope.CariPuan + Math.floor($scope.GenelToplam)
+                        PosSatisData[0].CUSTOMER_POINT + Math.floor(PosSatisData[0].LOYALTY * 100),
+                        Math.floor(db.SumColumn(PosSatisData,"TTC")),
+                        Math.floor(PosSatisData[0].LOYALTY * 100),
+                        PosSatisData[0].CUSTOMER_POINT + Math.floor(PosSatisData[0].LOYALTY * 100),
+                        TmpBondA
                     ]   
 
-                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData);
+                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,()=>{});
                 });
             });
         });
@@ -3288,7 +3369,11 @@ function Pos($scope,$window,$rootScope,db)
             }
             else if (pType == 1)
             {
-                $scope.TxtBarkod = $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
+                if($scope.TxtBarkod.indexOf('*') > -1)
+                    $scope.TxtBarkod = $scope.TxtBarkod + $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
+                else
+                    $scope.TxtBarkod = $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
+
                 $scope.StokGetir($scope.TxtBarkod);
             }
             else if(pType == 2)
@@ -3577,40 +3662,111 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahTip = function(pTip)
     {
-        $scope.SonSatisTahDetayList[SonTahIndex].AMOUNT = parseFloat($scope.TxtSonTahGuncelle);
-        $scope.SonSatisTahDetayList[SonTahIndex].TYPENO = pTip;
-
         if(pTip == 0)
         {
-            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'ESC';
+            const index = $scope.SonSatisTahDetayList.indexOf($scope.SonSatisTahDetayList[SonTahIndex]);
+            if (index > -1) 
+            {
+                $scope.SonSatisTahDetayList.splice(index, 1);
+            }
         }
         else if(pTip == 1)
         {
-            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CB';
+            $scope.SonSatisTahDetayList[SonTahIndex].AMOUNT = parseFloat($scope.TxtSonTahGuncelle);
+            $scope.SonSatisTahDetayList[SonTahIndex].TYPENO = $scope.TahTip;
+    
+            if($scope.TahTip == 0)
+            {
+                $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'ESC';
+            }
+            else if($scope.TahTip == 1)
+            {
+                $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CB';
+            }
+            else if($scope.TahTip == 2)
+            {
+                $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'Chq';
+            }
+            else if($scope.TahTip == 3)
+            {
+                $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CHQe';
+            }
         }
         else if(pTip == 2)
         {
-            $scope.SonSatisTahDetayList[SonTahIndex].TYPE = 'CHQ';
-        }
+            let TmpData =
+            {
+                AMOUNT : parseFloat($scope.TxtSonTahGuncelle),
+                TYPENO : $scope.TahTip
+            }
+            
+            $scope.SonSatisTahDetayList.push(TmpData);
 
-        $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
-        $('#MdlSonSatisTahGuncelle').modal('hide');
+            $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].AMOUNT = parseFloat($scope.TxtSonTahGuncelle);
+            $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPENO = $scope.TahTip;
+    
+            if($scope.TahTip == 0)
+            {
+                $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPE = 'ESC';
+            }
+            else if($scope.TahTip == 1)
+            {
+                $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPE = 'CB';
+            }
+            else if($scope.TahTip == 2)
+            {
+                $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPE = 'Chq';
+            }
+            else if($scope.TahTip == 3)
+            {
+                $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPE = 'CHQe';
+            }
+        }
+        
+        $scope.SonTahDetayKalan = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC - db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT")
+
+        $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+        {
+            $(this).jsGrid({data : $scope.SonSatisTahDetayList});
+        });
     }
-    $scope.BtnSonTahKaydet = function()
+    $scope.BtnSonTahKaydet = async function()
     {
         if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT") == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
         {
+            TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "DELETE FROM POS_PAYMENT WHERE REF = @REF AND REF_NO = @REF_NO",
+                param:  ['REF','REF_NO'],
+                type:   ['int','int'],
+                value:  [$scope.SonSatisDetayList[0].REF,$scope.SonSatisDetayList[0].REF_NO]
+            }
+
+            await db.ExecutePromiseQuery(TmpQuery);
+
             for (let i = 0; i < $scope.SonSatisTahDetayList.length; i++) 
             {
-                let TmpQuery = 
-                {
-                    db : $scope.Firma,
-                    query:  "UPDATE POS_PAYMENT SET AMOUNT = @AMOUNT,TYPE = @TYPE WHERE GUID = @GUID",
-                    param:  ['AMOUNT','TYPE','GUID'],
-                    type:   ['float','int','string|50'],
-                    value:  [$scope.SonSatisTahDetayList[i].AMOUNT,$scope.SonSatisTahDetayList[i].TYPENO,$scope.SonSatisTahDetayList[i].GUID]
-                }
-                db.ExecuteQuery(TmpQuery,function(){});
+
+                let InsertData = 
+                [
+                    $scope.Kullanici,
+                    $scope.Kullanici,
+                    $scope.SonSatisDetayList[0].DEVICE,
+                    $scope.SonSatisDetayList[0].DEPARTMENT,
+                    $scope.SonSatisTahDetayList[i].TYPENO,
+                    $scope.SonSatisDetayList[0].TYPE, //EVRAKTIP
+                    moment($scope.SonSatisDetayList[0].DOC_DATE).format("DD.MM.YYYY"),
+                    $scope.SonSatisDetayList[0].REF,
+                    $scope.SonSatisDetayList[0].REF_NO,
+                    $scope.SonSatisDetayList[0].CUSTOMER_CODE,
+                    "",
+                    $scope.SonSatisTahDetayList[i].AMOUNT,
+                    0,//TahParaUstu,
+                    1
+                ];
+
+                await db.ExecutePromiseTag($scope.Firma,'PosTahInsert',InsertData);
             }
         }
         else
@@ -3618,7 +3774,11 @@ function Pos($scope,$window,$rootScope,db)
             db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO],function(PosSonSatisTahDetay)
             {  
                 $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
-                $("#TblSonSatisTahDetay").jsGrid({data : $scope.SonSatisTahDetayList});
+                
+                $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+                {
+                    $(this).jsGrid({data : $scope.SonSatisTahDetayList});
+                });
             });
             alertify.alert("Girilen tutar hatalıdır !")
         }
@@ -3973,5 +4133,9 @@ function Pos($scope,$window,$rootScope,db)
                 }
             });
         }
+    }
+    $scope.BtnRefresh = function()
+    {
+        window.location.reload();
     }
 }

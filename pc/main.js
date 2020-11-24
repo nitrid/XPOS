@@ -25,8 +25,10 @@ app.on('ready',function()
             },
             fullscreen: true
         });
+        
         mainWindow.maximize();
-        //mainWindow.setMenu(null)
+        mainWindow.setMenu(null)
+        
         let TmpConfig = JSON.parse(data.toString())
         mainWindow.loadURL(TmpConfig.host);
         // mainWindow.loadURL(url.format({

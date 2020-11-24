@@ -1,92 +1,80 @@
 function StokListeCtrl ($scope,$window,db)
 {
-    let GrdPage = true;
     let TmpFields =
     [
         {
-            name: "CODE",
-            title : "CODE",
-            type : "text",
-            align: "left",
-            width: 100,
-            itemTemplate: function(value) 
-            {
-                return $("<a>").attr("href", "#!Stok?Id=" + value).text(value);
-            }            
+            dataField: "CODE",
+            caption : "ÜRÜN KODU",
+            dataType : "string",
         },
         {
-            name: "NAME",
-            title : "NAME",
-            align: "left",
-            width: 100
+            dataField: "NAME",
+            caption : "ÜRÜN TAM ADI",
+            dataType : "string",
         },
         {
-            name: "BARCODE",
-            title : "BARCODE",
-            align: "left",
-            width: 75
+            dataField: "BARCODE",
+            caption : "BARKODU",
+            dataType : "string",
         },
         {
-            name: "SNAME",
-            title : "SNAME",
-            align: "left",
-            width: 75,
+            dataField: "SNAME",
+            caption : "ÜRÜN KISA ADI",
+            dataType : "string",
             visible: false
         },
         {
-            name: "ITEM_GRP",
-            title : "ITEM GRP",
-            align: "left",
-            width: 75,
+            dataField: "ITEM_GRP",
+            caption : "ÜRÜN GRUBU",
+            dataType : "string",
             visible: false
         },        
         {
-            name: "VAT",
-            title : "VAT",
-            align: "center",
-            width: 75,
+            dataField: "VAT",
+            caption : "VERGİ DİLİMİ",
+            dataType : "number",
             visible: false
         },
         {
-            name: "COST_PRICE",
-            title : "COST PRICE",
-            align: "center",
-            width: 75,
+            dataField: "COST_PRICE",
+            caption : "MALİYET FİYATI",
+            dataType : "number",
             visible: false
         },
         {
-            name: "MIN_PRICE",
-            title : "MIN PRICE",
-            align: "center",
-            width: 75,
+            dataField: "MIN_PRICE",
+            caption : "MİNİMUM SATIŞ FİYATI",
+            dataType : "number",
             visible: false
         },
         {
-            name: "MAX_PRICE",
-            title : "MAX PRICE",
-            align: "center",
-            width: 75,
+            dataField: "MAX_PRICE",
+            caption : "MAKSİMUM SATIŞ FİYATI",
+            dataType : "number",
             visible: false
         },
         {
-            name: "UNIT",
-            title : "UNIT",
-            align: "left",
-            width: 75,
+            dataField: "UNIT",
+            caption : "BİRİM",
+            dataType : "string",
             visible: false
         },        
         {
-            name: "PRICE",
-            title : "PRICE",
-            align: "center",
-            width: 75,
+            dataField: "PRICE",
+            caption : "SATIŞ FİYATI",
+            dataType : "number",
             visible: false
         },
         {
-            name: "CUSTOMER_ITEM_CODE",
-            title : "CUSTOMER CODE",
-            align: "left",
-            width: 75,
+            dataField: "CUSTOMER_ITEM_CODE",
+            caption : "TEDARİKÇİ ÜRÜN KODU",
+            dataType : "string",
+            visible: false
+        },
+        {
+            dataField: "STATUS",
+            caption : "DURUM",
+            dataType : "string",
             visible: false
         }
     ];
@@ -121,20 +109,55 @@ function StokListeCtrl ($scope,$window,db)
     }
     function TblStokInit()
     {
-        $("#TblStok").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            sorting: true,
-            data : $scope.Data,
-            paging : GrdPage,
-            pageSize: 200,
-            pageButtonCount: 5,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: TmpFields
+        $("#TblStok").dxDataGrid(
+        {
+            dataSource: $scope.Data,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            headerFilter: {
+                visible: true
+            },
+            paging: 
+            {
+                pageSize: 50
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [25, 50, 100, 200, 500, 1000],
+                showInfo: true
+            },
+            selection: 
+            {
+                mode: "single"
+            },
+            columns: TmpFields,
+            onRowDblClick: function(e)
+            {
+                $window.location.href = '#!Stok?Id=' + e.data.CODE;
+            },
+            onRowPrepared: function (rowInfo) 
+            {  
+                if(typeof rowInfo.data != 'undefined')
+                {
+                    if(rowInfo.data.STATUS == 'Pasif')
+                    {
+                        rowInfo.rowElement.css('background', '#dce1e2');
+                    }
+                   
+                }
+            }  
         });
+
+       
     }
     function StokGetir()
     {
@@ -221,7 +244,7 @@ function StokListeCtrl ($scope,$window,db)
                     QueryField.Barcode.Field +
                     QueryField.Price.Field +
                     QueryField.Customer.Field +
-                    "ITEMS.STATUS AS STATUS " +
+                    "CASE WHEN ITEMS.STATUS = 0 THEN 'Pasif' ELSE 'Aktif' END AS STATUS " +
                     "FROM ITEMS " +
                     QueryField.Unit.Outer +
                     QueryField.Barcode.Outer + 
@@ -231,7 +254,7 @@ function StokListeCtrl ($scope,$window,db)
                     QueryField.Code.Where +
                     QueryField.Customer.Where + 
                     "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
-                    "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ITEMS.STATUS = @STATUS AND " +
+                    "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
                     "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER=''))",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
             value : [$scope.Barkod,$scope.Adi,$scope.Grup,$scope.Durum,$scope.Tedarikci]
@@ -239,8 +262,8 @@ function StokListeCtrl ($scope,$window,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $scope.Data = Data
-            $("#TblStok").jsGrid({data : $scope.Data});
+            $scope.Data = Data;
+            TblStokInit();
         });
     }
     $scope.GrupGetir = function()
@@ -321,10 +344,5 @@ function StokListeCtrl ($scope,$window,db)
         {   
             StokGetir();
         }
-    }
-    $scope.BtnAll = function()
-    {
-        GrdPage = false;
-        TblStokInit();
     }
 }
