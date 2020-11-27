@@ -337,6 +337,18 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
     } 
     $scope.BtnAra = async function()
     {
+
+        let TmpVal = ""
+        
+        for (let i = 0; i < $scope.Kodu.split(' ').length; i++) 
+        {
+            TmpVal += "'" + $scope.Kodu.split(' ')[i] + "'"
+            if($scope.Kodu.split(' ').length > 1 && i !=  ($scope.Kodu.split(' ').length - 1))
+            {
+                TmpVal += ","
+            }
+        }
+
         let TmpQuery = 
         {
             db : $scope.Firma,
@@ -361,13 +373,30 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     "ITEMS.CODE = ITEM_CODE " +
                     "LEFT OUTER JOIN ITEM_PRICE ON " +
                     "ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 AND ITEM_PRICE.START_DATE = '19700101' " +
-                    "WHERE ((ITEMS.CODE LIKE @CODE + '%') OR (@CODE = '')) AND ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
+                    "WHERE {0} ((ITEMS.NAME LIKE @NAME + '%') OR (@NAME = '')) AND " +
                     "((ITEM_CUSTOMER.CUSTOMER_CODE = @CUSTOMER_CODE) OR (@CUSTOMER_CODE = '')) AND ((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = ''))",
-            param:  ['CODE','NAME','CUSTOMER_CODE','ITEM_GRP'],
-            type:   ['string|25','string|200','string|25','string|25'],
-            value:  [$scope.Kodu, $scope.Adi, $scope.Tedarikci, $scope.Grup]            
+            param:  ['NAME','CUSTOMER_CODE','ITEM_GRP'],
+            type:   ['string|200','string|25','string|25'],
+            value:  [$scope.Adi, $scope.Tedarikci, $scope.Grup]            
         }
         
+        if($scope.Kodu != '')
+        {
+            if($scope.Kodu.split(' ').length > 1)
+            {
+                TmpQuery.query = TmpQuery.query.replace('{0}'," ITEMS.CODE IN (" + TmpVal + ") AND ");
+            }
+            else
+            {
+                TmpQuery.query = TmpQuery.query.replace('{0}', " ITEMS.CODE LIKE " + TmpVal + " + '%' AND ");
+            }
+        }
+        else
+        {
+            TmpQuery.query = TmpQuery.query.replace('{0}','');
+        }
+
+
         let TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.Data = TmpData;
         

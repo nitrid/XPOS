@@ -15,10 +15,6 @@ angular.module("app",
     {
         templateUrl : "html/kartlar/Cari.html"
     })
-    .when("/StokListesi",
-    {
-        templateUrl : "html/kartlar/StokListesi.html"
-    })
     .when("/CariListesi",
     {
         templateUrl : "html/kartlar/CariListesi.html"
@@ -46,6 +42,10 @@ angular.module("app",
     .when("/FiyatListeYonetimi",
     {
         templateUrl : "html/yonetim/FiyatListeYonetimi.html"
+    })
+    .when("/PosSatisRapor",
+    {
+        templateUrl : "html/rapor/PosSatisRapor.html"
     })
     .when("/KullaniciParametre",
     {

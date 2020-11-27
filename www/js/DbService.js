@@ -817,15 +817,19 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
             TmpData.push(TmpLine);
         }
-        //PARA ÜSTÜ
-        TmpLine = 
+
+        if(pTData[pTData.length - 1].TYPE != 3)
         {
-            font: "a",
-            align: "lt",
-            data: _PrintText("Rendu",33) +
-                  _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
+            //PARA ÜSTÜ
+            TmpLine = 
+            {
+                font: "a",
+                align: "lt",
+                data: _PrintText("Rendu",33) +
+                    _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
+            }
+            TmpData.push(TmpLine);
         }
-        TmpData.push(TmpLine);
 
         TmpData.push({font:"b",align:"lt",data:_PrintText(" ",64)});
 

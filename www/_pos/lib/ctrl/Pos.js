@@ -1,3 +1,5 @@
+const { Console } = require("console");
+
 function Pos($scope,$window,$rootScope,db)
 {
     let IslemSelectedRow = null;
@@ -1065,14 +1067,6 @@ function Pos($scope,$window,$rootScope,db)
     function TxtBarkodKeyPress()
     {   
         $scope.StokGetir($scope.TxtBarkod);
-        // if($scope.TxtBarkod.indexOf("-") != -1)
-        // {   
-        //     $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.TxtBarkod.split("-")[1]);
-        // }
-        // else
-        // {   
-        //     $scope.StokGetir($scope.TxtBarkod);
-        // }
     }
     function TahSonYenile()
     {  
@@ -1200,10 +1194,13 @@ function Pos($scope,$window,$rootScope,db)
                     }
                     else if($scope.TahParaUstu > 0)
                     {
-                        //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
-                        $scope.TmpParaUstu = $scope.TahParaUstu;
-                        $("#MdlParaUstu").modal("show");                    
-                        setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+                        if($scope.TahList[$scope.TahList.length-1].TYPE != 3)
+                        {
+                            //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
+                            $scope.TmpParaUstu = $scope.TahParaUstu;
+                            $("#MdlParaUstu").modal("show");                    
+                            setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+                        }
                     }
                     
                     let ParamData = 
@@ -1633,14 +1630,7 @@ function Pos($scope,$window,$rootScope,db)
 
         if($scope.CmbStokAra == "0")
         {
-            if($scope.TxtStokAra.indexOf('*') > -1)
-            {
-                Adi = $scope.TxtStokAra.replace('*','%').replace('*','%');
-            }
-            else
-            {
-                Adi = $scope.TxtStokAra + "%";
-            }            
+            Adi = $scope.TxtStokAra + "%";          
         }
         else
         {            
@@ -1768,7 +1758,11 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         TmpTicket = pBarkod.substring(9,14)
                     }                
-                    
+                    else if(pBarkod.length == 18)
+                    {
+                        TmpTicket = pBarkod.substring(5,10)
+                    }
+
                     if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) != TmpYear)
                     {
                         alertify.alert("Geçersiz ticket.");
@@ -2012,10 +2006,10 @@ function Pos($scope,$window,$rootScope,db)
         TahTutar = parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'));
         if($scope.GenelToplam < (db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))))
         {
-            if($scope.TahTip != 3)
-            {
+            // if($scope.TahTip != 3)
+            // {
                 TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2();
-            }
+            // }
             TahTutar = parseFloat(parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.')) - TahParaUstu).toDigit2();
         }
                

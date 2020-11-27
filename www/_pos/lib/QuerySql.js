@@ -935,7 +935,9 @@ var QuerySql =
     },
     PosSatisBelgeIptal : 
     {
-        query: "UPDATE POS_SALES SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE",
+        query: "UPDATE POS_SALES SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE " + 
+               "UPDATE POS_PAYMENT SET STATUS = -2 WHERE REF = @REF AND REF_NO = @REF_NO AND DOC_TYPE = @TYPE " +
+               "DELETE FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO ",
         param: ['REF','REF_NO','TYPE'],
         type:  ['string|25','int','int']
     },
