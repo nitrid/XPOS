@@ -706,7 +706,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
 
         TmpData.push({font:"b",align:"lt",data:_PrintText(moment(new Date()).locale('fr').format('dddd') + " " + moment(new Date()).format("DD.MM.YYYY"),59) + _PrintText(moment(new Date()).format("LTS"),5)});
-        TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,41) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,23)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,40) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,24)});
         TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});                
 
         if(pType == 'Fatura')
