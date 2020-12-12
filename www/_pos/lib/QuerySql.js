@@ -14,7 +14,7 @@ var QuerySql =
                 "[MIN_PRICE] AS [MIN_PRICE], " + 
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
-                "[PLU] AS [PLU], " + 
+                "[ORGINS] AS [ORGINS], " + 
                 "[WEIGHING] AS [WEIGHING], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE ASC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
@@ -48,9 +48,9 @@ var QuerySql =
                 ",[MIN_PRICE] " +
                 ",[MAX_PRICE] " +
                 ",[STATUS] " +
-                ",[PLU] " +
                 ",[WEIGHING] " +
                 ",[SPECIAL1] " +
+                ",[ORGINS] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -66,9 +66,9 @@ var QuerySql =
                 "@MIN_PRICE,			--<MIN_PRICE, float,> \n" +
                 "@MAX_PRICE,			--<MAX_PRICE, float,> \n" +
                 "@STATUS,				--<STATUS, bit,> \n" +
-                "@PLU,				    --<PLU, bit,> \n" +
                 "@WEIGHING,			    --<WEIGHING, bit,> \n" +
-                "@SPECIAL1			    --<SPECIAL1, bit,> \n" +
+                "@SPECIAL1,			    --<SPECIAL1, nvarchar(50),> \n" +
+                "@ORGINS			    --<ORGINS, nvarchar(25),> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -83,12 +83,12 @@ var QuerySql =
                 ",[MIN_PRICE] = @MIN_PRICE " +
                 ",[MAX_PRICE] = @MAX_PRICE " +
                 ",[STATUS] = @STATUS " +
-                ",[PLU] = @PLU " +
                 ",[WEIGHING] = @WEIGHING " +
                 ",[SPECIAL1] = @SPECIAL1 " +
+                ",[ORGINS] = @ORGINS " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','PLU:bit','WEIGHING:bit','SPECIAL1:string|50']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','WEIGHING:bit','SPECIAL1:string|50','ORGINS:string|25']
     },
     StokKartSil :
     {

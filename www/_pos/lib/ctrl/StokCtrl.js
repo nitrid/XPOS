@@ -1201,7 +1201,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.TYPE = "0";
         TmpStokObj.VAT = "-";
         TmpStokObj.STATUS = true;
-        TmpStokObj.PLU = false;
+        TmpStokObj.ORGINS = "";
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
@@ -1279,10 +1279,10 @@ function StokCtrl ($scope,$window,$location,db)
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
             parseFloat($scope.StokListe[0].MIN_PRICE.toString().replace(',','.')),
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
-            $scope.StokListe[0].STATUS,
-            $scope.StokListe[0].PLU,
+            $scope.StokListe[0].STATUS,            
             $scope.StokListe[0].WEIGHING,
-            ''
+            '',
+            $scope.StokListe[0].ORGINS,
         ];
 
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)
