@@ -1003,7 +1003,10 @@ function StokCtrl ($scope,$window,$location,db)
                 if($scope.StokListe[0].VAT == null)
                 {
                     $scope.StokListe[0].VAT = "-"
-                }
+                }   
+                
+                console.log($scope.StokListe[0].MAIN_UNIT_NAME)
+                console.log($scope.StokListe[0].UNDER_UNIT_NAME)
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -2123,36 +2126,6 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.okBtn("Tamam");
             alertify.alert("Vergi dilimi yuzde sıfır.Eminmisiniz ?");
             return;
-        }
-    }
-    $scope.TxtUrunGrupKeyPress = function(keyEvent)
-    {
-        if(keyEvent.which === 13)
-        {
-            if($scope.StokListe[0].ITEM_GRP != "")
-            {
-                let TmpQuery =
-                {
-                    db : $scope.Firma,
-                    query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP WHERE CODE LIKE @CODE + '%'",
-                    param : ["CODE:string|100"],
-                    value : [$scope.StokListe[0].ITEM_GRP.split('/')[0]]
-                }
-                db.GetDataQuery(TmpQuery,function(Data)
-                {
-                    if(Data.length == 1)
-                    {
-                        $scope.StokListe[0].ITEM_GRP = Data[0].CODE + '/' + Data[0].NAME;
-                        $("#MdlSecim").modal('hide');
-                    }
-                    else if(Data.length > 1)
-                    {
-                        ModalTip = "UrunGrup"
-                        TblSecimInit(Data);
-                        $("#MdlSecim").modal('show');
-                    }
-                });
-            }
         }
     }
 }
