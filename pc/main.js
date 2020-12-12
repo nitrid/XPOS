@@ -21,7 +21,8 @@ app.on('ready',function()
             webPreferences: 
             {
                 nodeIntegration: true,
-                nodeIntegrationInWorker: true
+                nodeIntegrationInWorker: true,
+                enableRemoteModule : true
             },
             fullscreen: true
         });

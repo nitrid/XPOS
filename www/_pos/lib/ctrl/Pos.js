@@ -1188,13 +1188,13 @@ function Pos($scope,$window,$rootScope,db)
                     if($scope.TahParaUstu > 0 && db.Equal($scope.TahList,"TYPE",4))
                     {
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.TahParaUstu.toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.TahParaUstu.toFixed(2) * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
                         db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.TahParaUstu.toDigit2()),$scope.Seri,$scope.Sira,1]);
                     }
                     else if($scope.TahParaUstu > 0)
                     {
-                        if($scope.TahList[$scope.TahList.length-1].TYPE != 3)
+                        if(db.Equal($scope.TahList,"TYPE",0))
                         {
                             //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                             $scope.TmpParaUstu = $scope.TahParaUstu;
@@ -1285,6 +1285,10 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     $scope.BtnDownClick();
                 }
+            }
+            else if(e.which == 123)
+            {
+                require('electron').remote.getCurrentWindow().toggleDevTools();
             }
         }
         else if(FocusAraToplam)
@@ -1733,7 +1737,7 @@ function Pos($scope,$window,$rootScope,db)
                 pBarkod = pBarkod.split("*")[1];
             }
             //TICKET RESTORANT İÇİN YAPILDI
-            if(pBarkod.length >= 16)
+            if(pBarkod.length >= 16 && pBarkod.length <= 24)
             {
                 let TmpTicket = pBarkod.substring(11,16)
                 let TmpYear = pBarkod.substring(pBarkod.length - 1, pBarkod.length);
@@ -1763,7 +1767,12 @@ function Pos($scope,$window,$rootScope,db)
                         TmpTicket = pBarkod.substring(5,10)
                     }
 
-                    if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) != TmpYear)
+                    if(TmpYear == "9")
+                    {
+                        TmpYear = -1
+                    }
+
+                    if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
                     {
                         alertify.alert("Geçersiz ticket.");
                         $scope.TxtBarkod = "";
@@ -2764,7 +2773,7 @@ function Pos($scope,$window,$rootScope,db)
                 if(Data.length == 1)
                 {
                     if($scope.TxtBarkod.indexOf('*') > -1)
-                        $scope.TxtBarkod = $scope.TxtBarkod + $scope.BarkodListe[0].BARCODE;
+                        $scope.TxtBarkod = $scope.TxtBarkod.split('*')[0] + '*' + $scope.BarkodListe[0].BARCODE;
                     else
                         $scope.TxtBarkod = $scope.BarkodListe[0].BARCODE;
 
@@ -2856,7 +2865,7 @@ function Pos($scope,$window,$rootScope,db)
                 db.ExecuteQuery(TmpQuery,function(UpdateResult)
                 {
                     //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.GenelToplam.toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.GenelToplam.toFixed(2) * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
 
                     //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
                     if(pTip == 0)
@@ -3726,7 +3735,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahKaydet = async function()
     {
-        if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT") == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
+        console.log([db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() , $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT])
+        if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
         {
             TmpQuery = 
             {

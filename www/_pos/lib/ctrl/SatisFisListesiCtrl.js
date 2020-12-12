@@ -144,6 +144,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
             fields: 
             [
             {
+                name: "TIME",
+                title: "TIME",
+                type: "text",
+                align: "center",
+                width: 30
+            },
+            {
                 name: "DEVICE",
                 title: "CASE",
                 type: "text",
@@ -202,7 +209,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
             {
                 name: "TTC",
                 title: "TTC",
-                type: "text",
+                type: "number",
                 align: "center",
                 width: 60
             }],
@@ -445,6 +452,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
+                    "MAX(TIME) AS TIME, " +
                     "MAX(DEVICE) AS DEVICE, " +
                     "MAX(DEPARTMENT) AS DEPARTMENT, " +
                     "MAX(SALE_TYPE) AS SALE_TYPE, " +
@@ -458,6 +466,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(TTC) AS TTC " +
                     "FROM ( " +
                     "SELECT " +
+                    "CONVERT(NVARCHAR,MAX(SALE.CDATE),108) AS TIME, " + 
                     "MAX(SALE.DEVICE) AS DEVICE, " +
                     "MAX(SALE.DEPARTMENT) AS DEPARTMENT, " +
                     "SALE.TYPE AS SALE_TYPE, " +
@@ -472,13 +481,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "ROUND(SUM(SALE.TTC),2) AS TTC " +
                     "FROM POS_SALES_VW_01 AS SALE " +
                     "INNER JOIN POS_PAYMENT AS PAYMENT ON " +
-                    "PAYMENT.REF = SALE.REF AND PAYMENT.REF_NO = SALE.REF_NO AND PAYMENT.DOC_TYPE = SALE.TYPE  " +
+                    "PAYMENT.REF = SALE.REF AND PAYMENT.REF_NO = SALE.REF_NO AND PAYMENT.DOC_TYPE = SALE.TYPE AND PAYMENT.STATUS = 1 " +
                     "WHERE SALE.DOC_DATE >= @ILKTARIH AND SALE.DOC_DATE <= @SONTARIH AND  " +
                     "((SALE.CUSTOMER_CODE = @CUSTOMER_CODE) OR (@CUSTOMER_CODE = '')) AND " +
                     "((SALE.DEVICE = @DEVICE) OR (@DEVICE = '')) AND " +
                     "((SALE.REF_NO = @REF_NO) OR (@REF_NO = '')) AND  " +
                     "((PAYMENT.TYPE = @TYPE) OR (@TYPE = -1)) AND " +
-                    "((SALE.LUSER = @LUSER) OR (@LUSER = '')) {0} " +
+                    "((SALE.LUSER = @LUSER) OR (@LUSER = '')) AND SALE.STATUS = 1 {0} " +
                     "GROUP BY SALE.REF,SALE.REF_NO,SALE.TYPE,PAYMENT.TYPE " +
                     "HAVING ((ROUND(SUM(SALE.TTC),2) = @TTC) OR (@TTC = 0)) " +
                     ") AS TMP GROUP BY REF,REF_NO",

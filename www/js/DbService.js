@@ -818,7 +818,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             TmpData.push(TmpLine);
         }
 
-        if(pTData[pTData.length - 1].TYPE != 3)
+        if(_Equal(pTData,"TYPE",0))
         {
             //PARA ÜSTÜ
             TmpLine = 
@@ -826,6 +826,18 @@ angular.module('app.db', []).service('db',function($rootScope)
                 font: "a",
                 align: "lt",
                 data: _PrintText("Rendu",33) +
+                    _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
+            }
+            TmpData.push(TmpLine);
+        }
+        else if(_Equal(pTData,"TYPE",3))
+        {
+            //PARA ÜSTÜ
+            TmpLine = 
+            {
+                font: "a",
+                align: "lt",
+                data: _PrintText("Surplus Tic. Rest.",33) +
                     _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
             }
             TmpData.push(TmpLine);
