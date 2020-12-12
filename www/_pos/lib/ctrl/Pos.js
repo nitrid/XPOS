@@ -300,7 +300,6 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(pData.tag == "response")
             {
-                console.log(JSON.parse(pData.msg).transaction_result)
                 if(JSON.parse(pData.msg).transaction_result == 0)
                 {
                     $("#MdlKartYukleniyor").modal("hide");
@@ -3374,9 +3373,9 @@ function Pos($scope,$window,$rootScope,db)
             else if (pType == 1)
             {
                 if($scope.TxtBarkod.indexOf('*') > -1)
-                    $scope.TxtBarkod = $scope.TxtBarkod + $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
+                    $scope.TxtBarkod = $scope.TxtBarkod + $scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 1).ITEMS_CODE;
                 else
-                    $scope.TxtBarkod = $scope.PluList.find(x => x.LOCATION == pIndex).ITEMS_CODE;
+                    $scope.TxtBarkod = $scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 1).ITEMS_CODE;
 
                 $scope.StokGetir($scope.TxtBarkod);
             }
