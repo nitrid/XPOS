@@ -300,6 +300,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(pData.tag == "response")
             {
+                console.log(JSON.parse(pData.msg).transaction_result)
                 if(JSON.parse(pData.msg).transaction_result != 0)
                 {
                     $("#MdlKartYukleniyor").modal("hide"); 
