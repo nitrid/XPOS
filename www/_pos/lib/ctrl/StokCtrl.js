@@ -1000,10 +1000,6 @@ function StokCtrl ($scope,$window,$location,db)
 
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
-                if($scope.StokListe[0].VAT == null)
-                {
-                    $scope.StokListe[0].VAT = "-"
-                }
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -1199,13 +1195,13 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.SNAME = "";
         TmpStokObj.ITEM_GRP = "";
         TmpStokObj.TYPE = "0";
-        TmpStokObj.VAT = "-";
+        TmpStokObj.VAT = "0";
         TmpStokObj.STATUS = true;
         TmpStokObj.ORGINS = "";
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
-        TmpStokObj.UNDER_UNIT_NAME = "";
+        TmpStokObj.UNDER_UNIT_NAME = "Unité";
         TmpStokObj.UNDER_UNIT_FACTOR = 0;
         TmpStokObj.MAIN_UNIT_NAME = "Unité";
         TmpStokObj.MAIN_UNIT_FACTOR = 1;
@@ -2123,36 +2119,6 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.okBtn("Tamam");
             alertify.alert("Vergi dilimi yuzde sıfır.Eminmisiniz ?");
             return;
-        }
-    }
-    $scope.TxtUrunGrupKeyPress = function(keyEvent)
-    {
-        if(keyEvent.which === 13)
-        {
-            if($scope.StokListe[0].ITEM_GRP != "")
-            {
-                let TmpQuery =
-                {
-                    db : $scope.Firma,
-                    query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP WHERE CODE LIKE @CODE + '%'",
-                    param : ["CODE:string|100"],
-                    value : [$scope.StokListe[0].ITEM_GRP.split('/')[0]]
-                }
-                db.GetDataQuery(TmpQuery,function(Data)
-                {
-                    if(Data.length == 1)
-                    {
-                        $scope.StokListe[0].ITEM_GRP = Data[0].CODE + '/' + Data[0].NAME;
-                        $("#MdlSecim").modal('hide');
-                    }
-                    else if(Data.length > 1)
-                    {
-                        ModalTip = "UrunGrup"
-                        TblSecimInit(Data);
-                        $("#MdlSecim").modal('show');
-                    }
-                });
-            }
         }
     }
 }
