@@ -300,7 +300,15 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(pData.tag == "response")
             {
-                if(JSON.parse(pData.msg).transaction_result == "0")
+                if(JSON.parse(pData.msg).transaction_result != 0)
+                {
+                    $("#MdlKartYukleniyor").modal("hide"); 
+                    alertify.confirm('Ödeme gerçekleşmedi', function()
+                    {
+                        $("#MdlKartYukleniyor").modal("show");
+                    });    
+                }
+                else
                 {
                     $("#MdlKartYukleniyor").modal("hide");
 
@@ -310,15 +318,7 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             $("#MdlKalanOdeme").modal("show");
                         }
-                    });
-                }
-                else
-                {
-                    $("#MdlKartYukleniyor").modal("hide"); 
-                    alertify.confirm('Ödeme gerçekleşmedi', function()
-                    {
-                        $("#MdlKartYukleniyor").modal("show");
-                    });                    
+                    });                                    
                 }
             }
         })
@@ -3735,8 +3735,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahKaydet = async function()
     {
-        console.log([db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() , $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT])
-        if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].AMOUNT)
+        console.log([db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() , $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC])
+        if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC)
         {
             TmpQuery = 
             {

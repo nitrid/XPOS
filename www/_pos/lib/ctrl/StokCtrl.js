@@ -1000,13 +1000,6 @@ function StokCtrl ($scope,$window,$location,db)
 
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
-                if($scope.StokListe[0].VAT == null)
-                {
-                    $scope.StokListe[0].VAT = "-"
-                }   
-                
-                console.log($scope.StokListe[0].MAIN_UNIT_NAME)
-                console.log($scope.StokListe[0].UNDER_UNIT_NAME)
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -1202,13 +1195,13 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.SNAME = "";
         TmpStokObj.ITEM_GRP = "";
         TmpStokObj.TYPE = "0";
-        TmpStokObj.VAT = "-";
+        TmpStokObj.VAT = "0";
         TmpStokObj.STATUS = true;
         TmpStokObj.ORGINS = "";
         TmpStokObj.COST_PRICE = 0;
         TmpStokObj.MIN_PRICE = 0;
         TmpStokObj.MAX_PRICE = 0;
-        TmpStokObj.UNDER_UNIT_NAME = "";
+        TmpStokObj.UNDER_UNIT_NAME = "Unité";
         TmpStokObj.UNDER_UNIT_FACTOR = 0;
         TmpStokObj.MAIN_UNIT_NAME = "Unité";
         TmpStokObj.MAIN_UNIT_FACTOR = 1;
