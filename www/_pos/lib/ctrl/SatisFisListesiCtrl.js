@@ -493,7 +493,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     ") AS TMP GROUP BY REF,REF_NO",
             param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','LUSER','TTC'],
             type:   ['date','date','string|25','string|25','string|25','int','string|25','float'],
-            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar]            
+            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.')]            
         }
 
         if($scope.FisTipi == 0)
