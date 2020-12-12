@@ -724,7 +724,9 @@ var QuerySql =
         query : "SELECT " +
                 "NAME AS NAME, " +
                 "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),CODE) AS BARCODE, " +
-                "ISNULL((SELECT TOP 1 IMAGE FROM ITEM_IMAGE WHERE ITEM_CODE = CODE),'') AS IMAGE " +
+                "ISNULL((SELECT TOP 1 IMAGE FROM ITEM_IMAGE WHERE ITEM_CODE = CODE),'') AS IMAGE, " +
+                "ORGINS AS ORGINS, " +
+                "dbo.FN_PRICE_SALE(CODE,1,GETDATE()) AS PRICE " +
                 "FROM ITEMS WHERE ((ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((NAME LIKE @NAME + '%') OR (@NAME = '')) AND STATUS = 1 " +
                 "ORDER BY NAME ASC",
         param : ['ITEM_GRP','NAME'],
