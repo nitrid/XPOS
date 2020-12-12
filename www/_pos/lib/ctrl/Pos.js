@@ -1966,8 +1966,8 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             port : $scope.ComPorts.EkranPort,
                             blink : 0,
-                            text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                    db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
+                            text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
+                                    db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
                                     "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
@@ -2069,8 +2069,8 @@ function Pos($scope,$window,$rootScope,db)
                         {
                             port : $scope.ComPorts.EkranPort,
                             blink : 0,
-                            text :  db.PrintText(PosTahData[PosTahData.length - 1].TYPE_NAME,9) + " " + 
-                                    db.PrintText(parseFloat(PosTahData[PosTahData.length - 1].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
+                            text :  db.PrintText(PosTahData[0].TYPE_NAME,9) + " " + 
+                                    db.PrintText(parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
                                     "Rendu : " + db.PrintText(parseFloat(db.SumColumn(PosTahData,"CHANGE")).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
@@ -2125,8 +2125,8 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         port : $scope.ComPorts.EkranPort,
                         blink : 0,
-                        text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
+                        text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
+                                db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
                                 "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
                     }                        
                 );
@@ -2157,8 +2157,8 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         port : $scope.ComPorts.EkranPort,
                         blink : 0,
-                        text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                                db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
+                        text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
+                                db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
                                 "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
                     }                        
                 );
@@ -2680,8 +2680,8 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     port : $scope.ComPorts.EkranPort,
                     blink : 0,
-                    text :  db.PrintText(PosSatisData[PosSatisData.length - 1].ITEM_NAME,11) + " " + 
-                            db.PrintText(parseFloat(PosSatisData[PosSatisData.length - 1].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
+                    text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
+                            db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
                             "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
                 }                        
             );
