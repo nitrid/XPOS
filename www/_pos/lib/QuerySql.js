@@ -6,7 +6,7 @@ var QuerySql =
                 "[CODE] AS [CODE], " +
                 "[NAME] AS [NAME], " + 
                 "[SNAME] AS [SNAME], " + 
-                "[ITEM_GRP] AS [ITEM_GRP], " + 
+                "[ITEM_GRP] + '/' + (SELECT TOP 1 NAME FROM ITEM_GROUP WHERE CODE = [ITEM_GRP]) AS [ITEM_GRP], " + 
                 "CONVERT(nvarchar(5),[TYPE]) AS [TYPE], " + 
                 "CONVERT(nvarchar(5),[VAT]) AS [VAT], " + 
                 "ISNULL((SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),ISNULL([COST_PRICE],0)) AS [COST_PRICE], " + 

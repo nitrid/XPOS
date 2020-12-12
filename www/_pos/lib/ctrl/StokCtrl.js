@@ -1234,7 +1234,6 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert("Kodu bölümünü boş geçemezsiniz !");
             return;
         }
-        console.log($scope.StokListe[0].ORGINS)
         if($scope.StokListe[0].ITEM_GRP == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
             alertify.okBtn("Tamam");
@@ -1280,7 +1279,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].CODE,
             $scope.StokListe[0].NAME,
             $scope.StokListe[0].SNAME,
-            $scope.StokListe[0].ITEM_GRP,
+            $scope.StokListe[0].ITEM_GRP.split('/')[0],
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
@@ -1642,7 +1641,7 @@ function StokCtrl ($scope,$window,$location,db)
         // }
         else if(ModalTip == "UrunGrup")
         {
-            $scope.StokListe[0].ITEM_GRP = SecimSelectedRow.Item.CODE;
+            $scope.StokListe[0].ITEM_GRP = SecimSelectedRow.Item.CODE + '/' + SecimSelectedRow.Item.NAME;
             $("#MdlSecim").modal('hide');
         }
         ModalTip = "";
@@ -2137,13 +2136,13 @@ function StokCtrl ($scope,$window,$location,db)
                     db : $scope.Firma,
                     query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP WHERE CODE LIKE @CODE + '%'",
                     param : ["CODE:string|100"],
-                    value : [$scope.StokListe[0].ITEM_GRP]
+                    value : [$scope.StokListe[0].ITEM_GRP.split('/')[0]]
                 }
                 db.GetDataQuery(TmpQuery,function(Data)
                 {
                     if(Data.length == 1)
                     {
-                        $scope.StokListe[0].ITEM_GRP = Data[0].CODE;
+                        $scope.StokListe[0].ITEM_GRP = Data[0].CODE + '/' + Data[0].NAME;
                         $("#MdlSecim").modal('hide');
                     }
                     else if(Data.length > 1)
