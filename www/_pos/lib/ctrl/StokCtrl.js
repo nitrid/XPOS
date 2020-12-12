@@ -357,7 +357,7 @@ function StokCtrl ($scope,$window,$location,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT CODE,NAME + ' ' + LAST_NAME AS NAME FROM CUSTOMERS WHERE TYPE = 1 ORDER BY NAME ASC"
+            query:  "SELECT CODE,NAME FROM CUSTOMERS WHERE TYPE = 1 ORDER BY NAME ASC"
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
