@@ -2,6 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 const fs = require("fs");
+const electronLocalshortcut = require('electron-localshortcut');
 
 const {app,BrowserWindow,Menu} = electron;
 app.allowRendererProcessReuse = false
@@ -30,6 +31,10 @@ app.on('ready',function()
         mainWindow.maximize();
         mainWindow.setMenu(null)
         
+        electronLocalshortcut.register(mainWindow, 'F12', () => 
+        {
+            mainWindow.openDevTools();
+        });
         let TmpConfig = JSON.parse(data.toString())
         mainWindow.loadURL(TmpConfig.host);
         // mainWindow.loadURL(url.format({

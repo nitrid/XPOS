@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^10.1.5",
+    "electron-localshortcut": "^3.2.1",
     "escpos": "^3.0.0-alpha.6",
     "escpos-screen": "^3.0.0-alpha.6",
     "escpos-serialport": "^3.0.0-alpha.4",
@@ -25,14 +26,11 @@
     "electron-packager": "^15.1.0",
     "electron-rebuild": "^2.0.1"
   },
-  "build": 
-  {
-    "files": 
-    [
+  "build": {
+    "files": [
       "config.json"
     ],
-    "directories": 
-    {
+    "directories": {
       "buildResources": "resources"
     },
     "extraFiles": [
