@@ -1234,6 +1234,12 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert("Kodu bölümünü boş geçemezsiniz !");
             return;
         }
+        if($scope.StokListe[0].ORGINS == '')
+        {
+            alertify.okBtn("Tamam");
+            alertify.alert("Menşei bölümünü boş geçemezsiniz !");
+            return;
+        }
 
         if($scope.StyleAll.visibility != 'hidden')
         {
