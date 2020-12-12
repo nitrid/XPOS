@@ -1235,7 +1235,7 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
         console.log($scope.StokListe[0].ORGINS)
-        if($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null)
+        if($scope.StokListe[0].ITEM_GRP == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
             alertify.okBtn("Tamam");
             alertify.alert("Menşei bölümünü boş geçemezsiniz !");
