@@ -435,6 +435,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             db.SafeApply($scope,function()
             {
+                $scope.Tarih = new Date().toLocaleDateString('tr-TR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
                 $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
             })
         },1000);
@@ -1203,6 +1204,16 @@ function Pos($scope,$window,$rootScope,db)
                         }
                     }
                     
+                    //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
+                    for(let item of $scope.TahList)
+                    {
+                        if(item.TYPE == 0)
+                        {
+                            db.EscposCaseOpen();
+                            break;    
+                        }
+                    }
+
                     let ParamData = 
                     [
                         CariParam,
@@ -1214,15 +1225,7 @@ function Pos($scope,$window,$rootScope,db)
                     ]   
                     db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',function()
                     {
-                        //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
-                        for(let item of $scope.TahList)
-                        {
-                            if(item.TYPE == 0)
-                            {
-                                db.EscposCaseOpen();
-                                break;    
-                            }
-                        }
+                        
                     });
     
                     setTimeout(()=>
@@ -1779,6 +1782,12 @@ function Pos($scope,$window,$rootScope,db)
                         return;
                     }
 
+                    if(parseFloat(TmpTicket / 100).toDigit2() > 21)
+                    {
+                        alertify.alert("Bu tutarda  ticket olamaz !");
+                        $scope.TxtBarkod = "";
+                        return;
+                    }
                     $scope.TahTip = 3;
                 }
                 

@@ -282,7 +282,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         escpos.USB = require('escpos-usb');
         
         let device  = new escpos.USB();
-        let options = { encoding: "GB18030" /* default */ }
+        let options = { encoding: "iso-8859-15" /* default */ }
         let printer = new escpos.Printer(device, options);
         
         const imgpath = path.join(__dirname, '../../Logo.png');
@@ -640,9 +640,9 @@ angular.module('app.db', []).service('db',function($rootScope)
         let m = 
         {
             db : pFirma,
-            tag : 'BarkodGetir',
-            param : [pBarkod]
-        }
+            tag : 'StokGetir',
+            param : [pBarkod,'']
+        }       
         _SqlExecute(m,function(data)
         {
             if(pCallback)
@@ -657,8 +657,8 @@ angular.module('app.db', []).service('db',function($rootScope)
                     let m = 
                     {
                         db : pFirma,
-                        tag : 'StokGetir',
-                        param : [pBarkod,'']
+                        tag : 'BarkodGetir',
+                        param : [pBarkod]
                     }
                     _SqlExecute(m,function(data)
                     {
@@ -716,7 +716,7 @@ angular.module('app.db', []).service('db',function($rootScope)
 
         if(_Equal(pTData,"TYPE",0) && pTData[0].DOC_TYPE == 1)
         {
-            TmpData.push({font:"b",style:"b",size : [1,1],align:"ct",data:"REMBURSEMENT"});
+            TmpData.push({font:"b",style:"b",size : [1,1],align:"ct",data:"REMBOURSEMENT"});
             TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});
         }
         else if(_Equal(pTData,"TYPE",4))

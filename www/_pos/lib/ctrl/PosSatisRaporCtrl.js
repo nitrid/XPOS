@@ -18,11 +18,12 @@ function PosSatisRaporCtrl ($scope,$window,db)
         {
             allowSortingBySummary: true,
             allowFiltering: true,
-            showBorders: true,
             showColumnGrandTotals: false,
             showRowGrandTotals: true,
             showRowTotals: true,
             showColumnTotals: false,
+            showBorders: true,
+            height: 800,
             fieldChooser: 
             {
                 enabled: true,
@@ -34,29 +35,33 @@ function PosSatisRaporCtrl ($scope,$window,db)
                 [
                     {
                         caption: "TARIH",
-                        width: 120,
+                        width: 80,
                         dataField: "DOC_DATE",
                         area: "row",
                         expanded: true
                     }, 
                     {
+                        caption: "VAT",
+                        dataField: "VAT",
+                        width: 50,
+                        area: "row",
+                    },
+                    {
                         caption: "KASA",
                         dataField: "DEVICE",
-                        width: 150,
+                        width: 80,
                         area: "row",
-                        expanded: true
                     },
                     {
                         caption: "TIP",
-                        width: 120,
+                        width: 80,
                         dataField: "TYPE",
                         area: "row",
-                        expanded: true
                     }, 
                     {
                         dataField: "TITLE",
                         caption: "TITLE",
-                        width: 150,
+                        width: 80,
                         area: "column"
                     },
                     {
@@ -91,69 +96,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                             style: "currency", currency: "EUR",
                         },
                         area: "data"
-                    },
-                    {
-                        caption: "",
-                        dataField: "TITLE_BLANK",
-                        dataType: "string",
-                        summaryType: "max",
-                        area: "data"
-                    },
-                    {
-                        caption: "Espece",
-                        dataField: "Espece",
-                        dataType: "number",
-                        summaryType: "sum",
-                        format: 
-                        {
-                            style: "currency", currency: "EUR",
-                        },
-                        area: "data"
-                    },
-                    {
-                        caption: "Carte B. TPE",
-                        dataField: "Carte Bancaire TPE",
-                        dataType: "number",
-                        summaryType: "sum",
-                        format: 
-                        {
-                            style: "currency", currency: "EUR",
-                        },
-                        area: "data"
-                    },
-                    {
-                        caption: "Cheque",
-                        dataField: "Cheque",
-                        dataType: "number",
-                        summaryType: "sum",
-                        format: 
-                        {
-                            style: "currency", currency: "EUR",
-                        },
-                        area: "data"
-                    },
-                    {
-                        caption: "CHEQUEe",
-                        dataField: "CHEQUEe",
-                        dataType: "number",
-                        summaryType: "sum",
-                        format: 
-                        {
-                            style: "currency", currency: "EUR",
-                        },
-                        area: "data"
-                    },
-                    {
-                        caption: "Bon D'Avoir",
-                        dataField: "Bon D''Avoir",
-                        dataType: "number",
-                        summaryType: "sum",
-                        format: 
-                        {
-                            style: "currency", currency: "EUR",
-                        },
-                        area: "data"
-                    },
+                    }
                 ],
                 store: $scope.SaleData
             },
@@ -163,7 +106,109 @@ function PosSatisRaporCtrl ($scope,$window,db)
             },
             onCellPrepared: function(e) 
             {        
-                if(e.cell.text == 'Espece' || e.cell.text == 'Carte B. TPE' || e.cell.text == 'Cheque' || e.cell.text == 'CHEQUEe' || e.cell.text == "Bon D'Avoir")
+                if(e.cell.columnType === "GT" || e.cell.rowType === "GT")
+                {
+                    e.cellElement.css("backgroundColor", "#ea863e")
+                    e.cellElement.css("font-weight", "bold") 
+                    e.cellElement.css("color", "white") 
+                }
+                if(e.cell.columnType === "T" || e.cell.rowType === "T")
+                {
+                    e.cellElement.css("backgroundColor", "#488ce4")
+                    e.cellElement.css("font-weight", "bold") 
+                    e.cellElement.css("color", "white") 
+                }                    
+            },
+            onExporting: function(e) 
+            {
+                var workbook = new ExcelJS.Workbook();
+                var worksheet = workbook.addWorksheet('Sales');
+                
+                DevExpress.excelExporter.exportPivotGrid(
+                {
+                    component: e.component,
+                    worksheet: worksheet
+                }).then(function() 
+                {
+                    workbook.xlsx.writeBuffer().then(function(buffer) 
+                    {
+                        //DOSYA ADINA İLERİDE FİRMA ADI EKLENECEK
+                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Detaille Ventes.xlsx');
+                    });
+                });
+                e.cancel = true;
+            }
+        })
+    }
+    function InitPayDetailReportPivot()
+    {
+        $("#paymentdetailgrid").dxPivotGrid(
+        {
+            allowSortingBySummary: true,
+            allowFiltering: true,
+            showBorders: true,
+            showColumnGrandTotals: true,
+            showRowGrandTotals: true,
+            showRowTotals: true,
+            showColumnTotals: true,
+            showBorders: true,
+            height: 800,
+            fieldChooser: 
+            {
+                enabled: true,
+                height: 400
+            },
+            dataSource: 
+            {
+                fields: 
+                [
+                    {
+                        caption: "TARIH",
+                        width: 80,
+                        dataField: "DOC_DATE",
+                        area: "row",
+                        expanded: true
+                    }, 
+                    {
+                        caption: "KASA",
+                        dataField: "DEVICE",
+                        width: 80,
+                        area: "row",
+                        expanded: true
+                    },
+                    {
+                        caption: "TIP",
+                        width: 80,
+                        dataField: "DOC_TYPE",
+                        area: "row",
+                    }, 
+                    {
+                        dataField: "TYPE",
+                        caption: "TYPE",
+                        width: 80,
+                        area: "column",
+                    },
+                    {
+                        caption: "AMOUNT",
+                        dataField: "AMOUNT",
+                        dataType: "number",
+                        summaryType: "sum",
+                        format: 
+                        {
+                            style: "currency", currency: "EUR",
+                        },
+                        area: "data",
+                    }
+                ],
+                store: $scope.PayDetailData
+            },
+            export: 
+            {
+                enabled: true
+            },
+            onCellPrepared: function(e) 
+            {        
+                if(e.cell.text == 'Espece' || e.cell.text == 'TPE' || e.cell.text == 'Cheque' || e.cell.text == 'CHEQUEe' || e.cell.text == "B.D'Avoir" || e.cell.text == "Surplus T.R.")
                 {
                     e.cellElement.css("font-weight", "bold") 
                 }
@@ -212,6 +257,8 @@ function PosSatisRaporCtrl ($scope,$window,db)
             showRowGrandTotals: true,
             showRowTotals: true,
             showColumnTotals: false,
+            showBorders: true,
+            height: 800,
             fieldChooser: 
             {
                 enabled: true,
@@ -224,28 +271,26 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     {
                         caption: "TARIH",
                         dataField: "DOC_DATE",
-                        width: 120,                        
+                        width: 80,                        
                         area: "row",
-                        expanded: true
                     },  
                     {
                         caption: "KASA",
                         dataField: "DEVICE",
-                        width: 120,                        
+                        width: 80,                        
                         area: "row",
-                        expanded: true
                     },     
                     {
                         caption: "TİP",
                         dataField: "PAY_TYPE",
-                        width: 120,                        
+                        width: 80,                        
                         area: "row",
                         expanded: true
                     },                     
                     {
                         dataField: "TITLE",
                         caption: "TITLE",
-                        width: 150,
+                        width: 80,
                         area: "column"
                     },
                     {
@@ -341,6 +386,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
         // InitReportPivot();          
         $scope.SaleData = [];
         $scope.PaymentData = [];
+        $scope.PayDetailData = [];
 
         $scope.BtnRunReport()
     }
@@ -351,10 +397,11 @@ function PosSatisRaporCtrl ($scope,$window,db)
             db : $scope.Firma,
             query:  "SELECT " +
                     "CONVERT(NVARCHAR,MAX(SALES.DOC_DATE),103) AS DOC_DATE," +
-                    "MAX(SALES.DEVICE) AS DEVICE," +
-                    "CASE WHEN SALES.TYPE = 0 THEN 'VENTE' ELSE 'REMBOURSEMENT' END AS TYPE," +
+                    "'CAISSE ' + CONVERT(NVARCHAR,MAX(SALES.DEVICE)) AS DEVICE," +
+                    "CASE WHEN SALES.TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS TYPE," +
                     "'DETAILLE' AS TITLE, " +
                     "CASE WHEN SALES.TYPE = 0 THEN ROUND(SUM(SALES.HT),2) ELSE ROUND(SUM(SALES.HT) * -1,2) END AS HT, " +
+                    "VAT AS VAT, " +
                     "CASE WHEN SALES.TYPE = 0 THEN ROUND(SUM(SALES.TVA),2) ELSE ROUND(SUM(SALES.TVA) * -1,2) END AS TVA," +
                     "CASE WHEN SALES.TYPE = 0 THEN ROUND(SUM(SALES.TTC),2) ELSE ROUND(SUM(SALES.TTC) * -1,2) END AS TTC, " +
                     "'' AS TITLE_BLANK, " + 
@@ -362,10 +409,11 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 1 AND PAYMENT.STATUS = 1),0) AS [Carte Bancaire TPE], " + 
                     "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 2 AND PAYMENT.STATUS = 1),0) AS [Cheque], " + 
                     "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 3 AND PAYMENT.STATUS = 1),0) AS [CHEQUEe], " + 
-                    "ISNULL((SELECT CASE WHEN MAX(DOC_TYPE) = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 4 AND PAYMENT.STATUS = 1),0) AS [Bon D''Avoir] " + 
+                    "ISNULL((SELECT CASE WHEN MAX(DOC_TYPE) = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 4 AND PAYMENT.STATUS = 1),0) AS [Bon D''Avoir], " +
+                    "ISNULL((SELECT SUM(TICKET_PLUS) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.STATUS = 1),0) AS [Ticket Plus] " +  
                     "FROM POS_SALES_VW_01 AS SALES " +
                     "WHERE SALES.DOC_DATE >= @ILKTARIH AND SALES.DOC_DATE <= @SONTARIH AND SALES.STATUS = 1 " +
-                    "GROUP BY SALES.REF,SALES.REF_NO,SALES.TYPE ORDER BY REF_NO",
+                    "GROUP BY SALES.REF,SALES.REF_NO,SALES.TYPE,SALES.VAT ORDER BY REF_NO",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
@@ -380,15 +428,15 @@ function PosSatisRaporCtrl ($scope,$window,db)
             query:  "SELECT " +
                     "PAYMENT.REF, " +
                     "PAYMENT.REF_NO, " +
-                    "MAX(PAYMENT.DEVICE) AS DEVICE, " +
+                    "'CAISSE ' + CONVERT(NVARCHAR,MAX(PAYMENT.DEVICE)) AS DEVICE, " +
                     "'' AS TITLE, " +
                     "(SELECT COUNT(REF_NO) FROM (SELECT P1.REF_NO FROM POS_PAYMENT_VW_01 AS P1 WHERE P1.DOC_DATE >= @ILKTARIH AND P1.DOC_DATE <= @SONTARIH AND P1.STATUS = 1 AND P1.REF = PAYMENT.REF GROUP BY P1.REF,P1.REF_NO) AS TBL) AS TICKET, " +
                     "CONVERT(NVARCHAR,MAX(PAYMENT.DOC_DATE),103) AS DOC_DATE, " +
                     "MAX(PAYMENT.TYPE_NAME) AS PAY_TYPE, " +
-                    "SUM(PAYMENT.AMOUNT) AS PAY_AMOUNT " +
+                    "SUM(CASE WHEN PAYMENT.DOC_TYPE = 0 THEN PAYMENT.AMOUNT ELSE PAYMENT.AMOUNT * -1 END) AS PAY_AMOUNT " +
                     "FROM POS_PAYMENT_VW_01 AS PAYMENT " +
                     "WHERE PAYMENT.DOC_DATE >= @ILKTARIH AND PAYMENT.DOC_DATE <= @SONTARIH AND PAYMENT.STATUS = 1 " +
-                    "GROUP BY PAYMENT.REF,PAYMENT.REF_NO,PAYMENT.TYPE ",
+                    "GROUP BY PAYMENT.REF,PAYMENT.REF_NO,PAYMENT.TYPE,PAYMENT.DOC_TYPE ",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
@@ -397,7 +445,28 @@ function PosSatisRaporCtrl ($scope,$window,db)
         TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.PaymentData = TmpData;
 
+        TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT " + 
+                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE, " + 
+                    "'CAISSE ' + CONVERT(NVARCHAR,MAX(DEVICE)) AS DEVICE, " + 
+                    "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
+                    "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' WHEN TYPE = 4 THEN 'B.D''AVOIR' END AS TYPE, " + 
+                    "CASE WHEN DOC_TYPE = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END AS AMOUNT, " + 
+                    "SUM(TICKET_PLUS) AS TICKET_PLUS " + 
+                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1  " + 
+                    "GROUP BY REF,REF_NO,TYPE,DOC_TYPE ORDER BY REF_NO",
+            param:  ['ILKTARIH','SONTARIH'],
+            type:   ['date','date'],
+            value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
+        }
+        
+        TmpData = await db.GetPromiseQuery(TmpQuery)
+        $scope.PayDetailData = TmpData;
+
         InitReportPivot();
         InitReportPaymentPivot();
+        InitPayDetailReportPivot();
     }
 }

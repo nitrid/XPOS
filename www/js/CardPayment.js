@@ -33,6 +33,7 @@ var CardPayment =
             port.on('data', (function(config, listAction, line)
             {
                 config.lastReceive = line.toString();
+                console.log(config.lastReceive)
                 port.close(function()
                 {
                     console.log(11)
@@ -96,8 +97,9 @@ var CardPayment =
         {
             let response = {};
             console.log('Now expecting answer from Terminal');
-            config.lastReceive = config.lastReceive.substr(1).substr(0, config.lastReceive.length-3);
             console.log(config.lastReceive);
+            config.lastReceive = config.lastReceive.substr(1).substr(0, config.lastReceive.length-3);
+            
             response = 
             {
                 'pos_number'        : config.lastReceive.substr(0, 2),
