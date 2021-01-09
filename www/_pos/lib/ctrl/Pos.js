@@ -300,6 +300,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(pData.tag == "response")
             {
+                console.log(pData)
                 if(JSON.parse(pData.msg).transaction_result != 0)
                 {
                     $("#MdlKartYukleniyor").modal("hide"); 
@@ -1746,6 +1747,12 @@ function Pos($scope,$window,$rootScope,db)
                 let TmpYear = pBarkod.substring(pBarkod.length - 1, pBarkod.length);
                 let TmpType = 0
 
+                if($scope.SatisList.length == 0)
+                {
+                    alertify.alert("Satış olmadan ödeme alamazsınız !");
+                    $scope.TxtBarkod = "";
+                    return;
+                }
                 if(pBarkod.substring(0,1) == "Q")
                 {
                     TmpType = 2    

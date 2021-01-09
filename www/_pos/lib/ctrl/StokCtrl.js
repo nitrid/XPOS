@@ -1283,7 +1283,7 @@ function StokCtrl ($scope,$window,$location,db)
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
             $scope.StokListe[0].STATUS,            
             $scope.StokListe[0].WEIGHING,
-            '',
+            $scope.StokListe[0].SPECIAL1,
             $scope.StokListe[0].ORGINS,
         ];
 

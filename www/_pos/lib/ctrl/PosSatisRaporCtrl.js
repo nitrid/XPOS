@@ -449,14 +449,20 @@ function PosSatisRaporCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " + 
-                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE, " + 
+                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE,  " + 
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(DEVICE)) AS DEVICE, " + 
                     "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
                     "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' WHEN TYPE = 4 THEN 'B.D''AVOIR' END AS TYPE, " + 
-                    "CASE WHEN DOC_TYPE = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END AS AMOUNT, " + 
-                    "SUM(TICKET_PLUS) AS TICKET_PLUS " + 
-                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1  " + 
-                    "GROUP BY REF,REF_NO,TYPE,DOC_TYPE ORDER BY REF_NO",
+                    "CASE WHEN DOC_TYPE = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END AS AMOUNT " + 
+                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1 GROUP BY REF,REF_NO,TYPE,DOC_TYPE " + 
+                    "UNION ALL " + 
+                    "SELECT  " + 
+                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE, " + 
+                    "'CAISSE ' + CONVERT(NVARCHAR,MAX(DEVICE)) AS DEVICE, " + 
+                    "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
+                    "'TICKET PLUS' AS TYPE, " + 
+                    "CASE WHEN DOC_TYPE = 0 THEN SUM(TICKET_PLUS) ELSE SUM(TICKET_PLUS) * -1 END AS AMOUNT " + 
+                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1 AND TICKET_PLUS <> 0 GROUP BY REF,REF_NO,TYPE,DOC_TYPE",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            

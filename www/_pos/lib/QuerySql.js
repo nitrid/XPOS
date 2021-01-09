@@ -14,6 +14,7 @@ var QuerySql =
                 "[MIN_PRICE] AS [MIN_PRICE], " + 
                 "[MAX_PRICE] AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
+                "[SPECIAL1] AS [SPECIAL1], " + 
                 "[ORGINS] AS [ORGINS], " + 
                 "[WEIGHING] AS [WEIGHING], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE ASC),'') AS [BARCODE], " + 
@@ -1104,7 +1105,7 @@ var QuerySql =
                 "MAX(CUSER) AS [USER], " +
                 "ROUND(SUM(AMOUNT),2) AS AMOUNT, " +
                 "ROUND(SUM(DISCOUNT),2) AS DISCOUNT, " +
-                "SUM(LOYALTY_AMOUNT) AS LOYALTY_AMOUNT, " +
+                "ROUND(SUM(LOYALTY_AMOUNT),2) AS LOYALTY_AMOUNT, " +
                 "ROUND(SUM(TTC),2) AS TTC, " +                
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +

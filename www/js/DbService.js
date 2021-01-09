@@ -282,7 +282,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         escpos.USB = require('escpos-usb');
         
         let device  = new escpos.USB();
-        let options = { encoding: "iso-8859-15" /* default */ }
+        let options = { encoding: "GB18030" /* default */ }
         let printer = new escpos.Printer(device, options);
         
         const imgpath = path.join(__dirname, '../../Logo.png');
@@ -324,7 +324,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                         {
                             printer.size(pData[i].size[0],pData[i].size[1]);
                         }
-                        printer.text(pData[i].data);
+                        printer.text(pData[i].data,'857');
                     }                
                 }                      
                         
@@ -684,8 +684,8 @@ angular.module('app.db', []).service('db',function($rootScope)
         // ÜST BİLGİ
         TmpData.push({font:"a",style:"b",align:"ct",data:""});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGVILLE LES ST AVOLD"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGEVILLE LES ST AVOLD"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 91 00 32"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
 
@@ -796,9 +796,9 @@ angular.module('app.db', []).service('db',function($rootScope)
             else if (pTData[i].TYPE == 1)
                 TmpType = "CB"
             else if(pTData[i].TYPE == 2)
-                TmpType = "T.Rest"
+                TmpType = "Cheque"
             else if(pTData[i].TYPE == 3)
-                TmpType = "CHEQUE"
+                TmpType = "CHEQUEe"
             else if(pTData[i].TYPE == 4)
                 TmpType = "BON D'AVOIR"
             else if(pTData[i].TYPE == 5)
@@ -820,6 +820,15 @@ angular.module('app.db', []).service('db',function($rootScope)
 
         if(_Equal(pTData,"TYPE",0))
         {
+            //PARA ÜSTÜ
+            TmpLine = 
+            {
+                font: "a",
+                align: "lt",
+                data: _PrintText("Recu",33) +
+                    _PrintText(parseFloat((_SumColumn(pTData,"AMOUNT","TYPE = 0") + _SumColumn(pTData,"CHANGE"))).toFixed(2) + " EUR",15,"Start")
+            }
+            TmpData.push(TmpLine);
             //PARA ÜSTÜ
             TmpLine = 
             {
@@ -924,8 +933,8 @@ angular.module('app.db', []).service('db',function($rootScope)
         // ÜST BİLGİ
         TmpData.push({font:"a",style:"b",align:"ct",data:""});
         TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGVILLE LES ST AVOLD"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 92 00 32"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGEVILLE LES ST AVOLD"});
+        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 91 00 32"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
         TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
 
