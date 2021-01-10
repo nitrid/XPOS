@@ -2678,9 +2678,12 @@ function Pos($scope,$window,$rootScope,db)
         {   
             db.GetData($scope.Firma,'PosCariGetir',[PosSatisData[0].CUSTOMER_CODE,''],function(data)
             {
-                $scope.CariAdi = data[0].NAME;
-                $scope.CariKodu = data[0].CODE;
-                $scope.CariPuan = data[0].POINT;  
+                if(data.length > 0)
+                {
+                    $scope.CariAdi = data[0].NAME;
+                    $scope.CariKodu = data[0].CODE;
+                    $scope.CariPuan = data[0].POINT;  
+                }
             });
             db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
             {
@@ -2690,6 +2693,9 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.TxtBarkod = ""; 
                 $scope.IslemListeRowClick($scope.SatisList.length-1,$scope.SatisList[$scope.SatisList.length-1]);                  
 
+                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
+                $scope.ToplamSatir =  $scope.SatisList.length
+
                 $('#MdlParkIslemler').modal('hide');
             });
             db.GetData($scope.Firma,'TicketGetir',[$scope.Seri,$scope.Sira],function(Data)
@@ -2698,10 +2704,6 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.ToplamTicket = parseFloat(db.SumColumn($scope.TRDetayListe,"COUNT")).toDigit2();
                 $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
             });
-            console.log(1)
-            console.log(parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2())
-            $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
-            $scope.ToplamSatir =  $scope.SatisList.length
 
             db.LCDPrint
             (
