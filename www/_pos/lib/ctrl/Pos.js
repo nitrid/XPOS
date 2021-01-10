@@ -1211,7 +1211,7 @@ function Pos($scope,$window,$rootScope,db)
                     if($scope.TahParaUstu > 0 && db.Equal($scope.TahList,"TYPE",4))
                     {
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + (Number($scope.TahParaUstu.toFixed(2)).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.TahParaUstu).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
                         db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.TahParaUstu.toDigit2()),$scope.Seri,$scope.Sira,1]);
                     }
@@ -2937,7 +2937,7 @@ function Pos($scope,$window,$rootScope,db)
                 db.ExecuteQuery(TmpQuery,function(UpdateResult)
                 {
                     //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + ($scope.GenelToplam.toFixed(2) * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
 
                     //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
                     if(pTip == 0)
@@ -2973,7 +2973,6 @@ function Pos($scope,$window,$rootScope,db)
 
 
                     $scope.IadeParaUstu = $scope.GenelToplam;
-                    console.log($scope.IadeParaUstu)
                     $("#MdlIadeParaUstu").modal("show"); 
 
                     if(typeof(UpdateResult.result.err) == 'undefined')

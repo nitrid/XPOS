@@ -924,14 +924,11 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
-        console.log(1)
         if(_Equal(pTData,"TYPE",4))
         {
-            console.log(2)
             TmpData.push({align:"ct",barcode:pParamData[5],options:{width: 1,height:90}});
             TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
             TmpData.push({font:"b",style:"b",align:"ct",data:"Avoir valable 3 mois apres edition..."});
-            console.log(TmpData)
         }
         else
         {
