@@ -2700,9 +2700,12 @@ function Pos($scope,$window,$rootScope,db)
             });
             db.GetData($scope.Firma,'TicketGetir',[$scope.Seri,$scope.Sira],function(Data)
             {
-                $scope.TRDetayListe = Data;
-                $scope.ToplamTicket = parseFloat(db.SumColumn($scope.TRDetayListe,"COUNT")).toDigit2();
-                $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
+                if(Data.length > 0)
+                {
+                    $scope.TRDetayListe = Data;
+                    $scope.ToplamTicket = parseFloat(db.SumColumn($scope.TRDetayListe,"COUNT")).toDigit2();
+                    $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
+                }
             });
 
             db.LCDPrint
@@ -3679,6 +3682,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 $("#TblTRDetay").jsGrid({data : $scope.TRDetayListe});
                 $('#MdlAraToplam').modal('hide');
+                $('#MdlSonSatisTahGuncelle').modal('hide')
                 $('#MdlTRDetay').modal('show');
             }
         });
