@@ -3774,7 +3774,7 @@ function Pos($scope,$window,$rootScope,db)
                 db : $scope.Firma,
                 query:  "DELETE FROM POS_PAYMENT WHERE REF = @REF AND REF_NO = @REF_NO",
                 param:  ['REF','REF_NO'],
-                type:   ['int','int'],
+                type:   ['string|25','int'],
                 value:  [$scope.SonSatisDetayList[0].REF,$scope.SonSatisDetayList[0].REF_NO]
             }
 
