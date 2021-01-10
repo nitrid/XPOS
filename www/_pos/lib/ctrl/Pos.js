@@ -390,7 +390,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonTahDetayKalan = 0;
         $scope.SonSatisIlkTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
         $scope.SonSatisSonTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
-
+        $scope.ToplamTicket = 0;
+        $scope.SonTicket = 0;
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
         $scope.TahPanelKontrol = false;
@@ -1811,6 +1812,8 @@ function Pos($scope,$window,$rootScope,db)
                             {
                                 $scope.PosTahInsert(function()
                                 {   
+                                    $scope.ToplamTicket += 1;
+                                    $scope.SonTicket = parseFloat(TmpTicket / 100).toDigit2();
                                     DipToplamHesapla();
                                     $scope.TahTip = 0;
                                 });
