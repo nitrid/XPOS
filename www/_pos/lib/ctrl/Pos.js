@@ -3767,7 +3767,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahKaydet = async function()
     {
-        console.log([db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() , $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC])
         if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC)
         {
             TmpQuery = 
