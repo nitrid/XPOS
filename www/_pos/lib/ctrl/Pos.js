@@ -1444,13 +1444,13 @@ function Pos($scope,$window,$rootScope,db)
         $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
         SonSatisSelectedRow = $row;
         $scope.SonSatisListeSelectedIndex = pIndex;
-
+        
         let SonSatisDetay = pItem;
         
         db.GetData($scope.Firma,'PosSonSatisDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisDetay)
         {  
             $scope.SonSatisDetayList = PosSonSatisDetay;
-            $("#TblSonSatisDetay").jsGrid({data : $scope.SonSatisDetayList});
+            $("#TblSonSatisDetay").jsGrid({data : $scope.SonSatisDetayList});            
         });
         db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisTahDetay)
         {  
@@ -3673,9 +3673,17 @@ function Pos($scope,$window,$rootScope,db)
         else
             $scope.Class.BtnCariBarSec = "form-group btn btn-info btn-block my-1"
     }
-    $scope.BtnTRDetay = function()
+    $scope.BtnTRDetay = function(pSeri,pSira)
     {
-        db.GetData($scope.Firma,'TicketGetir',[$scope.Seri,$scope.Sira],function(Data)
+        let TmpSeri = $scope.Seri;
+        let TmpSira = $scope.Sira;
+
+        if(typeof pSeri != 'undefined' || typeof pSira != 'undefined')
+        {
+            TmpSeri = pSeri;
+            TmpSira = pSira;
+        }
+        db.GetData($scope.Firma,'TicketGetir',[TmpSeri,TmpSira],function(Data)
         {
             $scope.TRDetayListe = Data;
             if(Data.length > 0)
