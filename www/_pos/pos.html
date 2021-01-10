@@ -508,7 +508,7 @@
                         <div class="page-header">
                             <h1 class="page-title">SON SATIŞ LİSTESİ</h1>
                             <div class="page-header-actions">
-                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnSonTahKaydet()">
+                                <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnRepasGiris()">
                                     <i class="icon fa-floppy-o" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnYazdir('Fatura')">
@@ -2826,6 +2826,83 @@
                                     </div>
                                     <div class="col-12">
                                         <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="BtnTeraziFiyatGonder()"><i class="fas fa-check fa-lg"></i></button>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>      
+                    </div>              
+                </div>
+                <!-- Repas Giriş-->
+                <div class="modal fade " id="MdlRepasGiris" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                                <h4 class="modal-title">Miktar</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-12 py-10">
+                                        <input class="form-control" ng-model="TxtRepasMiktar" id="TxtRepasMiktar" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row py-1">
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('7')">7</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('8')">8</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('9')">9</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row py-1">
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('4')">4</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('5')">5</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('6')">6</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row py-1">
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('1')">1</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('2')">2</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('3')">3</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row py-1">
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('0')">0</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('.')">.</button>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnSilClick()"><i class="fas fa-backspace fa-lg" aria-hidden="true"></i></button>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="BtnYazdir('Repas')"><i class="fas fa-check fa-lg"></i></button>
                                     </div>                                    
                                 </div>
                             </div>

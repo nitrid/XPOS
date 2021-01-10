@@ -25,6 +25,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusPluKodu = false;
     let FocusPluAdi = false;
     let FocusTeraziFiyat = false;
+    let FocusRepasMiktar = false;
     let FirstKey = false;
     let SonTahIndex = 0;
     let CariParam = "";
@@ -291,6 +292,25 @@ function Pos($scope,$window,$rootScope,db)
         FocusBarkod = true;
         FocusTeraziFiyat = false;
     });
+    $('#MdlRepasGiris').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusStokGrup = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
+        FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
+        FocusIskontoYuzde = false;
+        FocusIskontoTutar = false;
+        FocusAvans = false;
+        FocusPluKodu = false;
+        FocusPluAdi = false;
+        FocusRepasMiktar = false;
+    });
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
@@ -392,6 +412,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonSatisSonTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
         $scope.ToplamTicket = 0;
         $scope.SonTicket = 0;
+        $scope.TxtRepasMiktar = 0;
+
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
         $scope.TahPanelKontrol = false;
@@ -1358,6 +1380,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $window.document.getElementById("TxtTeraziFiyat").focus();
         }
+        else if(FocusRepasMiktar)
+        {
+            $window.document.getElementById("TxtRepasMiktar").focus();
+        }
     }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
     {
@@ -2314,6 +2340,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtTeraziFiyat = $scope.TxtTeraziFiyat.toString().substring(0,$scope.TxtTeraziFiyat.length-1); 
         }
+        else if(FocusRepasMiktar)
+        {
+            $scope.TxtRepasMiktar = $scope.TxtRepasMiktar.toString().substring(0,$scope.TxtRepasMiktar.length-1); 
+        }
     }
     $scope.BtnOnayClick = function()
     {
@@ -2516,6 +2546,18 @@ function Pos($scope,$window,$rootScope,db)
             else
             {
                 $scope.TxtTeraziFiyat = Key; 
+                FirstKey = true;
+            }
+        }
+        else if(FocusRepasMiktar)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtRepasMiktar = $scope.TxtRepasMiktar + Key; 
+            }
+            else
+            {
+                $scope.TxtRepasMiktar = Key; 
                 FirstKey = true;
             }
         }
@@ -3314,6 +3356,11 @@ function Pos($scope,$window,$rootScope,db)
                         TmpBondA
                     ]   
 
+                    if(pType == 'Repas')
+                    {
+                        PosSatisData.Repas = $scope.TxtRepasMiktar;
+                    }
+
                     db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,()=>{});
                 });
             });
@@ -3769,7 +3816,7 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnSonTahKaydet = async function()
     {
         $('#MdlSonSatisTahGuncelle').modal('hide');
-        
+
         if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC)
         {
             TmpQuery = 
@@ -4175,5 +4222,14 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnRefresh = function()
     {
         window.location.reload();
+    }
+    $scope.BtnRepasGiris = function()
+    {
+        $("#MdlRepasGiris").modal("show");
+        $scope.TxtRepasMiktar = 0
+
+        FocusRepasMiktar = true;
+        FocusBarkod = false;
+        FirstKey = false;
     }
 }

@@ -739,31 +739,51 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         TmpData.push(TmpLine);
         // SATIŞ LİSTESİ
-        for (let i = 0; i < pSData.length; i++) 
+        if(pType == 'Repas')
         {
-            let TmpQt = ""            
+            let TmpPrice = parseFloat(_SumColumn(pSData,"AMOUNT")) / pSData.Repas;
             
-            if(Number.isInteger(parseFloat(pSData[i].QUANTITY)))
-            {
-                TmpQt = pSData[i].QUANTITY + " " + pSData[i].UNIT_SHORT;
-            }
-            else
-            {
-                TmpQt = parseFloat(parseFloat(pSData[i].QUANTITY).toFixed(3)) + " " + pSData[i].UNIT_SHORT;
-            }
-
             TmpLine = 
             {
                 font: "b",
                 align: "lt",
-                data: _PrintText(pSData[i].VAT_TYPE) + " " +
-                      _PrintText(pSData[i].ITEM_NAME,34) + " " +
-                      _PrintText(TmpQt,8,"Start") + " " + 
-                      _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
-                      _PrintText(parseFloat(pSData[i].AMOUNT).toFixed(2) + "EUR",10,"Start")
+                data:   "  " +
+                        _PrintText("Repas complet(s)",34) + " " +
+                        _PrintText(pSData.Repas,8,"Start") + " " + 
+                        _PrintText(parseFloat(TmpPrice).toFixed(2),7,"Start") + " " + 
+                        _PrintText(parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + "EUR",10,"Start")
             }
             TmpData.push(TmpLine);
         }
+        else
+        {
+            for (let i = 0; i < pSData.length; i++) 
+            {
+                let TmpQt = ""            
+                
+                if(Number.isInteger(parseFloat(pSData[i].QUANTITY)))
+                {
+                    TmpQt = pSData[i].QUANTITY + " " + pSData[i].UNIT_SHORT;
+                }
+                else
+                {
+                    TmpQt = parseFloat(parseFloat(pSData[i].QUANTITY).toFixed(3)) + " " + pSData[i].UNIT_SHORT;
+                }
+    
+                TmpLine = 
+                {
+                    font: "b",
+                    align: "lt",
+                    data: _PrintText(pSData[i].VAT_TYPE) + " " +
+                          _PrintText(pSData[i].ITEM_NAME,34) + " " +
+                          _PrintText(TmpQt,8,"Start") + " " + 
+                          _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
+                          _PrintText(parseFloat(pSData[i].AMOUNT).toFixed(2) + "EUR",10,"Start")
+                }
+                TmpData.push(TmpLine);
+            }
+        }
+        
         TmpData.push({font:"b",style:"bu",align:"lt",data:_PrintText(" ",64)});
 
         TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(TmpOperator + parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
