@@ -1,5 +1,3 @@
-const { Console } = require("console");
-
 function Pos($scope,$window,$rootScope,db)
 {
     let IslemSelectedRow = null;
@@ -531,7 +529,7 @@ function Pos($scope,$window,$rootScope,db)
                 },
                 {
                     name: "PRICE",
-                    type: "number",
+                    type: "decimal",
                     align: "center",
                     width: 100
                 }
@@ -607,7 +605,7 @@ function Pos($scope,$window,$rootScope,db)
                 },
                 {
                     name: "PRICE",
-                    type: "text",
+                    type: "decimal",
                     align: "center",
                     width: 100
                 }
@@ -656,21 +654,21 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "QUANTITY",
                 title: "MIKTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 60
             },         
             {
                 name: "PRICE",
                 title: "FIYAT",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 60
             },
             {
                 name: "AMOUNT",
                 title: "TUTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 60
             }],
@@ -717,7 +715,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "AMOUNT",
                 title: "TUTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 60
             }],
@@ -774,7 +772,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "AMOUNT",
                 title: "TUTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 60
             }],
@@ -847,21 +845,21 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "DISCOUNT",
                 title: "INDIRIM",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "LOYALTY_AMOUNT",
                 title: "SADAKAT",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "TTC",
                 title: "TUTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             }
@@ -909,21 +907,21 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "QUANTITY",
                 title: "MIKTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "PRICE",
                 title: "FIYAT",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "AMOUNT",
                 title: "TUTAR",
-                type: "number",
+                type: "decimal",
                 align: "center",
                 width: 50
             }],
@@ -994,7 +992,7 @@ function Pos($scope,$window,$rootScope,db)
             [
                 {
                     name: "AMOUNT",
-                    type: "text",
+                    type: "decimal",
                     align: "center",
                     width: 300
                     
@@ -1988,7 +1986,8 @@ function Pos($scope,$window,$rootScope,db)
                         }                        
                     );
 
-                    InsertSonYenile(PosSatisData);      
+                    InsertSonYenile(PosSatisData);     
+                    console.log(PosSatisData) 
                     $scope.TxtBarkod = ""; 
                     $scope.IslemListeRowClick(0,$scope.SatisList[0]);
                     $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2(); 
