@@ -398,486 +398,465 @@ function StokCtrl ($scope,$window,$location,db)
     //#endregion 
     function TblFiyatInit()
     {
-        $("#TblFiyat").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            editing: true,
-            data : $scope.FiyatListe,
-            paging : true,
-            pageSize: 5,
-            pageButtonCount: 3,            
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields:
+        $("#TblFiyat").dxDataGrid(
+        {
+            dataSource: $scope.FiyatListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            editing: 
+            {
+                mode: "batch",
+                allowUpdating: true,
+                allowDeleting: true
+            },
+            columns: 
             [
                 {
-                    name: "TYPENAME",
-                    title : "Tip",
-                    align: "center",
-                    width: 100
-
+                    dataField: "TYPENAME",
+                    caption: "Tip",
+                    allowEditing: false,
+                    width: "10%"
+                },     
+                {
+                    dataField: "DEPOT",
+                    caption: "Depo",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "START_DATE",
+                    caption: "Baş.Tarih",
+                    dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "FINISH_DATE",
+                    caption: "Bit.Tarih",
+                    dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "5%"
+                }, 
+                {
+                    dataField: "QUANTITY",
+                    caption: "Miktar",
+                    dataType: "number",
+                    width: "5%"
+                }, 
+                {
+                    dataField: "PRICE",
+                    caption : "Fiyat",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "10%"
                 },
                 {
-                    name: "DEPOT",
-                    title : "Depo",
-                    align: "center",
-                    width: 100
+                    dataField: "CUSTOMER",
+                    caption : "Cari",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
                 },
                 {
-                    name: "START_DATE",
-                    title : "Baş.Tarih",
-                    type: "DateField",
-                    align: "center",
-                    width: 75
-                },
+                    dataField: "EXVAT",
+                    caption : "Vergi Haric",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                },       
                 {
-                    name: "FINISH_DATE",
-                    title : "Bit.Tarih",
-                    type: "DateField",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "QUANTITY",
-                    title : "Miktar",
-                    type: "decimal",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "PRICE",
-                    title : "Fiyat",
-                    type: "decimal",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "CUSTOMER",
-                    title : "Cari",
-                    align: "center",
-                    width: 100
-                },
-                {
-                    name: "EXVAT",
-                    title : "VERGI HARIC",
-                    align: "center",
-                    width: 100
-                },
-                {
-                    name: "BRUTMARJ",
-                    title : "BRUT MARJ",
-                    align: "center",
-                    width: 100,
-                    itemTemplate: function(value, item)
+                    dataField: "BRUTMARJ",
+                    caption : "Brut Marj",
+                    alignment: "center",
+                    width: "10%",
+                    allowEditing: false,
+                    cellTemplate: function(element, info)
                     {
-                        if(item.BRUTMARJORAN < 30)
+                        if(info.data.BRUTMARJORAN < 30)
                         {
-                            return "<div style='color:red;font-weight: bold'>" + value + "</div>"
+                            element.append("<div style='color:red;font-weight: bold'>" + info.text + "</div>")
                         }
                         else
                         {
-                            return "<div style='color:blue;font-weight: bold'>" + value + "</div>"
+                            element.append("<div style='color:blue;font-weight: bold'>" + info.text + "</div>")
                         }
                     }
-                },
+                },  
                 {
-                    name: "NETMARJ",
-                    title : "NET MARJ",
-                    align: "center",
-                    width: 100,
-                    itemTemplate: function(value, item)
+                    dataField: "NETMARJ",
+                    caption : "Net Marj",
+                    alignment: "center",
+                    width: "10%",
+                    allowEditing: false,
+                    cellTemplate: function(element, info)
                     {
-                        if(item.NETMARJORAN < 30)
+                        if(info.data.NETMARJORAN < 30)
                         {
-                            return "<div style='color:red;font-weight: bold'>" + value + "</div>"
+                            element.append("<div style='color:red;font-weight: bold'>" + info.text + "</div>")
                         }
                         else
                         {
-                            return "<div style='color:blue;font-weight: bold'>" + value + "</div>"
+                            element.append("<div style='color:blue;font-weight: bold'>" + info.text + "</div>")
                         }
                     }
-                },
-                { type: "control", modeSwitchButton: true, editButton: false }
+                }, 
             ],
-            confirmDeleting: false,
-            onItemDeleting: function (args)
-            {
-                if (!args.item.deleteConfirmed)
-                { // custom property for confirmation
-                    args.cancel = true; // cancel deleting
-                    alertify.okBtn('Evet');
-                    alertify.cancelBtn('Hayır');
-
-                    alertify.confirm('Fiyatı silmek istediğinize eminmisiniz ?',
-                    function()
-                    {
-                        args.item.deleteConfirmed = true;
-                        db.ExecuteTag($scope.Firma,'FiyatSil',[args.item.GUID],function(data)
-                        {
-                            //FİYAT LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
-                            {
-                                $scope.FiyatListe = FiyatData;
-                                $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-                                $scope.CmbAltBirimChange();
-                            });
-                        });
-                    }
-                    ,function(){});
-                }
-            },
-            onItemUpdated: function(args)
-            {
-                db.ExecuteTag($scope.Firma,'FiyatUpdate',[args.item.PRICE,args.item.QUANTITY,args.item.START_DATE,args.item.FINISH_DATE,args.item.GUID],function(data)
+            onRowUpdated: function(e) 
+            {                
+                db.ExecuteTag($scope.Firma,'FiyatUpdate',[e.data.PRICE,e.data.QUANTITY,e.data.START_DATE,e.data.FINISH_DATE,e.data.GUID],function(data)
                 {
                     //FİYAT LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                     {
                         $scope.FiyatListe = FiyatData;
-                        $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                        $scope.CmbAltBirimChange();
+                    });
+                });
+            },
+            onRowRemoved: function(e) 
+            {
+                db.ExecuteTag($scope.Firma,'FiyatSil',[e.data.GUID],function(data)
+                {
+                    //FİYAT LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
+                    {
+                        $scope.FiyatListe = FiyatData;
                         $scope.CmbAltBirimChange();
                     });
                 });
             }
-        });
+        })
     }
     function TblBirimInit()
     {
-        $("#TblBirim").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.BirimListe,
-            paging : true,
-            pageSize: 5,
-            pageButtonCount: 3,
-            editing: true,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields:
+        $("#TblBirim").dxDataGrid(
+        {
+            dataSource: $scope.BirimListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            editing: 
+            {
+                mode: "batch",
+                allowUpdating: true,
+                allowDeleting: true
+            },
+            columns: 
             [
                 {
-                    name: "TYPENAME",
-                    title : "Tip",
-                    align: "center",
-                    width: 100
-
+                    dataField: "TYPENAME",
+                    caption: "Tip",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                },     
+                {
+                    dataField: "NAME",
+                    caption: "Adı",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "FACTOR",
+                    caption: "Katsayı",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "10%"
+                }, 
+                {
+                    dataField: "WEIGHT",
+                    caption: "Ağırlık",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "5%"
+                }, 
+                {
+                    dataField: "VOLUME",
+                    caption: "Hacim",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "5%"
+                }, 
+                {
+                    dataField: "WIDTH",
+                    caption : "En",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "10%"
                 },
                 {
-                    name: "NAME",
-                    title : "Adı",
-                    align: "center",
-                    width: 100
+                    dataField: "HEIGHT",
+                    caption : "Boy",
+                    dataType: "number",
+                    alignment: "center",
+                    width: "10%"
                 },
                 {
-                    name: "FACTOR",
-                    title : "Katsayı",
-                    type: "number",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "WEIGHT",
-                    title : "Ağırlık",
-                    type: "number",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "VOLUME",
-                    title : "Hacim",
-                    type: "number",
-                    align: "center",
-                    width: 75
-                },
-                {
-                    name: "WIDTH",
-                    title : "En",
-                    type: "number",
-                    align: "center",
-                    width: 100
-                },
-                {
-                    name: "HEIGHT",
-                    title : "Boy",
-                    type: "number",
-                    align: "center",
-                    width: 100
-                },
-                {
-                    name: "SIZE",
-                    title : "Yükseklik",
-                    type: "number",
-                    align: "center",
-                    width: 100
-                },
-                { type: "control", modeSwitchButton: true , editButton: false }
+                    dataField: "SIZE",
+                    caption : "Yükseklik",
+                    alignment: "center",
+                    dataType: "number",
+                    width: "10%"
+                }       
             ],
-            confirmDeleting: false,
-            onItemDeleting: function (args)
-            {
-                if (!args.item.deleteConfirmed)
-                { // custom property for confirmation
-                    args.cancel = true; // cancel deleting
-                    alertify.okBtn('Evet');
-                    alertify.cancelBtn('Hayır');
-
-                    alertify.confirm('Birimi silmek istediğinize eminmisiniz ?',
-                    function()
-                    {
-                        args.item.deleteConfirmed = true;
-                        db.ExecuteTag($scope.Firma,'BirimSil',[args.item.GUID],function(data)
-                        {
-                            //BIRIM LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
-                            {
-                                $scope.BirimListe = BirimData;
-                                $("#TblBirim").jsGrid({data : $scope.BirimListe});
-                            });
-                        });
-                    }
-                    ,function(){});
-                }
-            },
-            onItemUpdated: function(args)
-            {
+            onRowUpdated: function(e) 
+            {   
                 let TmpVal =
                 [
-                    args.item.FACTOR,
-                    args.item.WEIGHT,
-                    args.item.VOLUME,
-                    args.item.WIDTH,
-                    args.item.HEIGHT,
-                    args.item.SIZE,
-                    args.item.GUID
+                    e.data.FACTOR,
+                    e.data.WEIGHT,
+                    e.data.VOLUME,
+                    e.data.WIDTH,
+                    e.data.HEIGHT,
+                    e.data.SIZE,
+                    e.data.GUID
                 ]
-                db.ExecuteTag($scope.Firma,'BirimUpdate',TmpVal,function(data)
+                db.ExecuteTag($scope.Firma,'BirimUpdate',TmpVal,function(data){});
+            },
+            onRowRemoved: function(e) 
+            {
+                db.ExecuteTag($scope.Firma,'BirimSil',[e.data.GUID],function(data)
                 {
+                    //BIRIM LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
+                    {
+                        $scope.BirimListe = BirimData;
+                    });
                 });
             }
-        });
+        })
     }
     function TblBarkodInit()
     {
-        $("#TblBarkod").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.BarkodListe,
-            paging : true,
-            pageSize: 5,
-            pageButtonCount: 3,
-            editing: true,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields:
+        $("#TblBarkod").dxDataGrid(
+        {
+            dataSource: $scope.BarkodListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            editing: 
+            {
+                mode: "batch",
+                allowUpdating: true,
+                allowDeleting: true
+            },
+            columns: 
             [
                 {
-                    name: "BARCODE",
-                    title : "Barkod",
-                    type : "text",
-                    align: "center",
-                    width: 100
-
-                },
+                    dataField: "BARCODE",
+                    caption: "Barkod",
+                    alignment: "center",
+                    allowEditing: true,
+                    width: "40%"
+                },     
                 {
-                    name: "UNIT",
-                    title : "Birim",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "UNIT",
+                    caption: "Birim",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "20%"
+                }, 
                 {
-                    name: "TYPE",
-                    title : "Tip",
-                    align: "center",
-                    width: 75
-                },
-                { type: "control", modeSwitchButton: true , editButton: false }
+                    dataField: "TYPE",
+                    caption: "Tip",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "40%"
+                }    
             ],
-            confirmDeleting: false,
-            onItemDeleting: function (args)
-            {
-                if (!args.item.deleteConfirmed)
-                { // custom property for confirmation
-                    args.cancel = true; // cancel deleting
-                    alertify.okBtn('Evet');
-                    alertify.cancelBtn('Hayır');
-
-                    alertify.confirm('Barkod silmek istediğinize eminmisiniz ?',
-                    function()
-                    {
-                        args.item.deleteConfirmed = true;
-                        db.ExecuteTag($scope.Firma,'BarkodSil',[args.item.GUID],function(data)
-                        {
-                            //BARKOD LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
-                            {
-                                $scope.BarkodListe = BarkodData;
-                                $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
-                            });
-                        });
-                    }
-                    ,function(){});
-                }
-            },
-            onItemUpdated: function(args)
-            {
+            onRowUpdated: function(e) 
+            {   
                 let TmpVal =
                 [
-                    args.item.BARCODE,
-                    args.item.GUID
+                    e.data.BARCODE,
+                    e.data.GUID
                 ]
                 db.ExecuteTag($scope.Firma,'BarkodUpdate',TmpVal,function(data)
                 {
                 });
+            },
+            onRowRemoved: function(e) 
+            {
+                db.ExecuteTag($scope.Firma,'BarkodSil',[e.data.GUID],function(data)
+                {
+                    //BARKOD LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
+                    {
+                        $scope.BarkodListe = BarkodData;                        
+                    });
+                });
             }
-        });
+        })
     }
     function TblTedarikciInit()
     {
-        $("#TblTedarikci").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.TedaikciListe,
-            paging : true,
-            pageSize: 5,
-            pageButtonCount: 3,
-            editing: true,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields:
+        $("#TblTedarikci").dxDataGrid(
+        {
+            dataSource: $scope.TedaikciListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            editing: 
+            {
+                mode: "batch",
+                allowUpdating: true,
+                allowDeleting: true
+            },
+            columns: 
             [
                 {
-                    name: "CUSTOMER_CODE",
-                    title : "Kodu",
-                    type : "text",
-                    align: "center",
-                    width: 100
-
-                },
+                    dataField: "CUSTOMER_CODE",
+                    caption: "Kodu",
+                    alignment: "center",
+                    width: "10%"
+                },     
                 {
-                    name: "CUSTOMER_NAME",
-                    title : "Adı",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "CUSTOMER_NAME",
+                    caption: "Adı",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "PRICE_LDATE",
-                    title : "Son Fiyat Tarih",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "PRICE_LDATE",
+                    caption: "Son Fiyat Tarih",
+                    dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "PRICE",
-                    title : "Fiyat",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "PRICE",
+                    caption: "Fiyat",
+                    dataType: "number",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "CUSTOMER_ITEM_CODE",
-                    title : "Tedarikçi Stok Kodu",
-                    type : "text",
-                    align: "center",
-                    width: 100
-                },
-                { type: "control", modeSwitchButton: true , editButton: false }
+                    dataField: "CUSTOMER_ITEM_CODE",
+                    caption: "Tedarikçi Stok Kodu",
+                    alignment: "center",
+                    width: "10%"
+                }       
             ],
-            confirmDeleting: false,
-            onItemDeleting: function (args)
-            {
-                if (!args.item.deleteConfirmed)
-                { // custom property for confirmation
-                    args.cancel = true; // cancel deleting
-                    alertify.okBtn('Evet');
-                    alertify.cancelBtn('Hayır');
-
-                    alertify.confirm('Tedarikçi silmek istediğinize eminmisiniz ?',
-                    function()
-                    {
-                        args.item.deleteConfirmed = true;
-                        db.ExecuteTag($scope.Firma,'StokTedarikciSil',[args.item.GUID],function(data)
-                        {
-                            //TEDARİKÇİ LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                            {
-                                $scope.TedaikciListe = TedarikciData;
-                                $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
-                            });
-                        });
-                    }
-                    ,function(){});
-                }
-            },
-            onItemUpdated: function(args)
-            {
+            onRowUpdated: function(e) 
+            {   
                 let TmpVal =
                 [
-                    args.item.CUSTOMER_CODE,
-                    args.item.CUSTOMER_ITEM_CODE,
-                    args.item.GUID
+                    e.data.CUSTOMER_CODE,
+                    e.data.CUSTOMER_ITEM_CODE,
+                    e.data.GUID
                 ]
                 db.ExecuteTag($scope.Firma,'StokTedarikciUpdate',TmpVal,function(data)
                 {
                 });
+            },
+            onRowRemoved: function(e) 
+            {
+                db.ExecuteTag($scope.Firma,'StokTedarikciSil',[e.data.GUID],function(data)
+                {
+                    //TEDARİKÇİ LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                    {
+                        $scope.TedaikciListe = TedarikciData;
+                    });
+                });
             }
-        });
+        })
     }
     function TblTedarikciFiyatInit()
     {
-        $("#TblTedarikciFiyat").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.TedaikciFiyatListe,
-            paging : true,
-            pageSize: 10,
-            pageButtonCount: 3,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields:
+        $("#TblTedarikciFiyat").dxDataGrid(
+        {
+            dataSource: $scope.TedaikciListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            columns: 
             [
                 {
-                    name: "CUSTOMER_CODE",
-                    title : "Kodu",
-                    type : "text",
-                    align: "center",
-                    width: 100
-
-                },
+                    dataField: "CUSTOMER_CODE",
+                    caption: "Kodu",
+                    alignment: "center",
+                    width: "10%"
+                },     
                 {
-                    name: "CUSTOMER_NAME",
-                    title : "Adı",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "CUSTOMER_NAME",
+                    caption: "Adı",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "PRICE_LDATE",
-                    title : "Son Fiyat Tarih",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "PRICE_LDATE",
+                    caption: "Son Fiyat Tarih",
+                    dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "PRICE",
-                    title : "Fiyat",
-                    align: "center",
-                    width: 100
-                },
+                    dataField: "PRICE",
+                    caption: "Fiyat",
+                    dataType: "number",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
                 {
-                    name: "CUSTOMER_ITEM_CODE",
-                    title : "Tedarikçi Stok Kodu",
-                    type : "text",
-                    align: "center",
-                    width: 100
-                }
+                    dataField: "CUSTOMER_ITEM_CODE",
+                    caption: "Tedarikçi Stok Kodu",
+                    alignment: "center",
+                    width: "10%"
+                }       
             ]
-        });
+        })
     }
     function TblSecimInit(pData)
     {
@@ -1004,7 +983,7 @@ function StokCtrl ($scope,$window,$location,db)
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
                     $scope.FiyatListe = FiyatData;
-                    $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                    TblFiyatInit();
 
                     let TmpSymbol = "";
                     for(let i=0;i<$scope.Birim.length;i++)
@@ -1023,19 +1002,19 @@ function StokCtrl ($scope,$window,$location,db)
                 db.GetData($scope.Firma,'StokKartBirimListeGetir',[pKodu],function(BirimData)
                 {
                     $scope.BirimListe = BirimData;
-                    $("#TblBirim").jsGrid({data : $scope.BirimListe});
+                    TblBirimInit();
                 });
                 //BARKOD LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartBarkodListeGetir',[pKodu],function(BarkodData)
                 {
                     $scope.BarkodListe = BarkodData;
-                    $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                    TblBarkodInit()
                 });
                 //TEDARİKÇİ LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[pKodu],function(TedarikciData)
                 {
                     $scope.TedaikciListe = TedarikciData;
-                    $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                    TblTedarikciInit();
 
                     if($scope.TedaikciListe.length > 0)
                     {
@@ -1046,7 +1025,7 @@ function StokCtrl ($scope,$window,$location,db)
                 db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
                 {
                     $scope.TedaikciFiyatListe = TedarikciFiyatData;
-                    $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
+                    TblTedarikciFiyatInit()
                 });
             }
 
@@ -1108,7 +1087,7 @@ function StokCtrl ($scope,$window,$location,db)
                 db.GetData($scope.Firma,'StokKartBirimListeGetir',[$scope.StokListe[0].CODE],function(BirimData)
                 {
                     $scope.BirimListe = BirimData;
-                    $("#TblBirim").jsGrid({data : $scope.BirimListe});
+                    TblBirimInit();
 
                     BarkodModalInit();
                 });
@@ -1410,7 +1389,7 @@ function StokCtrl ($scope,$window,$location,db)
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                 {
                     $scope.FiyatListe = FiyatData;
-                    $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
+                    TblFiyatInit();
                     $scope.CmbAltBirimChange();
                 });
             }
@@ -1476,7 +1455,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.BarkodListe = BarkodData;
                     $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
-                    $("#TblBarkod").jsGrid({data : $scope.BarkodListe});
+                    TblBarkodInit()
                 });
             }
         });
@@ -1540,7 +1519,7 @@ function StokCtrl ($scope,$window,$location,db)
                         $scope.TedaikciListe = TedarikciData;
                         $scope.StokListe[0].ITEM_CUSTOMER = $scope.TedarikciModal.Kodu;
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = $scope.TedarikciModal.StokKodu + ' / ' + $scope.TedarikciModal.Adi;
-                        $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                        TblTedarikciInit();
                     });
                 }
             });
@@ -1963,13 +1942,13 @@ function StokCtrl ($scope,$window,$location,db)
                             db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                             {
                                 $scope.TedaikciListe = TedarikciData;
-                                $("#TblTedarikci").jsGrid({data : $scope.TedaikciListe});
+                                TblTedarikciInit();
                             });
                             //TEDARİKÇİ FİYAT LİSTESİ GETİR
                             db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
                             {
                                 $scope.TedaikciFiyatListe = TedarikciFiyatData;
-                                $("#TblTedarikciFiyat").jsGrid({data : $scope.TedaikciFiyatListe});
+                                TblTedarikciFiyatInit()
                             });
                         }
                     });

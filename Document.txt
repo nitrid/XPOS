@@ -1,6 +1,7 @@
 INSTALL MODULE
 npm install express
-npm install socket.io 
+npm install socket.io@2.3.0
+npm install socket.io-client@2.3.1
 npm install mssql
 npm install msnodesqlv8
 npm install moment
