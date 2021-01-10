@@ -2698,7 +2698,8 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.ToplamTicket = parseFloat(db.SumColumn($scope.TRDetayListe,"COUNT")).toDigit2();
                 $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
             });
-
+            console.log(1)
+            console.log(parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2())
             $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
             $scope.ToplamSatir =  $scope.SatisList.length
 
