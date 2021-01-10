@@ -3359,6 +3359,7 @@ function Pos($scope,$window,$rootScope,db)
                     if(pType == 'Repas')
                     {
                         PosSatisData.Repas = $scope.TxtRepasMiktar;
+                        $("#MdlRepasGiris").modal("hide");
                     }
 
                     db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,()=>{});
