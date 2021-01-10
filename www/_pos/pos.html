@@ -1986,13 +1986,13 @@
                                         <div class="col-12">
                                             <div class="row py-1">
                                                 <div class="col-lg-3">
-                                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '.'">.</button>
+                                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += ''">C</button>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '0'">0</button>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value = ''">C</button>
+                                                    <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value = '.'">.</button>
                                                 </div>   
                                                 <div class="col-lg-3">
                                                     <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '/'">/</button>
@@ -2000,10 +2000,18 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="CalcEqual()">=</button>
+                                            <div class="row py-1">
+                                                <div class="col-12">
+                                                    <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="CalcEqual()">=</button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="text" class="form-control-lg btn-raised btn btn-danger btn-block font-size-20" style="height:60px;" onclick="document.getElementById('CalcStatus').innerHTML = ''">CE</button>
+                                            <div class="row py-1">
+                                                <div class="col-12">
+                                                    <button type="text" class="form-control-lg btn-raised btn btn-danger btn-block font-size-20" style="height:60px;" onclick="document.getElementById('CalcStatus').innerHTML = ''">CE</button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <script>
                                             let CalcStatus = "";
