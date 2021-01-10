@@ -671,7 +671,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             }
         });
     }
-    this.ReceiptPrint = function(pSData,pTData,pVData,pParamData,pType,pCallback)
+    this.ReceiptPrint = function(pSData,pTData,pVData,pParamData,pType,pRePrint,pCallback)
     {
         let TmpData = [];
         let TmpLine = {};
@@ -709,7 +709,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,40) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,24)});
         TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});                
 
-        if(pType == 'Fatura')
+        if(pType == 'Fatura' || pRePrint)
         {
             TmpData.push({font:"b",style:"b",align:"ct",data: "DUPLICATA"});    
         }

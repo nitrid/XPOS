@@ -1245,7 +1245,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam),
                         TmpBondA
                     ]   
-                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',function()
+                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
                     {
                         
                     });
@@ -3033,7 +3033,7 @@ function Pos($scope,$window,$rootScope,db)
                                             TmpBondA
                                         ]   
 
-                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',function()
+                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',false,function()
                                         {
                                             $scope.YeniEvrak();
                                             $scope.TxtBarkod = "";
@@ -3361,7 +3361,7 @@ function Pos($scope,$window,$rootScope,db)
                         $("#MdlRepasGiris").modal("hide");
                     }
 
-                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,()=>{});
+                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,true,()=>{});
                 });
             });
         });
