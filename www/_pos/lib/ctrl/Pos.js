@@ -3697,6 +3697,9 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahTip = function(pTip)
     {
+        FocusSonTahGuncelle = true;
+        FocusBarkod = false;
+        
         if(pTip == 0)
         {
             const index = $scope.SonSatisTahDetayList.indexOf($scope.SonSatisTahDetayList[SonTahIndex]);
