@@ -1121,12 +1121,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
                 {
-                    // if($scope.SatisList[i].PRICE == $scope.Stok[0].PRICE && $scope.Stok[0].WEIGHING == false && db.IsUnitBarcode($scope.Stok[0].BARCODE) == false)
-                    // {
-                    //     TmpStatus = true;
-                    //     TmpIndex = i;
-                    // }   
-                    if($scope.Stok[0].SALE_JOIN_LINE == 1)
+                    if($scope.Stok[0].SALE_JOIN_LINE == 1 && $scope.Stok[0].WEIGHING == 0)
                     {
                         TmpStatus = true;
                         TmpIndex = i;
