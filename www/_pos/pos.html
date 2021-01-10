@@ -1999,9 +1999,12 @@
                                                 </div>                                            
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="CalcEqual()">=</button>
-                                        </div>      
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="text" class="form-control-lg btn-raised btn btn-danger btn-block font-size-20" style="height:60px;" onclick="document.getElementById('CalcStatus').innerHTML = ''">CE</button>
+                                        </div>
                                         <script>
                                             let CalcStatus = "";
                                             function CalcEqual()
