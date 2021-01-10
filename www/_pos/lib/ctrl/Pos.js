@@ -3768,6 +3768,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSonTahKaydet = async function()
     {
+        $('#MdlSonSatisTahGuncelle').modal('hide');
+        
         if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC)
         {
             TmpQuery = 
