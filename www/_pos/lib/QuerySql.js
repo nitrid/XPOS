@@ -783,14 +783,14 @@ var QuerySql =
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
                 "SPECIAL1 AS SPECIAL1, " +
-                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
+                "CONVERT(DECIMAL(10,2),dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE())) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "ITEMS.SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
                 "'' AS BARCODE, " +
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
-                "[MIN_PRICE] AS [MIN_PRICE], " +
+                "CONVERT(DECIMAL(10,2),[MIN_PRICE]) AS [MIN_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
@@ -803,14 +803,14 @@ var QuerySql =
     {
         query : "SELECT ITEMS.CODE AS CODE, " +
                 "SPECIAL1 AS SPECIAL1, " +
-                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
+                "CONVERT(DECIMAL(10,2),dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE())) AS PRICE, " +
                 "ITEMS.[NAME] AS [NAME], " +
                 "SNAME AS SNAME, " +
                 "ITEMS.VAT AS VAT, " +
                 "ISNULL(BARCODE.BARCODE,'') AS BARCODE, " + 
                 "ISNULL(UNIT.FACTOR,1) AS FACTOR, " +
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
-                "[MIN_PRICE] AS [MIN_PRICE], " +
+                "CONVERT(DECIMAL(10,2),[MIN_PRICE]) AS [MIN_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
@@ -898,15 +898,15 @@ var QuerySql =
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
                 "(SELECT UNIT.[SHORT] FROM UNIT WHERE UNIT.NAME = (SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT)) AS UNIT_SHORT, " +
                 "ISNULL((SELECT TOP 1 [MIN_PRICE] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS MIN_PRICE, " +
-                "PRICE AS PRICE, " +
-                "DISCOUNT AS DISCOUNT, " +
+                "CONVERT(DECIMAL(10,2),PRICE) AS PRICE, " +
+                "CONVERT(DECIMAL(10,2),DISCOUNT) AS DISCOUNT, " +
                 "LOYALTY AS LOYALTY, " +
                 "VAT AS VAT, " +
                 "VAT_TYPE AS VAT_TYPE, " + 
-                "HT AS HT, " + 
-                "TVA AS TVA, " + 
-                "TTC AS TTC, " + 
-                "ROUND(AMOUNT,2) AS AMOUNT " +
+                "CONVERT(DECIMAL(10,2),HT) AS HT, " + 
+                "CONVERT(DECIMAL(10,2),TVA) AS TVA, " + 
+                "CONVERT(DECIMAL(10,2),TTC) AS TTC, " + 
+                "CONVERT(DECIMAL(10,2),ROUND(AMOUNT,2)) AS AMOUNT " +
                 "FROM POS_SALES_VW_01 AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
@@ -925,10 +925,10 @@ var QuerySql =
                 "SUM(QUANTITY) AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +
                 "(SELECT UNIT.[NAME] FROM ITEM_UNIT AS UNIT WHERE CONVERT(NVARCHAR(50),UNIT.GUID) = POS.UNIT) AS UNIT, " +
-                "ROUND(PRICE,2) AS PRICE, " +
-                "SUM(DISCOUNT) * ((VAT / 100) + 1) AS DISCOUNT, " +
-                "SUM(LOYALTY) * ((VAT / 100) + 1) AS LOYALTY, " +
-                "VAT AS VAT, " +
+                "CONVERT(DECIMAL(10,2),ROUND(PRICE,2)) AS PRICE, " +
+                "CONVERT(DECIMAL(10,2),SUM(DISCOUNT) * ((VAT / 100) + 1)) AS DISCOUNT, " +
+                "CONVERT(DECIMAL(10,2),SUM(LOYALTY) * ((VAT / 100) + 1)) AS LOYALTY, " +
+                "CONVERT(DECIMAL(10,2),VAT) AS VAT, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 104)) AS CDATE, " +
                 "MAX(CONVERT(NVARCHAR, CDATE, 108)) AS CHOUR, " +
                 "ROUND(SUM(QUANTITY * PRICE),2) AS AMOUNT " +
@@ -1103,10 +1103,10 @@ var QuerySql =
                 "MAX(TYPE) AS TYPE, " +
                 "COUNT(LINE_NO) AS LINE_NO, " +
                 "MAX(CUSER) AS [USER], " +
-                "ROUND(SUM(AMOUNT),2) AS AMOUNT, " +
-                "ROUND(SUM(DISCOUNT),2) AS DISCOUNT, " +
-                "ROUND(SUM(LOYALTY_AMOUNT),2) AS LOYALTY_AMOUNT, " +
-                "ROUND(SUM(TTC),2) AS TTC, " +                
+                "CONVERT(DECIMAL(10,2),ROUND(SUM(AMOUNT),2)) AS AMOUNT, " +
+                "CONVERT(DECIMAL(10,2),ROUND(SUM(DISCOUNT),2)) AS DISCOUNT, " +
+                "CONVERT(DECIMAL(10,2),ROUND(SUM(LOYALTY_AMOUNT),2)) AS LOYALTY_AMOUNT, " +
+                "CONVERT(DECIMAL(10,2),ROUND(SUM(TTC),2)) AS TTC, " +                
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
                 "FROM POS_SALES_VW_01 AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND STATUS = 1 AND DOC_DATE >= @START_DATE AND DOC_DATE <= @END_DATE " +
@@ -1147,7 +1147,7 @@ var QuerySql =
     },
     PosSatisFiyatGetir : 
     {
-        query: "SELECT dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) AS PRICE",
+        query: "SELECT CONVERT(DECIMAL(10,2),dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE())) AS PRICE",
         param: ['ITEM_CODE','QUANTITY'],
         type:  ['string|50','float']
     },
