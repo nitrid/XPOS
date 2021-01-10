@@ -2692,6 +2692,12 @@ function Pos($scope,$window,$rootScope,db)
 
                 $('#MdlParkIslemler').modal('hide');
             });
+            db.GetData($scope.Firma,'TicketGetir',[$scope.Seri,$scope.Sira],function(Data)
+            {
+                $scope.TRDetayListe = Data;
+                $scope.ToplamTicket = parseFloat(db.SumColumn($scope.TRDetayListe,"COUNT")).toDigit2();
+                $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
+            });
 
             $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
             $scope.ToplamSatir =  $scope.SatisList.length
