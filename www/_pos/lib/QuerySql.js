@@ -1201,6 +1201,11 @@ var QuerySql =
         query : "SELECT * FROM TICKET WHERE CODE = @CODE AND TYPE IN (0,2)",
         param :['CODE:string']
     },
+    TicketGetir:
+    {
+        query : "SELECT AMOUNT AS AMOUNT,COUNT(AMOUNT) AS COUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO GROUP BY AMOUNT",
+        param : ["REF:string|25",'REF_NO:int']
+    },
     MusteriPuanInsert :
     {
         query : "INSERT INTO [dbo].[CUSTOMER_POINT] ( " +

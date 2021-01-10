@@ -2693,6 +2693,9 @@ function Pos($scope,$window,$rootScope,db)
                 $('#MdlParkIslemler').modal('hide');
             });
 
+            $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
+            $scope.ToplamSatir =  $scope.SatisList.length
+
             db.LCDPrint
             (
                 {
@@ -2702,10 +2705,7 @@ function Pos($scope,$window,$rootScope,db)
                             db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
                             "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
                 }                        
-            );
-
-            $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
-            $scope.ToplamSatir =  $scope.SatisList.length
+            );            
         });
     }
     $scope.BtnAraToplam = function()
@@ -3663,14 +3663,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnTRDetay = function()
     {
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query:  "SELECT AMOUNT AS AMOUNT,COUNT(AMOUNT) AS COUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO GROUP BY AMOUNT",
-            param : ["REF:string|25",'REF_NO:int'],
-            value : [$scope.Seri,$scope.Sira]
-        }
-        db.GetDataQuery(TmpQuery,function(Data)
+        db.GetData($scope.Firma,'TicketGetir',[$scope.Seri,$scope.Sira],function(Data)
         {
             $scope.TRDetayListe = Data;
             if(Data.length > 0)
