@@ -857,21 +857,21 @@ function Pos($scope,$window,$rootScope,db)
                 title: "SATIR",
                 type: "number",
                 align: "center",
-                width: 50
+                width: 30
             },
             {
                 name: "CUSTOMER_CODE",
                 title: "MÜŞTERİ",
                 type: "number",
                 align: "center",
-                width: 50
+                width: 100
             },
             {
                 name: "USER",
                 title: "KULLANICI",
                 type: "TEXT",
                 align: "center",
-                width: 75
+                width: 50
             },
             {
                 name: "DISCOUNT",
