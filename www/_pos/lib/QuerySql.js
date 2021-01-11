@@ -1104,6 +1104,7 @@ var QuerySql =
                 "REF_NO AS REF_NO, " +
                 "MAX(TYPE) AS TYPE, " +
                 "COUNT(LINE_NO) AS LINE_NO, " +
+                "MAX(CUSTOMER_CODE) AS CUSTOMER_CODE, " +
                 "MAX(CUSER) AS [USER], " +
                 "ROUND(SUM(AMOUNT),2) AS AMOUNT, " +
                 "ROUND(SUM(DISCOUNT),2) AS DISCOUNT, " +

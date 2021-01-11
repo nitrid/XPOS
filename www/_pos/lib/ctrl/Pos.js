@@ -860,6 +860,13 @@ function Pos($scope,$window,$rootScope,db)
                 width: 50
             },
             {
+                name: "CUSTOMER_CODE",
+                title: "MÜŞTERİ",
+                type: "number",
+                align: "center",
+                width: 50
+            },
+            {
                 name: "USER",
                 title: "KULLANICI",
                 type: "TEXT",
