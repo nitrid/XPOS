@@ -266,7 +266,7 @@
     .show > .datepicker table tr td.active.dropdown-toggle, .datepicker table tr td.active.highlighted:not(:disabled):not(.disabled):active, .datepicker table tr td.active.highlighted:not(:disabled):not(.disabled).active,
     .show > .datepicker table tr td.active.highlighted.dropdown-toggle {
       color: #3e4854;
-      background-color: #e6e5e5;
+      background-color: #4792f5;
       border-color: #0a6beb; }
       .datepicker table tr td.active:not(:disabled):not(.disabled):active:focus, .datepicker table tr td.active:not(:disabled):not(.disabled).active:focus,
       .show > .datepicker table tr td.active.dropdown-toggle:focus, .datepicker table tr td.active.highlighted:not(:disabled):not(.disabled):active:focus, .datepicker table tr td.active.highlighted:not(:disabled):not(.disabled).active:focus,
