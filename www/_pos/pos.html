@@ -527,16 +527,28 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group row">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <div class="input-group input-group-icon">
                                                     <input type="text" class="form-control" id="SonSatisIlkTarih" type="text" ng-model="SonSatisIlkTarih" data-provide="datepicker"/>
                                                 </div>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <div class="input-group input-group-icon">
                                                     <input type="text" class="form-control" id="SonSatisSonTarih" type="text" ng-model="SonSatisSonTarih" data-provide="datepicker"/>
                                                 </div>
-                                            </div>                                            
+                                            </div>                
+                                            <div class="col-4">
+                                                <div class="input-group">
+                                                    <select class="form-control" ng-model="SonSatisOdemeTip">
+                                                        <option value="-1">Tümü</option> 
+                                                        <option value="0">Espece</option>                  
+                                                        <option value="1">Carte Bancaire TPE</option>  
+                                                        <option value="2">Cheque</option>  
+                                                        <option value="3">CHEQUEe</option>  
+                                                        <option value="4">Bon D''Avoir</option>  
+                                                    </select>  
+                                                </div>           
+                                            </div>                                  
                                         </div>
                                     </div>  
                                     <div class="col-md-3">

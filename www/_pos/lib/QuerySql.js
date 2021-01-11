@@ -1111,10 +1111,11 @@ var QuerySql =
                 "ROUND(SUM(TTC),2) AS TTC, " +                
                 "CONVERT(VARCHAR(10), MAX(CDATE), 108) AS CHOUR, " +
                 "CONVERT(VARCHAR(10), MAX(CDATE), 104) AS CDATE " +
-                "FROM POS_SALES_VW_01 AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND STATUS = 1 AND DOC_DATE >= @START_DATE AND DOC_DATE <= @END_DATE " +
+                "FROM POS_SALES_VW_01 AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND STATUS = 1 AND DOC_DATE >= @START_DATE AND DOC_DATE <= @END_DATE AND " +
+                "((ISNULL((SELECT TOP 1 PAY.TYPE FROM POS_PAYMENT AS PAY WHERE PAY.REF = PS.REF AND PAY.REF_NO = PS.REF_NO AND PAY.DOC_TYPE = PS.TYPE),0) = @TYPE) OR (@TYPE = -1)) " +
                 "GROUP BY REF,REF_NO ORDER BY REF_NO DESC " ,
-        param: ['DEPARTMENT','REF','START_DATE','END_DATE'],
-        type: ['int','string|25','date','date']
+        param: ['DEPARTMENT','REF','START_DATE','END_DATE','TYPE'],
+        type: ['int','string|25','date','date','int']
     },
     PosSonSatisDetayGetir : 
     {

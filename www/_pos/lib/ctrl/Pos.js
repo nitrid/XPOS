@@ -410,6 +410,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonTahDetayKalan = 0;
         $scope.SonSatisIlkTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
         $scope.SonSatisSonTarih = new Date().toLocaleDateString('fr-FR',{ year: 'numeric', month: 'numeric', day: 'numeric' });
+        $scope.SonSatisOdemeTip = "-1"
         $scope.ToplamTicket = 0;
         $scope.SonTicket = 0;
         $scope.TxtRepasMiktar = 0;
@@ -3084,7 +3085,7 @@ function Pos($scope,$window,$rootScope,db)
         $("#TbSonSatisListesi").addClass('active');
         $("#TbMain").removeClass('active');
 
-        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube,$scope.Seri,$scope.SonSatisIlkTarih,$scope.SonSatisSonTarih],function(PosSonSatis)
+        db.GetData($scope.Firma,'PosSonSatisGetir',[$scope.Sube,$scope.Seri,$scope.SonSatisIlkTarih,$scope.SonSatisSonTarih,$scope.SonSatisOdemeTip],function(PosSonSatis)
         {  
             $scope.SonSatisList = PosSonSatis;
             $("#TblSonSatis").jsGrid({data : $scope.SonSatisList});
