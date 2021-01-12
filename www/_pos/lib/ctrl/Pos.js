@@ -2123,7 +2123,7 @@ function Pos($scope,$window,$rootScope,db)
                             blink : 0,
                             text :  db.PrintText(PosTahData[0].TYPE_NAME,9) + " " + 
                                     db.PrintText(parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
-                                    "Rendu : " + db.PrintText(parseFloat(db.SumColumn(PosTahData,"CHANGE")).toDigit2().toString() + "EUR",12,"Start")
+                                    "Reste a paye : " + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
                     $scope.TahList = PosTahData;
