@@ -1085,7 +1085,7 @@ function Pos($scope,$window,$rootScope,db)
                 blink : 0,
                 text :  db.PrintText($scope.SatisList[0].ITEM_NAME,11) + " " + 
                         db.PrintText(parseFloat($scope.SatisList[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                        "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan).toDigit2().toString() + "EUR",12,"Start")
+                        "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan).toDigit2().toFixed(2).toString() + "EUR",12,"Start")
             }                        
         );
         //$scope.GenelToplam = ($scope.AraToplam.toDigit2() + $scope.ToplamKdv.toDigit2());
