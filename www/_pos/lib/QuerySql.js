@@ -908,7 +908,8 @@ var QuerySql =
                 "HT AS HT, " + 
                 "TVA AS TVA, " + 
                 "TTC AS TTC, " + 
-                "ROUND(AMOUNT,2) AS AMOUNT " +
+                "ROUND(AMOUNT,2) AS AMOUNT, " +
+                "SUBTOTAL AS SUBTOTAL " +
                 "FROM POS_SALES_VW_01 AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']

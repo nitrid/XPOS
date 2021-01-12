@@ -1088,6 +1088,7 @@ function Pos($scope,$window,$rootScope,db)
                         "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan.toFixed(2)).toDigit2().toString() + "EUR",12,"Start")
             }                        
         );
+        console.log($scope.SatisList)
         SubTotalBuild()
         //$scope.GenelToplam = ($scope.AraToplam.toDigit2() + $scope.ToplamKdv.toDigit2());
     }
@@ -1139,12 +1140,15 @@ function Pos($scope,$window,$rootScope,db)
         {
             for (let i = 0; i < $scope.SatisList.length; i++) 
             {
-                if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
+                if($scope.SatisList[i].SUBTOTAL == 0)
                 {
-                    if($scope.Stok[0].SALE_JOIN_LINE == 1 && $scope.Stok[0].WEIGHING == 0)
+                    if($scope.SatisList[i].ITEM_CODE == $scope.Stok[0].CODE)
                     {
-                        TmpStatus = true;
-                        TmpIndex = i;
+                        if($scope.Stok[0].SALE_JOIN_LINE == 1 && $scope.Stok[0].WEIGHING == 0)
+                        {
+                            TmpStatus = true;
+                            TmpIndex = i;
+                        }
                     }
                 }
             }
@@ -1311,9 +1315,21 @@ function Pos($scope,$window,$rootScope,db)
     function SubTotalBuild()
     {
         let TmpData = [];
-        for (let i = 0;i < $scope.StokListe.length;i++)
+        let SubIndex = $scope.SatisList[0].SUBTOTAL;
+
+        for (let i = 0;i < $scope.SatisList.length;i++)
         {
-            TmpData.push($scope.StokListe[i]);
+            console.log(SubIndex)
+            if(SubIndex != $scope.SatisList[i].SUBTOTAL)
+            {
+                SubIndex = $scope.SatisList[i].SUBTOTAL;
+                if($scope.SatisList[i].SUBTOTAL > 0)
+                {
+                   TmpData.push({GUID:$scope.SatisList[i].GUID,ITEM_NAME:"SUBTOTAL"}) 
+                }
+            }
+            
+            TmpData.push($scope.SatisList[i]);
         }
         console.log(TmpData);
     }
