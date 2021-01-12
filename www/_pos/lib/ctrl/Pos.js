@@ -1077,6 +1077,17 @@ function Pos($scope,$window,$rootScope,db)
         });
 
         $scope.ToplamKalan = $scope.GenelToplam.toDigit2() - db.SumColumn($scope.TahList,"AMOUNT").toDigit2();
+
+        db.LCDPrint
+        (
+            {
+                port : $scope.ComPorts.EkranPort,
+                blink : 0,
+                text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
+                        db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
+                        "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan).toDigit2().toString() + "EUR",12,"Start")
+            }                        
+        );
         //$scope.GenelToplam = ($scope.AraToplam.toDigit2() + $scope.ToplamKdv.toDigit2());
     }
     function DipToplamFisHesapla()
@@ -2011,18 +2022,7 @@ function Pos($scope,$window,$rootScope,db)
                 // }  
                 /***************************************************************** */
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
-                {   
-                    db.LCDPrint
-                    (
-                        {
-                            port : $scope.ComPorts.EkranPort,
-                            blink : 0,
-                            text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
-                                    db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                                    "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
-                        }                        
-                    );
-
+                {                       
                     InsertSonYenile(PosSatisData);     
                     console.log(PosSatisData) 
                     $scope.TxtBarkod = ""; 
@@ -2116,7 +2116,6 @@ function Pos($scope,$window,$rootScope,db)
             {
                 db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
                 {   
-                    console.log($scope.GenelToplam)
                     db.LCDPrint
                     (
                         {
@@ -2124,7 +2123,7 @@ function Pos($scope,$window,$rootScope,db)
                             blink : 0,
                             text :  db.PrintText(PosTahData[0].TYPE_NAME,9) + " " + 
                                     db.PrintText(parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
-                                    "Reste :" + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
+                                    "Reste a:" + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
                     $scope.TahList = PosTahData;
@@ -2172,17 +2171,6 @@ function Pos($scope,$window,$rootScope,db)
                 {  
                     InsertFisYenile(PosSatisFisData);   
                 }); 
-
-                db.LCDPrint
-                (
-                    {
-                        port : $scope.ComPorts.EkranPort,
-                        blink : 0,
-                        text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
-                                db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                                "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
-                    }                        
-                );
             });          
         });
     }
@@ -2204,17 +2192,6 @@ function Pos($scope,$window,$rootScope,db)
                 {  
                     InsertFisYenile(PosSatisFisData);   
                 }); 
-
-                db.LCDPrint
-                (
-                    {
-                        port : $scope.ComPorts.EkranPort,
-                        blink : 0,
-                        text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
-                                db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                                "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
-                    }                        
-                );
             });          
         });
     }
@@ -2684,17 +2661,6 @@ function Pos($scope,$window,$rootScope,db)
                                 DipToplamHesapla();
                                 $scope.TxtBarkod = ""; 
                                 $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
-
-                                db.LCDPrint
-                                (
-                                    {
-                                        port : $scope.ComPorts.EkranPort,
-                                        blink : 0,
-                                        text :  db.PrintText(" ",11) + " " + 
-                                                db.PrintText(" " ,8,"Start") +
-                                                "TOTAL : " + db.PrintText(parseFloat(db.SumColumn($scope.SatisList,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
-                                    }                        
-                                );
                             });
                         }
                     }
@@ -2758,17 +2724,6 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.SonTicket = $scope.TRDetayListe[0].AMOUNT;
                 }
             });
-
-            db.LCDPrint
-            (
-                {
-                    port : $scope.ComPorts.EkranPort,
-                    blink : 0,
-                    text :  db.PrintText(PosSatisData[0].ITEM_NAME,11) + " " + 
-                            db.PrintText(parseFloat(PosSatisData[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                            "TOTAL : " + db.PrintText(parseFloat(db.SumColumn(PosSatisData,"AMOUNT")).toDigit2().toString() + "EUR",12,"Start")
-                }                        
-            );            
         });
     }
     $scope.BtnAraToplam = function()
