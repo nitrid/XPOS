@@ -1325,7 +1325,7 @@ function Pos($scope,$window,$rootScope,db)
                 SubIndex = $scope.SatisList[i].SUBTOTAL;
                 if($scope.SatisList[i].SUBTOTAL > 0)
                 {
-                   TmpData.push({GUID:$scope.SatisList[i].GUID,ITEM_NAME:"SUBTOTAL"}) 
+                   TmpData.push({ITEM_NAME:"SUBTOTAL",AMOUNT:db.SumColumn($scope.SatisList,"AMOUNT","SUBTOTAL = " + SubIndex)}) 
                 }
             }
             
