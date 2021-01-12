@@ -2116,6 +2116,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
                 {   
+                    console.log($scope.GenelToplam)
                     db.LCDPrint
                     (
                         {
@@ -2123,7 +2124,7 @@ function Pos($scope,$window,$rootScope,db)
                             blink : 0,
                             text :  db.PrintText(PosTahData[0].TYPE_NAME,9) + " " + 
                                     db.PrintText(parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
-                                    "Reste a paye : " + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
+                                    "Reste a paye :" + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
                     $scope.TahList = PosTahData;
