@@ -1077,7 +1077,7 @@ function Pos($scope,$window,$rootScope,db)
         });
 
         $scope.ToplamKalan = $scope.GenelToplam.toDigit2() - db.SumColumn($scope.TahList,"AMOUNT").toDigit2();
-
+        
         db.LCDPrint
         (
             {
@@ -1085,9 +1085,10 @@ function Pos($scope,$window,$rootScope,db)
                 blink : 0,
                 text :  db.PrintText($scope.SatisList[0].ITEM_NAME,11) + " " + 
                         db.PrintText(parseFloat($scope.SatisList[0].PRICE).toDigit2().toString() + "EUR" ,8,"Start") +
-                        "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan).toDigit2().toFixed(2).toString() + "EUR",12,"Start")
+                        "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan.toFixed(2)).toDigit2().toString() + "EUR",12,"Start")
             }                        
         );
+        SubTotalBuild()
         //$scope.GenelToplam = ($scope.AraToplam.toDigit2() + $scope.ToplamKdv.toDigit2());
     }
     function DipToplamFisHesapla()
@@ -1306,6 +1307,15 @@ function Pos($scope,$window,$rootScope,db)
                 });                                  
             });
         }
+    }
+    function SubTotalBuild()
+    {
+        let TmpData = [];
+        for (let i = 0;i < $scope.StokListe.length;i++)
+        {
+            TmpData.push($scope.StokListe[i]);
+        }
+        console.log(TmpData);
     }
     document.onkeydown = function(e)
     {
@@ -2123,7 +2133,7 @@ function Pos($scope,$window,$rootScope,db)
                             blink : 0,
                             text :  db.PrintText(PosTahData[0].TYPE_NAME,9) + " " + 
                                     db.PrintText(parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR" ,10,"Start") +
-                                    "Reste a:" + db.PrintText($scope.GenelToplam - parseFloat(PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
+                                    "Reste  :" + db.PrintText(parseFloat($scope.GenelToplam - PosTahData[0].AMOUNT).toDigit2().toString() + "EUR",12,"Start")
                         }                        
                     );
                     $scope.TahList = PosTahData;
