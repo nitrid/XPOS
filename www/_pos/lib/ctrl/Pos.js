@@ -1331,7 +1331,8 @@ function Pos($scope,$window,$rootScope,db)
             
             TmpData.push($scope.SatisList[i]);
         }
-        console.log(TmpData);
+
+        $scope.SatisList = TmpData;
     }
     document.onkeydown = function(e)
     {
