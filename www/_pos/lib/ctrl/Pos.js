@@ -4252,7 +4252,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusBarkod = false;
         FirstKey = false;
     }
-    $scope.BtnSubTotal = async function()
+    $scope.BtnSubTotal = function()
     {
         for(let i = 0;i < $scope.SatisList.length;i++)
         {
@@ -4267,14 +4267,14 @@ function Pos($scope,$window,$rootScope,db)
                     value:  [1,$scope.SatisList[i].GUID]
                 }
                         
-                await db.GetPromiseQuery(TmpQuery)
-                db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
+                db.GetDataQuery(TmpQuery,()=>
                 {
-                    $scope.SatisList = pData;   
-                    $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});
+                    db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
+                    {
+                        InsertSonYenile(pData)
+                    })
                 })
             }
-            
         }
     }
 }
