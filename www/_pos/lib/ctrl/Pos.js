@@ -1244,7 +1244,7 @@ function Pos($scope,$window,$rootScope,db)
                             //SATIŞ SONUNDA PARA ÜSTÜ MODAL EKRANI AÇILIYOR. TMPPARAUSTU DEĞİŞKENİ EKRAN YENİLENDİĞİ İÇİN KULLANILDI. 
                             $scope.TmpParaUstu = $scope.TahParaUstu;
                             $("#MdlParaUstu").modal("show");                    
-                            setTimeout(()=>{$("#MdlParaUstu").modal("hide")},5000);
+                            setTimeout(()=>{$("#MdlParaUstu").modal("hide")},10000);
                         }
                     }
                     
@@ -1314,7 +1314,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         for( var i = 0; i < pData.length; i++)
         { 
-            if ( pData[i].ITEM_NAME === "SUBTOTAL") 
+            if (pData[i].GUID === "") 
             { 
                 pData.splice(i, 1); 
             }

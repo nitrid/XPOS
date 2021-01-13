@@ -782,17 +782,32 @@ angular.module('app.db', []).service('db',function($rootScope)
                 {
                     TmpQt = parseFloat(parseFloat(pSData[i].QUANTITY).toFixed(3)) + " " + pSData[i].UNIT_SHORT;
                 }
-    
+                
                 TmpLine = 
                 {
                     font: "b",
                     align: "lt",
                     data: _PrintText(pSData[i].VAT_TYPE) + " " +
-                          _PrintText(pSData[i].ITEM_NAME,34) + " " +
-                          _PrintText(TmpQt,8,"Start") + " " + 
-                          _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
-                          _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")
+                            _PrintText(pSData[i].ITEM_NAME,34) + " " +
+                            _PrintText(TmpQt,8,"Start") + " " + 
+                            _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
+                            _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")
                 }
+                //SUB TOTAL İÇİN YAPILDI
+                if(pSData[i].GUID == "")
+                {
+                    TmpLine = 
+                    {
+                        font: "a",
+                        align: "rt",
+                        data: _PrintText(pSData[i].VAT_TYPE) + " " +
+                              _PrintText(pSData[i].ITEM_NAME,34) + " " +
+                              _PrintText(TmpQt,8,"Start") + " " + 
+                              _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
+                              _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")
+                    }
+                }
+                
                 TmpData.push(TmpLine);
             }
         }
