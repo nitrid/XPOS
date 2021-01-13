@@ -409,7 +409,8 @@ var lang =
             "Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?" : "Voulez-vous rattacher prix de revient a un fournisseur?",
             "Girimiş olduğunuz barkod sistemde kayıtlı" : "Code barre saisie deja existant!",
             "Vergi dilimi yuzde sıfır.Eminmisiniz ?" : "TVA saisie est 0, êtes vous sûre de vouloir continuer?",
-            "Ödeme gerçekleşmedi" : "Attention! Paiement ne pas Réussi!"
+            "Ödeme gerçekleşmedi" : "Attention! Paiement ne pas Réussi!",
+            "Çalıntı Ticket !" : "Çalıntı Ticket !"
         }
     }
 }
