@@ -1039,13 +1039,11 @@ function Pos($scope,$window,$rootScope,db)
     }
     function InsertSonYenile(pData)
     {    
-        $scope.SatisList = pData;   
-        $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});        
-        $scope.TxtBarkod = "";
-        
+        $scope.SatisList = pData;                          
         DipToplamHesapla();
-         
-        //$scope.Yukleniyor =  false  
+        $("#TblIslem").jsGrid({data : $scope.SatisList}); 
+        
+        $scope.TxtBarkod = "";
         $window.document.getElementById("TxtBarkod").focus();
     } 
     function InsertFisYenile(pData)
@@ -1089,6 +1087,8 @@ function Pos($scope,$window,$rootScope,db)
                         "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan.toFixed(2)).toDigit2().toString() + "EUR",12,"Start")
             }                        
         );
+
+        $scope.SatisList = SubTotalBuild($scope.SatisList);
     }
     function DipToplamFisHesapla()
     {
@@ -1267,7 +1267,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam),
                         TmpBondA
                     ]   
-                    db.ReceiptPrint(SubTotalBuild($scope.SatisList),$scope.TahList,pData,ParamData,'Fis',false,function()
+                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
                     {
                         
                     });
@@ -1312,6 +1312,14 @@ function Pos($scope,$window,$rootScope,db)
     }
     function SubTotalBuild(pData)
     {
+        for( var i = 0; i < pData.length; i++)
+        { 
+            if ( pData[i].ITEM_NAME === "SUBTOTAL") 
+            { 
+                pData.splice(i, 1); 
+            }
+        }
+
         let TmpData = [];
         let SubIndex = -1;
 
@@ -2713,7 +2721,7 @@ function Pos($scope,$window,$rootScope,db)
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                             {
                                 $scope.SatisList = data;
-                                $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});                                    
+                                $("#TblIslem").jsGrid({data : $scope.SatisList});                                    
                                 DipToplamHesapla();
                                 $scope.TxtBarkod = ""; 
                                 $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
@@ -3053,7 +3061,7 @@ function Pos($scope,$window,$rootScope,db)
                                             TmpBondA
                                         ]   
 
-                                        db.ReceiptPrint(SubTotalBuild($scope.SatisList),pTahData,pData,ParamData,'Fis',false,function()
+                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',false,function()
                                         {
                                             $scope.YeniEvrak();
                                             $scope.TxtBarkod = "";
