@@ -1360,6 +1360,7 @@ function Pos($scope,$window,$rootScope,db)
             
             TmpData.push(pData[i]);
         }
+        console.log(TmpData)
         return TmpData;
     }
     document.onkeydown = function(e)
