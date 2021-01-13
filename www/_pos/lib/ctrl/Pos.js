@@ -4101,6 +4101,11 @@ function Pos($scope,$window,$rootScope,db)
         {
             for (let i = 0; i < $scope.SatisList.length; i++) 
             {
+                if($scope.SatisList[i].GUID == "")
+                {
+                    return;
+                }
+
                 let TmpDiscount = parseFloat($scope.SatisList[i].TTC * ($scope.TxtIskontoYuzde / 100));
                 db.ExecuteTag($scope.Firma,'PosSatisIskonto',[TmpDiscount,$scope.SatisList[i].GUID]);
             }
@@ -4121,6 +4126,10 @@ function Pos($scope,$window,$rootScope,db)
         }
         else
         {
+            if($scope.SatisList[$scope.IslemListeSelectedIndex].GUID == "")
+            {
+                return
+            }
             db.ExecuteTag($scope.Firma,'PosSatisIskonto',[$scope.TxtIskontoTutar,$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],function(pData)
             {   
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
