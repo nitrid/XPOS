@@ -29,7 +29,8 @@ TYPE = 1 => İADE
 TYPE = 0 => CHEQUEe
 TYPE = 1 => BON D'AVOIR - GIRIŞ
 TYPE = 2 => BON D'AVOIR - ÇIKIŞ
-TYPE = 3 => ÇALINTI / TANIMSIZ
+TYPE = 3 => TANIMSIZ
+TYPE = 4 => ÇALINTI
 --------------------------
 # CUSTOMER_POINT 
 TYPE = 0 => GİRİŞ
