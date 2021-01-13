@@ -4269,7 +4269,7 @@ function Pos($scope,$window,$rootScope,db)
                         
                 await db.GetPromiseQuery(TmpQuery)
                 let TmpData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira])
-
+                console.log(TmpData)
                 InsertSonYenile(TmpData)
             }
             
