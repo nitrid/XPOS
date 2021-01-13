@@ -4270,10 +4270,8 @@ function Pos($scope,$window,$rootScope,db)
                 await db.GetPromiseQuery(TmpQuery)
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
                 {
-                    db.SafeApply($scope,function()
-                    {
-                        InsertSonYenile(pData)
-                    })
+                    $scope.SatisList = pData;   
+                    $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});
                 })
             }
             
