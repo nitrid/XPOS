@@ -380,7 +380,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.Lang = "TR";
         }
-        
+
         $scope.Seri = "";
         $scope.Sira = 0;
         $scope.EvrakTip = 0;
@@ -1943,7 +1943,15 @@ function Pos($scope,$window,$rootScope,db)
                     }
                     else
                     {
-                        alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                        if(data[0].CODE == '001')
+                        {
+                            alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                        }
+                        else
+                        {
+                            alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                        }
+                        
                     }
 
                 });

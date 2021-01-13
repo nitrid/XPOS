@@ -1206,7 +1206,10 @@ var QuerySql =
     },
     TicketControl :
     {
-        query : "SELECT * FROM TICKET WHERE CODE = @CODE AND TYPE IN (0,2)",
+        query : "IF (SELECT CODE FROM TICKET_VW_01 WHERE REFERENCE = SUBSTRING(@CODE,1,9) AND TYPE = 4) IS NULL " +
+                "SELECT CODE FROM TICKET_VW_01 WHERE CODE = @CODE AND TYPE IN (0,2) " +
+                "ELSE " +
+                "SELECT '001' AS CODE",
         param :['CODE:string']
     },
     TicketGetir:
