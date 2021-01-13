@@ -4101,13 +4101,11 @@ function Pos($scope,$window,$rootScope,db)
         {
             for (let i = 0; i < $scope.SatisList.length; i++) 
             {
-                if($scope.SatisList[i].GUID == "")
+                if($scope.SatisList[i].GUID != "")
                 {
-                    return;
+                    let TmpDiscount = parseFloat($scope.SatisList[i].TTC * ($scope.TxtIskontoYuzde / 100));
+                    db.ExecuteTag($scope.Firma,'PosSatisIskonto',[TmpDiscount,$scope.SatisList[i].GUID]);
                 }
-
-                let TmpDiscount = parseFloat($scope.SatisList[i].TTC * ($scope.TxtIskontoYuzde / 100));
-                db.ExecuteTag($scope.Firma,'PosSatisIskonto',[TmpDiscount,$scope.SatisList[i].GUID]);
             }
 
             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
