@@ -4262,7 +4262,7 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     db : $scope.Firma,
                     query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE GUID = @GUID",
-                    param:  ['SUBTOTAL','REF_NO'],
+                    param:  ['SUBTOTAL','GUID'],
                     type:   ['int','string'],
                     value:  [1,$scope.SatisList[i].GUID]
                 }
