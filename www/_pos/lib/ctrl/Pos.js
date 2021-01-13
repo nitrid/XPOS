@@ -1313,7 +1313,7 @@ function Pos($scope,$window,$rootScope,db)
     function SubTotalBuild(pData)
     {
         let TmpData = [];
-        let SubIndex = pData[0].SUBTOTAL;
+        let SubIndex = -1;
 
         for (let i = 0;i < pData.length;i++)
         {
@@ -1360,7 +1360,6 @@ function Pos($scope,$window,$rootScope,db)
             
             TmpData.push(pData[i]);
         }
-        console.log(TmpData)
         return TmpData;
     }
     document.onkeydown = function(e)
@@ -4253,7 +4252,7 @@ function Pos($scope,$window,$rootScope,db)
         FocusBarkod = false;
         FirstKey = false;
     }
-    $scope.BtnSubTotal = async function()
+    $scope.BtnSubTotal = function()
     {
         for(let i = 0;i < $scope.SatisList.length;i++)
         {
@@ -4268,16 +4267,14 @@ function Pos($scope,$window,$rootScope,db)
                     value:  [1,$scope.SatisList[i].GUID]
                 }
                         
-                await db.GetPromiseQuery(TmpQuery)                
-            }            
+                db.GetDataQuery(TmpQuery,()=>
+                {
+                    db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
+                    {
+                        InsertSonYenile(pData)
+                    })
+                })
+            }
         }
-
-        db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
-        {
-            $scope.SatisList = pData;   
-            console.log(pData);
-            console.log(SubTotalBuild($scope.SatisList))
-            $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});
-        })
     }
 }
