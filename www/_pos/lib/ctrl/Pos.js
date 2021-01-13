@@ -4275,6 +4275,8 @@ function Pos($scope,$window,$rootScope,db)
         db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
         {
             $scope.SatisList = pData;   
+            console.log(pData);
+            console.log(SubTotalBuild($scope.SatisList))
             $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});
         })
     }
