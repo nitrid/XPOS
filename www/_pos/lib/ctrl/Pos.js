@@ -1088,6 +1088,9 @@ function Pos($scope,$window,$rootScope,db)
             }                        
         );
 
+        $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2(); 
+        $scope.ToplamSatir =  $scope.SatisList.length  
+
         $scope.SatisList = SubTotalBuild($scope.SatisList);
     }
     function DipToplamFisHesapla()
@@ -1343,7 +1346,7 @@ function Pos($scope,$window,$rootScope,db)
                         GUID: "",
                         HT: 0,
                         ITEM_CODE: "",
-                        ITEM_NAME: "SUBTOTAL",
+                        ITEM_NAME: "Sous-Total",
                         LINE_NO: 0,
                         LOYALTY: 0,
                         MIN_PRICE: 0,
@@ -2090,9 +2093,7 @@ function Pos($scope,$window,$rootScope,db)
                     InsertSonYenile(PosSatisData);     
                     console.log(PosSatisData) 
                     $scope.TxtBarkod = ""; 
-                    $scope.IslemListeRowClick(0,$scope.SatisList[0]);
-                    $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2(); 
-                    $scope.ToplamSatir =  $scope.SatisList.length  
+                    $scope.IslemListeRowClick(0,$scope.SatisList[0]);                    
 
                     if(typeof pCallBack != 'undefined')
                     {
@@ -2228,8 +2229,6 @@ function Pos($scope,$window,$rootScope,db)
                 InsertSonYenile(PosSatisData);
                 $scope.IslemListeSelectedIndex = 0;  
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
-                $scope.ToplamSatir =  $scope.SatisList.length    
                 
                 db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
                 {  
@@ -2249,8 +2248,6 @@ function Pos($scope,$window,$rootScope,db)
                 InsertSonYenile(PosSatisData);
                 $scope.IslemListeSelectedIndex = 0;  
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-                $scope.ToplamSatir =  $scope.SatisList.length    
                 
                 db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
                 {  
@@ -2687,52 +2684,75 @@ function Pos($scope,$window,$rootScope,db)
         alertify.cancelBtn('Hayır');
 
         alertify.confirm('Satırı iptal etmek istediğinize eminmisiniz ?', 
-        function()
+        async function()
         {   
             if($scope.IslemListeSelectedIndex > -1)
             {
-                db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],async function(data)
+                //SUB TOTAL SİLME İŞLEMİ 
+                if($scope.SatisList[$scope.IslemListeSelectedIndex].GUID == "")
                 {
-                    if(typeof(data.result.err) == 'undefined')
+                    let TmpQuery = 
                     {
-                        if($scope.SatisList.length <= 1)
-                        {
-                            db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
-                            {
-                                if(typeof(data.result.err) != 'undefined')
-                                {
-                                    console.log(data.result.err);
-                                }
-                            });
+                        db : $scope.Firma,
+                        query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE SUBTOTAL > 0 AND DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ",
+                        param:  ['SUBTOTAL','DEPARTMENT','TYPE','REF','REF_NO'],
+                        type:   ['int','int','int','string|25','int'],
+                        value:  [0,$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
+                    }
                             
-                            $scope.YeniEvrak();
+                    await db.GetPromiseQuery(TmpQuery)
+
+                    db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
+                    {
+                        InsertSonYenile(pData)
+                    })
+                }
+                else
+                {
+                    db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],async function(data)
+                    {
+                        if(typeof(data.result.err) == 'undefined')
+                        {
+                            if($scope.SatisList.length <= 1)
+                            {
+                                db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
+                                {
+                                    if(typeof(data.result.err) != 'undefined')
+                                    {
+                                        console.log(data.result.err);
+                                    }
+                                });
+                                
+                                $scope.YeniEvrak();
+                            }
+                            else
+                            {
+                                //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
+                                // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                                // $scope.SatisList = TmpSatisData;
+    
+                                // for (let i = 0; i < $scope.SatisList.length; i++) 
+                                // {               
+                                //     await FiyatUpdate($scope.SatisList[i]);
+                                // }  
+                                /***************************************************************** */                                                    
+    
+                                db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
+                                {
+                                    $scope.SatisList = data;                                                                  
+                                    DipToplamHesapla();
+                                    $("#TblIslem").jsGrid({data : $scope.SatisList});  
+                                    $scope.TxtBarkod = ""; 
+                                    $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
+                                });
+                            }
                         }
                         else
                         {
-                            //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
-                            // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
-                            // $scope.SatisList = TmpSatisData;
-
-                            // for (let i = 0; i < $scope.SatisList.length; i++) 
-                            // {               
-                            //     await FiyatUpdate($scope.SatisList[i]);
-                            // }  
-                            /***************************************************************** */
-                            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
-                            {
-                                $scope.SatisList = data;                                                                  
-                                DipToplamHesapla();
-                                $("#TblIslem").jsGrid({data : $scope.SatisList});  
-                                $scope.TxtBarkod = ""; 
-                                $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
-                            });
-                        }
-                    }
-                    else
-                    {
-                        console.log(data.result.err);
-                    }                                        
-                });
+                            console.log(data.result.err);
+                        }                                        
+                    });    
+                }
             }
             else
             {
@@ -2773,9 +2793,6 @@ function Pos($scope,$window,$rootScope,db)
                 InsertSonYenile(PosSatisData);
                 $scope.TxtBarkod = ""; 
                 $scope.IslemListeRowClick($scope.SatisList.length-1,$scope.SatisList[$scope.SatisList.length-1]);                  
-
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2();
-                $scope.ToplamSatir =  $scope.SatisList.length
 
                 $('#MdlParkIslemler').modal('hide');
             });
@@ -3973,8 +3990,6 @@ function Pos($scope,$window,$rootScope,db)
 
                 InsertSonYenile(PosSatisData);      
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-                $scope.ToplamSatir =  $scope.SatisList.length
             });
         });        
     }
@@ -3993,8 +4008,6 @@ function Pos($scope,$window,$rootScope,db)
 
                 InsertSonYenile(PosSatisData);      
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-                $scope.ToplamSatir =  $scope.SatisList.length
             });
         });        
     }
@@ -4116,8 +4129,6 @@ function Pos($scope,$window,$rootScope,db)
                 }); 
                 InsertSonYenile(PosSatisData);      
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-                $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-                $scope.ToplamSatir =  $scope.SatisList.length
 
                 $('#MdlIskonto').modal('hide');
             });
@@ -4138,8 +4149,6 @@ function Pos($scope,$window,$rootScope,db)
                     }); 
                     InsertSonYenile(PosSatisData);      
                     $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-                    $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-                    $scope.ToplamSatir =  $scope.SatisList.length;
 
                     $('#MdlIskonto').modal('hide');
                 });
@@ -4164,8 +4173,6 @@ function Pos($scope,$window,$rootScope,db)
             }); 
             InsertSonYenile(PosSatisData);      
             $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-            $scope.ToplamMiktar = parseFloat(db.SumColumn($scope.SatisList,"QUANTITY")).toDigit2()
-            $scope.ToplamSatir =  $scope.SatisList.length
 
             $('#MdlIskonto').modal('hide');
         });
@@ -4272,7 +4279,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSubTotal = async function()
     {
-        let TmpMax = db.MaxColumn($scope.SatisList,"SUBTOTAL") + 1
+        let TmpMax = db.MaxColumn($scope.SatisList,"SUBTOTAL") + 1;
+         
         for(let i = 0;i < $scope.SatisList.length;i++)
         {
             if($scope.SatisList[i].SUBTOTAL == 0)

@@ -798,10 +798,11 @@ angular.module('app.db', []).service('db',function($rootScope)
                 {
                     TmpLine = 
                     {
-                        font: "a",
+                        font: "b",
+                        style:"b",
                         align: "rt",
                         data: _PrintText(pSData[i].VAT_TYPE) + " " +
-                              _PrintText(pSData[i].ITEM_NAME,34) + " " +
+                              _PrintText(pSData[i].ITEM_NAME,34,"Start") + " " +
                               _PrintText(TmpQt,8,"Start") + " " + 
                               _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
                               _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")
@@ -821,6 +822,11 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         if(_SumColumn(pSData,"DISCOUNT") > 0)
         {
+            if(pParamData[3] == 0)
+            {
+                TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(TmpOperator + parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
+            }
+
             TmpData.push({font:"a",align:"lt",data:_PrintText("Remise ",33) + _PrintText(parseFloat(_SumColumn(pSData,"DISCOUNT")).toFixed(2).toString() + ' EUR',15,"Start")});
         }
         
