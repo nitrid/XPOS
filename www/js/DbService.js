@@ -1215,7 +1215,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         });
     }
     this.Language = function(pTip,pText)
-    {
+    {        
         if(pTip == "EN")
         {
             EN = i18n.create(window["lang"].EN);

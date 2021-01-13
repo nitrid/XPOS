@@ -2,7 +2,8 @@ angular.module("app",
 [
     'ngRoute',
     'app.controller',
-    'app.db'
+    'app.db',
+    'app.compile'
 ])
 .config(function($routeProvider)
 {       

@@ -372,6 +372,15 @@ function Pos($scope,$window,$rootScope,db)
         $scope.CihazID = $window.localStorage.getItem('device');
         $scope.Firma = 'PIQPOS'                
 
+        if(typeof localStorage.Lang != 'undefined')
+        {
+            $scope.Lang = localStorage.Lang;
+        }
+        else
+        {
+            $scope.Lang = "TR";
+        }
+        
         $scope.Seri = "";
         $scope.Sira = 0;
         $scope.EvrakTip = 0;

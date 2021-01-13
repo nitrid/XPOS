@@ -217,7 +217,7 @@
                                                         <h5 class="text-left"><span style="color:dodgerblue;">Ticket Rest. : </span> {{ToplamTicket}} / {{(SonTicket | number:2) + " €"}}</h5>                                                        
                                                     </div>
                                                     <div class="col-5 offset-1">
-                                                        <h5 class="text-right"><span style="color:dodgerblue;">İndirim : </span> {{(ToplamIskonto | number:2) + " €"}}</h5>
+                                                        <h5 class="text-right"><span style="color:dodgerblue;" langu>İndirim : </span> {{(ToplamIskonto | number:2) + " €"}}</h5>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="height: 25px;">
@@ -1882,7 +1882,7 @@
                     <div class="modal-dialog modal-sm modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center" langu>{{(TmpParaUstu | number:2) + " EUR"}} Para üstü veriniz !</h5>
+                                <h5 class="text-primary text-center">{{(TmpParaUstu | number:2) + " EUR"}} <span lang>Para üstü veriniz !</span></h5>
                                 <div class="row py-1">
                                     <div class="col-12">
                                         <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlParaUstu').modal('hide')">Tamam</button>
@@ -3022,6 +3022,7 @@
         <script src="lib/i18n/lang.js"></script>
 
         <script src="../js/DbService.js"></script>
+        <script src="../js/Directive.js"></script>
         <script src="../js/CardPayment.js"></script>
         <script src="../js/MettlerScale.js"></script>
         <script src="lib/ctrl/Pos.js"></script>
