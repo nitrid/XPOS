@@ -4262,6 +4262,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSubTotal = async function()
     {
+        let TmpMax = db.MaxColumn($scope.SatisList,"SUBTOTAL") + 1
         for(let i = 0;i < $scope.SatisList.length;i++)
         {
             if($scope.SatisList[i].SUBTOTAL == 0)
@@ -4272,7 +4273,7 @@ function Pos($scope,$window,$rootScope,db)
                     query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE GUID = @GUID",
                     param:  ['SUBTOTAL','GUID'],
                     type:   ['int','string'],
-                    value:  [db.MaxColumn($scope.SatisList,"SUBTOTAL") + 1,$scope.SatisList[i].GUID]
+                    value:  [TmpMax,$scope.SatisList[i].GUID]
                 }
                         
                 await db.GetPromiseQuery(TmpQuery)
