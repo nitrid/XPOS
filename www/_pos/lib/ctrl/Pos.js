@@ -690,7 +690,7 @@ function Pos($scope,$window,$rootScope,db)
                 width: 60
             },
             {
-                name: "AMOUNT",
+                name: "CAMOUNT",
                 title: "TUTAR",
                 type: "decimal",
                 align: "center",
@@ -1039,11 +1039,12 @@ function Pos($scope,$window,$rootScope,db)
     }
     function InsertSonYenile(pData)
     {    
-        $scope.SatisList = pData;
-        $("#TblIslem").jsGrid({data : $scope.SatisList});    
+        $scope.SatisList = pData;   
+        $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});        
         $scope.TxtBarkod = "";
         
         DipToplamHesapla();
+         
         //$scope.Yukleniyor =  false  
         $window.document.getElementById("TxtBarkod").focus();
     } 
@@ -1088,9 +1089,6 @@ function Pos($scope,$window,$rootScope,db)
                         "TOTAL : " + db.PrintText(parseFloat($scope.ToplamKalan.toFixed(2)).toDigit2().toString() + "EUR",12,"Start")
             }                        
         );
-        console.log($scope.SatisList)
-        SubTotalBuild()
-        //$scope.GenelToplam = ($scope.AraToplam.toDigit2() + $scope.ToplamKdv.toDigit2());
     }
     function DipToplamFisHesapla()
     {
@@ -1269,7 +1267,7 @@ function Pos($scope,$window,$rootScope,db)
                         $scope.CariPuan + Math.floor($scope.GenelToplam),
                         TmpBondA
                     ]   
-                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
+                    db.ReceiptPrint(SubTotalBuild($scope.SatisList),$scope.TahList,pData,ParamData,'Fis',false,function()
                     {
                         
                     });
@@ -1312,27 +1310,57 @@ function Pos($scope,$window,$rootScope,db)
             });
         }
     }
-    function SubTotalBuild()
+    function SubTotalBuild(pData)
     {
         let TmpData = [];
-        let SubIndex = $scope.SatisList[0].SUBTOTAL;
+        let SubIndex = pData[0].SUBTOTAL;
 
-        for (let i = 0;i < $scope.SatisList.length;i++)
+        for (let i = 0;i < pData.length;i++)
         {
-            console.log(SubIndex)
-            if(SubIndex != $scope.SatisList[i].SUBTOTAL)
+            if(SubIndex != pData[i].SUBTOTAL)
             {
-                SubIndex = $scope.SatisList[i].SUBTOTAL;
-                if($scope.SatisList[i].SUBTOTAL > 0)
+                SubIndex = pData[i].SUBTOTAL;
+                if(pData[i].SUBTOTAL > 0)
                 {
-                   TmpData.push({ITEM_NAME:"SUBTOTAL",AMOUNT:db.SumColumn($scope.SatisList,"AMOUNT","SUBTOTAL = " + SubIndex)}) 
+                   let TmpObj = 
+                   {
+                        AMOUNT: 0,
+                        BARCODE: "",
+                        CUSER: "",
+                        CUSTOMER_CODE: "",
+                        CUSTOMER_NAME: "",
+                        CUSTOMER_POINT: 0,
+                        DEVICE: "",
+                        DISCOUNT: 0,
+                        GUID: "",
+                        HT: 0,
+                        ITEM_CODE: "",
+                        ITEM_NAME: "SUBTOTAL",
+                        LINE_NO: 0,
+                        LOYALTY: 0,
+                        MIN_PRICE: 0,
+                        NO: 0,
+                        PRICE: 0,
+                        QUANTITY: 0,
+                        REF: "",
+                        REF_NO: 0,
+                        SUBTOTAL: SubIndex,
+                        TTC: 0,
+                        TVA: 0,
+                        UNIT: " ",
+                        UNIT_ID: "",
+                        UNIT_SHORT: "",
+                        VAT: 0,
+                        VAT_TYPE: "",
+                        CAMOUNT:db.SumColumn(pData,"AMOUNT","SUBTOTAL = " + SubIndex)
+                   }
+                   TmpData.push(TmpObj) 
                 }
             }
             
-            TmpData.push($scope.SatisList[i]);
+            TmpData.push(pData[i]);
         }
-
-        $scope.SatisList = TmpData;
+        return TmpData;
     }
     document.onkeydown = function(e)
     {
@@ -2032,7 +2060,8 @@ function Pos($scope,$window,$rootScope,db)
             0, //ISKONTO TUTAR 1
             $scope.CariKullanPuan / 100, //SADAKAT TUTAR 1
             $scope.Stok[0].VAT,
-            0  //DURUM
+            0,  //DURUM
+            0
         ];
         
         db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,async function(InsertResult)
@@ -2684,7 +2713,7 @@ function Pos($scope,$window,$rootScope,db)
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                             {
                                 $scope.SatisList = data;
-                                $("#TblIslem").jsGrid({data : $scope.SatisList});                                    
+                                $("#TblIslem").jsGrid({data : SubTotalBuild($scope.SatisList)});                                    
                                 DipToplamHesapla();
                                 $scope.TxtBarkod = ""; 
                                 $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
@@ -3024,7 +3053,7 @@ function Pos($scope,$window,$rootScope,db)
                                             TmpBondA
                                         ]   
 
-                                        db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',false,function()
+                                        db.ReceiptPrint(SubTotalBuild($scope.SatisList),pTahData,pData,ParamData,'Fis',false,function()
                                         {
                                             $scope.YeniEvrak();
                                             $scope.TxtBarkod = "";
@@ -3326,7 +3355,7 @@ function Pos($scope,$window,$rootScope,db)
                         db : $scope.Firma,
                         query:  "SELECT TOP 1 CODE AS CODE FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 1",
                         param:  ['REF','REF_NO'],
-                        type:   ['int','int'],
+                        type:   ['string|25','int'],
                         value:  [TmpSeri,TmpSira]
                     }
                     
@@ -3352,7 +3381,7 @@ function Pos($scope,$window,$rootScope,db)
                         $("#MdlRepasGiris").modal("hide");
                     }
 
-                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,true,()=>{});
+                    db.ReceiptPrint(SubTotalBuild(PosSatisData),PosTahData,pData,ParamData,pType,true,()=>{});
                 });
             });
         });
@@ -4222,5 +4251,28 @@ function Pos($scope,$window,$rootScope,db)
         FocusRepasMiktar = true;
         FocusBarkod = false;
         FirstKey = false;
+    }
+    $scope.BtnSubTotal = async function()
+    {
+        for(let i = 0;i < $scope.SatisList.length;i++)
+        {
+            if($scope.SatisList[i].SUBTOTAL == 0)
+            {
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE GUID = @GUID",
+                    param:  ['SUBTOTAL','REF_NO'],
+                    type:   ['int','string'],
+                    value:  [1,$scope.SatisList[i].GUID]
+                }
+                        
+                await db.GetPromiseQuery(TmpQuery)
+                let TmpData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira])
+
+                InsertSonYenile(TmpData)
+            }
+            
+        }
     }
 }

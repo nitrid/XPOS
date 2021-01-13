@@ -853,6 +853,7 @@ var QuerySql =
                 ",[LOYALTY] " +
                 ",[VAT] " +
                 ",[STATUS] " +
+                ",[SUBTOTAL] " +
                 ") VALUES ( " +
                 "@CUSER                                 --<CUSER, nvarchar(25),> \n" +  
                 ",GETDATE()                             --<CDATE, datetime,> \n" +
@@ -875,9 +876,10 @@ var QuerySql =
                 ",@LOYALTY                             --<LOYALTY, float,> \n" +
                 ",@VAT                                  --<VAT, float,> \n" +
                 ",@STATUS                               --<STATUS, int,> \n" +
+                ",@SUBTOTAL                             --<SUBTOTAL, int,> \n" +            
                 ") ",
         param : ['CUSER:string','LUSER:string','DEVICE:string|25','DEPARTMENT:int','TYPE:int','DOC_DATE:date','REF:string|25','REF_NO:int','CUSTOMER_CODE:string|25','ITEM_CODE:string|25',
-                 'BARCODE:string|50','QUANTITY:float','UNIT:string','PRICE:float','DISCOUNT:float','LOYALTY:float','VAT:float',"STATUS:int"]
+                 'BARCODE:string|50','QUANTITY:float','UNIT:string','PRICE:float','DISCOUNT:float','LOYALTY:float','VAT:float',"STATUS:int","SUBTOTAL:int"]
     },
     PosSatisGetir : 
     {
@@ -909,6 +911,7 @@ var QuerySql =
                 "TVA AS TVA, " + 
                 "TTC AS TTC, " + 
                 "ROUND(AMOUNT,2) AS AMOUNT, " +
+                "ROUND(AMOUNT,2) AS CAMOUNT, " +
                 "SUBTOTAL AS SUBTOTAL " +
                 "FROM POS_SALES_VW_01 AS POS WHERE DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY ROW_NUMBER() OVER (ORDER BY LDATE ASC) DESC" ,
         param:   ['DEPARTMENT','TYPE','REF','REF_NO'],
@@ -1158,13 +1161,13 @@ var QuerySql =
     },
     PosSatisMiktarUpdate : 
     {
-        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,PRICE = CASE WHEN dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) = 0 THEN PRICE ELSE dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) END, LDATE = GETDATE() WHERE GUID = @GUID",
+        query:  "UPDATE [dbo].[POS_SALES] SET [QUANTITY] = @QUANTITY,PRICE = CASE WHEN dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) = 0 THEN PRICE ELSE dbo.FN_PRICE_SALE(@ITEM_CODE,@QUANTITY,GETDATE()) END, LDATE = CASE WHEN SUBTOTAL > 0 THEN LDATE ELSE GETDATE() END WHERE GUID = @GUID",
         param: ['QUANTITY','ITEM_CODE','GUID'],
         type:  ['float','string|25','string|50']
     },
     PosSatisFiyatUpdate : 
     {
-        query:  "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE,LDATE = GETDATE() WHERE GUID = @GUID",
+        query:  "UPDATE [dbo].[POS_SALES] SET [PRICE] = @PRICE,LDATE = CASE WHEN SUBTOTAL > 0 THEN LDATE ELSE GETDATE() END WHERE GUID = @GUID",
         param: ['PRICE','GUID'],
         type:  ['float','string|50']
     },

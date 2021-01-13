@@ -778,7 +778,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                           _PrintText(pSData[i].ITEM_NAME,34) + " " +
                           _PrintText(TmpQt,8,"Start") + " " + 
                           _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
-                          _PrintText(parseFloat(pSData[i].AMOUNT).toFixed(2) + "EUR",10,"Start")
+                          _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")
                 }
                 TmpData.push(TmpLine);
             }
