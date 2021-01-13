@@ -81,7 +81,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>                       
             </button>
-            <h4 class="modal-title" id="server-settings">Ayarlar</h4>                                    
+            <h4 class="modal-title" id="server-settings" langu>Ayarlar</h4>                                    
           </div>                        
           <div class="modal-body">           
             <form>
@@ -102,8 +102,8 @@
                   <input type="text" class="form-control" name="device" placeholder="CihazID" id="device" ng-model="device">
                 </div>
                 <div class="col-xl-offset-12">
-                  <a class="btn btn-primary" href="#" ng-click="BtnTryConnect()">Bağlantı Test</a>                
-                  <a class="btn btn-success" href="#" ng-click="HostSettingSave()" data-dismiss="modal">Kaydet</a>   
+                  <a class="btn btn-primary" href="#" ng-click="BtnTryConnect()" langu>Bağlantı Test</a>                
+                  <a class="btn btn-success" href="#" ng-click="HostSettingSave()" data-dismiss="modal" langu>Kaydet</a>   
                 </div>           
               </div>
             </form>         
@@ -121,27 +121,35 @@
               <div class="btn-group float-right">
                   <button type="button" class="btn btn-primary dropdown-toggle" id="AnimationDropdown1" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
                   <div class="dropdown-menu dropdown-menu-right " aria-labelledby="AnimationDropdown1" role="menu" x-placement="bottom-start" style="position: absolute; will-change: transform; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px;">                     
-                      <a class="dropdown-item" href="#server-settings" data-toggle="modal" role="menuitem">Ayarlar</a>
-                      <a class="dropdown-item" href="app_update.html" role="menuitem" id="btn-appupdate">Uygulamayı Güncelle</a> 
+                      <a class="dropdown-item" href="#server-settings" data-toggle="modal" role="menuitem" langu>Ayarlar</a>
+                      <a class="dropdown-item" href="app_update.html" role="menuitem" id="btn-appupdate" langu>Uygulamayı Güncelle</a> 
                   </div>
               </div>
             </div>
             <form>
+              <div class="form-group form-material" data-plugin="formMaterial">
+                <label class="form-control-label" for="select" langu>Dil Seçimi</label>
+                <select class="form-control" ng-change = "CmbLang()" ng-model="Lang">
+                  <option value="TR">TR</option>
+                  <option value="FR">FR</option>
+                  <option value="EN">EN</option>
+                </select>
+              </div>
               <div class="form-group form-material floating" data-plugin="formMaterial">
                   <input class="form-control" name="Kullanici" ng-model="Kullanici" id="Kullanici" />
-                  <label class="floating-label">Kullanıcı</label>
+                  <label class="floating-label" langu>Kullanıcı</label>
               </div>
               <div class="form-group form-material floating" data-plugin="formMaterial">
                 <input required type="password" class="form-control" name="password" ng-model="Password" id="Password" />
-                <label class="floating-label">Şifre</label>
+                <label class="floating-label" langu>Şifre</label>
               </div>
               <div class="form-group clearfix">
                 <div class="row">
                   <div class="col-6">
-                    <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnEntry()">Giriş</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnEntry()" langu>Giriş</button>
                   </div>
                   <div class="col-6">
-                    <button type="submit" class="btn btn-danger btn-block btn-lg mt-40" onclick="window.close();">Çıkış</button>
+                    <button type="submit" class="btn btn-danger btn-block btn-lg mt-40" onclick="window.close();" langu>Çıkış</button>
                   </div>
                 </div>                
               </div>
@@ -386,6 +394,8 @@
     <script src="../js/socket.io.js"></script>
     <script src="../js/moment.min.js"></script>
     <script src="../js/moment-with-locales.min.js"></script>
+    <script src="lib/i18n/18n.js"></script>
+    <script src="lib/i18n/lang.js"></script>
 
     <script src="../js/DbService.js"></script>
     <script src="../js/CardPayment.js"></script>

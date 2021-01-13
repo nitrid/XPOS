@@ -3,7 +3,7 @@
         <div class="tab-content">
             <div id="TbMain" class="tab-pane active">
                 <div class="page-header">
-                    <h1 class="page-title">SATIŞ FİŞ LİSTESİ</h1>
+                    <h1 class="page-title" langu>SATIŞ FİŞ LİSTESİ</h1>
                     <div class="page-header-actions">
                     </div>
                 </div>   
@@ -13,7 +13,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">İlk Tarih :</div>
+                                        <div class="float-right" langu>İlk Tarih :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group input-group-icon">
@@ -25,7 +25,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Son Tarih :</div>
+                                        <div class="float-right" langu>Son Tarih :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group input-group-icon">
@@ -37,7 +37,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Müşteri :</div>
+                                        <div class="float-right" langu>Müşteri :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
@@ -54,7 +54,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Kasa No :</div>
+                                        <div class="float-right" langu>Kasa No :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
@@ -73,7 +73,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Fiş No :</div>
+                                        <div class="float-right" langu>Fiş No :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
@@ -85,7 +85,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Fiş Tutarı :</div>
+                                        <div class="float-right" langu>Fiş Tutarı :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
@@ -97,12 +97,12 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Ödeme Tipi :</div>
+                                        <div class="float-right" langu>Ödeme Tipi :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
                                             <select class="form-control" ng-model="OdemeTipi">
-                                                <option value="-1">Tümü</option> 
+                                                <option value="-1" langu>Tümü</option> 
                                                 <option value="0">Espece</option>                  
                                                 <option value="1">Carte Bancaire TPE</option>  
                                                 <option value="2">Cheque</option>  
@@ -116,7 +116,7 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Kasiyer No :</div>
+                                        <div class="float-right" langu>Kasiyer No :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
@@ -135,14 +135,14 @@
                             <div class="col-3">
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label">
-                                        <div class="float-right">Fiş Tipi :</div>
+                                        <div class="float-right" langu>Fiş Tipi :</div>
                                     </label>
                                     <div class="col-md-9">
                                         <div class="input-group">
                                             <select class="form-control" ng-model="FisTipi" ng-change="CmbFisTipChange()">
-                                                <option value="0">Tümü</option>                                
-                                                <option value="1">Yüzde İndirimli</option>                                
-                                                <option value="2">Puan İndirimli</option>                                
+                                                <option value="0" langu>Tümü</option>                                
+                                                <option value="1" langu>Yüzde İndirimli</option>                                
+                                                <option value="2" langu>Puan İndirimli</option>                                
                                             </select>  
                                         </div>                            
                                     </div>
@@ -166,7 +166,7 @@
             </div>
             <div id="TbDetay" class="tab-pane">
                 <div class="page-header">
-                    <h1 class="page-title">SATIŞ FİŞ DETAYI</h1>
+                    <h1 class="page-title" langu>SATIŞ FİŞ DETAYI</h1>
                     <div class="page-header-actions">
                         <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnSonTahKaydet()">
                             <i class="icon fa-floppy-o" aria-hidden="true"></i>
@@ -200,7 +200,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Cari Seçim</h4>
+                    <h4 class="modal-title" langu>Cari Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row">
@@ -220,7 +220,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Kasa Seçim</h4>
+                    <h4 class="modal-title" langu>Kasa Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row">
@@ -240,7 +240,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Kasiyer Seçim</h4>
+                    <h4 class="modal-title" langu>Kasiyer Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row">
@@ -260,7 +260,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Tahsilat</h4>
+                    <h4 class="modal-title" langu>Tahsilat</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">

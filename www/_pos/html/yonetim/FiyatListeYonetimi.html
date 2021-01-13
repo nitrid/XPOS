@@ -1,6 +1,6 @@
 <div class="col-12" ng-controller="FiyatListeYonetimiCtrl" ng-init="Init()">
     <div class="page-header">
-        <h1 class="page-title">FİYAT LİSTE YÖNETİMİ</h1>
+        <h1 class="page-title" langu>FİYAT LİSTE YÖNETİMİ</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" onclick="window.location.href = '#!Stok';">
                 <i class="icon fa-plus" aria-hidden="true"></i>
@@ -13,7 +13,7 @@
                 <div class="col-6">
                     <div class="form-group row">
                         <label class="col-md-2 form-control-label">
-                            <div class="float-right">Kodu :</div>
+                            <div class="float-right" langu>Kodu :</div>
                         </label>
                         <div class="col-md-10">
                             <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Kodu"/>
@@ -23,12 +23,12 @@
                 <div class="col-6">
                     <div class="form-group row">
                         <label class="col-md-2 form-control-label">
-                            <div class="float-right">Tedarikçi :</div>
+                            <div class="float-right" langu>Tedarikçi :</div>
                         </label>
                         <div class="col-md-10">
                             <div class="input-group">
                                 <select class="form-control" ng-model="Tedarikci">
-                                    <option value="">TÜMÜ</option>
+                                    <option value="" langu>TÜMÜ</option>
                                     <option ng-repeat="option in TedarikciList" value="{{option.CODE}}">{{option.NAME}}</option>
                                 </select>
                             </div>
@@ -40,7 +40,7 @@
                 <div class="col-6">
                     <div class="form-group row">
                         <label class="col-md-2 form-control-label">
-                            <div class="float-right">Adı :</div>
+                            <div class="float-right" langu>Adı :</div>
                         </label>
                         <div class="col-md-10">
                             <div class="input-group">
@@ -52,12 +52,12 @@
                 <div class="col-6">
                     <div class="form-group row">
                         <label class="col-md-2 form-control-label">
-                            <div class="float-right">Ürün Grup :</div>
+                            <div class="float-right" langu>Ürün Grup :</div>
                         </label>
                         <div class="col-md-10">
                             <div class="input-group">
                                 <select class="form-control" ng-model="Grup">
-                                    <option value="">TÜMÜ</option>
+                                    <option value="" langu>TÜMÜ</option>
                                     <option ng-repeat="option in GrupList" value="{{option.CODE}}">{{option.NAME}}</option>
                                 </select>
                             </div>
@@ -67,7 +67,7 @@
             </div>
             <div class="row pb-2">
                 <div class="col-md-2 offset-10">
-                    <button class="btn btn-block btn-primary" ng-click="BtnAra()">
+                    <button class="btn btn-block btn-primary" ng-click="BtnAra()" langu>
                         Ara
                     </button>
                 </div>

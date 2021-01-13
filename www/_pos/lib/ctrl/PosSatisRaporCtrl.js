@@ -269,19 +269,19 @@ function PosSatisRaporCtrl ($scope,$window,db)
                 fields: 
                 [
                     {
-                        caption: "TARIH",
+                        caption: db.Language($scope.Lang,"TARIH"),
                         dataField: "DOC_DATE",
                         width: 80,                        
                         area: "row",
                     },  
                     {
-                        caption: "KASA",
+                        caption: db.Language($scope.Lang,"KASA"),
                         dataField: "DEVICE",
                         width: 80,                        
                         area: "row",
                     },     
                     {
-                        caption: "TİP",
+                        caption: db.Language($scope.Lang,"TİP"),
                         dataField: "PAY_TYPE",
                         width: 80,                        
                         area: "row",
@@ -289,12 +289,12 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     },                     
                     {
                         dataField: "TITLE",
-                        caption: "TITLE",
+                        caption: db.Language($scope.Lang,"TITLE"),
                         width: 80,
                         area: "column"
                     },
                     {
-                        caption: "TUTAR",
+                        caption: db.Language($scope.Lang,"TUTAR"),
                         dataField: "PAY_AMOUNT",
                         dataType: "number",
                         summaryType: "sum",
@@ -305,7 +305,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                         area: "data"
                     },
                     {
-                        caption: "ADET",
+                        caption: db.Language($scope.Lang,"ADET"),
                         dataField: "PAY_AMOUNT",
                         dataType: "number",
                         summaryType: "count",

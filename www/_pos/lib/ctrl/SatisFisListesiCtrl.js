@@ -234,7 +234,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
             [
             {
                 name: "BARCODE",
-                title: "BARKOD",
+                title: db.Language($scope.Lang,"BARKOD"),
                 type: "number",
                 align: "center",
                 width: 100
@@ -248,21 +248,21 @@ function SatisFisListesiCtrl ($scope,$window,db)
             },            
             {
                 name: "QUANTITY",
-                title: "MIKTAR",
+                title: db.Language($scope.Lang,"MIKTAR"),
                 type: "number",
                 align: "center",
                 width: 50
             },
             {
                 name: "PRICE",
-                title: "FIYAT",
+                title: db.Language($scope.Lang,"FIYAT"),
                 type: "number",
                 align: "center",
                 width: 50
             },
             {
                 name: "AMOUNT",
-                title: "TUTAR",
+                title: db.Language($scope.Lang,"TUTAR"),
                 type: "number",
                 align: "center",
                 width: 50
@@ -299,7 +299,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                 rowClick: function(args)
                 {
                     $scope.TahTip = 0;
-                    $scope.TxtAciklama = "Ödeme tipi hatalı girilmiştir.Düzeltmesi yapıldı.";  
+                    $scope.TxtAciklama = db.Language($scope.Lang,"Ödeme tipi hatalı girilmiştir.Düzeltmesi yapıldı.");  
                     
                     $('#MdlSatisFisTahGuncelle').modal('show'); 
                     $scope.TahDetayKalan = $scope.SatisFisListesi[$scope.SatisFisListeSelectedIndex].TTC - db.SumColumn($scope.SatisFisTahDetayList,"AMOUNT")
@@ -592,7 +592,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
     {
         if($scope.TxtAciklama == "")
         {
-            let TmpConfirm = await db.Confirm("Açıklama girmeden kayıt edemezsini ! Devam etmek istiyormusunuz ?");
+            let TmpConfirm = await db.Confirm(db.Language($scope.Lang,"Açıklama girmeden kayıt edemezsini ! Devam etmek istiyormusunuz ?"));
             
             if(TmpConfirm)
             {
@@ -609,7 +609,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
             else
             {
                 $scope.TahTip = 0;
-                $scope.TxtAciklama = "Ödeme tipi hatalı girilmiştir.Düzeltmesi yapıldı.";
+                $scope.TxtAciklama = db.Language($scope.Lang,"Ödeme tipi hatalı girilmiştir.Düzeltmesi yapıldı.");
 
                 $('#MdlSatisFisTahGuncelle').modal('show'); 
                 $scope.TahDetayKalan = $scope.SatisFisListesi[$scope.SatisFisListeSelectedIndex].TTC - db.SumColumn($scope.SatisFisTahDetayList,"AMOUNT")
@@ -669,7 +669,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     $(this).jsGrid({data : $scope.SatisFisTahDetayList});
                 });
             });
-            alertify.alert("Girilen tutar hatalıdır !")
+            alertify.alert(db.Language($scope.Lang,"Girilen tutar hatalıdır !"))
         }
     }
 }

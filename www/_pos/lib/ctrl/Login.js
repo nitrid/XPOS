@@ -37,7 +37,14 @@ function Login ($scope,$rootScope,$window,db)
             $scope.device = "";
             $scope.HostSettingSave();
         }
-
+        if(typeof localStorage.Lang != 'undefined')
+        {
+            $scope.Lang = localStorage.Lang;
+        }
+        else
+        {
+            $scope.Lang = "TR";
+        }
         db.Connection(function(data)
         {     
             if(data == true)
@@ -61,7 +68,7 @@ function Login ($scope,$rootScope,$window,db)
                 '<i class="icon wb-bell" aria-hidden="true"></i> Sunucuya erişim sağlanamadı.' +
                 '<p class="mt-15">' +
                 '<button class="btn btn-primary" data-target="#server-settings" data-toggle="modal"' +
-                'type="button">Ayarlar</button></p></div>');
+                'type="button" langu>Ayarlar</button></p></div>');
                 db.Disconnect();
             }
         });
@@ -88,6 +95,7 @@ function Login ($scope,$rootScope,$window,db)
                 {
                     console.log("Kullanıcı adı ve şifre doğru");
                     $window.sessionStorage.setItem('User', $scope.Kullanici);
+                    localStorage.Lang = $scope.Lang;
                     
                     var url = "";
                     if($scope.KullaniciListe[i].TAG == 0)
@@ -105,12 +113,12 @@ function Login ($scope,$rootScope,$window,db)
             // $scope.Password = "1";
             // $window.location.href = "pos.html";
 
-            alertify.okBtn("Tamam");
-            alertify.alert("Kullanıcı adı veya şifre yanlış");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Kullanıcı adı veya şifre yanlış"));
         }
         else
         {
-            alertify.alert("CihazID Tanımsız Giriş Yapılamaz.")
+            alertify.alert(db.Language($scope.Lang,"CihazID Tanımsız Giriş Yapılamaz."))
         }
     }
     $scope.BtnTryConnect = function()
@@ -148,6 +156,11 @@ function Login ($scope,$rootScope,$window,db)
     $scope.BtnSilClick = function()
     {   
         FocusObject.value = FocusObject.value.toString().substring(0,FocusObject.value.length-1);
+    }
+    $scope.CmbLang = function()
+    {
+        localStorage.Lang = $scope.Lang;
+        window.location.reload();
     }
     document.getElementById('Kullanici').addEventListener('focus', (event) => 
     {

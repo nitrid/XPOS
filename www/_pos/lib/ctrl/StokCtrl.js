@@ -77,76 +77,76 @@ function StokCtrl ($scope,$window,$location,db)
     [
         {
             dataField: "CODE",
-            caption : "ÜRÜN KODU",
+            caption : db.Language($scope.Lang,"ÜRÜN KODU"),
             dataType : "string",
         },
         {
             dataField: "NAME",
-            caption : "ÜRÜN TAM ADI",
+            caption : db.Language($scope.Lang,"ÜRÜN TAM ADI"),
             dataType : "string",
         },
         {
             dataField: "BARCODE",
-            caption : "BARKODU",
+            caption : db.Language($scope.Lang,"BARKODU"),
             dataType : "string",
         },
         {
             dataField: "SNAME",
-            caption : "ÜRÜN KISA ADI",
+            caption : db.Language($scope.Lang,"ÜRÜN KISA ADI"),
             dataType : "string",
             visible: false
         },
         {
             dataField: "ITEM_GRP",
-            caption : "ÜRÜN GRUBU",
+            caption : db.Language($scope.Lang,"ÜRÜN GRUBU"),
             dataType : "string",
             visible: false
         },        
         {
             dataField: "VAT",
-            caption : "VERGİ DİLİMİ",
+            caption : db.Language($scope.Lang,"VERGİ DİLİMİ"),
             dataType : "number",
             visible: false
         },
         {
             dataField: "COST_PRICE",
-            caption : "MALİYET FİYATI",
+            caption : db.Language($scope.Lang,"MALİYET FİYATI"),
             dataType : "number",
             visible: false
         },
         {
             dataField: "MIN_PRICE",
-            caption : "MİNİMUM SATIŞ FİYATI",
+            caption : db.Language($scope.Lang,"MİNİMUM SATIŞ FİYATI"),
             dataType : "number",
             visible: false
         },
         {
             dataField: "MAX_PRICE",
-            caption : "MAKSİMUM SATIŞ FİYATI",
+            caption : db.Language($scope.Lang,"MAKSİMUM SATIŞ FİYATI"),
             dataType : "number",
             visible: false
         },
         {
             dataField: "UNIT",
-            caption : "BİRİM",
+            caption : db.Language($scope.Lang,"BİRİM"),
             dataType : "string",
             visible: false
         },        
         {
             dataField: "PRICE",
-            caption : "SATIŞ FİYATI",
+            caption : db.Language($scope.Lang,"SATIŞ FİYATI"),
             dataType : "number",
             visible: false
         },
         {
             dataField: "CUSTOMER_ITEM_CODE",
-            caption : "TEDARİKÇİ ÜRÜN KODU",
+            caption : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU"),
             dataType : "string",
             visible: false
         },
         {
             dataField: "STATUS",
-            caption : "DURUM",
+            caption : db.Language($scope.Lang,"DURUM"),
             dataType : "string",
             visible: false
         }
@@ -422,20 +422,20 @@ function StokCtrl ($scope,$window,$location,db)
             [
                 {
                     dataField: "TYPENAME",
-                    caption: "Tip",
+                    caption: db.Language($scope.Lang,"Tip"),
                     allowEditing: false,
                     width: "10%"
                 },     
                 {
                     dataField: "DEPOT",
-                    caption: "Depo",
+                    caption: db.Language($scope.Lang,"Depo"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 }, 
                 {
                     dataField: "START_DATE",
-                    caption: "Baş.Tarih",
+                    caption: db.Language($scope.Lang,"Baş.Tarih"),
                     dataType: "date",
                     alignment: "center",
                     allowEditing: false,
@@ -443,7 +443,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "FINISH_DATE",
-                    caption: "Bit.Tarih",
+                    caption: db.Language($scope.Lang,"Bit.Tarih"),
                     dataType: "date",
                     alignment: "center",
                     allowEditing: false,
@@ -451,34 +451,34 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "QUANTITY",
-                    caption: "Miktar",
+                    caption: db.Language($scope.Lang,"Miktar"),
                     dataType: "number",
                     width: "5%"
                 }, 
                 {
                     dataField: "PRICE",
-                    caption : "Fiyat",
+                    caption : db.Language($scope.Lang,"Fiyat"),
                     dataType: "number",
                     alignment: "center",
                     width: "10%"
                 },
                 {
                     dataField: "CUSTOMER",
-                    caption : "Cari",
+                    caption : db.Language($scope.Lang,"Cari"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 },
                 {
                     dataField: "EXVAT",
-                    caption : "Vergi Haric",
+                    caption : db.Language($scope.Lang,"Vergi Haric"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 },       
                 {
                     dataField: "BRUTMARJ",
-                    caption : "Brut Marj",
+                    caption : db.Language($scope.Lang,"Brut Marj"),
                     alignment: "center",
                     width: "10%",
                     allowEditing: false,
@@ -496,7 +496,7 @@ function StokCtrl ($scope,$window,$location,db)
                 },  
                 {
                     dataField: "NETMARJ",
-                    caption : "Net Marj",
+                    caption : db.Language($scope.Lang,"Net Marj"),
                     alignment: "center",
                     width: "10%",
                     allowEditing: false,
@@ -565,56 +565,56 @@ function StokCtrl ($scope,$window,$location,db)
             [
                 {
                     dataField: "TYPENAME",
-                    caption: "Tip",
+                    caption: db.Language($scope.Lang,"Tip"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 },     
                 {
                     dataField: "NAME",
-                    caption: "Adı",
+                    caption: db.Language($scope.Lang,"Adı"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 }, 
                 {
                     dataField: "FACTOR",
-                    caption: "Katsayı",
+                    caption: db.Language($scope.Lang,"Katsayı"),
                     dataType: "number",
                     alignment: "center",
                     width: "10%"
                 }, 
                 {
                     dataField: "WEIGHT",
-                    caption: "Ağırlık",
+                    caption: db.Language($scope.Lang,"Ağırlık"),
                     dataType: "number",
                     alignment: "center",
                     width: "5%"
                 }, 
                 {
                     dataField: "VOLUME",
-                    caption: "Hacim",
+                    caption: db.Language($scope.Lang,"Hacim"),
                     dataType: "number",
                     alignment: "center",
                     width: "5%"
                 }, 
                 {
                     dataField: "WIDTH",
-                    caption : "En",
+                    caption : db.Language($scope.Lang,"En"),
                     dataType: "number",
                     alignment: "center",
                     width: "10%"
                 },
                 {
                     dataField: "HEIGHT",
-                    caption : "Boy",
+                    caption : db.Language($scope.Lang,"Boy"),
                     dataType: "number",
                     alignment: "center",
                     width: "10%"
                 },
                 {
                     dataField: "SIZE",
-                    caption : "Yükseklik",
+                    caption : db.Language($scope.Lang,"Yükseklik"),
                     alignment: "center",
                     dataType: "number",
                     width: "10%"
@@ -673,21 +673,21 @@ function StokCtrl ($scope,$window,$location,db)
             [
                 {
                     dataField: "BARCODE",
-                    caption: "Barkod",
+                    caption: db.Language($scope.Lang,"Barkod"),
                     alignment: "center",
                     allowEditing: true,
                     width: "40%"
                 },     
                 {
                     dataField: "UNIT",
-                    caption: "Birim",
+                    caption: db.Language($scope.Lang,"Birim"),
                     alignment: "center",
                     allowEditing: false,
                     width: "20%"
                 }, 
                 {
                     dataField: "TYPE",
-                    caption: "Tip",
+                    caption: db.Language($scope.Lang,"Tip"),
                     alignment: "center",
                     allowEditing: false,
                     width: "40%"
@@ -743,20 +743,20 @@ function StokCtrl ($scope,$window,$location,db)
             [
                 {
                     dataField: "CUSTOMER_CODE",
-                    caption: "Kodu",
+                    caption: db.Language($scope.Lang,"Kodu"),
                     alignment: "center",
                     width: "10%"
                 },     
                 {
                     dataField: "CUSTOMER_NAME",
-                    caption: "Adı",
+                    caption: db.Language($scope.Lang,"Adı"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 }, 
                 {
                     dataField: "PRICE_LDATE",
-                    caption: "Son Fiyat Tarih",
+                    caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
                     dataType: "date",
                     alignment: "center",
                     allowEditing: false,
@@ -764,7 +764,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "PRICE",
-                    caption: "Fiyat",
+                    caption: db.Language($scope.Lang,"Fiyat"),
                     dataType: "number",
                     alignment: "center",
                     allowEditing: false,
@@ -772,7 +772,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "CUSTOMER_ITEM_CODE",
-                    caption: "Tedarikçi Stok Kodu",
+                    caption: db.Language($scope.Lang,"Tedarikçi Stok Kodu"),
                     alignment: "center",
                     width: "10%"
                 }       
@@ -822,20 +822,20 @@ function StokCtrl ($scope,$window,$location,db)
             [
                 {
                     dataField: "CUSTOMER_CODE",
-                    caption: "Kodu",
+                    caption: db.Language($scope.Lang,"Kodu"),
                     alignment: "center",
                     width: "10%"
                 },     
                 {
                     dataField: "CUSTOMER_NAME",
-                    caption: "Adı",
+                    caption: db.Language($scope.Lang,"Adı"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
                 }, 
                 {
                     dataField: "PRICE_LDATE",
-                    caption: "Son Fiyat Tarih",
+                    caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
                     dataType: "date",
                     alignment: "center",
                     allowEditing: false,
@@ -843,7 +843,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "PRICE",
-                    caption: "Fiyat",
+                    caption: db.Language($scope.Lang,"Fiyat"),
                     dataType: "number",
                     alignment: "center",
                     allowEditing: false,
@@ -851,7 +851,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
                 {
                     dataField: "CUSTOMER_ITEM_CODE",
-                    caption: "Tedarikçi Stok Kodu",
+                    caption: db.Language($scope.Lang,"Tedarikçi Stok Kodu"),
                     alignment: "center",
                     width: "10%"
                 }       
@@ -1205,14 +1205,14 @@ function StokCtrl ($scope,$window,$location,db)
     {
         if($scope.StokListe[0].CODE == '')
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Kodu bölümünü boş geçemezsiniz !"));
             return;
         }
         if($scope.StokListe[0].ITEM_GRP == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Menşei bölümünü boş geçemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Menşei bölümünü boş geçemezsiniz !"));
             return;
         }
 
@@ -1220,29 +1220,29 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if($scope.StokListe[0].ITEM_CUSTOMER == "")
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Tedarikçi bölümünü boş geçemezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Tedarikçi bölümünü boş geçemezsiniz !"));
                 return;
             }
 
             if($scope.StokListe[0].ITEM_GRP == "")
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Ürün grubu bölümünü boş geçemezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Ürün grubu bölümünü boş geçemezsiniz !"));
                 return;
             }
 
             if($scope.StokListe[0].VAT == "-")
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Lütfen vergi dilimini seçiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen vergi dilimini seçiniz !"));
                 return;
             }
 
             if($scope.StokListe[0].UNDER_UNIT_FACTOR == 0)
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Lütfen alt birimi giriniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen alt birimi giriniz !"));
                 return;
             }
         }
@@ -1331,10 +1331,10 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.Sil = function()
     {
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm('Stoğu silmek istediğinize eminmisiniz ?',
+        alertify.confirm(db.Language($scope.Lang,'Stoğu silmek istediğinize eminmisiniz ?'),
         function()
         {
             if($scope.StokListe[0].CODE != '')
@@ -1346,8 +1346,8 @@ function StokCtrl ($scope,$window,$location,db)
             }
             else
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kayıtlı stok olmadan evrak silemezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Kayıtlı stok olmadan evrak silemezsiniz !"));
             }
         }
         ,function(){});
@@ -1362,8 +1362,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.FiyatModal.StokKodu == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Stok kodu bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
 
@@ -1401,8 +1401,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.BirimModal.Adi == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Adı bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Adı bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
 
@@ -1414,8 +1414,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.BarkodModal.Barkod == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Barkod bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Barkod bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
 
@@ -1431,8 +1431,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         if(TmpResult.length > 0)
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Girimiş olduğunuz barkod sistemde kayıtlı !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Girimiş olduğunuz barkod sistemde kayıtlı !"));
             return;
         }
 
@@ -1466,14 +1466,14 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.TedarikciModal.Kodu == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Tedarikçi kodu bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Tedarikçi kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
         if($scope.StokListe[0].CODE == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Stok kodu bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
         let InsertData =
@@ -1497,9 +1497,9 @@ function StokCtrl ($scope,$window,$location,db)
 
         if(TmpResult.length > 0)
         {
-            alertify.okBtn('Tamam');
-            alertify.cancelBtn('Ürüne Git');
-            alertify.confirm("Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı",function()
+            alertify.okBtn(db.Language($scope.Lang,'Tamam'));
+            alertify.cancelBtn(db.Language($scope.Lang,'Ürüne Git'));
+            alertify.confirm(db.Language($scope.Lang,"Girimiş olduğunuz tedarikçi stok kodu sistemde kayıtlı"),function()
             {
                 $("#MdlTedarikciEkle").modal('show');
             },function()
@@ -1531,8 +1531,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.UrunGrupModal.Kodu == "")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
 
@@ -1767,8 +1767,8 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü girmeden fiyat giriş ekranına giremezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Kodu bölümünü girmeden fiyat giriş ekranına giremezsiniz !"));
         }
     }
     $scope.BtnModalBirimEkle = function()
@@ -1780,8 +1780,8 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Kodu bölümünü girmeden birim giriş ekranına giremezsiniz !");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Kodu bölümünü girmeden birim giriş ekranına giremezsiniz !"));
         }
     }
     $scope.BtnModalBarkodEkle = function()
@@ -1795,13 +1795,13 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if($scope.StokListe[0].CODE == "")
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü girmeden barkod giriş ekranına giremezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Kodu bölümünü girmeden barkod giriş ekranına giremezsiniz !"));
             }
             else if($scope.BirimListe.length == 0)
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Birim bölümünü girmeden barkod giriş ekranına giremezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Birim bölümünü girmeden barkod giriş ekranına giremezsiniz !"));
             }
         }
     }
@@ -1914,10 +1914,10 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
             {
-                alertify.okBtn('Evet');
-                alertify.cancelBtn('Hayır');
+                alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-                alertify.confirm('Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?',
+                alertify.confirm(db.Language($scope.Lang,'Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?'),
                 function()
                 {
                     let InsertData =
@@ -2078,9 +2078,9 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpResult = await db.GetPromiseQuery(TmpQuery);
             if(TmpResult.length > 0)
             {
-                alertify.okBtn('Tamam');
-                alertify.cancelBtn('Ürüne Git');
-                alertify.confirm("Girimiş olduğunuz barkod sistemde kayıtlı",function()
+                alertify.okBtn(db.Language($scope.Lang,'Tamam'));
+                alertify.cancelBtn(db.Language($scope.Lang,'Ürüne Git'));
+                alertify.confirm(db.Language($scope.Lang,"Girimiş olduğunuz barkod sistemde kayıtlı"),function()
                 {
                     $scope.StokListe[0].BARCODE = "";
                 },function()
@@ -2095,8 +2095,8 @@ function StokCtrl ($scope,$window,$location,db)
     {
         if($scope.StokListe[0].VAT == "0")
         {
-            alertify.okBtn("Tamam");
-            alertify.alert("Vergi dilimi yuzde sıfır.Eminmisiniz ?");
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Vergi dilimi yuzde sıfır.Eminmisiniz ?"));
             return;
         }
     }

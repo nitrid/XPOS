@@ -33,34 +33,34 @@ function EtiketBasimCtrl ($scope,$window,db)
             [
                 {
                     dataField: "CODE",
-                    caption: "TEDARİKÇİ KODU",
+                    caption: db.Language($scope.Lang,"TEDARİKÇİ KODU"),
                     dataType: "string",
                     allowEditing: false
                 },
                 {
                     dataField: "BARCODE",
-                    caption: "BARKOD",
+                    caption: db.Language($scope.Lang,"BARKOD"),
                     dataType: "string",
                     allowEditing: false
                 },
                 {
                     dataField: "NAME",
-                    caption: "ADI",
+                    caption: db.Language($scope.Lang,"ADI"),
                     dataType: "string"
                 },
                 {
                     dataField: "PRICE",
-                    caption: "FİYAT",
+                    caption: db.Language($scope.Lang,"FİYAT"),
                     dataType: "number"
                 },
                 {
                     dataField: "UNDER_UNIT_VALUE",
-                    caption: "ALT B. DEGER",
+                    caption: db.Language($scope.Lang,"ALT B. DEGER"),
                     dataType: "string"
                 },
                 {
                     dataField: "UNDER_UNIT_PRICE",
-                    caption: "ALT B. FİYAT",
+                    caption: db.Language($scope.Lang,"ALT B. FİYAT"),
                     dataType: "string",
                 }
             ],
@@ -105,27 +105,27 @@ function EtiketBasimCtrl ($scope,$window,db)
             [
                 {
                     dataField: "CODE",
-                    caption: "KODU",
+                    caption: db.Language($scope.Lang,"KODU"),
                     dataType: "string"
                 },
                 {
                     dataField: "BARCODE",
-                    caption: "BARKOD",
+                    caption: db.Language($scope.Lang,"BARKOD"),
                     dataType: "string"
                 },
                 {
                     dataField: "NAME",
-                    caption: "ADI",
+                    caption: db.Language($scope.Lang,"ADI"),
                     dataType: "string"
                 },
                 {
                     dataField: "ITEM_GRP_NAME",
-                    caption: "GRUP",
+                    caption: db.Language($scope.Lang,"GRUP"),
                     dataType: "string"
                 },
                 {
                     dataField: "PRICE",
-                    caption: "FİYAT",
+                    caption: db.Language($scope.Lang,"FİYAT"),
                     dataType: "string"
                 }
             ],
@@ -258,7 +258,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             ]
             db.ExecuteTag($scope.Firma,'LabelQueueInsert',InsertData)
 
-            alertify.alert("Yazdırma emri gönderildi.")
+            alertify.alert(db.Language($scope.Lang,"Yazdırma emri gönderildi."))
         }
     }
 }

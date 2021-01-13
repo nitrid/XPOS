@@ -45,34 +45,34 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
             [
                 {
                     dataField: "CUSTOMER_ITEM_CODE",
-                    caption : "T. URUN KODU",
+                    caption : db.Language($scope.Lang,"T. URUN KODU"),
                     dataType : "string",
                 },
                 {
                     dataField: "CUSTOMER",
-                    caption : "TEDARİKÇİ",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ"),
                     dataType : "string",
                     allowEditing: false
                 },
                 {
                     dataField: "NAME",
-                    caption : "ÜRÜN ADI",
+                    caption : db.Language($scope.Lang,"ÜRÜN ADI"),
                     dataType : "string",
                 },
                 {
                     dataField: "MAIN_UNIT",
-                    caption : "ANA.B.",
+                    caption : db.Language($scope.Lang,"ANA.B."),
                     dataType : "string",
                     allowEditing: false
                 },
                 {
                     dataField: "SUB_FACTOR",
-                    caption : "ALT B.D",
+                    caption : db.Language($scope.Lang,"ALT B.D"),
                     dataType : "number",
                 },        
                 {
                     dataField: "SUB_UNIT",
-                    caption : "ALT B.",
+                    caption : db.Language($scope.Lang,"ALT B."),
                     dataType : "string",
                     lookup: 
                     {
@@ -83,12 +83,12 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                 },
                 {
                     dataField: "COST_PRICE",
-                    caption : "M. €",
+                    caption : db.Language($scope.Lang,"M. €"),
                     dataType : "number",
                 },
                 {
                     dataField: "VAT",
-                    caption : "TAX",
+                    caption : db.Language($scope.Lang,"TAX"),
                     dataType : "number",
                     lookup: 
                     {
@@ -99,23 +99,23 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                 },
                 {
                     dataField: "QUANTITY",
-                    caption : "ADT.",
+                    caption : db.Language($scope.Lang,"ADT."),
                     dataType : "number",
                 },
                 {
                     dataField: "PRICE",
-                    caption : "SAT. €",
+                    caption : db.Language($scope.Lang,"SAT. €"),
                     dataType : "number",
                 },        
                 {
                     dataField: "NETMARJ",
-                    caption : "MARJ",
+                    caption : db.Language($scope.Lang,"MARJ"),
                     dataType : "string",
                     allowEditing: false
                 },
                 {
                     dataField: "STATUS",
-                    caption : "DURUM",
+                    caption : db.Language($scope.Lang,"DURUM"),
                     dataType : "boolean"
                 }
             ],
@@ -290,8 +290,6 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                 }
             }
         });
-
-       
     }
     $scope.Init = function()
     {

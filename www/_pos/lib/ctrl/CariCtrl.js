@@ -167,18 +167,18 @@ function CariCtrl ($scope,$window,$location,db)
             }
             else
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü boş geçemezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Kodu bölümünü boş geçemezsiniz !"));
             }
         }
         ,function(){});
     }
     $scope.Sil = function()
     {
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm('Kaydı silmek istediğinize eminmisiniz ?', 
+        alertify.confirm(db.Language($scope.Lang,'Kaydı silmek istediğinize eminmisiniz ?'), 
         function()
         { 
             if($scope.CariListe[0].CODE != '')
@@ -190,8 +190,8 @@ function CariCtrl ($scope,$window,$location,db)
             }
             else
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kayıt olmadan sileme işlemi yapamazsınız !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Kayıt olmadan sileme işlemi yapamazsınız !"));
             }
         }
         ,function(){});
@@ -285,16 +285,16 @@ function CariCtrl ($scope,$window,$location,db)
     {
         $("#MdlCariGrupEkle").modal('hide');
 
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm('Kayıt etmek istediğinize eminmisiniz ?', 
+        alertify.confirm(db.Language($scope.Lang,'Kayıt etmek istediğinize eminmisiniz ?'), 
         function()
         { 
             if($scope.CariGrupModal.Kodu == "")
             {
-                alertify.okBtn("Tamam");
-                alertify.alert("Kodu bölümünü girmeden kayıt edemezsiniz !");
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Kodu bölümünü girmeden kayıt edemezsiniz !"));
                 return;
             }
 

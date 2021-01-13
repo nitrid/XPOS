@@ -198,18 +198,18 @@
                                             <div class="col-12">
                                                 <div class="row pt-5" style="height: 25px;">
                                                     <div class="col-6">
-                                                        <h5 class="text-left"><span style="color:dodgerblue;">T. Satır : </span> {{ToplamSatir}} <span style="color:dodgerblue;">&nbsp;&nbsp;T. Ürün Mik.: </span>{{ToplamMiktar}}</h5>                                                        
+                                                        <h5 class="text-left"><span style="color:dodgerblue;" langu>T. Satır : </span> {{ToplamSatir}} <span style="color:dodgerblue;">&nbsp;&nbsp;T. Ürün Mik.: </span>{{ToplamMiktar}}</h5>                                                        
                                                     </div>
                                                     <div class="col-5 offset-1">
-                                                        <h5 class="text-right"><span style="color:dodgerblue;">Ara Toplam :</span> {{(AraToplam | number:2) + " €"}}</h5>
+                                                        <h5 class="text-right"><span style="color:dodgerblue;" langu>Ara Toplam :</span> {{(AraToplam | number:2) + " €"}}</h5>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="height: 20px;">
                                                     <div class="col-6">
-                                                        <h5 class="text-left"><span style="color:dodgerblue;">Sadakat İndirim       : </span> {{(CariKullanPuan / 100 | number:2) + " €"}}</h5>
+                                                        <h5 class="text-left"><span style="color:dodgerblue;" langu>Sadakat İndirim       : </span> {{(CariKullanPuan / 100 | number:2) + " €"}}</h5>
                                                     </div>
                                                     <div class="col-5 offset-1">
-                                                        <h5 class="text-right"><span style="color:dodgerblue;">Kdv : </span> {{(ToplamKdv | number:2) + " €"}}</h5>
+                                                        <h5 class="text-right"><span style="color:dodgerblue;" langu>Kdv : </span> {{(ToplamKdv | number:2) + " €"}}</h5>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="height: 20px;">
@@ -507,7 +507,7 @@
                     </div>
                     <div id="TbSonSatisListesi" class="tab-pane">
                         <div class="page-header">
-                            <h1 class="page-title">SON SATIŞ LİSTESİ</h1>
+                            <h1 class="page-title" langu>SON SATIŞ LİSTESİ</h1>
                             <div class="page-header-actions">
                                 <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnRepasGiris()">
                                     <i class="icon fa-cutlery" aria-hidden="true"></i>
@@ -541,7 +541,7 @@
                                             <div class="col-4">
                                                 <div class="input-group">
                                                     <select class="form-control" ng-model="SonSatisOdemeTip">
-                                                        <option value="-1">Tümü</option> 
+                                                        <option value="-1" langu>Tümü</option> 
                                                         <option value="0">Espece</option>                  
                                                         <option value="1">Carte Bancaire TPE</option>  
                                                         <option value="2">Cheque</option>  
@@ -655,7 +655,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Müşteri Listesi</h4>
+                                <h4 class="modal-title" langu>Müşteri Listesi</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row py-10">
@@ -673,10 +673,10 @@
                                 </div> 
                                 <div class="row py-1">
                                     <div class="col-lg-3 px-1">
-                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnCariGridSec()">Seç</button>
+                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnCariGridSec()" langu>Seç</button>
                                     </div>
                                     <div class="col-lg-4 px-1 offset-1">
-                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnCariGridGetir()">Listele</button>
+                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnCariGridGetir()" langu>Listele</button>
                                     </div>
                                     <div class="col-lg-3 px-1 offset-1">
                                         <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnSilClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
@@ -849,8 +849,8 @@
                                 <div class="row py-10">
                                     <div class="col-4">
                                         <select class="form-control form-control-sm ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="CmbStokAra">
-                                            <option value="0" selected="selected">ADI</option>
-                                            <option value="1">KODU</option>
+                                            <option value="0" selected="selected" langu>ADI</option>
+                                            <option value="1" langu>KODU</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-8 col-sm-8 col-md-8">
@@ -1039,7 +1039,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Ürün Grup Listesi</h4>
+                                <h4 class="modal-title" langu>Ürün Grup Listesi</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row py-10">
@@ -1228,7 +1228,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Ara Toplam</h4>
+                                <h4 class="modal-title" langu>Ara Toplam</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -1326,7 +1326,7 @@
                                         <button type="text" class="form-control btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('9')">9</button>
                                     </div>
                                     <div class="col-3">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTRDetay()">T.R Detay</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTRDetay()" langu>T.R Detay</button>
                                     </div>
                                     <div class="col-3">
                                         <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/10€.jpg); background-size: cover;" ng-click="BtnPara('10')"></button>
@@ -1343,7 +1343,7 @@
                                         <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('6')">6</button>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahSatirIptal()">Satır İptal</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahSatirIptal()" langu>Satır İptal</button>
                                     </div>
                                     <div class="col-3">
                                         <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/20€.jpg); background-size: cover;" ng-click="BtnPara('20')"></button>
@@ -1395,7 +1395,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Park daki İşlemler</h4>
+                                <h4 class="modal-title" langu>Park daki İşlemler</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -1420,7 +1420,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h5 class="text-primary text-center">Yükleniyor...</h5>
+                                <h5 class="text-primary text-center" langu>Yükleniyor...</h5>
                             </div>
                         </div>
                     </div>
@@ -1433,7 +1433,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">İade Tipini Seçiniz</h4>
+                                <h4 class="modal-title" langu>İade Tipini Seçiniz</h4>
                             </div>
                             <div class="modal-body py-0">
                                 <div class="modal-body">
@@ -1474,7 +1474,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Miktar</h4>
+                                <h4 class="modal-title" langu>Miktar</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -1551,7 +1551,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Fiyat</h4>
+                                <h4 class="modal-title" langu>Fiyat</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -1628,7 +1628,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Barkod Listesi</h4>
+                                <h4 class="modal-title" langu>Barkod Listesi</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="panel-body px-0 py-1">
@@ -1646,20 +1646,20 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Kart Ödeme</h4>
+                                <h4 class="modal-title" langu>Kart Ödeme</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;font-size: 12px;">Toplam :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;font-size: 12px;" langu>Toplam :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
                                                 <label><h5><span style="font-size: 12px;">{{(GenelToplam | number:2) + " €"}}</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;font-size: 12px;">Kalan :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;font-size: 12px;" langu>Kalan :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
                                                 <label><h5><span style="font-size: 12px;">{{(TahKalan | number:2) + " €"}}</span></h5></label>
@@ -1733,7 +1733,7 @@
                                     <div class="col-6">
                                     </div>
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">Gönder</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()" langu>Gönder</button>
                                     </div>
                                 </div>
                             </div>
@@ -1748,20 +1748,20 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Nakit Ödeme</h4>
+                                <h4 class="modal-title" langu>Nakit Ödeme</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row py-1">
                                     <div class="col-9">
                                         <div class="row">
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Toplam :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;" langu>Toplam :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
                                                 <label><h5><div class="float-left">{{(GenelToplam | number:2) + " €"}}</div></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Kalan :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;" langu>Kalan :</span></h5></label>
                                             </div>
                                             <div class="col-lg-3 px-1">
                                                 <label><h5><div class="float-left">{{(TahKalan | number:2) + " €"}}</div></h5></label>
@@ -1859,18 +1859,18 @@
                     <div class="modal-dialog modal-sm modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center">Kart cihazından cevap bekleniyor.</h5>
+                                <h5 class="text-primary text-center" langu>Kart cihazından cevap bekleniyor.</h5>
                                 <div class="row py-1">
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()">Tekrar</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartOdemeGonder()" langu>Tekrar</button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartVazgec()">Vazgeç</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartVazgec()" langu>Vazgeç</button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartZorla()">Zorla</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnKartZorla()" langu>Zorla</button>
                                     </div>
                                 </div>
                             </div>
@@ -1882,7 +1882,7 @@
                     <div class="modal-dialog modal-sm modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center">{{(TmpParaUstu | number:2) + " EUR"}} Para üstü veriniz !</h5>
+                                <h5 class="text-primary text-center" langu>{{(TmpParaUstu | number:2) + " EUR"}} Para üstü veriniz !</h5>
                                 <div class="row py-1">
                                     <div class="col-12">
                                         <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlParaUstu').modal('hide')">Tamam</button>
@@ -1913,13 +1913,13 @@
                     <div class="modal-dialog modal-sm modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center">Teraziden cevap bekleniyor.</h5>
+                                <h5 class="text-primary text-center" langu>Teraziden cevap bekleniyor.</h5>
                                 <div class="row py-1">
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTeraziManuelGiris()">Miktar Giriş</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTeraziManuelGiris()" langu>Miktar Giriş</button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTeraziVazgec()">Vazgeç</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTeraziVazgec()" langu>Vazgeç</button>
                                     </div>
                                 </div>
                             </div>
@@ -1934,7 +1934,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Hesap Makinesi</h4>
+                                <h4 class="modal-title" langu>Hesap Makinesi</h4>
                             </div>
                             <div class="modal-body">
                                 <form name="Calculator">   
@@ -2065,12 +2065,12 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">PLU Düzenleme</h4>
+                                <h4 class="modal-title" langu>PLU Düzenleme</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group row py-1">
                                     <div class="col-2">
-                                        <h5 class="text-right"><span style="color:dodgerblue;">Index : </span></h5>
+                                        <h5 class="text-right"><span style="color:dodgerblue;" langu>Index : </span></h5>
                                     </div>
                                     <div class="col-10">
                                     <input type="text" class="form-control" ng-model = "PluIndex" disabled>
@@ -2078,7 +2078,7 @@
                                 </div>
                                 <div class="form-group row py-1">
                                     <div class="col-2">
-                                        <h5 class="text-right"><span style="color:dodgerblue;">Görünen Ad : </span></h5>
+                                        <h5 class="text-right"><span style="color:dodgerblue;" langu>Görünen Ad : </span></h5>
                                     </div>
                                     <div class="col-10">
                                     <input type="text" class="form-control" ng-model = "PluGrupAdi" id="PluGrupAdi" ng-focus="PluGrupAdiFocus()">
@@ -2098,7 +2098,7 @@
                                     </div> -->
                                     <div class="form-group row py-1">
                                         <div class="col-2">
-                                            <h5 class="text-right"><span style="color:dodgerblue;">Kodu : </span></h5>
+                                            <h5 class="text-right"><span style="color:dodgerblue;" langu>Kodu : </span></h5>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" class="form-control" ng-model = "PluStokKod" id="PluStokKod" ng-focus="PluGrupKoduFocus()">
@@ -2106,7 +2106,7 @@
                                     </div>
                                     <div class="form-group row py-1">
                                         <div class="col-2">
-                                            <h5 class="text-right"><span style="color:dodgerblue;">Grup Index : </span></h5>
+                                            <h5 class="text-right"><span style="color:dodgerblue;" langu>Grup Index : </span></h5>
                                         </div>
                                         <div class="col-10">
                                             <input type="text" class="form-control" ng-model = "PluGrupIndex" disabled>
@@ -2279,7 +2279,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Ticket Restorant</h4>
+                                <h4 class="modal-title" langu>Ticket Restorant</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="panel-body px-0 py-1">
@@ -2297,7 +2297,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Son Satış Tahsilat</h4>
+                                <h4 class="modal-title" langu>Son Satış Tahsilat</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -2361,7 +2361,7 @@
                                                 <button type="text" class="form-control btn-danger btn btn-block font-size-24" style="height:60px;" ng-click="BtnSonTahTip(0)"><i class="fa-eraser fa-lg"></i></button>
                                             </div>
                                             <div class = "col-lg-4">
-                                                <button type="text" class="form-control btn-success btn btn-block font-size-24" style="height:60px;" ng-click="BtnTRDetay(SonSatisDetayList[0].REF,SonSatisDetayList[0].REF_NO)">T.R Detay</button>
+                                                <button type="text" class="form-control btn-success btn btn-block font-size-24" style="height:60px;" ng-click="BtnTRDetay(SonSatisDetayList[0].REF,SonSatisDetayList[0].REF_NO)" langu>T.R Detay</button>
                                             </div>
                                             <div class = "col-lg-4">
                                                 <button type="text" class="form-control btn-danger btn btn-block font-size-24" style="height:60px;" ng-click="BtnSonTahTip(2)"><i class="icon fa-plus" aria-hidden="true"></i></button>
@@ -2433,13 +2433,13 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Sadakat İndirimi</h4>
+                                <h4 class="modal-title" langu>Sadakat İndirimi</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <h5 class="text-left"><span style="color:dodgerblue;">Mevcut Puan : </span> {{CariPuan}}</h5>
-                                        <h5 class="text-left"><span style="color:dodgerblue;">Kullanılan Puan : </span> {{CariKullanPuan}}</h5>
+                                        <h5 class="text-left"><span style="color:dodgerblue;" langu>Mevcut Puan : </span> {{CariPuan}}</h5>
+                                        <h5 class="text-left"><span style="color:dodgerblue;" langu>Kullanılan Puan : </span> {{CariKullanPuan}}</h5>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -2523,7 +2523,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">İskonto</h4>
+                                <h4 class="modal-title" langu>İskonto</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -2533,7 +2533,7 @@
                                     </div>
                                     <div class="col-4 py-10">
                                         <div class="row my--5">
-                                            <h4 class="text-left"><span style="color:crimson">Öncesi</span></h4> 
+                                            <h4 class="text-left"><span style="color:crimson" langu>Öncesi</span></h4> 
                                         </div>
                                         <div class="row my--5">
                                             <h4 class="text-left"><span style="color:dodgerblue;">{{TxtIskontoSatisOnce | number:2}} € </span></h4> 
@@ -2541,7 +2541,7 @@
                                     </div>
                                     <div class="col-4 py-10">
                                         <div class="row my--5">
-                                            <h4 class="text-left"><span style="color:crimson">Sonrası</span></h4> 
+                                            <h4 class="text-left"><span style="color:crimson" langu>Sonrası</span></h4> 
                                         </div>
                                         <div class="row my--5">
                                             <h4 class="text-left"><span style="color:dodgerblue;">{{TxtIskontoSatisSonra | number:2}} € </span></h4> 
@@ -2647,16 +2647,16 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Avans</h4>
+                                <h4 class="modal-title" langu>Avans</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row py-1">
                                     <div class="btn-group btn-group-toggle col-12" data-toggle="buttons" role="group">
-                                        <label id="ChkAlma" class="btn btn-outline btn-primary col-6 active" ng-click="BtnAvansTip(0)">
+                                        <label id="ChkAlma" class="btn btn-outline btn-primary col-6 active" ng-click="BtnAvansTip(0)" langu>
                                             <input type="radio" autocomplete="off"/>
                                             KASA ÇIKIŞ
                                         </label>
-                                        <label id="ChkVerme" class="btn btn-outline btn-primary col-6" ng-click="BtnAvansTip(1)">
+                                        <label id="ChkVerme" class="btn btn-outline btn-primary col-6" ng-click="BtnAvansTip(1)" langu>
                                             <input type="radio" autocomplete="off"/>
                                             KASA GİRİŞ
                                         </label>
@@ -2722,7 +2722,7 @@
                                 </div>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnAvansKaydet()">Avans Kaydet</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnAvansKaydet()" langu>Avans Kaydet</button>
                                     </div>
                                 </div>
                             </div>
@@ -2737,7 +2737,7 @@
                                 <h5 class="text-primary text-center">{{(IadeParaUstu | number:2) + " EUR"}} {{ModalMsg.IadeParaUstu}}</h5>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlIadeParaUstu').modal('hide')">Tamam</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlIadeParaUstu').modal('hide')" langu>Tamam</button>
                                     </div>
                                 </div>
                             </div>
@@ -2749,7 +2749,7 @@
                     <div class="modal-dialog modal-md modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center">Kalan ödemeyi nasıl almak istersiniz.</h5>
+                                <h5 class="text-primary text-center" langu>Kalan ödemeyi nasıl almak istersiniz.</h5>
                                 <div class="row py-1">
                                     <div class="col-3">
                                         <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahTip(0,'KalanOdeme')">ESP</button>
@@ -2776,7 +2776,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Fiyat</h4>
+                                <h4 class="modal-title" langu>Fiyat</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -2853,7 +2853,7 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">X</span>
                                 </button>
-                                <h4 class="modal-title">Miktar</h4>
+                                <h4 class="modal-title" langu>Miktar</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row">
@@ -3018,6 +3018,8 @@
         <script src="../js/socket.io.js"></script>
         <script src="../js/moment.min.js"></script>
         <script src="../js/moment-with-locales.min.js"></script>
+        <script src="lib/i18n/18n.js"></script>
+        <script src="lib/i18n/lang.js"></script>
 
         <script src="../js/DbService.js"></script>
         <script src="../js/CardPayment.js"></script>

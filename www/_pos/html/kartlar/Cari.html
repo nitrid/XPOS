@@ -1,6 +1,6 @@
 <div class="col-12" ng-controller="CariCtrl" ng-init="Init()">
     <div class="page-header">
-        <h1 class="page-title">CARİ KARTI</h1>
+        <h1 class="page-title" langu>CARİ KARTI</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
                 ng-click="Init()">
@@ -25,12 +25,12 @@
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Tip :</div>
+                            <div class="float-right" langu>Tip :</div>
                         </label>
                         <div class="col-md-4">
                             <select class="form-control" ng-model="CariListe[0].TYPE" ng-change="TypeChange()">
-                                <option value="0">Bireysel</option>
-                                <option value="1">Şirket</option>
+                                <option value="0" langu>Bireysel</option>
+                                <option value="1" langu>Şirket</option>
                             </select>
                         </div>
                         <label class="col-md-1 form-control-label">
@@ -38,15 +38,15 @@
                         </label>
                         <div class="col-md-4">
                             <select class="form-control" ng-model="CariListe[0].GENUS">
-                                <option value="0">Müşteri</option>
-                                <option value="1">Tedarikçi</option>
-                                <option value="2">Her İkisi</option>
+                                <option value="0" langu>Müşteri</option>
+                                <option value="1" langu>Tedarikçi</option>
+                                <option value="2" langu>Her İkisi</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Kodu :</div>
+                            <div class="float-right" langu>Kodu :</div>
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
@@ -62,7 +62,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Adı :</div>
+                            <div class="float-right" langu>Adı :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].NAME">
@@ -70,7 +70,7 @@
                     </div>
                     <div class="form-group row" ng-style="StyleKurum">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Soyadı :</div>
+                            <div class="float-right" langu>Soyadı :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].LAST_NAME">
@@ -78,7 +78,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Grubu :</div>
+                            <div class="float-right" langu>Grubu :</div>
                         </label>
                         <div class="col-md-9">
                             <div class="input-group">
@@ -98,7 +98,7 @@
                 <div class="col-md-12 col-lg-6">
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Telefon 1 :</div>
+                            <div class="float-right" langu>Telefon 1 :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].PHONE1">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Telefon 2 :</div>
+                            <div class="float-right" langu>Telefon 2 :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].PHONE2">
@@ -114,7 +114,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Gsm Tel. :</div>
+                            <div class="float-right" langu>Gsm Tel. :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].GSM_PHONE">
@@ -122,7 +122,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Diger Tel. :</div>
+                            <div class="float-right" langu>Diger Tel. :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].OTHER_PHONE">
@@ -130,7 +130,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">E-Mail :</div>
+                            <div class="float-right" langu>E-Mail :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].EMAIL">
@@ -138,7 +138,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 form-control-label">
-                            <div class="float-right">Web :</div>
+                            <div class="float-right" langu>Web :</div>
                         </label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].WEB">
@@ -164,7 +164,7 @@
                                     <div class="col-md-12 col-lg-6">
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Adres :</div>
+                                                <div class="float-right" langu>Adres :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <textarea class="form-control" id="textareaDefault" rows="3" ng-model="CariListe[0].ADRESS"></textarea>
@@ -172,7 +172,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Posta Kodu :</div>
+                                                <div class="float-right" langu>Posta Kodu :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].ZIPCODE">
@@ -180,7 +180,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Şehir :</div>
+                                                <div class="float-right" langu>Şehir :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].CITY">
@@ -188,7 +188,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Ülke :</div>
+                                                <div class="float-right" langu>Ülke :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <select class="form-control" ng-model="CariListe[0].COUNTRY">
@@ -455,7 +455,7 @@
                                     <div class="col-md-12 col-lg-6">
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">SIRET No :</div>
+                                                <div class="float-right" langu>SIRET No :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].SIRET_ID">
@@ -463,7 +463,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">APE Kodu :</div>
+                                                <div class="float-right" langu>APE Kodu :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].APECODE">
@@ -471,7 +471,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Vergi Dairesi :</div>
+                                                <div class="float-right" langu>Vergi Dairesi :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].TAX_OFFICE">
@@ -479,7 +479,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Vergi No :</div>
+                                                <div class="float-right" langu>Vergi No :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].TAX_NO">
@@ -489,7 +489,7 @@
                                     <div class="col-md-12 col-lg-6">
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Ulus. Kdv No :</div>
+                                                <div class="float-right" langu>Ulus. Kdv No :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].INT_VAT_NO">
@@ -497,12 +497,12 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-3 form-control-label">
-                                                <div class="float-right">Vergi Tipi :</div>
+                                                <div class="float-right" langu>Vergi Tipi :</div>
                                             </label>
                                             <div class="col-md-9">
                                                 <select class="form-control" ng-model="CariListe[0].TAX_TYPE">
-                                                    <option value="0">Ulusal</option>
-                                                    <option value="1">Uluslararası</option>
+                                                    <option value="0" langu>Ulusal</option>
+                                                    <option value="1" langu>Uluslararası</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -525,7 +525,7 @@
                     <button type="button" class="close" ng-click="BtnModalKapat()" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Cari Seçim</h4>
+                    <h4 class="modal-title" langu>Cari Seçim</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="row pb-10">
@@ -550,12 +550,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>
                     </button>
-                    <h4 class="modal-title">Grup Ekle</h4>
+                    <h4 class="modal-title" langu>Grup Ekle</h4>
                 </div>
                 <div class="modal-body px-3 py-3">
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label">
-                            <div class="float-right">Kodu :</div>
+                            <div class="float-right" langu>Kodu :</div>
                         </label>
                         <div class="col-md-8">
                             <div class="input-group">
@@ -565,7 +565,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-md-4 form-control-label">
-                            <div class="float-right">Adı :</div>
+                            <div class="float-right" langu>Adı :</div>
                         </label>
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariGrupModal.Adi" />
@@ -573,12 +573,12 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" ng-click="BtnCariGrupKaydet()">
+                            <button class="btn btn-block btn-primary" ng-click="BtnCariGrupKaydet()" langu>
                                 Kaydet
                             </button>
                         </div>
                         <div class="form-group col-md-6">
-                            <button class="btn btn-block btn-primary" data-dismiss="modal">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal" langu>
                                 Çıkış
                             </button>
                         </div>

@@ -10,18 +10,18 @@ function Main ($scope,$rootScope,$window,db)
         {
             HtmlText = HtmlText + "<a>";
             HtmlText = HtmlText + "<i class='site-menu-icon wb-settings'></i>";
-            HtmlText = HtmlText + "<span class='site-menu-title'>Ayarlar</span>";
+            HtmlText = HtmlText + "<span class='site-menu-title' langu>Ayarlar</span>";
             HtmlText = HtmlText + "<span class='site-menu-arrow'></span>";
             HtmlText = HtmlText + "</a>";
             HtmlText = HtmlText + "<ul class='site-menu-sub'>";
             HtmlText = HtmlText + "<li class='site-menu-item'>"
             HtmlText = HtmlText + "<a class='animsition-link' href='#!KullaniciParametre'>";
-            HtmlText = HtmlText + "<span class='site-menu-title'>Kullanıcı Tanımlama</span>";
+            HtmlText = HtmlText + "<span class='site-menu-title' langu>Kullanıcı Tanımlama</span>";
             HtmlText = HtmlText + "</a>";
             HtmlText = HtmlText + "</li>";
             HtmlText = HtmlText + "<li class='site-menu-item'>"
             HtmlText = HtmlText + "<a class='animsition-link' href='#!CihazParametre'>";
-            HtmlText = HtmlText + "<span class='site-menu-title'>Cihaz Tanımlama</span>";
+            HtmlText = HtmlText + "<span class='site-menu-title' langu>Cihaz Tanımlama</span>";
             HtmlText = HtmlText + "</a>";
             HtmlText = HtmlText + "</li>";
             HtmlText = HtmlText + "</ul>";
@@ -45,6 +45,7 @@ function Main ($scope,$rootScope,$window,db)
         db.Connection(function(data)
         {
             MenuOlustur();
+            $scope.Lang = localStorage.Lang;
         });
     }
 }

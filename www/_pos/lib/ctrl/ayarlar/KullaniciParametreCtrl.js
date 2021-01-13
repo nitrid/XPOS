@@ -56,35 +56,35 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
             [
                 {
                     name: "CODE",
-                    title: "KULLANICI ID",
+                    title: db.Language($scope.Lang,"KULLANICI ID"),
                     type: "text",
                     align: "center",
                     width: 80
                 },
                 {
                     name: "NAME",
-                    title: "KULLANICI",
+                    title: db.Language($scope.Lang,"KULLANICI"),
                     type: "text",
                     align: "center",
                     width: 120
                 },
                 {
                     name: "PASSWORD",
-                    title: "ŞİFRE",
+                    title: db.Language($scope.Lang,"ŞİFRE"),
                     type: "text",
                     align: "center",
                     width: 100
                 }, 
                 {
                     name: "YETKI",
-                    title: "TAG",
+                    title: db.Language($scope.Lang,"TAG"),
                     type: "text",
                     align: "center",
                     width: 25
                 },
                 {
                     name: "DURUM",
-                    title: "DURUM",
+                    title: db.Language($scope.Lang,"DURUM"),
                     type: "number",
                     align: "center",
                     width: 25
@@ -93,7 +93,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-info btn-block'></button>").text("Güncelle")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-info btn-block'></button>").text(db.Language($scope.Lang,"Güncelle"))
                                 .on("click", function() 
                                 {
                                     $scope.BtnKullaniciGuncelle(0,item);
@@ -107,13 +107,13 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-danger btn-block'></button>").text("Sil")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-danger btn-block'></button>").text(db.Language($scope.Lang,"Sil"))
                                 .on("click", function() 
                                 {
-                                    alertify.okBtn('Evet');
-                                    alertify.cancelBtn('Hayır');
+                                    alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                                    alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-                                    alertify.confirm('Kullanıcı Silmek İstediğinize Emin Misiniz ?', 
+                                    alertify.confirm(db.Language($scope.Lang,'Kullanıcı Silmek İstediğinize Emin Misiniz ?'), 
                                     function()
                                     { 
                                         KullaniciDelete(item);
@@ -165,13 +165,13 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
         {              
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
-                alertify.alert("Kayıt İşlemi Gerçekleşti.");
+                alertify.alert(db.Language($scope.Lang,"Kayıt İşlemi Gerçekleşti."));
                 $('#MdlKullanici').modal('hide');
                 KullaniciGetir();
             }   
             else
             {
-                alertify.alert("Kayıt İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Kayıt İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -183,13 +183,13 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
         {         
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
-                alertify.alert("Kullanıcı Güncellendi.");
+                alertify.alert(db.Language($scope.Lang,"Kullanıcı Güncellendi."));
                 $('#MdlKullaniciGuncelle').modal('hide');
                 KullaniciGetir();
             }   
             else
             {
-                alertify.alert("Kullanıcı Güncelleme İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Kullanıcı Güncelleme İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -200,12 +200,12 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
         {              
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
-                alertify.alert("Kullanıcı Silme İşlemi Gerçekleşti");
+                alertify.alert(db.Language($scope.Lang,"Kullanıcı Silme İşlemi Gerçekleşti"));
                 KullaniciGetir();
             }   
             else
             {
-                alertify.alert("Kullanıcı Silme İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Kullanıcı Silme İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -232,7 +232,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
             }
             else
             {
-                alertify.alert("Lütfen Boş Alanları Doldurun.");
+                alertify.alert(db.Language($scope.Lang,"Lütfen Boş Alanları Doldurun."));
             }
         }
     }

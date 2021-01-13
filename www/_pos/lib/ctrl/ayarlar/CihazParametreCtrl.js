@@ -58,28 +58,28 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
             [
                 {
                     name: "ID",
-                    title: "KASA ID",
+                    title: db.Language($scope.Lang,"KASA ID"),
                     type: "text",
                     align: "center",
                     width: 80
                 },
                 {
                     name: "NAME",
-                    title: "KASA ADI",
+                    title: db.Language($scope.Lang,"KASA ADI"),
                     type: "text",
                     align: "center",
                     width: 120
                 },
                 {
                     name: "SUBENO",
-                    title: "ŞUBE NO",
+                    title: db.Language($scope.Lang,"ŞUBE NO"),
                     type: "text",
                     align: "center",
                     width: 120
                 },
                 {
                     name: "DURUM",
-                    title: "KASA DURUM",
+                    title: db.Language($scope.Lang,"KASA DURUM"),
                     type: "number",
                     align: "center",
                     width: 50
@@ -88,7 +88,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-info btn-block'></button>").text("Güncelle")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-info btn-block'></button>").text(db.Language($scope.Lang,"Güncelle"))
                                 .on("click", function() 
                                 {
                                     $scope.BtnCihazGuncelle(0,item);
@@ -102,13 +102,13 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-danger btn-block'></button>").text("Sil")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-danger btn-block'></button>").text(db.Language($scope.Lang,"Sil"))
                                 .on("click", function() 
                                 {
-                                    alertify.okBtn('Evet');
-                                    alertify.cancelBtn('Hayır');
+                                    alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                                    alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-                                    alertify.confirm('Cihaz Silmek İstediğinize Emin Misiniz ?', 
+                                    alertify.confirm(db.Language($scope.Lang,'Cihaz Silmek İstediğinize Emin Misiniz ?'), 
                                     function()
                                     { 
                                         CihazDelete(item);
@@ -124,7 +124,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block'>Ayarlar</button>")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
                                 .on("click", function() 
                                 {
                                     ParamGetir(item.ID);
@@ -162,7 +162,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
         {              
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
-                alertify.alert("Kayıt İşlemi Gerçekleşti.")
+                alertify.alert(db.Language($scope.Lang,"Kayıt İşlemi Gerçekleşti."))
                 //PARAM INSERT
                 let Param =
                 [
@@ -195,7 +195,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
             }   
             else
             {
-                alertify.alert("Kayıt İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Kayıt İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -206,13 +206,13 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
         {         
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
-                alertify.alert("Cihaz Güncellendi.");
+                alertify.alert(db.Language($scope.Lang,"Cihaz Güncellendi."));
                 $('#MdlCihazGuncelle').modal('hide');
                 CihazGetir();
             }   
             else
             {
-                alertify.alert("Cihaz Güncelleme İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Cihaz Güncelleme İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -224,12 +224,12 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
                 ParamDelete(pData);
-                alertify.alert("Cihaz Silme İşlemi Gerçekleşti");
+                alertify.alert(db.Language($scope.Lang,"Cihaz Silme İşlemi Gerçekleşti"));
                 CihazGetir();
             }   
             else
             {
-                alertify.alert("Cihaz Silme İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Cihaz Silme İşleminde Hata."));
                 console.log(InsertResult.result.err);
             }
         });
@@ -325,7 +325,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
             }   
             else
             {
-                alertify.alert("Parametre Güncelleme İşleminde Hata.");
+                alertify.alert(db.Language($scope.Lang,"Parametre Güncelleme İşleminde Hata."));
                 console.log(UpdateResult.result.err);
             }
         });
@@ -352,7 +352,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
             }
             else
             {
-                alertify.alert("Lütfen Boş Alanları Doldurun.");
+                alertify.alert(db.Language($scope.Lang,"Lütfen Boş Alanları Doldurun."));
             }
         }
     }
@@ -411,10 +411,10 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
         }
         else
         {
-            alert("Parametre Güncellemesi İçin Cihaz Seçmelisiniz.")
+            alert(db.Language($scope.Lang,"Parametre Güncellemesi İçin Cihaz Seçmelisiniz."))
         }
 
-        alert("Parametreler Güncellendi.");
+        alert(db.Language($scope.Lang,"Parametreler Güncellendi."));
     }
     $scope.YeniEvrak = function()
     {

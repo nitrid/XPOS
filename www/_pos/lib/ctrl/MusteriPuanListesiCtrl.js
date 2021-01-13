@@ -166,25 +166,25 @@ function MusteriPuanListesiCtrl ($scope,$window,db)
             {
                 if(typeof e.data.DATE == 'undefined')
                 {
-                    alertify.alert("Lütfen tarih alanını boş geçmeyiniz.")
+                    alertify.alert(db.Language($scope.Lang,"Lütfen tarih alanını boş geçmeyiniz."))
                     e.cancel = true
                     return;
                 }
                 else if(typeof e.data.DESCRIPTION == 'undefined')
                 {
-                    alertify.alert("Lütfen açıklama alanını boş geçmeyiniz.")
+                    alertify.alert(db.Language($scope.Lang,"Lütfen açıklama alanını boş geçmeyiniz."))
                     e.cancel = true
                     return;
                 }
                 else if(typeof e.data.POINTP == 'undefined' && typeof e.data.POINTN == 'undefined')
                 {
-                    alertify.alert("Lütfen puan alanını boş geçmeyiniz.")
+                    alertify.alert(db.Language($scope.Lang,"Lütfen puan alanını boş geçmeyiniz."))
                     e.cancel = true
                     return;
                 }
                 else if(e.data.POINTP == 0 && e.data.POINTN == 0)
                 {
-                    alertify.alert("Lütfen iki puan alanınada sıfır giremezsiniz.")
+                    alertify.alert(db.Language($scope.Lang,"Lütfen iki puan alanınada sıfır giremezsiniz."))
                     e.cancel = true;
                     return;
                 }
