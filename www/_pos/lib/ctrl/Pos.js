@@ -2720,9 +2720,9 @@ function Pos($scope,$window,$rootScope,db)
                             /***************************************************************** */
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                             {
-                                $scope.SatisList = data;
-                                $("#TblIslem").jsGrid({data : $scope.SatisList});                                    
+                                $scope.SatisList = data;                                                                  
                                 DipToplamHesapla();
+                                $("#TblIslem").jsGrid({data : $scope.SatisList});  
                                 $scope.TxtBarkod = ""; 
                                 $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
                             });
