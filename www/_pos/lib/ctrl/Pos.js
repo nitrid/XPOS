@@ -4150,7 +4150,10 @@ function Pos($scope,$window,$rootScope,db)
     {
         for (let i = 0; i < $scope.SatisList.length; i++) 
         {
-            db.ExecuteTag($scope.Firma,'PosSatisIskonto',[0,$scope.SatisList[i].GUID]);            
+            if($scope.SatisList[i].GUID != "")
+            {
+                db.ExecuteTag($scope.Firma,'PosSatisIskonto',[0,$scope.SatisList[i].GUID]);            
+            }
         }
 
         db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
