@@ -4272,7 +4272,7 @@ function Pos($scope,$window,$rootScope,db)
                     query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE GUID = @GUID",
                     param:  ['SUBTOTAL','GUID'],
                     type:   ['int','string'],
-                    value:  [1,$scope.SatisList[i].GUID]
+                    value:  [db.MaxColumn($scope.SatisList,"SUBTOTAL") + 1,$scope.SatisList[i].GUID]
                 }
                         
                 await db.GetPromiseQuery(TmpQuery)

@@ -270,6 +270,18 @@ angular.module('app.db', []).service('db',function($rootScope)
         
         return Sum;
     }
+    function _MaxColumn(pData,pColumn)
+    {
+        let Max = 0;
+        for(i=0;i<pData.length;i++)
+        {
+            if(Max < pData[i][pColumn])
+            {
+                Max = pData[i][pColumn];
+            }
+        }
+        return Max;
+    }
     function _EscposPrint(pData,pCallback)
     {
         if(typeof require == 'undefined')
@@ -511,6 +523,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.ExecutePromiseTag = _ExecutePromiseTag;
     this.ExecutePromiseQuery = _ExecutePromiseQuery;
     this.SumColumn = _SumColumn;
+    this.MaxColumn = _MaxColumn;
     this.PrintText = _PrintText;
     this.SocketConnected = false;
     this.EscposCaseOpen = _EscposCaseOpen;
@@ -785,10 +798,10 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         
         TmpData.push({font:"b",style:"bu",align:"lt",data:_PrintText(" ",64)});
-
-        TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(TmpOperator + parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
+        
         if(pParamData[3] > 0)
         {            
+            TmpData.push({font:"a",align:"lt",data:_PrintText("Sous-Total ",33) + _PrintText(TmpOperator + parseFloat(_SumColumn(pSData,"AMOUNT")).toFixed(2) + " EUR",15,"Start")});
             TmpData.push({font:"a",align:"lt",data:_PrintText("Remise Fidelite ",33) + _PrintText(parseFloat(parseFloat(pParamData[3]) / 100).toFixed(2).toString() + ' EUR',15,"Start")});
         }
         if(_SumColumn(pSData,"DISCOUNT") > 0)
