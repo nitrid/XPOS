@@ -996,13 +996,13 @@ function Pos($scope,$window,$rootScope,db)
                 [
                 {
                     name: "TYPE",
-                    title: "TIP",
+                    title: db.Language($scope.Lang,"TIP"),
                     align: "center",
                     width: 75
                 },
                 {
                     name: "AMOUNT",
-                    title: "AMOUNT",
+                    title: db.Language($scope.Lang, "AMOUNT"),
                     type: "decimal",
                     align: "center",
                     width: 35
@@ -1966,7 +1966,7 @@ function Pos($scope,$window,$rootScope,db)
             {                
                 if(pBarkod.length == 12)
                 {
-                    TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.15244).toDigit2();
+                    TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.152445).toDigit2();
                     pBarkod = pBarkod.substring(0,6) + "MMMCCF";
                 }
                 if(pBarkod.length == 13)
@@ -2022,7 +2022,7 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         if($scope.Stok[0].PRICE == 0)
                         {
-                            let TmpConfirm = await db.Confirm("Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?");
+                            let TmpConfirm = await db.Confirm(db.Language($scope.Lang,"Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?"));
 
                             if(TmpConfirm == false)
                             {
@@ -3004,11 +3004,11 @@ function Pos($scope,$window,$rootScope,db)
                     //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
                     if(pTip == 0)
                     {
-                        $scope.ModalMsg.IadeParaUstu = "Tutarı iade ediniz !"
+                        $scope.ModalMsg.IadeParaUstu = db.Language($scope.Lang,"Tutarı iade ediniz !")
                     }
                     else
                     {       
-                        $scope.ModalMsg.IadeParaUstu = "Tutarın daki iade fişini müşteriye teslim ediniz !";
+                        $scope.ModalMsg.IadeParaUstu = db.Language($scope.Lang,"Tutarın daki iade fişini müşteriye teslim ediniz !");
 
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
                         db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.GenelToplam.toDigit2()),$scope.Seri,$scope.Sira,1])
@@ -3133,12 +3133,12 @@ function Pos($scope,$window,$rootScope,db)
         alertify.confirm(db.Language($scope.Lang,"Kullanıcı değiştirmek istediğinize eminmisiniz ?"),
 
         function(){
-            alertify.okBtn('Evet');
+            alertify.okBtn(db.Language($scope.Lang,'Evet'));
             var url = "index.html";
             $window.location.href = url;
         },
         function(){
-            alertify.cancelBtn('Vazgeç');
+            alertify.cancelBtn(db.Language($scope.Lang,'Vazgeç'));
         });
     }
     $scope.BtnSonSatis = function()
@@ -3417,13 +3417,13 @@ function Pos($scope,$window,$rootScope,db)
                         TmpBondA
                     ]   
 
+                    PosSatisData = SubTotalBuild(PosSatisData);
                     if(pType == 'Repas')
                     {
                         PosSatisData.Repas = $scope.TxtRepasMiktar;
                         $("#MdlRepasGiris").modal("hide");
                     }
-
-                    db.ReceiptPrint(SubTotalBuild(PosSatisData),PosTahData,pData,ParamData,pType,true,()=>{});
+                    db.ReceiptPrint(PosSatisData,PosTahData,pData,ParamData,pType,true,()=>{});
                 });
             });
         });
@@ -3934,8 +3934,8 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.CariKodu != CariParam)
         {
-            alertify.okBtn('Evet');
-            alertify.cancelBtn('Hayır');
+            alertify.okBtn(db.Language($scope.Lang,'Evet'));
+            alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
             alertify.confirm(db.Language($scope.Lang,'Müşteriden çıkış yapmak istiyormusunuz ?'), () => 
             {

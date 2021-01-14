@@ -198,7 +198,7 @@ var lang =
             "Kasa Seçim" : "Caisse",
             "Kasiyer Seçim" : "Caissière",
             "Tahsilat" : "Paiement",
-            "T.Ürün Mik.: " : "Qte Article : ",
+            "T.Ürün Mik.: " : "Qte Art. : ",
             "Ara Toplam :" : "Sous-Total :",
             "T. Satır : " : "Qte Ligne : ",
             "Kdv : " : "TVA :",
@@ -313,6 +313,7 @@ var lang =
             "SATIR" : "Ligne",
             "INDIRIM" : "Remise",
             "SADAKAT" : "Fidélité",
+            "Geçersiz fiyat girdiniz !" : "Vous avez entré un prix invalide!",
             "Parametre Getirme İşlemi Başarısız Oldu, Lütfen CihazID'nizi Kontrol Edin." : "Mise a Jour Paramètrage échoué, contrôler ID caisse!",
             "Müşteri bulunamadı !" : "Client inconnu!",
             "Satış olmadan ödeme alamazsınız !" : "Attention! il n'y pas de vente, paiement refusé! ",
@@ -410,7 +411,9 @@ var lang =
             "Girimiş olduğunuz barkod sistemde kayıtlı" : "Code barre saisie deja existant!",
             "Vergi dilimi yuzde sıfır.Eminmisiniz ?" : "TVA saisie est 0, êtes vous sûre de vouloir continuer?",
             "Ödeme gerçekleşmedi" : "Attention! Paiement ne pas Réussi!",
-            "Çalıntı Ticket !" : "Çalıntı Ticket !"
+            "Çalıntı Ticket !" : "Ticket Volé !",
+            "X Raporu" : "Rapor X",
+            "AMOUNT" : "Total",
         }
     }
 }

@@ -1235,19 +1235,19 @@
                                     <div class="col-12">
                                         <div class="row">
                                             <div class="col-lg-2 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Toplam :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;"langu>Toplam :</span></h5></label>
                                             </div>
                                             <div class="col-lg-2 px-1">
                                                 <label><h5><div class="float-left">{{(GenelToplam | number:2) + " €"}}</div></h5></label>
                                             </div>
                                             <div class="col-lg-2 px-1">
-                                                <label><h5><span style="color:dodgerblue;">Kalan :</span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;"langu>Kalan :</span></h5></label>
                                             </div>
                                             <div class="col-lg-2 px-1">
                                                 <label><h5><div class="float-left">{{(TahKalan | number:2) + " €"}}</div></h5></label>
                                             </div>
                                             <div class="col-lg-2 px-1">
-                                                <label><h5><span style="color:dodgerblue;"><div class="float-right">Para Üstü :</div></span></h5></label>
+                                                <label><h5><span style="color:dodgerblue;"><div class="float-right"langu>Para Üstü :</div></span></h5></label>
                                             </div>
                                             <div class="col-lg-2 px-1">
                                                 <label><h5><div class="float-right">{{(TahParaUstu | number:2) + " €"}}</div></h5></label>
@@ -1360,7 +1360,7 @@
                                         <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('3')">3</button>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="text" class="form-control-lg btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahBelgeIptal()">Vazgeç</button>
+                                        <button type="text" class="form-control-lg btn-danger btn btn-block font-size-15" style="height:60px;" ng-click="BtnTahBelgeIptal()"lan>Vazgeç</button>
                                     </div>
                                     <div class="col-3">
                                         <button type="text" class="form-control btn-primary btn btn-block font-size-15" style="height:60px;background-image: url(img/50€.jpg); background-size: cover;" ng-click="BtnPara('50')"></button>
@@ -1405,7 +1405,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-primary btn-secondary btn-block" ng-click="BtnParkSec()">Seç</button>
+                                        <button type="button" class="btn btn-primary btn-secondary btn-block" ng-click="BtnParkSec()"langu>Seç</button>
                                     </div>
                                 </div>
                             </div>
@@ -1882,10 +1882,10 @@
                     <div class="modal-dialog modal-sm modal-center">
                         <div class="modal-content">
                             <div class="modal-body">
-                                <h5 class="text-primary text-center">{{(TmpParaUstu | number:2) + " EUR"}} <span lang>Para üstü veriniz !</span></h5>
+                                <h5 class="text-primary text-center">{{(TmpParaUstu | number:2) + " EUR"}} <span langu>Para üstü veriniz !</span></h5>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlParaUstu').modal('hide')">Tamam</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlParaUstu').modal('hide')"langu>Tamam</button>
                                     </div>
                                 </div>
                             </div>
@@ -1901,7 +1901,7 @@
                                 <h3 class="text-primary text-center">{{(Stok[0].PRICE | number:2) + " EUR"}}</h3>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlFiyatGor').modal('hide')">Tamam</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-15" style="height:60px;" onclick="$('#MdlFiyatGor').modal('hide')"langu>Tamam</button>
                                     </div>
                                 </div>
                             </div>
@@ -1999,7 +1999,7 @@
                                         <div class="col-12">
                                             <div class="row py-1">
                                                 <div class="col-lg-3">
-                                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += ''">C</button>
+                                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value = ''">C</button>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '0'">0</button>
@@ -2022,7 +2022,7 @@
                                         <div class="col-12">
                                             <div class="row py-1">
                                                 <div class="col-12">
-                                                    <button type="text" class="form-control-lg btn-raised btn btn-danger btn-block font-size-20" style="height:60px;" onclick="document.getElementById('CalcStatus').innerHTML = ''">CE</button>
+                                                    <button type="text" class="form-control-lg btn-raised btn btn-danger btn-block font-size-20" style="height:60px;" onclick="CalcStatus = '' ; document.getElementById('CalcStatus').innerHTML = ''">CE</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -2048,6 +2048,7 @@
                                                     });
                                                     CalcStatus = TmpStatus;
                                                 }
+                                                console.log(11)
                                                 document.getElementById('CalcStatus').innerHTML = CalcStatus;
                                             }
                                         </script>                              
@@ -2115,7 +2116,7 @@
                                 </div>
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <button type="text" class="form-control btn-danger btn btn-block font-size-10" style="height:60px;" ng-click="BtnPluKaydet()">Kaydet</button>
+                                        <button type="text" class="form-control btn-danger btn btn-block font-size-10" style="height:60px;" ng-click="BtnPluKaydet()"langu>Kaydet</button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
