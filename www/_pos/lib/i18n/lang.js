@@ -155,7 +155,8 @@ var lang =
             "Stok Kodu :" : "Référence produit :",
             "Depo :" : "Magasin :",
             "Bitiş Tarih :" : "Fin date :",
-            "Miktar :" : "Quantité",
+            "Miktar :" : "Quantité :",
+            "Miktar" : "Quantité",
             "Cari :" : "Client :",
             "Birim Ekle" : "Ajouter Unité",
             "Katsayı :" : "Coefficient :",
@@ -414,6 +415,10 @@ var lang =
             "Çalıntı Ticket !" : "Ticket Volé !",
             "X Raporu" : "Rapor X",
             "AMOUNT" : "Total",
+            "İşlemler" : "Paramètres",
+            "Dil Seçimi" : "Choix Langue",
+
+    
         }
     }
 }

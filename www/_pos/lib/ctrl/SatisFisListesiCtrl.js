@@ -144,6 +144,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
             fields: 
             [
             {
+                name: "DATE",
+                title: "DATE",
+                type: "text",
+                align: "center",
+                width: 30
+            },
+            {
                 name: "TIME",
                 title: "TIME",
                 type: "text",
@@ -453,6 +460,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
             db : $scope.Firma,
             query:  "SELECT " +
                     "MAX(TIME) AS TIME, " +
+                    "MAX(DATE) AS DATE, " +
                     "MAX(DEVICE) AS DEVICE, " +
                     "MAX(DEPARTMENT) AS DEPARTMENT, " +
                     "MAX(SALE_TYPE) AS SALE_TYPE, " +
@@ -466,6 +474,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(TTC) AS TTC " +
                     "FROM ( " +
                     "SELECT " +
+                    "CONVERT(NVARCHAR,MAX(SALE.CDATE),101) AS DATE, " + 
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),108) AS TIME, " + 
                     "MAX(SALE.DEVICE) AS DEVICE, " +
                     "MAX(SALE.DEPARTMENT) AS DEPARTMENT, " +
