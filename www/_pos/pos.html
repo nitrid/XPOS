@@ -197,10 +197,10 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="row pt-5" style="height: 25px;">
-                                                    <div class="col-6">
+                                                    <div class="col-7">
                                                         <h5 class="text-left"><span style="color:dodgerblue;" langu>T. Satır : </span> {{ToplamSatir}} &nbsp;&nbsp;<span style="color:dodgerblue;" langu>T.Ürün Mik.: </span>{{ToplamMiktar}}</h5>                                                        
                                                     </div>
-                                                    <div class="col-5 offset-1">
+                                                    <div class="col-5">
                                                         <h5 class="text-right"><span style="color:dodgerblue;" langu>Ara Toplam :</span> {{(AraToplam | number:2) + " €"}}</h5>
                                                     </div>
                                                 </div>
@@ -2005,7 +2005,7 @@
                                                     <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '0'">0</button>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value = '.'">.</button>
+                                                    <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '.'">.</button>
                                                 </div>   
                                                 <div class="col-lg-3">
                                                     <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" onclick="Calculator.CalcSonuc.value += '/'">/</button>
@@ -2030,9 +2030,8 @@
                                             let CalcStatus = "";
                                             function CalcEqual()
                                             {   
-                                                CalcStatus = CalcStatus + '<br>' + Calculator.CalcSonuc.value + '=' + eval(Calculator.CalcSonuc.value);                                         
-                                                Calculator.CalcSonuc.value = eval(Calculator.CalcSonuc.value);
-                                                
+                                                CalcStatus = CalcStatus + '<br>' + Calculator.CalcSonuc.value + '=' + Number(eval(Calculator.CalcSonuc.value)).toFixed(2);                                         
+                                                Calculator.CalcSonuc.value = Number(eval(Calculator.CalcSonuc.value)).toFixed(2);
 
                                                 if(CalcStatus.split('<br>').length > 5)
                                                 {
@@ -2048,7 +2047,7 @@
                                                     });
                                                     CalcStatus = TmpStatus;
                                                 }
-                                                console.log(11)
+                                                
                                                 document.getElementById('CalcStatus').innerHTML = CalcStatus;
                                             }
                                         </script>                              

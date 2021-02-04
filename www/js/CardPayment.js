@@ -11,7 +11,8 @@ var CardPayment =
         let Listeners = Object();    
         let Ack = false;
         let port = null;
-        
+        let OneShoot = false;
+
         let config = 
         {
             DEVICE : 'COM6',
@@ -40,6 +41,7 @@ var CardPayment =
                     {
                         if(Ack == false)
                         {
+                            OneShoot = false;
                             let TmpData = 
                             {
                                 'pos_number': '01',
@@ -74,6 +76,12 @@ var CardPayment =
                     }
                     else if(data.length >= 25)
                     {
+                        if(OneShoot)
+                        {
+                            return;
+                        }
+
+                        OneShoot = true;
                         let str = "";
                         if(isNaN(data.toString().substr(1)))
                         {

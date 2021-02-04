@@ -6,11 +6,11 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _CardPayment = new CardPayment();
     let _MettlerScale = new MettlerScale();
     moment.locale('tr');
-    let PosNo = "1";
 
     Number.prototype.toDigit2 = function()
     {
-        return Math.round(Number(Math.round((this * 1000)) / 1000) * 100) / 100;
+        //return Number(this).toFixed(2);
+        return Number(Number(Math.round((this * 1000)) / 1000).toFixed(2));
     }
     if (typeof(localStorage.host) !== "undefined") 
     {
@@ -719,7 +719,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
 
         TmpData.push({font:"b",align:"lt",data:_PrintText(moment(new Date()).locale('fr').format('dddd') + " " + moment(new Date()).format("DD.MM.YYYY"),59) + _PrintText(moment(new Date()).format("LTS"),5)});
-        TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,40) + _PrintText("Caisse: " + PosNo + " - Ticket: " + pVData[0].TICKET,24)});
+        TmpData.push({font:"b",align:"lt",data:_PrintText("Caissier: " + pSData[0].CUSER,34) + _PrintText("Caisse: " + pParamData[6] + " - Ticket: " + pVData[0].TICKET,30)});
         TmpData.push({font:"b",style:"b",align:"ct",data: _PrintText(" ",64)});                
 
         if(pType == 'Fatura' || pRePrint)
@@ -958,7 +958,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
-        if(_Equal(pTData,"TYPE",4))
+        if(_Equal(pTData,"TYPE",4) && _Equal(pTData,"DOC_TYPE",1))
         {
             TmpData.push({align:"ct",barcode:pParamData[5],options:{width: 1,height:90}});
             TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});

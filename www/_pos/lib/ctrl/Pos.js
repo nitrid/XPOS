@@ -1078,12 +1078,16 @@ function Pos($scope,$window,$rootScope,db)
 
         angular.forEach($scope.SatisList,function(value)
         {
-            $scope.ToplamKdv += value.TVA.toDigit2(); 
-            $scope.AraToplam += value.HT.toDigit2();
-            $scope.ToplamIskonto += value.DISCOUNT.toDigit2();
-            $scope.GenelToplam += value.TTC.toDigit2();
+            $scope.ToplamKdv += value.TVA; 
+            $scope.AraToplam += value.HT;
+            $scope.ToplamIskonto += value.DISCOUNT;
+            $scope.GenelToplam += value.TTC;
         });
 
+        $scope.ToplamKdv = $scope.ToplamKdv.toDigit2(); 
+        $scope.AraToplam = $scope.AraToplam.toDigit2();
+        $scope.ToplamIskonto = $scope.ToplamIskonto.toDigit2();
+        $scope.GenelToplam = $scope.GenelToplam.toDigit2()
         $scope.ToplamKalan = $scope.GenelToplam.toDigit2() - db.SumColumn($scope.TahList,"AMOUNT").toDigit2();
         
         db.LCDPrint
@@ -1179,6 +1183,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     function SatisKapat()
     {
+        console.log($scope.TahKalan)
         if($scope.TahKalan <= 0)
         {
             db.ExecuteTag($scope.Firma,'PosSatisKapatUpdate',[$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
@@ -1277,7 +1282,8 @@ function Pos($scope,$window,$rootScope,db)
                         Math.floor($scope.GenelToplam),
                         $scope.CariKullanPuan,
                         $scope.CariPuan + Math.floor($scope.GenelToplam),
-                        TmpBondA
+                        TmpBondA,
+                        $scope.CihazID
                     ]   
                     db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
                     {
@@ -1901,7 +1907,7 @@ function Pos($scope,$window,$rootScope,db)
                         TmpYear = -1
                     }
 
-                    if(moment(new Date()).format("M") > 1 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
+                    if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
                     {
                         alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
                         $scope.TxtBarkod = "";
@@ -1979,7 +1985,7 @@ function Pos($scope,$window,$rootScope,db)
             db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
             {
                 if(BarkodData.length > 0)
-                {                                 
+                {   
                     $scope.Stok = BarkodData;
                     
                     if(TmpFiyat > 0 )
@@ -2093,9 +2099,10 @@ function Pos($scope,$window,$rootScope,db)
         ];
         
         db.ExecuteTag($scope.Firma,'PosSatisInsert',InsertData,async function(InsertResult)
-        {               
+        {         
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
+                $scope.TxtBarkod = ""; 
                 //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
                 // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
                 // $scope.SatisList = TmpSatisData;
@@ -2106,10 +2113,9 @@ function Pos($scope,$window,$rootScope,db)
                 // }  
                 /***************************************************************** */
                 db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
-                {                       
-                    InsertSonYenile(PosSatisData);     
-                    console.log(PosSatisData) 
-                    $scope.TxtBarkod = ""; 
+                {               
+                    InsertSonYenile(PosSatisData);                         
+                    
                     $scope.IslemListeRowClick(0,$scope.SatisList[0]);                    
 
                     if(typeof pCallBack != 'undefined')
@@ -3092,7 +3098,8 @@ function Pos($scope,$window,$rootScope,db)
                                             Math.floor($scope.GenelToplam) * -1,
                                             0,
                                             $scope.CariPuan + (Math.floor($scope.GenelToplam) * -1),
-                                            TmpBondA
+                                            TmpBondA,
+                                            $scope.CihazID
                                         ]   
 
                                         db.ReceiptPrint($scope.SatisList,pTahData,pData,ParamData,'Fis',false,function()
@@ -3414,7 +3421,8 @@ function Pos($scope,$window,$rootScope,db)
                         Math.floor(db.SumColumn(PosSatisData,"TTC")),
                         Math.floor(PosSatisData[0].LOYALTY * 100),
                         PosSatisData[0].CUSTOMER_POINT + Math.floor(PosSatisData[0].LOYALTY * 100),
-                        TmpBondA
+                        TmpBondA,
+                        $scope.CihazID
                     ]   
 
                     PosSatisData = SubTotalBuild(PosSatisData);
