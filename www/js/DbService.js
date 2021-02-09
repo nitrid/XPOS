@@ -9,8 +9,8 @@ angular.module('app.db', []).service('db',function($rootScope)
 
     Number.prototype.toDigit2 = function()
     {
-        //return Number(this).toFixed(2);
-        return Number(Number(Math.round((this * 1000)) / 1000).toFixed(2));
+        return Number(this.toFixed(2));
+        //return Number(Number(Math.round((this * 1000)) / 1000).toFixed(2));
     }
     if (typeof(localStorage.host) !== "undefined") 
     {

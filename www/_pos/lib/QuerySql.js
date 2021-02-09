@@ -767,7 +767,7 @@ var QuerySql =
     },
     PosSatisParkListe:
     {
-        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], ROUND(SUM([PRICE] * [QUANTITY]),2) AS [AMOUNT],MAX(CONVERT(varchar(10),CDATE, 121)) AS [DATE] " +
+        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], ROUND(SUM([PRICE] * [QUANTITY]),2) AS [AMOUNT],MAX(CONVERT(varchar(10),DOC_DATE, 121)) AS [DATE] " +
               "FROM POS_SALES WHERE [DEPARTMENT] = @DEPARTMENT AND [TYPE] = @TYPE AND [LUSER] = @LUSER AND STATUS = @STATUS GROUP BY REF,REF_NO",
         param: ['DEPARTMENT','TYPE','LUSER','STATUS'],
         type:  ['int','int','string|25','int']  
@@ -1096,9 +1096,9 @@ var QuerySql =
     },
     PosSatisKapatUpdate : 
     {
-        query: "UPDATE [dbo].[POS_SALES] SET [STATUS] = 1 WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND STATUS >= 0",
-        param: ['DEPARTMENT','REF','REF_NO','TYPE'],
-        type:  ['int','string|25','int','int']
+        query: "UPDATE [dbo].[POS_SALES] SET [STATUS] = 1,DOC_DATE = @DOC_DATE WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND STATUS >= 0",
+        param: ['DOC_DATE','DEPARTMENT','REF','REF_NO','TYPE'],
+        type:  ['date','int','string|25','int','int']
     },
     PosSonSatisGetir : 
     {

@@ -251,6 +251,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
         $("#paymentgrid").dxPivotGrid(
         {
             allowSortingBySummary: true,
+            allowSorting: true,
             allowFiltering: true,
             showBorders: true,
             showColumnGrandTotals: false,
@@ -271,7 +272,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     {
                         caption: db.Language($scope.Lang,"TARIH"),
                         dataField: "DOC_DATE",
-                        width: 80,                        
+                        width: 80,        
                         area: "row",
                     },  
                     {
@@ -361,8 +362,8 @@ function PosSatisRaporCtrl ($scope,$window,db)
             }
         })
     }
-    $scope.Init = function()
-    {
+    $scope.Init =function()
+    {                
         $('#Date').daterangepicker(
         {
             startDate: StartDate,
@@ -413,7 +414,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "ISNULL((SELECT SUM(TICKET_PLUS) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.STATUS = 1),0) AS [Ticket Plus] " +  
                     "FROM POS_SALES_VW_01 AS SALES " +
                     "WHERE SALES.DOC_DATE >= @ILKTARIH AND SALES.DOC_DATE <= @SONTARIH AND SALES.STATUS = 1 " +
-                    "GROUP BY SALES.REF,SALES.REF_NO,SALES.TYPE,SALES.VAT ORDER BY REF_NO",
+                    "GROUP BY SALES.REF,SALES.REF_NO,SALES.TYPE,SALES.VAT ORDER BY MAX(SALES.DOC_DATE) ASC",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
@@ -431,12 +432,12 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(PAYMENT.DEVICE)) AS DEVICE, " +
                     "'' AS TITLE, " +
                     "(SELECT COUNT(REF_NO) FROM (SELECT P1.REF_NO FROM POS_PAYMENT_VW_01 AS P1 WHERE P1.DOC_DATE >= @ILKTARIH AND P1.DOC_DATE <= @SONTARIH AND P1.STATUS = 1 AND P1.REF = PAYMENT.REF GROUP BY P1.REF,P1.REF_NO) AS TBL) AS TICKET, " +
-                    "CONVERT(NVARCHAR,MAX(PAYMENT.DOC_DATE),103) AS DOC_DATE, " +
+                    "FORMAT(MAX(PAYMENT.DOC_DATE),'dd/MM/yyyy') AS DOC_DATE, " +
                     "MAX(PAYMENT.TYPE_NAME) AS PAY_TYPE, " +
                     "SUM(CASE WHEN PAYMENT.DOC_TYPE = 0 THEN PAYMENT.AMOUNT ELSE PAYMENT.AMOUNT * -1 END) AS PAY_AMOUNT " +
                     "FROM POS_PAYMENT_VW_01 AS PAYMENT " +
                     "WHERE PAYMENT.DOC_DATE >= @ILKTARIH AND PAYMENT.DOC_DATE <= @SONTARIH AND PAYMENT.STATUS = 1 " +
-                    "GROUP BY PAYMENT.REF,PAYMENT.REF_NO,PAYMENT.TYPE,PAYMENT.DOC_TYPE ",
+                    "GROUP BY PAYMENT.REF,PAYMENT.REF_NO,PAYMENT.TYPE,PAYMENT.DOC_TYPE ORDER BY MAX(PAYMENT.DOC_DATE) ASC",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
@@ -462,7 +463,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
                     "'TICKET PLUS' AS TYPE, " + 
                     "CASE WHEN DOC_TYPE = 0 THEN SUM(TICKET_PLUS) ELSE SUM(TICKET_PLUS) * -1 END AS AMOUNT " + 
-                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1 AND TICKET_PLUS <> 0 GROUP BY REF,REF_NO,TYPE,DOC_TYPE",
+                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1 AND TICKET_PLUS <> 0 GROUP BY REF,REF_NO,TYPE,DOC_TYPE ORDER BY DOC_TYPE ASC",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            

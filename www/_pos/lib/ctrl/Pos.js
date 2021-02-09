@@ -1183,10 +1183,9 @@ function Pos($scope,$window,$rootScope,db)
     }
     function SatisKapat()
     {
-        console.log($scope.TahKalan)
         if($scope.TahKalan <= 0)
         {
-            db.ExecuteTag($scope.Firma,'PosSatisKapatUpdate',[$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
+            db.ExecuteTag($scope.Firma,'PosSatisKapatUpdate',[$scope.Tarih,$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
             {   
                 let TmpQuery = 
                 {
@@ -1264,31 +1263,38 @@ function Pos($scope,$window,$rootScope,db)
                             setTimeout(()=>{$("#MdlParaUstu").modal("hide")},10000);
                         }
                     }
-                    
-                    //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
-                    for(let item of $scope.TahList)
-                    {
-                        if(item.TYPE == 0)
-                        {
-                            db.EscposCaseOpen();
-                            break;    
-                        }
-                    }
 
-                    let ParamData = 
-                    [
-                        CariParam,
-                        $scope.CariPuan,
-                        Math.floor($scope.GenelToplam),
-                        $scope.CariKullanPuan,
-                        $scope.CariPuan + Math.floor($scope.GenelToplam),
-                        TmpBondA,
-                        $scope.CihazID
-                    ]   
-                    db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
+                    try
                     {
-                        
-                    });
+                        //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
+                        for(let item of $scope.TahList)
+                        {
+                            if(item.TYPE == 0)
+                            {
+                                db.EscposCaseOpen();
+                                break;    
+                            }
+                        }
+
+                        let ParamData = 
+                        [
+                            CariParam,
+                            $scope.CariPuan,
+                            Math.floor($scope.GenelToplam),
+                            $scope.CariKullanPuan,
+                            $scope.CariPuan + Math.floor($scope.GenelToplam),
+                            TmpBondA,
+                            $scope.CihazID
+                        ]   
+                        db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
+                        {
+                            
+                        });
+                    }
+                    catch(err)
+                    {
+
+                    }
     
                     setTimeout(()=>
                     {
@@ -1820,7 +1826,6 @@ function Pos($scope,$window,$rootScope,db)
     {
         if(pBarkod != '')
         {   
-            console.log(pBarkod)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
