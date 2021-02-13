@@ -307,6 +307,7 @@ var QuerySql =
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
                 "SET @TMPCODE = ISNULL((SELECT BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = @ITEM_CODE AND BARCODE = @BARCODE),'') " +
                 "IF @TMPCODE = '' " +
+                "BEGIN " +
                 "INSERT INTO [dbo].[ITEM_BARCODE] " +
                 "([CUSER] " +
                 ",[CDATE] " +
@@ -326,14 +327,17 @@ var QuerySql =
                 "@UNIT,		    	    --<UNIT, uniqueidentifier,> \n" +
                 "@TYPE		            --<TYPE, int,> \n" +
                 ") " +
+                "END " +
                 "ELSE " +
+                "BEGIN " +
                 "UPDATE [dbo].[ITEM_BARCODE] SET " +
                 "[LUSER] = @LUSER " +
                 ",[LDATE] = GETDATE() " +
                 ",[ITEM_CODE] = @ITEM_CODE " +
                 ",[UNIT] = @UNIT " +
                 ",[TYPE] = @TYPE " +
-                "WHERE [BARCODE] = @TMPCODE ",
+                "WHERE [BARCODE] = @TMPCODE " +
+                "END ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','BARCODE:string|50','UNIT:string|50','TYPE:int']
     },
     BarkodSil :

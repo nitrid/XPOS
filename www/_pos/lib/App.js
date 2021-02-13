@@ -3,7 +3,8 @@ angular.module("app",
     'ngRoute',
     'app.controller',
     'app.db',
-    'app.compile'
+    'app.compile',
+    'dx'
 ])
 .config(function($routeProvider)
 {       

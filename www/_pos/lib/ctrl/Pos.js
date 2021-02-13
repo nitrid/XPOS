@@ -3533,16 +3533,28 @@ function Pos($scope,$window,$rootScope,db)
             }
             else if(pType == 2)
             {
-                db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 2).ITEMS_CODE,''],function(PluData)
+                if(typeof $scope.PluStokGrupList == 'undefined')
+                {
+                    db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 2).ITEMS_CODE,''],function(PluData)
+                    {
+                        $scope.PluStokGrupStartIndex = 0
+                        $scope.PluStokGrupEndIndex = 24
+                        $scope.PluStokGrupList = PluData
+                        $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
+    
+                        $("#TbPluStokGrup").addClass('active');
+                        $("#TbMain").removeClass('active');
+                    });
+                }
+                else
                 {
                     $scope.PluStokGrupStartIndex = 0
                     $scope.PluStokGrupEndIndex = 24
-                    $scope.PluStokGrupList = PluData
                     $scope.PagePluStokGrupList = $scope.PluStokGrupList.slice($scope.PluStokGrupStartIndex,$scope.PluStokGrupEndIndex);
 
                     $("#TbPluStokGrup").addClass('active');
                     $("#TbMain").removeClass('active');
-                });
+                }
             }
         }
     }
