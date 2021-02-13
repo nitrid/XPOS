@@ -30,10 +30,11 @@
                                     </label>
                                     <div class="col-md-10">
                                         <div class="input-group">
-                                            <select class="form-control" ng-model="StokListesi.Tedarikci">
+                                            <div dx-select-box="StokListesi.TedarikciList"></div>
+                                            <!-- <select class="form-control" ng-model="StokListesi.Tedarikci">
                                                 <option value="" langu>TÜMÜ</option>
                                                 <option ng-repeat="option in StokListesi.TedarikciList" value="{{option.CODE}}">{{option.NAME}}</option>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </div>
                                 </div>
@@ -59,10 +60,11 @@
                                     </label>
                                     <div class="col-md-10">
                                         <div class="input-group">
-                                            <select class="form-control" ng-model="StokListesi.Grup">
+                                            <div dx-select-box="StokListesi.GrupList"></div>
+                                            <!-- <select class="form-control" ng-model="StokListesi.Grup">
                                                 <option value="" langu>TÜMÜ</option>
                                                 <option ng-repeat="option in StokListesi.GrupList" value="{{option.CODE}}">{{option.NAME}}</option>
-                                            </select>
+                                            </select> -->
                                         </div>
                                     </div>
                                 </div>

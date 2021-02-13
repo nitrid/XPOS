@@ -191,6 +191,10 @@ function StokCtrl ($scope,$window,$location,db)
             columnResizingMode: "nextColumn",
             columnMinWidth: 50,
             columnAutoWidth: true,
+            columnChooser: 
+            {
+                enabled: true
+            },
             filterRow: {
                 visible: true,
                 applyFilter: "auto"
@@ -331,9 +335,9 @@ function StokCtrl ($scope,$window,$location,db)
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
                     "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER=''))",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
-            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
+            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup.CODE,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci.CODE]
         }
-
+console.log(TmpQuery)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
@@ -349,7 +353,25 @@ function StokCtrl ($scope,$window,$location,db)
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $scope.StokListesi.GrupList = Data
+            $scope.StokListesi.GrupList = 
+            {
+                width: "100%",
+                dataSource: Data,
+                displayExpr: "NAME",
+                valueExpr: "CODE",
+                showClearButton: true,
+                bindingOptions: 
+                {
+                    selectedItem: "StokListesi.Grup",
+                },
+                onSelectionChanged : function(e)
+                {
+                    if(e.selectedItem == null)
+                    {
+                        $scope.StokListesi.Grup = {CODE : "", NAME: ""}
+                    }
+                }
+            }
         });
     }
     $scope.TedarikciGetir = function()
@@ -361,7 +383,25 @@ function StokCtrl ($scope,$window,$location,db)
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $scope.StokListesi.TedarikciList = Data
+            $scope.StokListesi.TedarikciList = 
+            {
+                width: "100%",
+                dataSource: Data,
+                displayExpr: "NAME",
+                valueExpr: "CODE",
+                showClearButton: true,
+                bindingOptions: 
+                {
+                    selectedItem: "StokListesi.Tedarikci",
+                },
+                onSelectionChanged : function(e)
+                {
+                    if(e.selectedItem == null)
+                    {
+                        $scope.StokListesi.Tedarikci = {CODE : "", NAME: ""}
+                    }
+                }
+            }
         });
     } 
     $scope.KolonChange = function()
@@ -373,7 +413,7 @@ function StokCtrl ($scope,$window,$location,db)
 
         for (let i = 0; i < TmpFields.length; i++) 
         {
-            for (let x = 0; x < $scope.Kolon.length; x++) 
+            for (let x = 0; x < $scope.StokListesi.Kolon.length; x++) 
             {
                 if($scope.StokListesi.Kolon[x] == TmpFields[i].name)    
                 {
@@ -1128,14 +1168,14 @@ function StokCtrl ($scope,$window,$location,db)
         //STOK LISTESİ TANIMLARI *************************
         $scope.StokListesi = {}
         $scope.StokListesi.Data = [];
-        $scope.StokListesi.GrupList = [];
-        $scope.StokListesi.TedarikciList = [];
+        //$scope.StokListesi.GrupList = [];
+        //$scope.StokListesi.TedarikciList = { width: "100%" };
 
         $scope.StokListesi.Kolon = ["CODE","NAME","BARCODE"];
         $scope.StokListesi.Barkod = "";
         $scope.StokListesi.Adi = "";
-        $scope.StokListesi.Grup = "";
-        $scope.StokListesi.Tedarikci = "";
+        $scope.StokListesi.Grup = {CODE:"",NAME:""};
+        $scope.StokListesi.Tedarikci = {CODE:"",NAME:""};
         $scope.StokListesi.Durum = true;
 
         TblStokListeInit();
@@ -1254,7 +1294,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].CODE,
             $scope.StokListe[0].NAME,
             $scope.StokListe[0].SNAME,
-            $scope.StokListe[0].ITEM_GRP.split('/')[0],
+            $scope.StokListe[0].ITEM_GRP != '' ? $scope.StokListe[0].ITEM_GRP.split('/')[0] : '',
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
@@ -1276,8 +1316,10 @@ function StokCtrl ($scope,$window,$location,db)
                     let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];
                     BirimKaydet(TmpVal,function(pGuid)
                     {
+                        console.log($scope.StokListe[0].BARCODE + ' 111');
                         if($scope.StokListe[0].BARCODE != '')
                         {
+                            console.log($scope.StokListe[0].BARCODE + ' 222');
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
                             $scope.BarkodModal.Tip = 0
@@ -1435,7 +1477,7 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Girimiş olduğunuz barkod sistemde kayıtlı !"));
             return;
         }
-
+        console.log($scope.BarkodModal.Barkod + ' 33333')
         let InsertData =
         [
             $scope.Kullanici,
