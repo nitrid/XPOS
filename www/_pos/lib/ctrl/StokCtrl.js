@@ -71,7 +71,6 @@ function StokCtrl ($scope,$window,$location,db)
         }
     });
     jsGrid.fields.DateField = DateField;
-
     //#region "STOK LISTESİ"
     let TmpFields =
     [
@@ -191,15 +190,13 @@ function StokCtrl ($scope,$window,$location,db)
             columnResizingMode: "nextColumn",
             columnMinWidth: 50,
             columnAutoWidth: true,
-            columnChooser: 
+            filterRow: 
             {
-                enabled: true
-            },
-            filterRow: {
                 visible: true,
                 applyFilter: "auto"
             },
-            headerFilter: {
+            headerFilter: 
+            {
                 visible: true
             },
             paging: 
@@ -265,23 +262,23 @@ function StokCtrl ($scope,$window,$location,db)
         for (let x = 0; x < $scope.StokListesi.Kolon.length; x++) 
         {
             
-            if($scope.StokListesi.Kolon[x] == "UNIT")    
+            if($scope.StokListesi.Kolon[x].CODE == "UNIT")    
             {
                 QueryField.Unit.Field = "ISNULL(ITEM_UNIT.NAME,'') AS UNIT, ";
                 QueryField.Unit.Outer = "LEFT OUTER JOIN ITEM_UNIT ON ITEMS.CODE = ITEM_UNIT.ITEM_CODE ";
             } 
-            if($scope.StokListesi.Kolon[x] == "PRICE")    
+            if($scope.StokListesi.Kolon[x].CODE == "PRICE")    
             {
                 QueryField.Price.Field = "ISNULL(ITEM_PRICE.PRICE,0) AS PRICE, ";
                 QueryField.Price.Outer = "LEFT OUTER JOIN ITEM_PRICE ON ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 ";
             } 
-            if($scope.StokListesi.Kolon[x] == "CUSTOMER_ITEM_CODE")    
+            if($scope.StokListesi.Kolon[x].CODE == "CUSTOMER_ITEM_CODE")    
             {
                 QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ";
                 QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
                 QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
             }   
-            if($scope.StokListesi.Kolon[x] == "BARCODE")    
+            if($scope.StokListesi.Kolon[x].CODE == "BARCODE")    
             {
                 QueryField.Barcode.Field = "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, ";
                 QueryField.Barcode.Outer = "LEFT OUTER JOIN ITEM_BARCODE ON ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ";
@@ -335,14 +332,61 @@ function StokCtrl ($scope,$window,$location,db)
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
                     "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER=''))",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
-            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup.CODE,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci.CODE]
+            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
-console.log(TmpQuery)
+
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
             TblStokListeInit();
         });
+    }
+    function DrpDwnInitKolon()
+    {
+        let TmpKolon = 
+        [
+            {CODE : "CODE",NAME : "ÜRÜN KODU"},
+            {CODE : "NAME",NAME : "ÜRÜN TAM ADI"},
+            {CODE : "SNAME",NAME : "ÜRÜN KISA ADI"},
+            {CODE : "ITEM_GRP",NAME : "ÜRÜN GRUBU"},
+            {CODE : "VAT",NAME : "VERGİ DİLİMİ"},
+            {CODE : "COST_PRICE",NAME : "MALİYET FİYATI"},
+            {CODE : "MIN_PRICE",NAME : "MİNİMUM SATIŞ FİYATI"},
+            {CODE : "MAX_PRICE",NAME : "MAKSİMUM SATIŞ FİYATI"},
+            {CODE : "UNIT",NAME : "BİRİM"},
+            {CODE : "BARCODE",NAME : "BARKODU"},
+            {CODE : "PRICE",NAME : "SATIŞ FİYATI"},
+            {CODE : "CUSTOMER_ITEM_CODE",NAME : "TEDARİKÇİ ÜRÜN KODU"},
+            {CODE : "STATUS",NAME : "DURUM"}
+        ]
+        
+        $scope.StokListesi.CmbKolon = 
+        {
+            bindingOptions: 
+            {
+                value: 'StokListesi.Kolon'
+            },
+            width: "100%",
+            keyExpr: "CODE",
+            displayExpr: "NAME",
+            dataSource: TmpKolon,
+            List :
+            {
+                dataSource: TmpKolon,
+                selectionMode: "multiple",
+                showSelectionControls: true,
+                keyExpr: "CODE",
+                displayExpr: "NAME",
+                bindingOptions: 
+                {
+                    selectedItems: "StokListesi.Kolon",
+                },
+                onSelectionChanged :function(arg)
+                {
+                    $scope.KolonChange();
+                }
+            }
+        }
     }
     $scope.GrupGetir = function()
     {
@@ -353,25 +397,7 @@ console.log(TmpQuery)
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $scope.StokListesi.GrupList = 
-            {
-                width: "100%",
-                dataSource: Data,
-                displayExpr: "NAME",
-                valueExpr: "CODE",
-                showClearButton: true,
-                bindingOptions: 
-                {
-                    selectedItem: "StokListesi.Grup",
-                },
-                onSelectionChanged : function(e)
-                {
-                    if(e.selectedItem == null)
-                    {
-                        $scope.StokListesi.Grup = {CODE : "", NAME: ""}
-                    }
-                }
-            }
+            $scope.StokListesi.GrupData = Data
         });
     }
     $scope.TedarikciGetir = function()
@@ -383,25 +409,7 @@ console.log(TmpQuery)
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            $scope.StokListesi.TedarikciList = 
-            {
-                width: "100%",
-                dataSource: Data,
-                displayExpr: "NAME",
-                valueExpr: "CODE",
-                showClearButton: true,
-                bindingOptions: 
-                {
-                    selectedItem: "StokListesi.Tedarikci",
-                },
-                onSelectionChanged : function(e)
-                {
-                    if(e.selectedItem == null)
-                    {
-                        $scope.StokListesi.Tedarikci = {CODE : "", NAME: ""}
-                    }
-                }
-            }
+            $scope.StokListesi.TedarikciData = Data
         });
     } 
     $scope.KolonChange = function()
@@ -415,7 +423,7 @@ console.log(TmpQuery)
         {
             for (let x = 0; x < $scope.StokListesi.Kolon.length; x++) 
             {
-                if($scope.StokListesi.Kolon[x] == TmpFields[i].name)    
+                if($scope.StokListesi.Kolon[x].CODE == TmpFields[i].name)    
                 {
                     TmpFields[i].visible = true;
                 }                
@@ -435,7 +443,7 @@ console.log(TmpQuery)
             StokListeGetir();
         }
     }
-    //#endregion 
+    //#endregion    
     function TblFiyatInit()
     {
         $("#TblFiyat").dxDataGrid(
@@ -1019,6 +1027,7 @@ console.log(TmpQuery)
 
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
+
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -1153,7 +1162,7 @@ console.log(TmpQuery)
     {
         StokListePage = false;
         $scope.Kullanici = $window.sessionStorage.getItem('User');
-
+        
         if(typeof $location.$$search.mode == 'undefined')
         {
             console.log(1)
@@ -1167,25 +1176,68 @@ console.log(TmpQuery)
         }
         //STOK LISTESİ TANIMLARI *************************
         $scope.StokListesi = {}
-        $scope.StokListesi.Data = [];
-        //$scope.StokListesi.GrupList = [];
-        //$scope.StokListesi.TedarikciList = { width: "100%" };
+        $scope.StokListesi.Data = [];        
+        DrpDwnInitKolon();
 
-        $scope.StokListesi.Kolon = ["CODE","NAME","BARCODE"];
+        $scope.StokListesi.CmbGrup = 
+        {
+            width: "100%",
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            bindingOptions: 
+            {
+                value: 'StokListesi.Grup',
+                dataSource: 
+                {
+                    deep: true,
+                    dataPath: 'StokListesi.GrupData'
+                }
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListesi.Grup = ""
+                }
+            }
+        }
+        $scope.StokListesi.CmbTedarikci = 
+        {
+            width: "100%",
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            bindingOptions: 
+            {
+                value: "StokListesi.Tedarikci",
+                dataSource: 
+                {
+                    deep: true,
+                    dataPath: 'StokListesi.TedarikciData'
+                }
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListesi.Tedarikci = ""
+                }
+            }
+        }
+
+        $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"}];
         $scope.StokListesi.Barkod = "";
         $scope.StokListesi.Adi = "";
-        $scope.StokListesi.Grup = {CODE:"",NAME:""};
-        $scope.StokListesi.Tedarikci = {CODE:"",NAME:""};
+        $scope.StokListesi.Grup = "";
+        $scope.StokListesi.Tedarikci = "";
         $scope.StokListesi.Durum = true;
 
         TblStokListeInit();
         $scope.GrupGetir();
         $scope.TedarikciGetir();
-
-        setTimeout(function () 
-        {
-            $('select').selectpicker('refresh');
-        },500)
         //********************************************* */
 
         $scope.StyleAll = {'visibility': 'hidden'};
@@ -1203,7 +1255,7 @@ console.log(TmpQuery)
         TblBarkodInit();
         TblTedarikciInit();
         TblTedarikciFiyatInit();
-        TblSecimInit([]);
+        TblSecimInit([]);                
 
         $scope.StokListe = [];
 
@@ -1236,6 +1288,91 @@ console.log(TmpQuery)
         UrunGrupModalInit();
 
         $('.dropify').dropify()
+
+        $scope.Cmb = {};
+        $scope.Cmb.AnaBirim = 
+        {
+            width: "50%",
+            dataSource: $scope.Birim,
+            displayExpr: "Kodu",
+            valueExpr: "Kodu",
+            showClearButton: true,
+            value: typeof $scope.StokListe != 'undefined' ? $scope.StokListe[0].MAIN_UNIT_NAME : '',
+            bindingOptions: 
+            {
+                value: "StokListe[0].MAIN_UNIT_NAME",
+            },
+            onSelectionChanged : function(e)
+            {
+                $scope.CmbAnaBirimChange();
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListe[0].MAIN_UNIT_NAME = ""
+                }
+            }
+        }
+        $scope.Cmb.AltBirim = 
+        {
+            width: "50%",
+            dataSource: $scope.Birim,
+            displayExpr: "Kodu",
+            valueExpr: "Kodu",
+            showClearButton: true,
+            value: typeof $scope.StokListe != 'undefined' ? $scope.StokListe[0].UNDER_UNIT_NAME : '',
+            bindingOptions: 
+            {
+                value: "StokListe[0].UNDER_UNIT_NAME",
+            },
+            onSelectionChanged : function(e)
+            {
+                $scope.CmbAltBirimChange();
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListe[0].UNDER_UNIT_NAME = ""
+                }
+            }
+        }
+
+        $scope.Cmb.Cins = 
+        {
+            width: "100%",
+            dataSource: [{CODE : "0",NAME : "Mal"},{CODE : "1",NAME : "Hizmet"},{CODE : "2",NAME : "Depozit"}],
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "0",
+            showClearButton: true,
+            bindingOptions: 
+            {
+                value: "StokListe[0].TYPE",
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListe[0].TYPE = "0"
+                }
+            }
+        }
+        $scope.Cmb.Vergi = 
+        {
+            width: "100%",
+            dataSource: [{CODE : "0",NAME : "0"},{CODE : "5.5",NAME : "5.5"},{CODE : "10",NAME : "10"},{CODE : "20",NAME : "20"}],
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "0",
+            showClearButton: true,
+            bindingOptions: 
+            {
+                value: "StokListe[0].VAT",
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListe[0].VAT = "0"
+                }
+            }
+        }
     }
     $scope.Yeni = function()
     {
@@ -1313,6 +1450,7 @@ console.log(TmpQuery)
                 // ANA BİRİM KAYIT İŞLEMİ
                 if($scope.StokListe[0].MAIN_UNIT_FACTOR > 0)
                 {
+                    console.log($scope.StokListe[0].MAIN_UNIT_NAME)
                     let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];
                     BirimKaydet(TmpVal,function(pGuid)
                     {

@@ -30,7 +30,7 @@
                                     </label>
                                     <div class="col-md-10">
                                         <div class="input-group">
-                                            <div dx-select-box="StokListesi.TedarikciList"></div>
+                                            <div dx-select-box="StokListesi.CmbTedarikci"></div>
                                             <!-- <select class="form-control" ng-model="StokListesi.Tedarikci">
                                                 <option value="" langu>TÜMÜ</option>
                                                 <option ng-repeat="option in StokListesi.TedarikciList" value="{{option.CODE}}">{{option.NAME}}</option>
@@ -60,7 +60,7 @@
                                     </label>
                                     <div class="col-md-10">
                                         <div class="input-group">
-                                            <div dx-select-box="StokListesi.GrupList"></div>
+                                            <div dx-select-box="StokListesi.CmbGrup"></div>
                                             <!-- <select class="form-control" ng-model="StokListesi.Grup">
                                                 <option value="" langu>TÜMÜ</option>
                                                 <option ng-repeat="option in StokListesi.GrupList" value="{{option.CODE}}">{{option.NAME}}</option>
@@ -79,24 +79,14 @@
                             </div>
                         </div>
                         <div class="row pb-2">
-                            <div class="col-md-2">
-                                <select class="selectpicker form-control" multiple data-width="auto" title="" ng-model="StokListesi.Kolon" ng-change="KolonChange()">
-                                    <option value="CODE" langu>ÜRÜN KODU</option>
-                                    <option value="NAME" langu>ÜRÜN TAM ADI</option>
-                                    <option value="SNAME" langu>ÜRÜN KISA ADI</option>
-                                    <option value="ITEM_GRP" langu>ÜRÜN GRUBU</option>
-                                    <option value="VAT" langu>VERGİ DİLİMİ</option>
-                                    <option value="COST_PRICE" langu>MALİYET FİYATI</option>
-                                    <option value="MIN_PRICE" langu>MİNİMUM SATIŞ FİYATI</option>
-                                    <option value="MAX_PRICE" langu>MAKSİMUM SATIŞ FİYATI</option>
-                                    <option value="UNIT" langu>BİRİM</option>
-                                    <option value="BARCODE" langu>BARKODU</option>
-                                    <option value="PRICE" langu>SATIŞ FİYATI</option>
-                                    <option value="CUSTOMER_ITEM_CODE" langu>TEDARİKÇİ ÜRÜN KODU</option>
-                                    <option value="STATUS" langu>DURUM</option>
-                                </select>
+                            <div class="col-md-4">
+                                <div dx-drop-down-box="StokListesi.CmbKolon">  
+                                    <div data-options="dxTemplate: { name: 'content' }">
+                                        <div dx-list="StokListesi.CmbKolon.List"></div>
+                                    </div>                                  
+                                </div>
                             </div>
-                            <div class="col-md-2 offset-8">
+                            <div class="col-md-2 offset-6">
                                 <button class="btn btn-block btn-primary" ng-click="BtnAra()" langu>
                                     Ara
                                 </button>
@@ -202,9 +192,10 @@
                                     </label>
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <select class="form-control" ng-model="StokListe[0].MAIN_UNIT_NAME" ng-change="CmbAnaBirimChange()">
+                                            <div dx-select-box="Cmb.AnaBirim"></div>
+                                            <!-- <select class="form-control" ng-model="StokListe[0].MAIN_UNIT_NAME" ng-change="CmbAnaBirimChange()">
                                                 <option ng-repeat="option in Birim" value="{{option.Kodu}}" >{{option.Kodu + '/' + option.Symbol}}</option>                                
-                                            </select>  
+                                            </select>   -->
                                             <input type="text" class="form-control" id="TxtAnaBirim" autocomplete="off" ng-model="StokListe[0].MAIN_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                                         </div>
                                     </div>
@@ -215,9 +206,10 @@
                                     </label>
                                     <div class="col-md-7">
                                         <div class="input-group">
-                                            <select class="form-control" id="CmbAltBirim" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
+                                            <div dx-select-box="Cmb.AltBirim"></div>
+                                            <!-- <select class="form-control" id="CmbAltBirim" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
                                                 <option ng-repeat="option in Birim" value="{{option.Kodu}}">{{option.Kodu + '/' + option.Symbol}}</option>                                
-                                            </select>  
+                                            </select>   -->
                                             <input type="text" class="form-control" id="TxtAltBirim" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                                         </div>                            
                                     </div>
@@ -277,11 +269,12 @@
                                         <div class="float-right" langu>Ürün Cinsi :</div>
                                     </label>
                                     <div class="col-md-9">
-                                        <select class="form-control" ng-model="StokListe[0].TYPE">
+                                        <div dx-select-box="Cmb.Cins"></div>
+                                        <!-- <select class="form-control" ng-model="StokListe[0].TYPE">
                                             <option value="0" langu>Mal</option>
                                             <option value="1" langu>Hizmet</option>
                                             <option value="2" langu>Depozit</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                 </div>
                                 <div class="form-group row" ng-style="StyleAll">
@@ -289,12 +282,13 @@
                                         <div class="float-right" langu>Vergi :</div>
                                     </label>
                                     <div class="col-md-9">
-                                        <select class="form-control" ng-model="StokListe[0].VAT" ng-blur="CmbVatBlur()">
+                                        <div dx-select-box="Cmb.Vergi"></div>
+                                        <!-- <select class="form-control" ng-model="StokListe[0].VAT" ng-blur="CmbVatBlur()">
                                             <option value="0">0</option>
                                             <option value="5.5">5.5</option>
                                             <option value="10">10</option>
                                             <option value="20">20</option>
-                                        </select>
+                                        </select> -->
                                     </div>
                                 </div>   
                                 <div class="form-group row" ng-style="StyleAll">
