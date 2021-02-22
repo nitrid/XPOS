@@ -1,6 +1,3 @@
-const { stat } = require("fs");
-const { type } = require("os");
-
 function StokCtrl ($scope,$window,$location,db)
 {
     let SecimSelectedRow = null;
