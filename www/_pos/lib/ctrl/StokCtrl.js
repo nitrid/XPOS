@@ -1377,7 +1377,7 @@ function StokCtrl ($scope,$window,$location,db)
             {                
                 if(e.selectedItem == null)
                 {
-                    $scope.StokListe[0].VAT = "5.5"
+                    $scope.StokListe[0].VAT = ""
                 }
 
                 $scope.CmbVatBlur()
@@ -1417,7 +1417,8 @@ function StokCtrl ($scope,$window,$location,db)
                 alertify.alert(db.Language($scope.Lang,"Ürün grubu bölümünü boş geçemezsiniz !"));
                 return;
             }
-            if($scope.StokListe[0].VAT == "-")
+            console.log($scope.StokListe[0].VAT)
+            if($scope.StokListe[0].VAT == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Lütfen vergi dilimini seçiniz !"));
