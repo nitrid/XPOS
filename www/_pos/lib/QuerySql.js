@@ -625,6 +625,11 @@ var QuerySql =
                 "UPDATE [ITEM_IMAGE] SET [LUSER] = @LUSER ,[LDATE] = GETDATE(),[IMAGE] = @IMAGE WHERE [ITEM_CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','IMAGE:string|max']
     },
+    StokImageDelete :
+    {
+        query : "DELETE FROM [dbo].[ITEM_IMAGE] WHERE ITEM_CODE = @ITEM_CODE",
+        param : ['ITEM_CODE:string|25']
+    },
     LabelQueueInsert :
     {
         query : "INSERT INTO [dbo].[LABEL_QUEUE] ( " +

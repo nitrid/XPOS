@@ -1469,13 +1469,11 @@ function StokCtrl ($scope,$window,$location,db)
                         }
                     });
                 }
-
                 // ALT BİRİM KAYIT İŞLEMİ
                 if(parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.')) > 0)
                 {
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);
                 }
-                
                 //ÜRÜN RESİM KAYIT İŞLEMİ
                 if(typeof document.getElementById('dropify').files[0] != 'undefined')
                 {
@@ -1495,6 +1493,7 @@ function StokCtrl ($scope,$window,$location,db)
                             canvas.height = canvas.width * (img.height / img.width);
                             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                             var data = canvas.toDataURL('image/png');
+
                             let InsertData =
                             [
                                 $scope.Kullanici,
@@ -1506,6 +1505,10 @@ function StokCtrl ($scope,$window,$location,db)
                             db.ExecuteTag($scope.Firma,'StokImageInsert',InsertData);
                         }                        
                     }
+                }
+                else
+                {
+                    db.ExecuteTag($scope.Firma,'StokImageDelete',[$scope.StokListe[0].CODE]);
                 }
 
                 if(typeof pCallBack != 'undefined')
