@@ -328,7 +328,7 @@ function StokCtrl ($scope,$window,$location,db)
                     "WHERE ((" + QueryField.Barcode.Where + 
                     QueryField.Code.Where +
                     QueryField.Customer.Where + 
-                    "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
+                    "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE '%' + UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
                     "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER=''))",
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
@@ -480,23 +480,25 @@ function StokCtrl ($scope,$window,$location,db)
                     caption: db.Language($scope.Lang,"Depo"),
                     alignment: "center",
                     allowEditing: false,
-                    width: "10%"
+                    width: "5%"
                 }, 
                 {
                     dataField: "START_DATE",
                     caption: db.Language($scope.Lang,"Baş.Tarih"),
                     dataType: "date",
+                    format: 'dd/MM/yyyy',
                     alignment: "center",
-                    allowEditing: false,
+                    allowEditing: true,
                     width: "10%"
                 }, 
                 {
                     dataField: "FINISH_DATE",
                     caption: db.Language($scope.Lang,"Bit.Tarih"),
                     dataType: "date",
+                    format: 'dd/MM/yyyy',
                     alignment: "center",
-                    allowEditing: false,
-                    width: "5%"
+                    allowEditing: true,
+                    width: "10%"
                 }, 
                 {
                     dataField: "QUANTITY",
@@ -563,7 +565,21 @@ function StokCtrl ($scope,$window,$location,db)
                 }, 
             ],
             onRowUpdated: function(e) 
-            {                
+            {         
+                if($scope.StokListe[0].COST_PRICE == "" || $scope.StokListe[0].COST_PRICE == 0)
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Maliyet fiyatı girmeden fiyat tanımlayamazsınız !"));
+                    return;
+                }
+                
+                if(parseFloat(e.data.PRICE.toString().replace(',','.')) < parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')))
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
+                    return;
+                }
+
                 db.ExecuteTag($scope.Firma,'FiyatUpdate',[e.data.PRICE,e.data.QUANTITY,e.data.START_DATE,e.data.FINISH_DATE,e.data.GUID],function(data)
                 {
                     //FİYAT LİSTESİ GETİR
@@ -571,6 +587,8 @@ function StokCtrl ($scope,$window,$location,db)
                     {
                         $scope.FiyatListe = FiyatData;
                         $scope.CmbAltBirimChange();
+
+                        TblFiyatInit();
                     });
                 });
             },
@@ -1455,6 +1473,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].WEIGHING,
             $scope.StokListe[0].SPECIAL1,
             $scope.StokListe[0].ORGINS,
+            $scope.StokListe[0].SALE_JOIN_LINE,
         ];
 
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)
@@ -1571,7 +1590,7 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
-
+        
         let InsertData =
         [
             $scope.Kullanici,

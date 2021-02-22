@@ -17,6 +17,7 @@ var QuerySql =
                 "[SPECIAL1] AS [SPECIAL1], " + 
                 "[ORGINS] AS [ORGINS], " + 
                 "[WEIGHING] AS [WEIGHING], " + 
+                "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE ASC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
                 "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
@@ -52,6 +53,7 @@ var QuerySql =
                 ",[WEIGHING] " +
                 ",[SPECIAL1] " +
                 ",[ORGINS] " +
+                ",[SALE_JOIN_LINE] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -69,7 +71,8 @@ var QuerySql =
                 "@STATUS,				--<STATUS, bit,> \n" +
                 "@WEIGHING,			    --<WEIGHING, bit,> \n" +
                 "@SPECIAL1,			    --<SPECIAL1, nvarchar(50),> \n" +
-                "@ORGINS			    --<ORGINS, nvarchar(25),> \n" +
+                "@ORGINS,			    --<ORGINS, nvarchar(25),> \n" +
+                "@SALE_JOIN_LINE	    --<SALE_JOIN_LINE, bit,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -87,9 +90,10 @@ var QuerySql =
                 ",[WEIGHING] = @WEIGHING " +
                 ",[SPECIAL1] = @SPECIAL1 " +
                 ",[ORGINS] = @ORGINS " +
+                ",[SALE_JOIN_LINE] = @SALE_JOIN_LINE " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
-                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','WEIGHING:bit','SPECIAL1:string|50','ORGINS:string|25']
+                 'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','WEIGHING:bit','SPECIAL1:string|50','ORGINS:string|25','SALE_JOIN_LINE:bit']
     },
     StokKartSil :
     {
@@ -121,8 +125,8 @@ var QuerySql =
                 "WHEN [TYPE] = 2 THEN 'Satış Anlaşması' " + 
                 "ELSE '' END AS [TYPENAME] " + 
                 ",[DEPOT] " + 
-                ",CONVERT(NVARCHAR,[START_DATE],104) AS [START_DATE] " + 
-                ",CONVERT(NVARCHAR,[FINISH_DATE],104) AS [FINISH_DATE] " + 
+                ",[START_DATE] AS [START_DATE] " + 
+                ",[FINISH_DATE] AS [FINISH_DATE] " + 
                 ",[PRICE] " + 
                 ",[QUANTITY] " + 
                 ",[CUSTOMER] " + 

@@ -130,7 +130,24 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
                         {
                             var from = pQuery.value[i]; 
                             var numbers = from.match(/\d+/g); 
-                            var date = new Date(numbers[2] + "-" +numbers[1] + "-" + numbers[0]);
+                            // TARİH FORMATI FARKLILIĞINDAN SEBEP EKLENDİ 22.02.2021 
+                            let yyyy = 0
+                            let mm = 0
+                            let dd = 0
+                            if(numbers[0].length > 2)
+                            {
+                                yyyy = numbers[0];
+                                mm = numbers[1];
+                                dd = numbers[2];
+                            }
+                            else if(numbers[2].length > 2)
+                            {
+                                yyyy = numbers[2];
+                                mm = numbers[1];
+                                dd = numbers[0];
+                            }
+                            //************************************************* */
+                            var date = new Date(yyyy + "-" + mm + "-" + dd);
 
                             request.input(pQuery.param[i].split(":")[0],sql.Date,date);    
                         }
