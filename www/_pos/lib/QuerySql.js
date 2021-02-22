@@ -688,7 +688,7 @@ var QuerySql =
                 "FROM CUSTOMERS " + 
                 "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                 "CUSTOMER_ADRESS.CUSTOMER = CUSTOMERS.[CODE]  AND CUSTOMER_ADRESS.[TYPE] = 0 " +
-                "WHERE ((CODE = @CODE) OR (@CODE = '')) AND (([NAME] = @NAME) OR (@NAME = ''))",
+                "WHERE ((CODE LIKE @CODE + '%') OR (@CODE = '')) AND (([NAME] = @NAME) OR (@NAME = ''))",
         param : ['CODE','NAME'],
         type : ['string|25','string|25'] 
     },
