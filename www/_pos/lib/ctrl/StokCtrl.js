@@ -334,7 +334,7 @@ function StokCtrl ($scope,$window,$location,db)
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
             value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
-
+console.log($scope.StokListesi.Tedarikci)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
