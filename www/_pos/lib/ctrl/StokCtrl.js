@@ -916,7 +916,14 @@ function StokCtrl ($scope,$window,$location,db)
         {
             Object.keys(pData[0]).forEach(function(item)
             {
-                TmpColumns.push({name : item,type: "text"});
+                if(item == "CODE")
+                {
+                    TmpColumns.push({name : item,type: "text",width:"20"});
+                }
+                else
+                {
+                    TmpColumns.push({name : item,type: "text"});
+                }
             });
         }
 
