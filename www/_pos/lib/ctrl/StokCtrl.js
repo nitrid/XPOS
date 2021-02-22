@@ -1471,7 +1471,7 @@ function StokCtrl ($scope,$window,$location,db)
                 }
 
                 // ALT BİRİM KAYIT İŞLEMİ
-                if($scope.StokListe[0].UNDER_UNIT_FACTOR > 0)
+                if(parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.')) > 0)
                 {
                     BirimKaydet(["1",$scope.StokListe[0].UNDER_UNIT_NAME,parseFloat($scope.StokListe[0].UNDER_UNIT_FACTOR.toString().replace(',','.'))]);
                 }
@@ -1602,8 +1602,16 @@ function StokCtrl ($scope,$window,$location,db)
 
         BirimKaydet();
     }
-    $scope.BtnBarkodKaydet = async function()
+    $scope.BtnBarkodKaydet = async function(keyEvent)
     {
+        if(typeof keyEvent != 'undefined')
+        {
+            if(keyEvent.which != 13)
+            {
+                return;
+            }
+        }
+
         $("#MdlBarkodEkle").modal('hide');
 
         if($scope.BarkodModal.Barkod == "")
@@ -1629,7 +1637,7 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Girimiş olduğunuz barkod sistemde kayıtlı !"));
             return;
         }
-        console.log($scope.BarkodModal.Barkod + ' 33333')
+        
         let InsertData =
         [
             $scope.Kullanici,
@@ -1984,6 +1992,7 @@ function StokCtrl ($scope,$window,$location,db)
         {
             BarkodModalInit();
             $("#MdlBarkodEkle").modal('show');
+            setTimeout(() => {$window.document.getElementById("TxtBarkod").focus();},500)
         }
         else
         {
