@@ -1424,7 +1424,11 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        console.log($scope.StokListe[0].ITEM_GRP);
+        if($scope.StokListe[0].ITEM_GRP != null)
+        {
+            console.log(11);
+        }
+        
         let InsertData =
         [
             $scope.Kullanici,
