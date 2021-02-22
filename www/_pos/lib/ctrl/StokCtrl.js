@@ -1432,7 +1432,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].CODE,
             $scope.StokListe[0].NAME,
             $scope.StokListe[0].SNAME,
-            $scope.StokListe[0].ITEM_GRP != '' ? $scope.StokListe[0].ITEM_GRP.split('/')[0] : '',
+            $scope.StokListe[0].ITEM_GRP != '' || $scope.StokListe[0].ITEM_GRP != null? $scope.StokListe[0].ITEM_GRP.split('/')[0] : '',
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
