@@ -1,3 +1,6 @@
+const { stat } = require("fs");
+const { type } = require("os");
+
 function StokCtrl ($scope,$window,$location,db)
 {
     let SecimSelectedRow = null;
@@ -334,7 +337,7 @@ function StokCtrl ($scope,$window,$location,db)
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
             value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
-console.log(TmpQuery)
+
         db.GetDataQuery(TmpQuery,function(Data)
         {
             console.log(Data)
@@ -1379,7 +1382,7 @@ console.log(TmpQuery)
     {
         window.location.href = "#!Stok";
     }
-    $scope.Kaydet = function()
+    $scope.Kaydet = function(pCallBack)
     {
         if($scope.StokListe[0].CODE == '')
         {
@@ -1451,14 +1454,11 @@ console.log(TmpQuery)
                 // ANA BİRİM KAYIT İŞLEMİ
                 if($scope.StokListe[0].MAIN_UNIT_FACTOR > 0)
                 {
-                    console.log($scope.StokListe[0].MAIN_UNIT_NAME)
                     let TmpVal = ["0",$scope.StokListe[0].MAIN_UNIT_NAME,parseFloat($scope.StokListe[0].MAIN_UNIT_FACTOR.toString().replace(',','.'))];
                     BirimKaydet(TmpVal,function(pGuid)
                     {
-                        console.log($scope.StokListe[0].BARCODE + ' 111');
                         if($scope.StokListe[0].BARCODE != '')
                         {
-                            console.log($scope.StokListe[0].BARCODE + ' 222');
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
                             $scope.BarkodModal.Tip = 0
@@ -1505,8 +1505,19 @@ console.log(TmpQuery)
                         }                        
                     }
                 }
-            }
 
+                if(typeof pCallBack != 'undefined')
+                {
+                    pCallBack(true);
+                }
+            }
+            else
+            {
+                if(typeof pCallBack != 'undefined')
+                {
+                    pCallBack(false);
+                }
+            }
             //window.location.href = "#!Stok?Id=" + $scope.StokListe[0].CODE;
         });
     }
@@ -2239,7 +2250,13 @@ console.log(TmpQuery)
             {
                 if(pData.length == 0)
                 {
-                    $scope.Kaydet();
+                    $scope.Kaydet((status => 
+                    {
+                        if(status)
+                        {
+                            StokGetir($scope.StokListe[0].CODE);
+                        }
+                    }));
                 }
             })
         }
