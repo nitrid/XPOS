@@ -1402,22 +1402,19 @@ function StokCtrl ($scope,$window,$location,db)
                 alertify.alert(db.Language($scope.Lang,"Tedarikçi bölümünü boş geçemezsiniz !"));
                 return;
             }
-
             if($scope.StokListe[0].ITEM_GRP == null)
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Ürün grubu bölümünü boş geçemezsiniz !"));
                 return;
             }
-
             if($scope.StokListe[0].VAT == "-")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Lütfen vergi dilimini seçiniz !"));
                 return;
             }
-            console.log($scope.StokListe[0].UNDER_UNIT_NAME)
-            if($scope.StokListe[0].UNDER_UNIT_NAME)
+            if($scope.StokListe[0].UNDER_UNIT_NAME == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Lütfen alt birimi seçiniz !"));
