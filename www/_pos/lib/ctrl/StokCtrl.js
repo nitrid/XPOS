@@ -337,6 +337,7 @@ function StokCtrl ($scope,$window,$location,db)
 console.log(TmpQuery)
         db.GetDataQuery(TmpQuery,function(Data)
         {
+            console.log(Data)
             $scope.StokListesi.Data = Data;
             TblStokListeInit();
         });
