@@ -1403,7 +1403,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
 
-            if($scope.StokListe[0].ITEM_GRP == "")
+            if($scope.StokListe[0].ITEM_GRP == null)
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Ürün grubu bölümünü boş geçemezsiniz !"));
@@ -1416,7 +1416,13 @@ function StokCtrl ($scope,$window,$location,db)
                 alertify.alert(db.Language($scope.Lang,"Lütfen vergi dilimini seçiniz !"));
                 return;
             }
-
+            console.log($scope.StokListe[0].UNDER_UNIT_NAME)
+            if($scope.StokListe[0].UNDER_UNIT_NAME)
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen alt birimi seçiniz !"));
+                return;
+            }
             if($scope.StokListe[0].UNDER_UNIT_FACTOR == 0)
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
@@ -1424,11 +1430,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        if($scope.StokListe[0].ITEM_GRP == null)
-        {
-            console.log(11);
-        }
-        
+
         let InsertData =
         [
             $scope.Kullanici,
