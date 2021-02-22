@@ -1267,7 +1267,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.SNAME = "";
         TmpStokObj.ITEM_GRP = "";
         TmpStokObj.TYPE = "0";
-        TmpStokObj.VAT = "0";
+        TmpStokObj.VAT = "5.5";
         TmpStokObj.STATUS = true;
         TmpStokObj.ORGINS = "";
         TmpStokObj.COST_PRICE = 0;
@@ -1360,18 +1360,20 @@ function StokCtrl ($scope,$window,$location,db)
             dataSource: [{CODE : "0",NAME : "0"},{CODE : "5.5",NAME : "5.5"},{CODE : "10",NAME : "10"},{CODE : "20",NAME : "20"}],
             displayExpr: "NAME",
             valueExpr: "CODE",
-            value: "0",
+            value: "5.5",
             showClearButton: true,
             bindingOptions: 
             {
                 value: "StokListe[0].VAT",
             },
             onSelectionChanged : function(e)
-            {
+            {                
                 if(e.selectedItem == null)
                 {
-                    $scope.StokListe[0].VAT = "0"
+                    $scope.StokListe[0].VAT = "5.5"
                 }
+
+                $scope.CmbVatBlur()
             }
         }
     }
