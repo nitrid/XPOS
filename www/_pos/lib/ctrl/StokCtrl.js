@@ -1424,7 +1424,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        if($scope.StokListe[0].ITEM_GRP != null)
+        if($scope.StokListe[0].ITEM_GRP == null)
         {
             console.log(11);
         }
