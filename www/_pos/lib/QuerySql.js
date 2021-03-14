@@ -657,6 +657,22 @@ var QuerySql =
                 ")",
         param : ['CUSER:string|25','LUSER:string|25','DATA:string|max','DESIGN:string|50','PRINT_COUNT:int','STATUS:int']
     },
+    CalintiKartKaydet : 
+    {
+        query : "INSERT INTO [dbo].STOLEN_TICKET ([Code], [Referance], [Random1], [Price], [Type], [Random2], [Year]) VALUES (@Code, @Referance, @Random1, @Price, @Type, @Random2, @Year)",
+        param : ['Code:string|45', 'Referance:string|45','Random1:string|45','Price:string|45','Type:string|45','Random2:string|45','Year:string|45']
+    },
+    CalintiKartKGetir :
+    {
+        query : "SELECT * FROM STOLEN_TICKET;" ,
+        param : []
+    },
+    CalintiKartSorgula : 
+    {
+        query : "SELECT * FROM [dbo].STOLEN_TICKET WHERE Referance=@Referance",
+        param : ['Referance'],
+        type : ['string|45'] 
+    },    
     //POS
     PosCariGetir:
     {
