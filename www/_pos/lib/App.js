@@ -45,6 +45,14 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/FiyatListeYonetimi.html"
     })
+    .when("/TopluTicketGiris",
+    {
+        templateUrl : "html/yonetim/TopluTicketGiris.html"
+    })
+    .when("/TopluTicketListesi",
+    {
+        templateUrl : "html/yonetim/TopluTicketListesi.html"
+    })
     .when("/PosSatisRapor",
     {
         templateUrl : "html/rapor/PosSatisRapor.html"
