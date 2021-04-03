@@ -26,6 +26,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusPluAdi = false;
     let FocusTeraziFiyat = false;
     let FocusRepasMiktar = false;
+    let FocusTicketBarkod = false;
     let FirstKey = false;
     let SonTahIndex = 0;
     let CariParam = "";
@@ -311,6 +312,26 @@ function Pos($scope,$window,$rootScope,db)
         FocusPluAdi = false;
         FocusRepasMiktar = false;
     });
+    $('#MdlTicketPay').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusStokGrup = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
+        FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
+        FocusIskontoYuzde = false;
+        FocusIskontoTutar = false;
+        FocusAvans = false;
+        FocusPluKodu = false;
+        FocusPluAdi = false;
+        FocusRepasMiktar = false;
+        FocusTicketBarkod = false;
+    });
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
@@ -423,6 +444,9 @@ function Pos($scope,$window,$rootScope,db)
         $scope.ToplamTicket = 0;
         $scope.SonTicket = 0;
         $scope.TxtRepasMiktar = 0;
+        $scope.TxtTicketBarkod = "";
+        $scope.TicketSonTutar = 0;
+        $scope.TicketTopTutar = 0;
 
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
@@ -460,6 +484,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonSatisDetayList = [];   
         $scope.SonSatisTahDetayList = [];         
         $scope.TRDetayListe = [];
+        $scope.TicketPayListe = [];
         
         $scope.ComPorts = {EkranPort : "",OdemePort:"",TeraziPort:""};
 
@@ -1046,6 +1071,35 @@ function Pos($scope,$window,$rootScope,db)
             ]
         });
     }
+    function InitTicketPay()
+    {
+        $("#TblTicketPay").jsGrid
+        ({
+            width: "100%",
+            height: "300px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.TicketPayListe,
+            fields: 
+            [
+                {
+                    name: "CODE",
+                    type: "string",
+                    align: "center",
+                    width: 300
+                    
+                },
+                {
+                    name: "AMOUNT",
+                    type: "decimal",
+                    align: "center",
+                    width: 100
+                    
+                }
+            ]
+        });
+    }
     function InsertSonYenile(pData)
     {    
         $scope.SatisList = pData;                          
@@ -1490,6 +1544,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $window.document.getElementById("TxtRepasMiktar").focus();
         }
+        else if(FocusTicketBarkod)
+        {
+            $window.document.getElementById("TxtTicketBarkod").focus();
+        }
     }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
     {
@@ -1630,6 +1688,7 @@ function Pos($scope,$window,$rootScope,db)
             InitSonSatisDetayGrid();
             InitSonSatisTahDetayGrid();
             InitTRDetayGrid();
+            InitTicketPay();
 
             $scope.ParamListe = await db.GetPromiseTag($scope.Firma,'ParamGetir',[$scope.CihazID]);
             $scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',[$scope.Kullanici]);
@@ -2305,6 +2364,116 @@ function Pos($scope,$window,$rootScope,db)
         if(keyEvent.which === 13)
         {
             $scope.PosTahInsert();   
+        }
+    }
+    $scope.TxtTicketBarkodPress = function(keyEvent)
+    {
+        if(keyEvent.which === 13)
+        {
+            //TICKET RESTORANT İÇİN YAPILDI
+            let TmpTicketBarkod = $scope.TxtTicketBarkod;
+            let TmpTicket = TmpTicketBarkod.substring(11,16)
+            let TmpYear = TmpTicketBarkod.substring(TmpTicketBarkod.length - 1, TmpTicketBarkod.length);
+            let TmpType = 0
+
+            if($scope.SatisList.length == 0)
+            {
+                alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+                $scope.TxtTicketBarkod = "";
+                return;
+            }
+            
+            if(TmpTicketBarkod.length == 22)
+            {
+                TmpTicket = TmpTicketBarkod.substring(9,14)
+            }                
+            else if(TmpTicketBarkod.length == 18)
+            {
+                TmpTicket = TmpTicketBarkod.substring(5,10)
+            }
+
+            if(TmpYear == "9")
+            {
+                TmpYear = -1
+            }
+
+            if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
+            {
+                alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                $scope.TxtTicketBarkod = "";
+                return;
+            }
+
+            if(parseFloat(TmpTicket / 100).toDigit2() > 21)
+            {
+                alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
+                $scope.TxtTicketBarkod = "";
+                return;
+            }
+            $scope.TahTip = 3;
+            
+            db.GetData($scope.Firma,'TicketControl',[TmpTicketBarkod],function(data)
+            {
+                if(data.length <= 0)
+                {
+                    db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
+                    {
+                        $scope.TahList = PosTahData;
+                        TahSonYenile(); 
+                        
+                        $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toDigit2();                                                                                    
+                        
+                        db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpTicketBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira,TmpType],function(InsertResult)
+                        {
+                            $scope.PosTahInsert(function()
+                            {   
+                                $scope.ToplamTicket += 1;
+                                $scope.SonTicket = parseFloat(TmpTicket / 100).toDigit2();
+                                DipToplamHesapla();
+                                $scope.TahTip = 0;
+
+                                let TmpQuery = 
+                                {
+                                    db : $scope.Firma,
+                                    query:  "SELECT CODE AS CODE, AMOUNT AS AMOUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC",
+                                    param:  ['REF','REF_NO'],
+                                    type:   ['string|25','int'],
+                                    value:  [$scope.Seri,$scope.Sira]
+                                }
+                                db.GetDataQuery(TmpQuery,function(pTicketData)
+                                {
+                                    if(pTicketData.length > 0)
+                                    {
+                                        $scope.TicketPayListe = pTicketData;
+                                        $scope.TicketSonTutar = $scope.TicketPayListe[0].AMOUNT;
+                                        $scope.TicketTopTutar = parseFloat(db.SumColumn($scope.TicketPayListe,"AMOUNT")).toDigit2()
+
+                                        $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
+                                    }
+                                });
+                            });
+                        })
+                        
+                    });
+                }
+                else
+                {
+                    if(data[0].CODE == '001')
+                    {
+                        alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                    }
+                    else
+                    {
+                        alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                    }
+                    
+                }
+
+            });
+
+            $scope.TxtTicketBarkod = "";
+            return;
+            //***************************** */
         }
     }
     $scope.TxtMiktarGuncellePress = function(keyEvent)
@@ -4350,5 +4519,37 @@ function Pos($scope,$window,$rootScope,db)
         {
             InsertSonYenile(pData)
         })
+    }
+    $scope.BtnTicketPay = function()
+    {
+        if($scope.SatisList.length == 0)
+        {
+            alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+            return;
+        }
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT CODE AS CODE, AMOUNT AS AMOUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC",
+            param:  ['REF','REF_NO'],
+            type:   ['string|25','int'],
+            value:  [$scope.Seri,$scope.Sira]
+        }
+        db.GetDataQuery(TmpQuery,function(pTicketData)
+        {
+            if(pTicketData.length > 0)
+            {
+                $scope.TicketPayListe = pTicketData;
+                $scope.TicketSonTutar = $scope.TicketPayListe[0].AMOUNT;
+                $scope.TicketTopTutar = parseFloat(db.SumColumn($scope.TicketPayListe,"AMOUNT")).toDigit2()
+                
+                $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
+            }
+
+            $("#MdlTicketPay").modal("show");
+            FocusTicketBarkod = true;
+            FocusBarkod = false;
+        });        
     }
 }

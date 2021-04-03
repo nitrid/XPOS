@@ -420,7 +420,7 @@
                                                 <!-- <button class="form-group btn btn-success btn-block my-1" style="height:70px;" ng-click="BtnXReport()">X Report</button> -->
                                             </div>
                                             <div class="col-2 px-1">
-                                                <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
+                                                <button class="form-group btn btn-info btn-block my-1" style="height:70px;" ng-click="BtnTicketPay()"><i class="icon fa-ticket" aria-hidden="true" style="font-size: 24px;"></i></button>
                                             </div>                   
                                             <div class="col-2 px-1">
                                                 <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
@@ -2921,6 +2921,49 @@
                             </div>
                         </div>      
                     </div>              
+                </div>
+                <!-- Ticket Pay Giriş -->
+                <div class="modal fade " id="MdlTicketPay" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-simple modal-center modal-primary modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                                <h4 class="modal-title" langu>Ticket Giriş</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="panel-body px-0 py-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group my-5">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control h-50" id="TxtTicketBarkod" ng-model="TxtTicketBarkod" 
+                                                    style="font-size: 20pt;font-weight: bold; border-width: 3px;border-color: #428bca;"
+                                                    ng-keypress="TxtTicketBarkodPress($event)">
+                                                </div>
+                                            </div>
+                                        </div>                                                     
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div id="TblTicketPay"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-primary text-center">{{(TicketSonTutar | number:2) + " €"}}</h3>                                
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-primary text-center">{{(TicketTopTutar | number:2) + " €"}}</h3>
+                                        </div>
+                                    </div>                                      
+                                </div> 
+                            </div>
+                        </div>                        
+                    </div>
                 </div>
             </div>
         </div>
