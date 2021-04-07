@@ -463,7 +463,7 @@ function StokCtrl ($scope,$window,$location,db)
             },
             editing: 
             {
-                mode: "batch",
+                mode: "cell",
                 allowUpdating: true,
                 allowDeleting: true
             },
