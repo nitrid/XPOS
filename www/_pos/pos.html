@@ -279,12 +279,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-2 px-1">
-                                                <button class="form-group btn btn-block btn-info my-1" ng-click="BtnMusteriListesi()" data-toggle="modal" style="height:70px;">
-                                                    <i class="icon fa-users" aria-hidden="true" style="font-size: 24px;"></i>
-                                                </button>
+                                                <button class="form-group btn btn-info btn-block my-1" style="height:70px;font-size: 15pt;" ng-click='BtnIskonto()'>%</button>
                                             </div> 
                                             <div class="col-2 px-1">
-                                                <button class="form-group btn btn-info btn-block my-1" style="height:70px;font-size: 15pt;" ng-click='BtnIskonto()'>%</button>
+                                                <button class="form-group btn btn-info btn-block my-1" style="height:70px;" ng-click="BtnTicketPay()"><i class="icon fa-ticket" aria-hidden="true" style="font-size: 24px;"></i></button>                                            
                                             </div> 
                                             <div class="col-2 px-1">
                                                 <button class="form-group btn btn-block btn-primary my-1" style="height:70px;font-size:10pt;" ng-click="BtnTusClick('1')">1</button>
@@ -420,7 +418,7 @@
                                                 <!-- <button class="form-group btn btn-success btn-block my-1" style="height:70px;" ng-click="BtnXReport()">X Report</button> -->
                                             </div>
                                             <div class="col-2 px-1">
-                                                <button class="form-group btn btn-info btn-block my-1" style="height:70px;" ng-click="BtnTicketPay()"><i class="icon fa-ticket" aria-hidden="true" style="font-size: 24px;"></i></button>
+                                                <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>                                                
                                             </div>                   
                                             <div class="col-2 px-1">
                                                 <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
@@ -483,12 +481,14 @@
                                                 <button ng-class="Class.BtnCariBarSec" style="height:70px;" ng-click="BtnCariBarSec()"><i class="icon fa-user-circle-o" aria-hidden="true" style="font-size: 24px;"></i></button>
                                             </div>
                                             <div class="col-2 px-1">
+                                                <button class="form-group btn btn-block btn-info my-1" ng-click="BtnMusteriListesi()" data-toggle="modal" style="height:70px;">
+                                                    <i class="icon fa-users" aria-hidden="true" style="font-size: 24px;"></i>
+                                                </button>                                                  
+                                            </div> 
+                                            <div class="col-2 px-1">
                                                 <button class="form-group btn btn-info btn-block my-1" style="height:70px;" ng-click="BtnSonSatis()">
                                                     <i class="icon fa-print" aria-hidden="true" style="font-size: 24px;"></i>
                                                 </button>
-                                            </div> 
-                                            <div class="col-2 px-1">
-                                                <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
                                             </div> 
                                             <div class="col-2 px-1">
                                                 <button class="form-group btn btn-default btn-block my-1" style="height:70px;"></button>
@@ -2952,12 +2952,17 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <h3 class="text-primary text-center">{{(TicketSonTutar | number:2) + " €"}}</h3>                                
+                                            <h3 class="text-primary text-center"><span style="color:dodgerblue;" langu>Son Okutulan :</span>{{(TicketSonTutar | number:2) + " €"}}</h3>                                
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <h3 class="text-primary text-center">{{(TicketTopTutar | number:2) + " €"}}</h3>
+                                            <h3 class="text-primary text-center"><span style="color:dodgerblue;" langu>Toplam Okutulan :</span>{{(TicketTopTutar | number:2) + " €"}}</h3>
+                                        </div>
+                                    </div>    
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-primary text-center"><span style="color:dodgerblue;" langu>Kalan Ödeme :</span>{{(ToplamKalan | number:2) + " €"}}</h3>
                                         </div>
                                     </div>                                      
                                 </div> 

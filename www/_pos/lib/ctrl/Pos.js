@@ -1963,34 +1963,37 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 else
                 {
-                    if(pBarkod.length == 22)
-                    {
-                        TmpTicket = pBarkod.substring(9,14)
-                    }                
-                    else if(pBarkod.length == 18)
-                    {
-                        TmpTicket = pBarkod.substring(5,10)
-                    }
+                    alertify.alert(db.Language($scope.Lang,"Bu barkod tipini bu bölümden okutamazsınız !"));
+                    $scope.TxtBarkod = "";
+                    return;
+                    // if(pBarkod.length == 22)
+                    // {
+                    //     TmpTicket = pBarkod.substring(9,14)
+                    // }                
+                    // else if(pBarkod.length == 18)
+                    // {
+                    //     TmpTicket = pBarkod.substring(5,10)
+                    // }
 
-                    if(TmpYear == "9")
-                    {
-                        TmpYear = -1
-                    }
+                    // if(TmpYear == "9")
+                    // {
+                    //     TmpYear = -1
+                    // }
 
-                    if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
-                    {
-                        alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
-                        $scope.TxtBarkod = "";
-                        return;
-                    }
+                    // if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
+                    // {
+                    //     alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                    //     $scope.TxtBarkod = "";
+                    //     return;
+                    // }
 
-                    if(parseFloat(TmpTicket / 100).toDigit2() > 21)
-                    {
-                        alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
-                        $scope.TxtBarkod = "";
-                        return;
-                    }
-                    $scope.TahTip = 3;
+                    // if(parseFloat(TmpTicket / 100).toDigit2() > 21)
+                    // {
+                    //     alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
+                    //     $scope.TxtBarkod = "";
+                    //     return;
+                    // }
+                    // $scope.TahTip = 3;
                 }
                 
                 db.GetData($scope.Firma,'TicketControl',[pBarkod],function(data)
@@ -4544,6 +4547,13 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.TicketSonTutar = $scope.TicketPayListe[0].AMOUNT;
                 $scope.TicketTopTutar = parseFloat(db.SumColumn($scope.TicketPayListe,"AMOUNT")).toDigit2()
                 
+                $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
+            }
+            else
+            {
+                $scope.TicketPayListe = [];
+                $scope.TicketSonTutar = 0;
+                $scope.TicketTopTutar = 0;
                 $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
             }
 

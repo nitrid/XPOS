@@ -417,8 +417,10 @@ var lang =
             "AMOUNT" : "Total",
             "İşlemler" : "Paramètres",
             "Dil Seçimi" : "Choix Langue",
-
-    
+            "Son Okutulan :" : "Dernier Ticket :",
+            "Toplam Okutulan :" : "Total Ticket :",
+            "Kalan Ödeme :" : "Reste à Payer :",
+            "Bu barkod tipini bu bölümden okutamazsınız !" : "Veuillez Saisir le Reglememt au Menu Ticket Resto !"
         }
     }
 }
