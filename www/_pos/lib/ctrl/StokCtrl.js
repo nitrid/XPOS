@@ -1053,7 +1053,6 @@ function StokCtrl ($scope,$window,$location,db)
 
                 $scope.StokListe = [];
                 $scope.StokListe = StokData;
-
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[pKodu],function(FiyatData)
                 {
@@ -1184,6 +1183,13 @@ function StokCtrl ($scope,$window,$location,db)
         render.append($('<img />').attr('src', pSrc).css('max-height', input.data('height') || ''));
         preview.fadeIn();
     }
+    function MenseiGetir()
+    {
+        db.GetData($scope.Firma,'MenseiGetir',['FR',''],function(pData)
+        {
+            $scope.MenseiListe = pData;
+        });
+    }
     $scope.Init = function()
     {
         StokListePage = false;
@@ -1191,7 +1197,6 @@ function StokCtrl ($scope,$window,$location,db)
         
         if(typeof $location.$$search.mode == 'undefined')
         {
-            console.log(1)
             $("#TbMain").removeClass('active');  
             $("#TbDetay").addClass('active');
         }
@@ -1275,6 +1280,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.BarkodListe = [];
         $scope.TedaikciListe = [];
         $scope.TedaikciListe = [];
+        $scope.MenseiListe = [];
 
         TblFiyatInit();
         TblBirimInit();
@@ -1314,6 +1320,8 @@ function StokCtrl ($scope,$window,$location,db)
         UrunGrupModalInit();
 
         $('.dropify').dropify()
+
+        MenseiGetir();
 
         $scope.Cmb = {};
         $scope.Cmb.AnaBirim = 
@@ -1358,7 +1366,6 @@ function StokCtrl ($scope,$window,$location,db)
                 }
             }
         }
-
         $scope.Cmb.Cins = 
         {
             width: "100%",
@@ -1401,6 +1408,28 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.CmbVatBlur()
             }
         }
+        $scope.Cmb.Mensei = 
+        {
+            width: "100%",
+            dataSource: $scope.MenseiListe,
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: "StokListe[0].ORGINS",
+                dataSource : "MenseiListe"
+            },
+            onSelectionChanged : function(e)
+            {                
+                if(e.selectedItem == null)
+                {
+                    $scope.StokListe[0].ORGINS = ""
+                }
+            }
+        }
     }
     $scope.Yeni = function()
     {
@@ -1435,7 +1464,7 @@ function StokCtrl ($scope,$window,$location,db)
                 alertify.alert(db.Language($scope.Lang,"Ürün grubu bölümünü boş geçemezsiniz !"));
                 return;
             }
-            console.log($scope.StokListe[0].VAT)
+            
             if($scope.StokListe[0].VAT == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
@@ -1455,7 +1484,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-
+        console.log($scope.StokListe[0].ORGINS)
         let InsertData =
         [
             $scope.Kullanici,

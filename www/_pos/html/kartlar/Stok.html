@@ -283,12 +283,6 @@
                                     </label>
                                     <div class="col-md-9">
                                         <div dx-select-box="Cmb.Vergi"></div>
-                                        <!-- <select class="form-control" ng-model="StokListe[0].VAT" ng-blur="CmbVatBlur()">
-                                            <option value="0">0</option>
-                                            <option value="5.5">5.5</option>
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                        </select> -->
                                     </div>
                                 </div>   
                                 <div class="form-group row" ng-style="StyleAll">
@@ -296,8 +290,9 @@
                                         <div class="float-right" langu>Menşei :</div>
                                     </label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="name" autocomplete="off"
-                                            ng-model="StokListe[0].ORGINS" maxlength="25" />
+                                        <div dx-select-box="Cmb.Mensei"></div>
+                                        <!-- <input type="text" class="form-control" name="name" autocomplete="off"
+                                            ng-model="StokListe[0].ORGINS" maxlength="25" /> -->
                                     </div>
                                 </div>                        
                                 <div class="form-group row" ng-style="StyleAll">

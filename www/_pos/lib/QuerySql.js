@@ -672,6 +672,12 @@ var QuerySql =
         query : "SELECT * FROM [dbo].STOLEN_TICKET WHERE Referance=@Referance",
         param : ['Referance'],
         type : ['string|45'] 
+    }, 
+    MenseiGetir : 
+    {
+        query : "SELECT * FROM [dbo].[COUNTRY] WHERE LANG = @LANG AND ((CODE = @CODE) OR (@CODE = '')) ORDER BY CODE ASC",
+        param : ['LANG','CODE'],
+        type : ['string|10','string|10'] 
     },    
     //POS
     PosCariGetir:
