@@ -236,6 +236,11 @@ var QuerySql =
         query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY,START_DATE = @START_DATE,FINISH_DATE = @FINISH_DATE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
         param : ['PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
     },
+    FiyatKontrol :
+    {
+        query : "SELECT * FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = @TYPE AND DEPOT = @DEPOT AND QUANTITY = @QUANTITY",
+        param : ['PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
+    },
     BirimKaydet : 
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +

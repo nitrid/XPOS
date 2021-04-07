@@ -447,7 +447,7 @@ function StokCtrl ($scope,$window,$location,db)
     //#endregion    
     function TblFiyatInit()
     {
-        $("#TblFiyat").dxDataGrid(
+        let Grd = $("#TblFiyat").dxDataGrid(
         {
             dataSource: $scope.FiyatListe,
             allowColumnReordering: true,
@@ -463,9 +463,10 @@ function StokCtrl ($scope,$window,$location,db)
             },
             editing: 
             {
-                mode: "cell",
+                mode: "batch",
                 allowUpdating: true,
-                allowDeleting: true
+                allowDeleting: true,
+                allowAdding: true
             },
             columns: 
             [
@@ -603,8 +604,32 @@ function StokCtrl ($scope,$window,$location,db)
                         $scope.CmbAltBirimChange();
                     });
                 });
-            }
-        })
+            },
+            onInitNewRow: function(e) 
+            {
+                e.data.TYPENAME = 'Standart'
+                e.data.DEPOT = 0
+                e.data.START_DATE = moment(new Date(0)).format("DD.MM.YYYY") 
+                e.data.FINISH_DATE = moment(new Date(0)).format("DD.MM.YYYY") 
+                e.data.QUANTITY = 0
+                e.data.PRICE = 0
+                e.data.CUSTOMER = ""
+            },
+            onRowInserted: function(e) 
+            {
+                $scope.FiyatModal = {};
+                $scope.FiyatModal.Tip = "0";
+                $scope.FiyatModal.StokKodu = $scope.StokListe[0].CODE;
+                $scope.FiyatModal.Depo = e.data.DEPOT;
+                $scope.FiyatModal.Baslangic = e.data.START_DATE
+                $scope.FiyatModal.Bitis = e.data.FINISH_DATE
+                $scope.FiyatModal.Fiyat = e.data.PRICE;
+                $scope.FiyatModal.Miktar = e.data.QUANTITY;
+                $scope.FiyatModal.Cari = e.data.CUSTOMER;
+
+                $scope.BtnFiyatKaydet();
+            },
+        }).dxDataGrid("instance");
     }
     function TblBirimInit()
     {
@@ -999,7 +1024,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.FiyatModal.Bitis = moment(new Date()).format("DD.MM.YYYY");
         $scope.FiyatModal.Fiyat = 0;
         $scope.FiyatModal.Miktar = 0;
-        $scope.FiyatModal.Cari = "";
+        $scope.FiyatModal.Cari = "";        
     }
     function BirimModalInit()
     {
@@ -2342,11 +2367,6 @@ function StokCtrl ($scope,$window,$location,db)
                 StokGetir($scope.StokListe[0].CODE);
             }
         }));
-    }
-    $scope.BtnYeniStandartFiyat = function()
-    {
-        FiyatModalInit();
-        $scope.BtnFiyatKaydet();
     }
     $scope.TxtBarkodBlur = async function()
     {
