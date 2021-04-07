@@ -1192,7 +1192,8 @@ function StokCtrl ($scope,$window,$location,db)
         });
     }
     $scope.Init = function()
-    {
+    {        
+        DevExpress.localization.locale('fr');
         StokListePage = false;
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         
