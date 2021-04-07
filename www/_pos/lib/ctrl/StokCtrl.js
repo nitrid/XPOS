@@ -1069,6 +1069,7 @@ function StokCtrl ($scope,$window,$location,db)
                     }
                     if($scope.FiyatListe.length > 0)
                     {
+                        console.log($scope.AltBirimFiyati)
                         $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
                     }
                 });
@@ -1484,7 +1485,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        console.log($scope.StokListe[0].ORGINS)
+        
         let InsertData =
         [
             $scope.Kullanici,
@@ -2330,6 +2331,16 @@ function StokCtrl ($scope,$window,$location,db)
                 }
             })
         }
+    }
+    $scope.BtnKaydet = function()
+    {
+        $scope.Kaydet((status => 
+        {
+            if(status)
+            {
+                StokGetir($scope.StokListe[0].CODE);
+            }
+        }));
     }
     $scope.TxtBarkodBlur = async function()
     {

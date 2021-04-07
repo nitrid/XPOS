@@ -109,7 +109,7 @@
                             <i class="icon fa-file-o" aria-hidden="true"></i>
                         </button>
                         <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
-                            ng-click="Kaydet()">
+                            ng-click="BtnKaydet()">
                             <i class="icon fa-save" aria-hidden="true"></i>
                         </button>
                         <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
@@ -193,9 +193,6 @@
                                     <div class="col-md-7">
                                         <div class="input-group">
                                             <div dx-select-box="Cmb.AnaBirim"></div>
-                                            <!-- <select class="form-control" ng-model="StokListe[0].MAIN_UNIT_NAME" ng-change="CmbAnaBirimChange()">
-                                                <option ng-repeat="option in Birim" value="{{option.Kodu}}" >{{option.Kodu + '/' + option.Symbol}}</option>                                
-                                            </select>   -->
                                             <input type="text" class="form-control" id="TxtAnaBirim" autocomplete="off" ng-model="StokListe[0].MAIN_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                                         </div>
                                     </div>
@@ -207,9 +204,6 @@
                                     <div class="col-md-7">
                                         <div class="input-group">
                                             <div dx-select-box="Cmb.AltBirim"></div>
-                                            <!-- <select class="form-control" id="CmbAltBirim" ng-model="StokListe[0].UNDER_UNIT_NAME" ng-change="CmbAltBirimChange()">
-                                                <option ng-repeat="option in Birim" value="{{option.Kodu}}">{{option.Kodu + '/' + option.Symbol}}</option>                                
-                                            </select>   -->
                                             <input type="text" class="form-control" id="TxtAltBirim" autocomplete="off" ng-model="StokListe[0].UNDER_UNIT_FACTOR" onClick="this.setSelectionRange(0, this.value.length)" />
                                         </div>                            
                                     </div>
@@ -291,8 +285,6 @@
                                     </label>
                                     <div class="col-md-9">
                                         <div dx-select-box="Cmb.Mensei"></div>
-                                        <!-- <input type="text" class="form-control" name="name" autocomplete="off"
-                                            ng-model="StokListe[0].ORGINS" maxlength="25" /> -->
                                     </div>
                                 </div>                        
                                 <div class="form-group row" ng-style="StyleAll">
