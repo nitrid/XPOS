@@ -2342,6 +2342,11 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }));
     }
+    $scope.BtnYeniStandartFiyat = function()
+    {
+        FiyatModalInit();
+        $scope.BtnFiyatKaydet();
+    }
     $scope.TxtBarkodBlur = async function()
     {
         if($scope.StokListe[0].BARCODE != '')
