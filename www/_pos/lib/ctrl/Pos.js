@@ -2373,110 +2373,119 @@ function Pos($scope,$window,$rootScope,db)
     {
         if(keyEvent.which === 13)
         {
-            //TICKET RESTORANT İÇİN YAPILDI
-            let TmpTicketBarkod = $scope.TxtTicketBarkod;
-            let TmpTicket = TmpTicketBarkod.substring(11,16)
-            let TmpYear = TmpTicketBarkod.substring(TmpTicketBarkod.length - 1, TmpTicketBarkod.length);
-            let TmpType = 0
+            if($scope.TxtTicketBarkod.length >= 16 && $scope.TxtTicketBarkod.length <= 24)
+            {
+                //TICKET RESTORANT İÇİN YAPILDI
+                let TmpTicketBarkod = $scope.TxtTicketBarkod;
+                let TmpTicket = TmpTicketBarkod.substring(11,16)
+                let TmpYear = TmpTicketBarkod.substring(TmpTicketBarkod.length - 1, TmpTicketBarkod.length);
+                let TmpType = 0
 
-            if($scope.SatisList.length == 0)
-            {
-                alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
-                $scope.TxtTicketBarkod = "";
-                return;
-            }
-            
-            if(TmpTicketBarkod.length == 22)
-            {
-                TmpTicket = TmpTicketBarkod.substring(9,14)
-            }                
-            else if(TmpTicketBarkod.length == 18)
-            {
-                TmpTicket = TmpTicketBarkod.substring(5,10)
-            }
-
-            if(TmpYear == "9")
-            {
-                TmpYear = -1
-            }
-
-            if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
-            {
-                alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
-                $scope.TxtTicketBarkod = "";
-                return;
-            }
-
-            if(parseFloat(TmpTicket / 100).toDigit2() > 21)
-            {
-                alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
-                $scope.TxtTicketBarkod = "";
-                return;
-            }
-            $scope.TahTip = 3;
-            
-            db.GetData($scope.Firma,'TicketControl',[TmpTicketBarkod],function(data)
-            {
-                if(data.length <= 0)
+                if($scope.SatisList.length == 0)
                 {
-                    db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
-                    {
-                        $scope.TahList = PosTahData;
-                        TahSonYenile(); 
-                        
-                        $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toDigit2();                                                                                    
-                        
-                        db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpTicketBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira,TmpType],function(InsertResult)
-                        {
-                            $scope.PosTahInsert(function()
-                            {   
-                                $scope.ToplamTicket += 1;
-                                $scope.SonTicket = parseFloat(TmpTicket / 100).toDigit2();
-                                DipToplamHesapla();
-                                $scope.TahTip = 0;
-
-                                let TmpQuery = 
-                                {
-                                    db : $scope.Firma,
-                                    query:  "SELECT CODE AS CODE, AMOUNT AS AMOUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC",
-                                    param:  ['REF','REF_NO'],
-                                    type:   ['string|25','int'],
-                                    value:  [$scope.Seri,$scope.Sira]
-                                }
-                                db.GetDataQuery(TmpQuery,function(pTicketData)
-                                {
-                                    if(pTicketData.length > 0)
-                                    {
-                                        $scope.TicketPayListe = pTicketData;
-                                        $scope.TicketSonTutar = $scope.TicketPayListe[0].AMOUNT;
-                                        $scope.TicketTopTutar = parseFloat(db.SumColumn($scope.TicketPayListe,"AMOUNT")).toDigit2()
-
-                                        $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
-                                    }
-                                });
-                            });
-                        })
-                        
-                    });
+                    alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+                    $scope.TxtTicketBarkod = "";
+                    return;
                 }
-                else
+                
+                if(TmpTicketBarkod.length == 22)
                 {
-                    if(data[0].CODE == '001')
+                    TmpTicket = TmpTicketBarkod.substring(9,14)
+                }                
+                else if(TmpTicketBarkod.length == 18)
+                {
+                    TmpTicket = TmpTicketBarkod.substring(5,10)
+                }
+
+                if(TmpYear == "9")
+                {
+                    TmpYear = -1
+                }
+
+                if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
+                {
+                    alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                    $scope.TxtTicketBarkod = "";
+                    return;
+                }
+
+                if(parseFloat(TmpTicket / 100).toDigit2() > 21)
+                {
+                    alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
+                    $scope.TxtTicketBarkod = "";
+                    return;
+                }
+                $scope.TahTip = 3;
+                
+                db.GetData($scope.Firma,'TicketControl',[TmpTicketBarkod],function(data)
+                {
+                    if(data.length <= 0)
                     {
-                        alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                        db.GetData($scope.Firma,'PosTahGetir',[$scope.Sube,0,$scope.Seri,$scope.Sira],function(PosTahData)
+                        {
+                            $scope.TahList = PosTahData;
+                            TahSonYenile(); 
+                            
+                            $scope.TxtAraToplamTutar = parseFloat(TmpTicket / 100).toDigit2();                                                                                    
+                            
+                            db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpTicketBarkod,$scope.TxtAraToplamTutar,$scope.Seri,$scope.Sira,TmpType],function(InsertResult)
+                            {
+                                $scope.PosTahInsert(function()
+                                {   
+                                    $scope.ToplamTicket += 1;
+                                    $scope.SonTicket = parseFloat(TmpTicket / 100).toDigit2();
+                                    DipToplamHesapla();
+                                    $scope.TahTip = 0;
+
+                                    let TmpQuery = 
+                                    {
+                                        db : $scope.Firma,
+                                        query:  "SELECT CODE AS CODE, AMOUNT AS AMOUNT FROM TICKET WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY LDATE DESC",
+                                        param:  ['REF','REF_NO'],
+                                        type:   ['string|25','int'],
+                                        value:  [$scope.Seri,$scope.Sira]
+                                    }
+                                    db.GetDataQuery(TmpQuery,function(pTicketData)
+                                    {
+                                        if(pTicketData.length > 0)
+                                        {
+                                            $scope.TicketPayListe = pTicketData;
+                                            $scope.TicketSonTutar = $scope.TicketPayListe[0].AMOUNT;
+                                            $scope.TicketTopTutar = parseFloat(db.SumColumn($scope.TicketPayListe,"AMOUNT")).toDigit2()
+
+                                            $("#TblTicketPay").jsGrid({data : $scope.TicketPayListe});
+                                        }
+                                    });
+                                });
+                            })
+                            
+                        });
                     }
                     else
                     {
-                        alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                        if(data[0].CODE == '001')
+                        {
+                            alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                        }
+                        else
+                        {
+                            alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                        }
+                        
                     }
-                    
-                }
 
-            });
+                });
 
-            $scope.TxtTicketBarkod = "";
-            return;
-            //***************************** */
+                $scope.TxtTicketBarkod = "";
+                return;
+                //***************************** */
+            }
+            else
+            {
+                $scope.TxtTicketBarkod = "";
+                alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                return;
+            }
         }
     }
     $scope.TxtMiktarGuncellePress = function(keyEvent)
