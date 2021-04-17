@@ -1321,14 +1321,14 @@ function Pos($scope,$window,$rootScope,db)
                     try
                     {
                         //EĞER TAHSİLAT İÇERİSİNDE NAKİT VARSA KASAYI AÇ YOKSA KASAYI AÇMA
-                        for(let item of $scope.TahList)
-                        {
-                            if(item.TYPE == 0)
-                            {
-                                db.EscposCaseOpen();
-                                break;    
-                            }
-                        }
+                        // for(let item of $scope.TahList)
+                        // {
+                        //     if(item.TYPE == 0)
+                        //     {
+                        //         db.EscposCaseOpen();
+                        //         break;    
+                        //     }
+                        // }
 
                         let ParamData = 
                         [
@@ -3502,6 +3502,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnNakitOdemeOnay = function(pMoney)
     {
+        db.EscposCaseOpen();
+        
         if(typeof pMoney != 'undefined')
         {
             $scope.TxtAraToplamTutar = pMoney
