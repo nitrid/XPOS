@@ -1186,7 +1186,7 @@ var QuerySql =
         query:  "SELECT " +
                 "GUID AS GUID, " +
                 "TYPE AS TYPENO, " + 
-                "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' WHEN TYPE = 4 THEN 'BON D'AVOIR' END AS TYPE, " +
+                "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' WHEN TYPE = 4 THEN 'BON D AVOIR' END AS TYPE, " +
                 "AMOUNT AS AMOUNT, " +
                 "CHANGE AS CHANGE " +
                 "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND STATUS = 1 " ,
