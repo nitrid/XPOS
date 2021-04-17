@@ -3503,7 +3503,7 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnNakitOdemeOnay = function(pMoney)
     {
         db.EscposCaseOpen();
-        
+
         if(typeof pMoney != 'undefined')
         {
             $scope.TxtAraToplamTutar = pMoney
@@ -3522,6 +3522,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TahTip == 0)
         {
+            db.EscposCaseOpen();
             $scope.TxtAraToplamTutar = pTutar;
             $scope.PosTahInsert();
         }
