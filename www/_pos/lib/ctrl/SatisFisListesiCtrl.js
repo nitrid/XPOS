@@ -219,6 +219,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
                 type: "number",
                 align: "center",
                 width: 60
+            },
+            {
+                name: "PAYMENT",
+                title: "PAYMENT",
+                type: "number",
+                align: "center",
+                width: 60
             }],
             rowClick: function(args)
             {
@@ -471,7 +478,8 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(LOYALTY) AS LOYALTY, " +
                     "MAX(HT) AS HT, " +
                     "MAX(TVA) AS TVA, " +
-                    "MAX(TTC) AS TTC " +
+                    "MAX(TTC) AS TTC, " +
+                    "MAX(PAYMENT) AS PAYMENT " +
                     "FROM ( " +
                     "SELECT " +
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),101) AS DATE, " + 
@@ -487,7 +495,8 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "ROUND(SUM(SALE.LOYALTY_AMOUNT),2) LOYALTY, " +
                     "ROUND(SUM(SALE.HT),2) AS HT, " +
                     "ROUND(SUM(SALE.TVA),2) AS TVA, " +
-                    "ROUND(SUM(SALE.TTC),2) AS TTC " +
+                    "ROUND(SUM(SALE.TTC),2) AS TTC, " +
+                    "ROUND((SELECT SUM(AMOUNT) FROM POS_PAYMENT AS PAY WHERE PAY.REF = SALE.REF AND PAY.REF_NO = SALE.REF_NO AND PAY.DOC_TYPE = SALE.TYPE AND PAY.STATUS = 1 ) ,2) AS PAYMENT " +
                     "FROM POS_SALES_VW_01 AS SALE " +
                     "INNER JOIN POS_PAYMENT AS PAYMENT ON " +
                     "PAYMENT.REF = SALE.REF AND PAYMENT.REF_NO = SALE.REF_NO AND PAYMENT.DOC_TYPE = SALE.TYPE AND PAYMENT.STATUS = 1 " +
@@ -520,7 +529,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         
         let TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.SatisFisListesi = TmpData;
-
+console.log(TmpData)
         InitSatisFisListesiGrid();
     }
     $scope.BtnTahTip = function(pTip)
