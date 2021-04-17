@@ -529,7 +529,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         
         let TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.SatisFisListesi = TmpData;
-console.log(TmpData)
+
         InitSatisFisListesiGrid();
     }
     $scope.BtnTahTip = function(pTip)

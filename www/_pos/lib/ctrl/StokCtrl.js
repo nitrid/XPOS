@@ -1470,7 +1470,8 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Kodu bölümünü boş geçemezsiniz !"));
             return;
         }
-        if($scope.StokListe[0].ITEM_GRP == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
+        
+        if($scope.StokListe[0].ITEM_GRP.split('/')[0] == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
             alertify.alert(db.Language($scope.Lang,"Menşei bölümünü boş geçemezsiniz !"));
