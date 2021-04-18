@@ -69,13 +69,6 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     width: 120
                 },
                 {
-                    name: "PASSWORD",
-                    title: db.Language($scope.Lang,"ŞİFRE"),
-                    type: "text",
-                    align: "center",
-                    width: 100
-                }, 
-                {
                     name: "YETKI",
                     title: db.Language($scope.Lang,"TAG"),
                     type: "text",
