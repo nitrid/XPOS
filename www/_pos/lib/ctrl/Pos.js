@@ -857,6 +857,13 @@ function Pos($scope,$window,$rootScope,db)
                 type: "decimal",
                 align: "center",
                 width: 60
+            },
+            {
+                name: "DESCRIPTION",
+                title: db.Language($scope.Lang,"ACIKLAMA"),
+                type: "text",
+                align: "center",
+                width: 200
             }],
             rowClick: function(args)
             {
