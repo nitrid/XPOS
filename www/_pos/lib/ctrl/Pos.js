@@ -3045,10 +3045,13 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnParkaAl = function()
     {
-        $scope.TxtParkAciklama = "";
-        $('#MdlParkAciklama').modal({backdrop: 'static'});
-        FocusParkAciklama = true;
-        FocusBarkod = false;
+        if($scope.SatisList.length > 0)
+        {
+            $scope.TxtParkAciklama = "";
+            $('#MdlParkAciklama').modal({backdrop: 'static'});
+            FocusParkAciklama = true;
+            FocusBarkod = false;
+        }
     }
     $scope.BtnParkAciklamaKaydet = function()
     {
