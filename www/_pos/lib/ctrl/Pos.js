@@ -3052,7 +3052,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnParkAciklamaKaydet = function()
     {
-        if($scope.TxtParkAciklama)
+        if($scope.TxtParkAciklama == "")
         {
             alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
             return;
