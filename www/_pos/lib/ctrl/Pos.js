@@ -3054,6 +3054,11 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnParkAciklamaKaydet = function()
     {
+        if($scope.TxtParkAciklama.length < 25)
+        {
+            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
+            return;
+        }
         if($scope.TxtParkAciklama == "")
         {
             alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))

@@ -424,7 +424,8 @@ var lang =
             "MÜŞTERİ" : "Client",
             "Park Açıklaması" : "Park Açıklaması",
             "Lütfen Açıklama Giriniz" : "Lütfen Açıklama Giriniz",
-            "Açıklama alanını boş geçemezsiniz !" : "Açıklama alanını boş geçemezsiniz !"
+            "Açıklama alanını boş geçemezsiniz !" : "Açıklama alanını boş geçemezsiniz !",
+            "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."
         }
     }
 }
