@@ -1822,7 +1822,10 @@ function Pos($scope,$window,$rootScope,db)
                     if($scope.ParkList[i].DESCRIPTION == '')
                     {
                         ParkIndex = i;
-                        $scope.BtnParkaAl();
+                        $scope.TxtParkAciklama = "";
+                        $('#MdlParkAciklama').modal({backdrop: 'static'});
+                        FocusParkAciklama = true;
+                        FocusBarkod = false;
                         return;
                     }
                 }
