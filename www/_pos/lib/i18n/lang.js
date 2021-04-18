@@ -421,7 +421,10 @@ var lang =
             "Toplam Okutulan :" : "Total Ticket :",
             "Kalan Ödeme :" : "Reste à Payer :",
             "Bu barkod tipini bu bölümden okutamazsınız !" : "Veuillez Saisir le Reglememt au Menu Ticket Resto !",
-            "MÜŞTERİ" : "Client"
+            "MÜŞTERİ" : "Client",
+            "Park Açıklaması" : "Park Açıklaması",
+            "Lütfen Açıklama Giriniz" : "Lütfen Açıklama Giriniz",
+            "Açıklama alanını boş geçemezsiniz !" : "Açıklama alanını boş geçemezsiniz !"
         }
     }
 }
