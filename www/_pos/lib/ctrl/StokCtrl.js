@@ -587,10 +587,10 @@ function StokCtrl ($scope,$window,$location,db)
                     db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                     {
                         $scope.FiyatListe = FiyatData;
-                        $scope.CmbAltBirimChange();
-                        $scope.Kaydet();
+                        $scope.CmbAltBirimChange();                        
 
                         TblFiyatInit();
+                        $scope.Kaydet();
                     });
                 });
             },
