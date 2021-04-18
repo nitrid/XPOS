@@ -807,7 +807,8 @@ var QuerySql =
     },
     PosSatisParkListe:
     {
-        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], ROUND(SUM([PRICE] * [QUANTITY]),2) AS [AMOUNT],MAX(CONVERT(varchar(10),DOC_DATE, 121)) AS [DATE] " +
+        query:"SELECT MAX([LUSER]) AS [LUSER], [REF] AS [REF],[REF_NO] AS [REF_NO], ROUND(SUM([PRICE] * [QUANTITY]),2) AS [AMOUNT],MAX(CONVERT(varchar(10),DOC_DATE, 121)) AS [DATE], " +
+              "ISNULL((SELECT TOP 1 DESCRIPTION FROM PARK_DESCRIPTION AS DES WHERE DES.REF = POS_SALES.REF AND DES.REF_NO = POS_SALES.REF_NO),'') AS DESCRIPTION " +
               "FROM POS_SALES WHERE [DEPARTMENT] = @DEPARTMENT AND [TYPE] = @TYPE AND [LUSER] = @LUSER AND STATUS = @STATUS GROUP BY REF,REF_NO",
         param: ['DEPARTMENT','TYPE','LUSER','STATUS'],
         type:  ['int','int','string|25','int']  
@@ -1334,6 +1335,27 @@ var QuerySql =
                 "@DEVICE AS DEVICE ",
         param : ['DEVICE:string|25']
         
+    },
+    ParkAciklamaInsert :
+    {
+        query : "INSERT INTO [dbo].[PARK_DESCRIPTION] ( " +
+                " [CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[REF] " +
+                ",[REF_NO] " +
+                ",[DESCRIPTION] " +
+                ") VALUES ( " +
+                " @CUSER            --<CUSER, nvarchar(25),> \n" + 
+                ",GETDATE()         --<CDATE, datetime,> \n" + 
+                ",@LUSER            --<LUSER, nvarchar(25),> \n" + 
+                ",GETDATE()         --<LDATE, datetime,> \n" + 
+                ",@REF              --<REF, nvarchar(25),> \n" + 
+                ",@REF_NO           --<REF_NO, int,> \n" + 
+                ",@DESCRIPTION      --<DESCRIPTION, nvarchar(500),> \n" + 
+                ")",
+        param : ['CUSER:string|25','LUSER:string|25','REF:string|25','REF_NO:int','DESCRIPTION:string|500']
     },
     //KULLANICI PARAMETRE
     KullaniciGetir :

@@ -27,13 +27,15 @@ function Pos($scope,$window,$rootScope,db)
     let FocusTeraziFiyat = false;
     let FocusRepasMiktar = false;
     let FocusTicketBarkod = false;
+    let FocusParkAciklama = false;
     let FirstKey = false;
     let SonTahIndex = 0;
     let CariParam = "";
     let IskontoTip = "";
     let UrunListeTip = "StokAra";
     let PluTip = 0;
-    
+    let ParkIndex = 0;
+
     $scope.ModalMsg = {};
     
     $('#MdlAraToplam').on('hide.bs.modal', function () 
@@ -332,6 +334,27 @@ function Pos($scope,$window,$rootScope,db)
         FocusRepasMiktar = false;
         FocusTicketBarkod = false;
     });
+    $('#MdlParkAciklama').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusAraToplam = false;
+        FocusMusteri = false;
+        FocusStok = false;
+        FocusStokGrup = false;
+        FocusMiktarGuncelle = false;
+        FocusFiyatGuncelle = false;
+        FocusSonTahGuncelle = false;
+        FocusKartOdeme = false;
+        FocusSadakatIndirim = false;
+        FocusIskontoYuzde = false;
+        FocusIskontoTutar = false;
+        FocusAvans = false;
+        FocusPluKodu = false;
+        FocusPluAdi = false;
+        FocusRepasMiktar = false;
+        FocusTicketBarkod = false;
+        FocusParkAciklama = false;
+    });
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
@@ -447,6 +470,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtTicketBarkod = "";
         $scope.TicketSonTutar = 0;
         $scope.TicketTopTutar = 0;
+        $scope.TxtParkAciklama = "";
 
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
@@ -1548,6 +1572,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $window.document.getElementById("TxtTicketBarkod").focus();
         }
+        else if(FocusParkAciklama)
+        {
+            $window.document.getElementById("TxtParkAciklama").focus();
+        }
     }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
     {
@@ -1779,7 +1807,17 @@ function Pos($scope,$window,$rootScope,db)
             {   
                 $scope.ParkList = ParkData;
                 $scope.ParkIslemSayisi = $scope.ParkList.length;
-                $("#TblParkIslem").jsGrid({data : $scope.ParkList}); 
+                $("#TblParkIslem").jsGrid({data : $scope.ParkList});
+                
+                for (let i = 0; i < $scope.ParkList.length; i++) 
+                {
+                    if($scope.ParkList[i].DESCRIPTION == '')
+                    {
+                        ParkIndex = i;
+                        $scope.BtnParkaAl();
+                        return;
+                    }
+                }
             });
             
             await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
@@ -2606,6 +2644,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtRepasMiktar = $scope.TxtRepasMiktar.toString().substring(0,$scope.TxtRepasMiktar.length-1); 
         }
+        else if(FocusParkAciklama)
+        {
+            $scope.TxtParkAciklama = $scope.TxtParkAciklama.toString().substring(0,$scope.TxtParkAciklama.length-1); 
+        }
     }
     $scope.BtnOnayClick = function()
     {
@@ -2823,6 +2865,18 @@ function Pos($scope,$window,$rootScope,db)
                 FirstKey = true;
             }
         }
+        else if(FocusParkAciklama)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtParkAciklama = $scope.TxtParkAciklama + Key; 
+            }
+            else
+            {
+                $scope.TxtParkAciklama = Key; 
+                FirstKey = true;
+            }
+        }
     }
     $scope.TxtSeriSira = function(Data)
     {
@@ -2983,7 +3037,20 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnParkaAl = function()
     {
-        $scope.YeniEvrak();
+        $('#MdlParkAciklama').modal({backdrop: 'static'});
+        FocusParkAciklama = true;
+        FocusBarkod = false;
+    }
+    $scope.BtnParkAciklamaKaydet = function()
+    {
+        if($scope.ParkList.length > 0)
+        {
+            db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.ParkList[ParkIndex].REF,$scope.ParkList[ParkIndex].REF_NO,$scope.TxtParkAciklama],function()
+            {
+                $('#MdlParkAciklama').modal('hide');
+                $scope.YeniEvrak();
+            })
+        }
     }
     $scope.BtnParkSec = function()
     {
