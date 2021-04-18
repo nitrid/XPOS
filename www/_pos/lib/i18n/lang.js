@@ -422,10 +422,10 @@ var lang =
             "Kalan Ödeme :" : "Reste à Payer :",
             "Bu barkod tipini bu bölümden okutamazsınız !" : "Veuillez Saisir le Reglememt au Menu Ticket Resto !",
             "MÜŞTERİ" : "Client",
-            "Park Açıklaması" : "Park Açıklaması",
-            "Lütfen Açıklama Giriniz" : "Lütfen Açıklama Giriniz",
-            "Açıklama alanını boş geçemezsiniz !" : "Açıklama alanını boş geçemezsiniz !",
-            "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."
+            "Park Açıklaması" : "Motif d’attente.",
+            "Lütfen Açıklama Giriniz" : "Veuillez indiquer le motif de l’attente!",
+            "Açıklama alanını boş geçemezsiniz !" : "Vous devez entrer un motif d’attente!",
+            "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Le motif ne peut comporter moins de 25 caractères!"
         }
     }
 }
