@@ -588,7 +588,8 @@ function StokCtrl ($scope,$window,$location,db)
                     {
                         $scope.FiyatListe = FiyatData;
                         $scope.CmbAltBirimChange();
-
+                        $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
+                        
                         TblFiyatInit();
                     });
                 });
@@ -1094,7 +1095,6 @@ function StokCtrl ($scope,$window,$location,db)
                     }
                     if($scope.FiyatListe.length > 0)
                     {
-                        console.log($scope.AltBirimFiyati)
                         $scope.AltBirimFiyati = ($scope.FiyatListe[0].PRICE / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
                     }
                 });
