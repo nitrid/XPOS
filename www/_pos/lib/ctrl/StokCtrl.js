@@ -586,11 +586,9 @@ function StokCtrl ($scope,$window,$location,db)
                     //FİYAT LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                     {
-                        $scope.FiyatListe = FiyatData;
-                        $scope.CmbAltBirimChange();                        
-
+                        $scope.FiyatListe = FiyatData;                                              
+                        $scope.CmbAltBirimChange(); 
                         TblFiyatInit();
-                        $scope.Kaydet();
                     });
                 });
             },
@@ -629,8 +627,6 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.FiyatModal.Cari = e.data.CUSTOMER;
 
                 $scope.BtnFiyatKaydet();
-
-                $scope.Kaydet();
             },
         }).dxDataGrid("instance");
     }
@@ -1465,7 +1461,7 @@ function StokCtrl ($scope,$window,$location,db)
         window.location.href = "#!Stok";
     }
     $scope.Kaydet = function(pCallBack)
-    {
+    {        
         if($scope.StokListe[0].CODE == '')
         {
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
@@ -2273,13 +2269,15 @@ function StokCtrl ($scope,$window,$location,db)
                 TmpSymbol = $scope.Birim[i].Symbol;
             }
         }
+
         for (let i = 0; i < $scope.FiyatListe.length; i++)
         {
-            if($scope.FiyatListe[i].TYPE == 0 && $scope.FiyatListe[i].QUANTITY == 1)
+            if($scope.FiyatListe[i].TYPE == 0 && $scope.FiyatListe[i].QUANTITY == 1 || $scope.FiyatListe[i].QUANTITY == 0)
             {
                 TmpFiyat = $scope.FiyatListe[i].PRICE;
             }
         }
+
         $scope.AltBirimFiyati = (TmpFiyat / $scope.StokListe[0].UNDER_UNIT_FACTOR).toFixed(2) + "€ / " + TmpSymbol;
 
         setTimeout( function(){
