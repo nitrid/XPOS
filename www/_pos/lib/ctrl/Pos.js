@@ -3483,7 +3483,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnFiyatGuncelle = function()
     {
-        $("#MdlFiyatGuncelle").modal("show");
+        $('#MdlFiyatGuncelle').modal({backdrop: 'static'});
+        //$("#MdlFiyatGuncelle").modal("show");
         $scope.TxtFiyatGuncelle = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE.toString();
 
         FocusFiyatGuncelle = true;
