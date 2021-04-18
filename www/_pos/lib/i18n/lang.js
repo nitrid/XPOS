@@ -421,7 +421,7 @@ var lang =
             "Toplam Okutulan :" : "Total Ticket :",
             "Kalan Ödeme :" : "Reste à Payer :",
             "Bu barkod tipini bu bölümden okutamazsınız !" : "Veuillez Saisir le Reglememt au Menu Ticket Resto !",
-            "MÜŞTERİ" : "CLIENT"
+            "MÜŞTERİ" : "Client"
         }
     }
 }
