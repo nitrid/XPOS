@@ -1821,11 +1821,7 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     if($scope.ParkList[i].DESCRIPTION == '')
                     {
-                        ParkIndex = i;
-                        $scope.TxtParkAciklama = "";
-                        $('#MdlParkAciklama').modal({backdrop: 'static'});
-                        FocusParkAciklama = true;
-                        FocusBarkod = false;
+                        $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
                         return;
                     }
                 }
@@ -3065,17 +3061,26 @@ function Pos($scope,$window,$rootScope,db)
         }
         if($scope.ParkList.length > 0)
         {
-            db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.ParkList[ParkIndex].REF,$scope.ParkList[ParkIndex].REF_NO,$scope.TxtParkAciklama],function()
+            db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.Seri,$scope.Sira,$scope.TxtParkAciklama],function()
             {
                 $('#MdlParkAciklama').modal('hide');
                 $scope.YeniEvrak();
             })
         }
     }
-    $scope.BtnParkSec = function()
+    $scope.BtnParkSec = function(pRef,pRefNo)
     {
-        $scope.Seri = $scope.ParkList[$scope.ParkIslemListeSelectedIndex].REF;
-        $scope.Sira = $scope.ParkList[$scope.ParkIslemListeSelectedIndex].REF_NO;
+        if(typeof pRef == 'undefined')
+        {
+            $scope.Seri = $scope.ParkList[$scope.ParkIslemListeSelectedIndex].REF;
+            $scope.Sira = $scope.ParkList[$scope.ParkIslemListeSelectedIndex].REF_NO;
+        }
+        else
+        {
+            $scope.Seri = pRef;
+            $scope.Sira = pRefNo;
+        }
+        
 
         db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
         {   
