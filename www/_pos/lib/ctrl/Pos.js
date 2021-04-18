@@ -833,7 +833,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 name: "DATE",
                 title: db.Language($scope.Lang,"TARIH"),
-                type: "number",
+                type: "text",
                 align: "center",
                 width: 75
             },
