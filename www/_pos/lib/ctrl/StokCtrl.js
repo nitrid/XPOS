@@ -490,7 +490,18 @@ function StokCtrl ($scope,$window,$location,db)
                     format: 'dd/MM/yyyy',
                     alignment: "center",
                     allowEditing: true,
-                    width: "10%"
+                    width: "10%",
+                    cellTemplate: function(element, info)
+                    {
+                        if(moment().diff(moment(info.data.START_DATE),'year') > 1)
+                        {
+                            element.append("<div></div>")
+                        }
+                        else
+                        {
+                            element.append("<div>" + info.text + "</div>")
+                        }
+                    }
                 }, 
                 {
                     dataField: "FINISH_DATE",
@@ -499,7 +510,18 @@ function StokCtrl ($scope,$window,$location,db)
                     format: 'dd/MM/yyyy',
                     alignment: "center",
                     allowEditing: true,
-                    width: "10%"
+                    width: "10%",
+                    cellTemplate: function(element, info)
+                    {
+                        if(moment().diff(moment(info.data.FINISH_DATE),'year') > 1)
+                        {
+                            element.append("<div></div>")
+                        }
+                        else
+                        {
+                            element.append("<div>" + info.text + "</div>")
+                        }
+                    }
                 }, 
                 {
                     dataField: "QUANTITY",
