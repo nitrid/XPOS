@@ -595,11 +595,16 @@ function StokCtrl ($scope,$window,$location,db)
                     alertify.alert(db.Language($scope.Lang,"Maliyet fiyatı girmeden fiyat tanımlayamazsınız !"));
                     return;
                 }
-                
                 if(parseFloat(e.data.PRICE.toString().replace(',','.')) < parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')))
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                     alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
+                    return;
+                }
+                if(parseFloat(e.data.QUANTITY.toString().replace(',','.')) <= 0)
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Miktar sıfır giremezsiniz !"));
                     return;
                 }
                 
@@ -638,7 +643,7 @@ function StokCtrl ($scope,$window,$location,db)
                 e.data.DEPOT = 0
                 e.data.START_DATE = moment(new Date(0)).format("DD.MM.YYYY") 
                 e.data.FINISH_DATE = moment(new Date(0)).format("DD.MM.YYYY") 
-                e.data.QUANTITY = 0
+                e.data.QUANTITY = 1
                 e.data.PRICE = 0
                 e.data.CUSTOMER = ""
             },
@@ -655,6 +660,28 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.FiyatModal.Cari = e.data.CUSTOMER;
 
                 $scope.BtnFiyatKaydet();
+            },
+            onRowInserting: function(e) 
+            {
+                e.cancel = true;
+                if($scope.StokListe[0].COST_PRICE == "" || $scope.StokListe[0].COST_PRICE == 0)
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Maliyet fiyatı girmeden fiyat tanımlayamazsınız !"));
+                    return;
+                }
+                if(parseFloat(e.data.PRICE.toString().replace(',','.')) < parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')))
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
+                    return;
+                }
+                if(parseFloat(e.data.QUANTITY.toString().replace(',','.')) <= 0)
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Miktar sıfır giremezsiniz !"));
+                    return;
+                }
             },
         }).dxDataGrid("instance");
     }
@@ -1672,8 +1699,8 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
             alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
-        }
-        
+        }        
+
         let InsertData =
         [
             $scope.Kullanici,
