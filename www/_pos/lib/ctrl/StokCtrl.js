@@ -602,9 +602,15 @@ function StokCtrl ($scope,$window,$location,db)
                     alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
                     return;
                 }
-
-                db.ExecuteTag($scope.Firma,'FiyatUpdate',[e.data.PRICE,e.data.QUANTITY,e.data.START_DATE,e.data.FINISH_DATE,e.data.GUID],function(data)
+                
+                db.ExecuteTag($scope.Firma,'FiyatUpdate',[$scope.StokListe[0].CODE,e.data.TYPE,e.data.DEPOT,e.data.PRICE,e.data.QUANTITY,moment(e.data.START_DATE).format("DD.MM.YYYY"),moment(e.data.FINISH_DATE).format("DD.MM.YYYY"),e.data.GUID],function(data)
                 {
+                    if(data.result.recordset[0].ITEM_CODE != '')
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Benzer kayıt oluşturamazsınız !"));
+                    }
+                    
                     //FİYAT LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                     {
@@ -642,8 +648,8 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.FiyatModal.Tip = "0";
                 $scope.FiyatModal.StokKodu = $scope.StokListe[0].CODE;
                 $scope.FiyatModal.Depo = e.data.DEPOT;
-                $scope.FiyatModal.Baslangic = e.data.START_DATE
-                $scope.FiyatModal.Bitis = e.data.FINISH_DATE
+                $scope.FiyatModal.Baslangic = moment(e.data.START_DATE).format("DD.MM.YYYY")
+                $scope.FiyatModal.Bitis = moment(e.data.FINISH_DATE).format("DD.MM.YYYY")
                 $scope.FiyatModal.Fiyat = e.data.PRICE;
                 $scope.FiyatModal.Miktar = e.data.QUANTITY;
                 $scope.FiyatModal.Cari = e.data.CUSTOMER;
@@ -1686,6 +1692,11 @@ function StokCtrl ($scope,$window,$location,db)
         {
             if(typeof(InsertResult.result.err) == 'undefined')
             {
+                if(InsertResult.result.recordset[0].ITEM_CODE != '')
+                {
+                    alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    alertify.alert(db.Language($scope.Lang,"Benzer kayıt oluşturamazsınız !"));
+                }
                 //FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
                 {

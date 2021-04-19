@@ -196,7 +196,11 @@ var QuerySql =
     },
     FiyatKaydet : 
     {
-        query : "INSERT INTO [dbo].[ITEM_PRICE] " +
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_PRICE WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE AND [START_DATE] = @START_DATE AND [FINISH_DATE] = @FINISH_DATE AND [DEPOT] = @DEPOT AND [QUANTITY] = @QUANTITY),'') " +
+                "IF @TMPCODE = '' " +
+                "BEGIN " +
+                "INSERT INTO [dbo].[ITEM_PRICE] " +
                 "([CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +
@@ -222,7 +226,9 @@ var QuerySql =
                 "@PRICE,				--<PRICE, float,> \n" +
                 "@QUANTITY,				--<QUANTITY, float,> \n" +
                 "@CUSTOMER			    --<CUSTOMER, nvarchar(25),> \n" +
-                ") ",
+                ") " +
+                "END " + 
+                "SELECT @TMPCODE AS ITEM_CODE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','START_DATE:date','FINISH_DATE:date',
                  'PRICE:float','QUANTITY:float','CUSTOMER:string|25']
     },
@@ -233,8 +239,14 @@ var QuerySql =
     },
     FiyatUpdate :
     {
-        query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY,START_DATE = @START_DATE,FINISH_DATE = @FINISH_DATE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)",
-        param : ['PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_PRICE WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE AND [START_DATE] = @START_DATE AND [FINISH_DATE] = @FINISH_DATE AND [DEPOT] = @DEPOT AND [QUANTITY] = @QUANTITY),'') " +
+                "IF @TMPCODE = '' " +
+                "BEGIN " +
+                "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY,START_DATE = @START_DATE,FINISH_DATE = @FINISH_DATE WHERE GUID = CONVERT(NVARCHAR(50),@GUID)" +
+                "END " + 
+                "SELECT @TMPCODE AS ITEM_CODE",
+        param : ['ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
     },
     FiyatKontrol :
     {
