@@ -34,7 +34,7 @@ function Pos($scope,$window,$rootScope,db)
     let IskontoTip = "";
     let UrunListeTip = "StokAra";
     let PluTip = 0;
-    let ParkIndex = 0;
+    let TmpActiveTime;
 
     $scope.ModalMsg = {};
     
@@ -4670,5 +4670,14 @@ function Pos($scope,$window,$rootScope,db)
             FocusTicketBarkod = true;
             FocusBarkod = false;
         });        
+    }    
+    $scope.FrmActive = function()
+    {
+        if(typeof TmpActiveTime != 'undefined')
+        {
+            clearTimeout(TmpActiveTime);
+        }
+        
+        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},1200000);
     }
 }

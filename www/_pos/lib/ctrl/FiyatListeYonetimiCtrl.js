@@ -114,6 +114,12 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     allowEditing: false
                 },
                 {
+                    dataField: "ORGINS",
+                    caption : db.Language($scope.Lang,"ORGINS"),
+                    dataType : "string",
+                    allowEditing: false
+                },
+                {
                     dataField: "STATUS",
                     caption : db.Language($scope.Lang,"DURUM"),
                     dataType : "boolean"
@@ -365,6 +371,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     "ISNULL(ITEM_PRICE.PRICE,0) AS PRICE, " +
                     "CASE WHEN ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE  " +
                     "CONVERT(nvarchar,ROUND((ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) - COST_PRICE) / 1.27) / ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2)) * 100,0)) END AS NETMARJ, " +
+                    "ISNULL((SELECT NAME FROM COUNTRY WHERE CODE = ITEMS.ORGINS),'') AS ORGINS, " +
                     "ITEMS.STATUS AS STATUS " +
                     "FROM ITEM_CUSTOMER  " +
                     "INNER JOIN ITEMS ON  " +
