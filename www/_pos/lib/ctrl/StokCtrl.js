@@ -1269,6 +1269,41 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.MenseiListe = pData;
         });
     }
+    function TedarikciFiyatKaydet()
+    {
+        let InsertData =
+        [
+            $scope.Kullanici,
+            $scope.Kullanici,
+            $scope.StokListe[0].CODE,
+            1,
+            0,
+            moment(new Date(0)).format("DD.MM.YYYY"),
+            moment(new Date(0)).format("DD.MM.YYYY"),
+            parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
+            1,
+            $scope.StokListe[0].ITEM_CUSTOMER
+        ];
+        
+        db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
+        {
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {
+                //TEDARİKÇİ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                {
+                    $scope.TedaikciListe = TedarikciData;
+                    TblTedarikciInit();
+                });
+                //TEDARİKÇİ FİYAT LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
+                {
+                    $scope.TedaikciFiyatListe = TedarikciFiyatData;
+                    TblTedarikciFiyatInit()
+                });
+            }
+        });
+    }
     $scope.Init = function()
     {        
         DevExpress.localization.locale('fr');
@@ -1860,6 +1895,7 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 if(typeof(InsertResult.result.err) == 'undefined')
                 {
+                    TedarikciFiyatKaydet();
                     //TEDARİKÇİ LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
@@ -2268,38 +2304,7 @@ function StokCtrl ($scope,$window,$location,db)
                 alertify.confirm(db.Language($scope.Lang,'Maliyet fiyatınıza tedarikçi bağlamak istermisiniz ?'),
                 function()
                 {
-                    let InsertData =
-                    [
-                        $scope.Kullanici,
-                        $scope.Kullanici,
-                        $scope.StokListe[0].CODE,
-                        1,
-                        0,
-                        moment(new Date(0)).format("DD.MM.YYYY"),
-                        moment(new Date(0)).format("DD.MM.YYYY"),
-                        parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
-                        1,
-                        $scope.StokListe[0].ITEM_CUSTOMER
-                    ];
-
-                    db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-                    {
-                        if(typeof(InsertResult.result.err) == 'undefined')
-                        {
-                            //TEDARİKÇİ LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
-                            {
-                                $scope.TedaikciListe = TedarikciData;
-                                TblTedarikciInit();
-                            });
-                            //TEDARİKÇİ FİYAT LİSTESİ GETİR
-                            db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
-                            {
-                                $scope.TedaikciFiyatListe = TedarikciFiyatData;
-                                TblTedarikciFiyatInit()
-                            });
-                        }
-                    });
+                    TedarikciFiyatKaydet();
 
                     //$scope.BtnModalSecim('TedarikciMaliyet');
                 }
