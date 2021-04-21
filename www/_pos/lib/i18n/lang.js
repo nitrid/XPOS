@@ -428,16 +428,16 @@ var lang =
             "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Le motif ne peut comporter moins de 25 caractères!",
             "Benzer kayıt oluşturamazsınız !" : "Vous ne pouvez enregistrer à l´identique !",
             "Miktar sıfır giremezsiniz !" : "Le montant ne peut etre zero !",
-            "Kullanıcı Listesi" : "Kullanıcı Listesi",
-            "Kullanıcı Seç" : "Kullanıcı Seç",
-            "Yetersiz Ödeme" : "Yetersiz Ödeme",
-            "Ek Alış Veriş" : "Ek Alış Veriş",
-            "Mağaza Personeli" : "Mağaza Personeli",
-            "K. Kartı Geçmedi" : "K. Kartı Geçmedi",
-            "Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak." : "Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.",
-            "Müşteri reyondan tekrar ek alış veriş yapmak istedi." : "Müşteri reyondan tekrar ek alış veriş yapmak istedi.",
-            "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek." : "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.",
-            "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek." : "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek."
+            "Kullanıcı Listesi" : "Liste utilisateur",
+            "Kullanıcı Seç" : "Choix utilisateur",
+            "Yetersiz Ödeme" : "Montant insuffisant!",
+            "Ek Alış Veriş" : "Rajout de courses...",
+            "Mağaza Personeli" : "Personnel du magasin.",
+            "K. Kartı Geçmedi" : "Refus CB.",
+            "Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak." : "Somme manquante client ...retour magasin journée.",
+            "Müşteri reyondan tekrar ek alış veriş yapmak istedi." : "Produit manquant retour client instantannée.",
+            "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek." : "Mise en attente achat du personnel.",
+            "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek." : "Refus CB client ... retour journée."
         }
     }
 }

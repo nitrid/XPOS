@@ -4717,6 +4717,6 @@ function Pos($scope,$window,$rootScope,db)
             clearTimeout(TmpActiveTime);
         }
         
-        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},60000);
+        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},600000);
     }
 }
