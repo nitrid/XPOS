@@ -662,24 +662,26 @@ function StokCtrl ($scope,$window,$location,db)
                 $scope.BtnFiyatKaydet();
             },
             onRowInserting: function(e) 
-            {
-                e.cancel = true;
+            {                
                 if($scope.StokListe[0].COST_PRICE == "" || $scope.StokListe[0].COST_PRICE == 0)
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                     alertify.alert(db.Language($scope.Lang,"Maliyet fiyatı girmeden fiyat tanımlayamazsınız !"));
+                    e.cancel = true;
                     return;
                 }
                 if(parseFloat(e.data.PRICE.toString().replace(',','.')) < parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')))
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                     alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
+                    e.cancel = true;
                     return;
                 }
                 if(parseFloat(e.data.QUANTITY.toString().replace(',','.')) <= 0)
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                     alertify.alert(db.Language($scope.Lang,"Miktar sıfır giremezsiniz !"));
+                    e.cancel = true;
                     return;
                 }
             },
