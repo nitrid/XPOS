@@ -35,6 +35,10 @@
     <link rel="stylesheet" href="theme/global/fonts/brand-icons/brand-icons.min.css">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 
+    <!--JS Grid-->
+    <link rel="stylesheet" href="theme/global/vendor/jsgrid/jsgrid.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/tables/jsgrid.css">
+
     <!--[if lt IE 9]>
     <script src="theme/global/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->
@@ -111,6 +115,30 @@
         </div>
       </div>
     </div>
+    <!-- MODALLAR  -->
+    <!-- Kullanıcı Listesi -->
+    <div class="modal fade " id="MdlKullaniciListele" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1" style="z-index: 99999999;">
+      <div class="modal-dialog modal-simple modal-primary modal-md">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">X</span>
+                  </button>
+                  <h4 class="modal-title" langu>Kullanıcı Listesi</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="panel-body px-0 py-1">
+                      <div id="TblKullanici"></div>
+                  </div> 
+                  <div class="row py-1">
+                      <div class="col-12 px-1">
+                          <button type="button" class="btn btn-raised btn-success btn-block btn-lg" data-dismiss="modal" aria-label="Close" langu>Seç</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>   
     <div class="page-content py-5" data-animsition-in="fade-in" data-animsition-out="fade-out"> 
       <div class="page-content animation-slide-top animation-duration-1 mx--20 py-0">
         <div class="panel modal-center"> 
@@ -144,6 +172,11 @@
                 <label class="floating-label" langu>Şifre</label>
               </div>
               <div class="form-group clearfix">
+                <div class="row">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnKullanici()" langu>Kullanıcı Seç</button>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-6">
                     <button type="submit" class="btn btn-primary btn-block btn-lg mt-40" ng-click="BtnEntry()" langu>Giriş</button>
@@ -305,7 +338,7 @@
                 </div>
             </div>
           </div>
-        </div>      
+        </div>                           
       </div>          
       <footer class=" page-copyright-inverse " style="text-align: center;">
             <div class="social">
@@ -387,7 +420,10 @@
     <script src="theme/global/js/Plugin/jquery-placeholder.js"></script>
     <script src="theme/global/js/Plugin/alertify.js"></script>
     <script src="theme/base/assets/examples/js/forms/advanced.js"></script>
-
+    <!-- JS Grid-->
+    <script src="theme/global/vendor/jsgrid/jsgrid.js"></script>
+    <script src="theme/base/assets/examples/js/tables/jsgrid-db.js"></script>
+    <script src="theme/base/assets/examples/js/tables/jsgrid.js"></script>
     <!-- Nitro -->    
     <script src="../js/angular.js"></script>
     <script src="../js/angular-route.js"></script>

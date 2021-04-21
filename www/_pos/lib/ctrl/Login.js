@@ -2,11 +2,50 @@ function Login ($scope,$rootScope,$window,db)
 {
     let FocusObject;
     localStorage.mode = true;
+    let KullaniciSelectedRow = null;
 
     $scope.server_adress = localStorage.host;
     $scope.socket_port = localStorage.socketport;
     $scope.device = localStorage.device;
 
+    function InitKullaniciGrid()
+    {
+        $("#TblKullanici").jsGrid
+        ({
+            width: "100%",
+            height: "300px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.KullaniciListe,
+            paging : true,
+            pageSize: 30,
+            pageButtonCount: 5,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: 
+            [
+                {
+                    name: "CODE",
+                    type: "number",
+                    align: "center",
+                    width: 100
+                    
+                },
+                {
+                    title: "NAME",
+                    name: "NAME",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ],
+            rowClick: function(args)
+            {
+                $scope.KullaniciListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
     $rootScope.LoadingShow = function() 
     {
         $("#loading").show();
@@ -52,6 +91,7 @@ function Login ($scope,$rootScope,$window,db)
                 db.GetData($scope.Firma,'KullaniciGetir',[''],function(data)
                 {   
                     $scope.KullaniciListe = data;
+                    InitKullaniciGrid();
                 });
             }
                        
@@ -161,6 +201,19 @@ function Login ($scope,$rootScope,$window,db)
     {
         localStorage.Lang = $scope.Lang;
         window.location.reload();
+    }
+    $scope.BtnKullanici = function()
+    {
+        $("#MdlKullaniciListele").modal('show');
+    }
+    $scope.KullaniciListeRowClick = function(pIndex,pItem,pObj)
+    {
+        if ( KullaniciSelectedRow ) { KullaniciSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        KullaniciSelectedRow = $row;
+        
+        $scope.Kullanici = $scope.KullaniciListe[pIndex].CODE;
     }
     document.getElementById('Kullanici').addEventListener('focus', (event) => 
     {
