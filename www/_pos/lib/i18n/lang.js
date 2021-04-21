@@ -427,7 +427,9 @@ var lang =
             "Açıklama alanını boş geçemezsiniz !" : "Vous devez entrer un motif d’attente!",
             "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Le motif ne peut comporter moins de 25 caractères!",
             "Benzer kayıt oluşturamazsınız !" : "Vous ne pouvez enregistrer à l´identique !",
-            "Miktar sıfır giremezsiniz !" : "Le montant ne peut etre zero !"
+            "Miktar sıfır giremezsiniz !" : "Le montant ne peut etre zero !",
+            "Kullanıcı Listesi" : "Kullanıcı Listesi",
+            "Kullanıcı Seç" : "Kullanıcı Seç"
         }
     }
 }
