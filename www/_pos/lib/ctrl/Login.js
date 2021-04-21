@@ -105,7 +105,7 @@ function Login ($scope,$rootScope,$window,db)
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span>' +
                 '</button>' +
-                '<i class="icon wb-bell" aria-hidden="true"></i> Sunucuya erişim sağlanamadı.' +
+                '<i class="icon wb-bell" aria-hidden="true"></i> <div langu>Sunucuya erişim sağlanamadı.</div>' +
                 '<p class="mt-15">' +
                 '<button class="btn btn-primary" data-target="#server-settings" data-toggle="modal"' +
                 'type="button" langu>Ayarlar</button></p></div>');
