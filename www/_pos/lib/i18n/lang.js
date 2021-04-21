@@ -426,8 +426,8 @@ var lang =
             "Lütfen Açıklama Giriniz" : "Veuillez indiquer le motif de l’attente!",
             "Açıklama alanını boş geçemezsiniz !" : "Vous devez entrer un motif d’attente!",
             "Girmiş olduğunuz açıklama 25 karakter den küçük olamaz." : "Le motif ne peut comporter moins de 25 caractères!",
-            "Benzer kayıt oluşturamazsınız !" : "Benzer kayıt oluşturamazsınız !",
-            "Miktar sıfır giremezsiniz !" : "Miktar sıfır giremezsiniz !"
+            "Benzer kayıt oluşturamazsınız !" : "Vous ne pouvez enregistrer à l´identique !",
+            "Miktar sıfır giremezsiniz !" : "Le montant ne peut etre zero !"
         }
     }
 }
