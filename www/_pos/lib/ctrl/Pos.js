@@ -2876,11 +2876,50 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(FirstKey)
             {
-                $scope.TxtParkAciklama = $scope.TxtParkAciklama + Key; 
+                if(Key == '1')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
+                }
+                else if(Key == '2')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşteri reyondan tekrar ek alış veriş yapmak istedi.')
+                }
+                else if(Key == '3')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.')
+                }
+                else if(Key == '4')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek.')
+                }
+                else
+                {
+                    $scope.TxtParkAciklama = $scope.TxtParkAciklama + Key;    
+                }
             }
             else
-            {
-                $scope.TxtParkAciklama = Key; 
+            {                                
+                if(Key == '1')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
+                }
+                else if(Key == '2')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşteri reyondan tekrar ek alış veriş yapmak istedi.')
+                }
+                else if(Key == '3')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.')
+                }
+                else if(Key == '4')
+                {
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek.')
+                }
+                else
+                {
+                    $scope.TxtParkAciklama = Key; 
+                }
+
                 FirstKey = true;
             }
         }
@@ -4678,6 +4717,6 @@ function Pos($scope,$window,$rootScope,db)
             clearTimeout(TmpActiveTime);
         }
         
-        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},1200000);
+        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},60000);
     }
 }

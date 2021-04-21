@@ -429,7 +429,15 @@ var lang =
             "Benzer kayıt oluşturamazsınız !" : "Vous ne pouvez enregistrer à l´identique !",
             "Miktar sıfır giremezsiniz !" : "Le montant ne peut etre zero !",
             "Kullanıcı Listesi" : "Kullanıcı Listesi",
-            "Kullanıcı Seç" : "Kullanıcı Seç"
+            "Kullanıcı Seç" : "Kullanıcı Seç",
+            "Yetersiz Ödeme" : "Yetersiz Ödeme",
+            "Ek Alış Veriş" : "Ek Alış Veriş",
+            "Mağaza Personeli" : "Mağaza Personeli",
+            "K. Kartı Geçmedi" : "K. Kartı Geçmedi",
+            "Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak." : "Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.",
+            "Müşteri reyondan tekrar ek alış veriş yapmak istedi." : "Müşteri reyondan tekrar ek alış veriş yapmak istedi.",
+            "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek." : "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.",
+            "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek." : "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek."
         }
     }
 }
