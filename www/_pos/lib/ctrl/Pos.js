@@ -3064,7 +3064,7 @@ function Pos($scope,$window,$rootScope,db)
             alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
             return;
         }
-        if($scope.ParkList.length > 0)
+        if($scope.SatisList.length > 0)
         {
             db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.Seri,$scope.Sira,$scope.TxtParkAciklama],function()
             {
