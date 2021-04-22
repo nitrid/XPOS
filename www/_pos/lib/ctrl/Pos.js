@@ -2878,7 +2878,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(Key == '1')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemedi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
+                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
                 }
                 else if(Key == '2')
                 {
