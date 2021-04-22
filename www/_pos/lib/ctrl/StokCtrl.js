@@ -1745,8 +1745,8 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.FiyatModal.StokKodu,
             $scope.FiyatModal.Tip,
             $scope.FiyatModal.Depo,
-            $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Baslangic,
-            $scope.FiyatModal.Tip == "0" ? moment(new Date(0)).format("DD.MM.YYYY") : $scope.FiyatModal.Bitis,
+            moment($scope.FiyatModal.Baslangic).format("DD.MM.YYYY"),
+            moment($scope.FiyatModal.Bitis).format("DD.MM.YYYY"),
             parseFloat($scope.FiyatModal.Fiyat.toString().replace(',','.')),
             $scope.FiyatModal.Miktar,
             $scope.FiyatModal.Cari
