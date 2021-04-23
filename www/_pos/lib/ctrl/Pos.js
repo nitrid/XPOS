@@ -1977,6 +1977,12 @@ function Pos($scope,$window,$rootScope,db)
 
             if(pBarkod.indexOf("*") != -1)
             {
+                if(pBarkod.split("*")[0] == '')
+                {
+                    alertify.alert(db.Language($scope.Lang,"Miktar girmediniz !"));
+                    $scope.TxtBarkod = "";
+                    return;
+                }
                 $scope.Miktar = pBarkod.split("*")[0];
                 pBarkod = pBarkod.split("*")[1];
             }
@@ -3592,6 +3598,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TahTip == 0)
         {
+            db.EscposCaseOpen();
             $scope.PosTahInsert(() =>
             {
                 if(typeof pCallBack != 'undefined')

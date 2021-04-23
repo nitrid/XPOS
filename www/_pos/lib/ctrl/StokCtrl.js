@@ -903,6 +903,13 @@ function StokCtrl ($scope,$window,$location,db)
                     width: "10%"
                 }, 
                 {
+                    dataField: "USER",
+                    caption: db.Language($scope.Lang,"Kullanıcı"),
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
                     dataField: "PRICE_LDATE",
                     caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
                     dataType: "date",
@@ -1334,6 +1341,7 @@ function StokCtrl ($scope,$window,$location,db)
             valueExpr: "CODE",
             value: "",
             showClearButton: true,
+            searchEnabled: true,
             bindingOptions: 
             {
                 value: 'StokListesi.Grup',
@@ -1358,6 +1366,7 @@ function StokCtrl ($scope,$window,$location,db)
             valueExpr: "CODE",
             value: "",
             showClearButton: true,
+            searchEnabled: true,
             bindingOptions: 
             {
                 value: "StokListesi.Tedarikci",
@@ -2252,6 +2261,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBarkod").removeClass('active');
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabBilgi").removeClass('active');
     }
     $scope.BtnTabBirim = function()
     {
@@ -2260,6 +2270,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBarkod").removeClass('active');
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabBilgi").removeClass('active');
     }
     $scope.BtnTabBarkod = function()
     {
@@ -2268,6 +2279,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBirim").removeClass('active');
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabBilgi").removeClass('active');
     }
     $scope.BtnTabTedarikci = function()
     {
@@ -2276,6 +2288,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabBilgi").removeClass('active');
     }
     $scope.BtnTabTedarikciFiyat = function()
     {
@@ -2284,6 +2297,16 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabFiyat").removeClass('active');
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
+        $("#TabBilgi").removeClass('active');
+    }
+    $scope.BtnBilgi = function()
+    {
+        $("#TabBilgi").addClass('active');        
+        $("#TabTedarikci").removeClass('active');
+        $("#TabFiyat").removeClass('active');
+        $("#TabBarkod").removeClass('active');
+        $("#TabBirim").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
     }
     $scope.TxtCostPriceValid = function()
     {

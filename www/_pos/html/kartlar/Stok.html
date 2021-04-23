@@ -348,6 +348,9 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabTedarikciFiyat()" langu>Tedarikçi Fiyat</a>
                                         </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" data-toggle="tab" href="" ng-click="BtnBilgi()" langu>Bilgi</a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content pt-20">
                                         <!--FİYAT TAB-->
@@ -476,6 +479,41 @@
                                             </div>
                                         </div>
                                         <!------------->
+                                        <!--BİLGİ TAB-->
+                                        <div class="tab-pane" id="TabBilgi" role="tabpanel">
+                                            <div class="row">
+                                                <label class="col-md-2 form-control-label">
+                                                    <div class="float-right" langu>Oluşturma Tarihi :</div>
+                                                </label>
+                                                <label class="col-md-10 form-control-label">
+                                                    <div class="float-left" langu>{{StokListe[0].CDATE | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+                                                </label>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-md-2 form-control-label">
+                                                    <div class="float-right" langu>Değiştirme Tarihi :</div>
+                                                </label>
+                                                <label class="col-md-10 form-control-label">
+                                                    <div class="float-left" langu>{{StokListe[0].LDATE | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+                                                </label>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-md-2 form-control-label">
+                                                    <div class="float-right" langu>Oluşturan Kullanıcı :</div>
+                                                </label>
+                                                <label class="col-md-10 form-control-label">
+                                                    <div class="float-left" langu>{{StokListe[0].CUSER}}</div>
+                                                </label>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-md-2 form-control-label">
+                                                    <div class="float-right" langu>Değiştiren Kullanıcı :</div>
+                                                </label>
+                                                <label class="col-md-10 form-control-label">
+                                                    <div class="float-left" langu>{{StokListe[0].LUSER}}</div>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

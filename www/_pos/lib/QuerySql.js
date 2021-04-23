@@ -3,6 +3,10 @@ var QuerySql =
     StokKartGetir : 
     {
         query : "SELECT " + 
+                "[CDATE] AS [CDATE], " + 
+                "[LDATE] AS [LDATE], " + 
+                "[CUSER] AS [CUSER], " + 
+                "[LUSER] AS [LUSER], " + 
                 "[CODE] AS [CODE], " +
                 "[NAME] AS [NAME], " + 
                 "[SNAME] AS [SNAME], " + 
@@ -175,7 +179,8 @@ var QuerySql =
                 "[CUSTOMER_CODE], " +
                 "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME], " +
                 "[CUSTOMER_ITEM_CODE], " +
-                "ISNULL((SELECT TOP 1 CONVERT(nvarchar,[LDATE],104) FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE_LDATE, " +
+                "ISNULL((SELECT TOP 1 NAME FROM USERS WHERE CODE = [LUSER]),'') AS [USER], " +
+                "ISNULL((SELECT TOP 1 CONVERT(nvarchar,[LDATE],104) + ' ' + CONVERT(nvarchar,[LDATE],8)  FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE_LDATE, " +
                 "ISNULL((SELECT TOP 1 [PRICE] FROM [ITEM_PRICE] WHERE [ITEM_CODE] = @ITEM_CODE AND [CUSTOMER] = [CUSTOMER_CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),0) AS PRICE " +
                 "FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE ORDER BY LDATE DESC",
         param : ['ITEM_CODE:string|25']
