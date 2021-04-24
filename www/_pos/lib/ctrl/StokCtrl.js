@@ -337,7 +337,6 @@ function StokCtrl ($scope,$window,$location,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            console.log(Data)
             $scope.StokListesi.Data = Data;
             TblStokListeInit();
         });
@@ -1293,9 +1292,10 @@ function StokCtrl ($scope,$window,$location,db)
             1,
             $scope.StokListe[0].ITEM_CUSTOMER
         ];
-        
+        console.log(InsertData)
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
         {
+            console.log(111)
             if(typeof(InsertResult.result.err) == 'undefined')
             {
                 //TEDARİKÇİ LİSTESİ GETİR
