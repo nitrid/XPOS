@@ -359,8 +359,8 @@
                                                 <div class="col-lg-2 mx-5">
                                                     <div class="form-group row">
                                                         <label class="form-control-label" langu>Maliyet Fiyatı</label>
-                                                        <input type="text" class="form-control" name="name" autocomplete="off" onClick="this.setSelectionRange(0, this.value.length)"
-                                                            ng-model="StokListe[0].COST_PRICE" ng-blur = "TxtCostPriceValid()"/>
+                                                        <input type="text" class="form-control" id="TxtCostPrice" name="name" autocomplete="off" onClick="this.setSelectionRange(0, this.value.length)"
+                                                            ng-model="StokListe[0].COST_PRICE" ng-blur = "TxtCostPriceValid()" ng-keypress="TxtCostPricePress($event)"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-2 mx-5">

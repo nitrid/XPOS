@@ -2339,6 +2339,13 @@ function StokCtrl ($scope,$window,$location,db)
             }
         });
     }
+    $scope.TxtCostPricePress = function(pKey)
+    {
+        if(pKey.which === 13)
+        {
+            $("#TxtCostPrice").blur();
+        }
+    }
     $scope.CmbAnaBirimChange = function()
     {
         setTimeout( function()
