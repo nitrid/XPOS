@@ -3333,7 +3333,7 @@ function Pos($scope,$window,$rootScope,db)
                 db.ExecuteQuery(TmpQuery,function(UpdateResult)
                 {
                     //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                    let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                    let TmpBondA = '';
 
                     //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
                     if(pTip == 0)
@@ -3343,7 +3343,8 @@ function Pos($scope,$window,$rootScope,db)
                     else
                     {       
                         $scope.ModalMsg.IadeParaUstu = db.Language($scope.Lang,"Tutarın daki iade fişini müşteriye teslim ediniz !");
-
+                        //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
+                        let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
                         db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.GenelToplam.toDigit2()),$scope.Seri,$scope.Sira,1])
                     }                        
