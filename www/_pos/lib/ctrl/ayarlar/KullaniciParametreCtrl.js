@@ -271,4 +271,45 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
         $scope.Yetki = "0";
         $scope.AktifPasif = true;
     }
+    $scope.BtnPluKaydet = async function()
+    {
+        if($scope.Kodu != '' && $scope.Kullanici != '' && $scope.Sifre != '')
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "DELETE FROM [POS_PLU] WHERE CUSER = @DUSER " +
+                        "INSERT INTO [dbo].[POS_PLU] ( " +
+                        " [CUSER] " +
+                        ",[LUSER] " +
+                        ",[CDATE] " +
+                        ",[LDATE] " +
+                        ",[NAME] " +
+                        ",[LOCATION] " +
+                        ",[TYPE] " +
+                        ",[ITEMS_CODE] " +
+                        ",[GRUP_INDEX] " +
+                        ")  " +
+                        "SELECT  " +
+                        "@DUSER, " +
+                        "@DUSER, " +
+                        "GETDATE(), " +
+                        "GETDATE(), " +
+                        "[NAME], " +
+                        "[LOCATION], " +
+                        "[TYPE], " +
+                        "[ITEMS_CODE], " +
+                        "[GRUP_INDEX] " +
+                        "FROM [POS_PLU] WHERE CUSER = @SUSER",
+                param : ['SUSER:string|25','DUSER:string|25'],
+                value : ['P001',$scope.Kullanici]
+            }
+
+            await db.ExecutePromiseQuery(TmpQuery);
+        }
+        else
+        {
+            alertify.alert(db.Language($scope.Lang,"Lütfen Boş Alanları Doldurun."));
+        }
+    }
 }

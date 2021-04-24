@@ -117,7 +117,12 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     dataField: "ORGINS",
                     caption : db.Language($scope.Lang,"ORGINS"),
                     dataType : "string",
-                    allowEditing: false
+                    lookup: 
+                    {
+                        dataSource: $scope.MenseiListe,
+                        displayExpr: "NAME",
+                        valueExpr: "CODE"
+                    }
                 },
                 {
                     dataField: "STATUS",
@@ -159,9 +164,9 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                             QUANTITY :  typeof e.changes[i].data.QUANTITY == 'undefined' ? e.changes[i].key.QUANTITY : e.changes[i].data.QUANTITY,
                             PRICE :  typeof e.changes[i].data.PRICE == 'undefined' ? e.changes[i].key.PRICE : e.changes[i].data.PRICE,
                             NETMARJ :  typeof e.changes[i].data.NETMARJ == 'undefined' ? e.changes[i].key.NETMARJ : e.changes[i].data.NETMARJ,
+                            ORGINS :  typeof e.changes[i].data.ORGINS == 'undefined' ? e.changes[i].key.ORGINS : e.changes[i].data.ORGINS,
                             STATUS :  typeof e.changes[i].data.STATUS == 'undefined' ? e.changes[i].key.STATUS : e.changes[i].data.STATUS
                         }
-
                         //TEDARİKÇİ UPDATE
                         TmpQuery = 
                         {
@@ -171,17 +176,15 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                             value : [TmpObj.CUSTOMER_ITEM_CODE,TmpObj.CUSTOMER_CODE,TmpObj.CODE]
                         }
                         await db.ExecutePromiseQuery(TmpQuery);
-                        
                         //ÜRÜN UPDATE
                         TmpQuery = 
                         {
                             db : $scope.Firma,
-                            query : "UPDATE ITEMS SET NAME = @NAME,COST_PRICE = @COST_PRICE,VAT = @VAT,STATUS = @STATUS WHERE CODE = @CODE",
-                            param : ['NAME:string|250','COST_PRICE:float','VAT:float','STATUS:bit','CODE:string|25'],
-                            value : [TmpObj.NAME,TmpObj.COST_PRICE,TmpObj.VAT,TmpObj.STATUS,TmpObj.CODE]
+                            query : "UPDATE ITEMS SET NAME = @NAME,COST_PRICE = @COST_PRICE,VAT = @VAT,ORGINS = @ORGINS, STATUS = @STATUS WHERE CODE = @CODE",
+                            param : ['NAME:string|250','COST_PRICE:float','VAT:float','ORGINS:string|25','STATUS:bit','CODE:string|25'],
+                            value : [TmpObj.NAME,TmpObj.COST_PRICE,TmpObj.VAT,TmpObj.ORGINS,TmpObj.STATUS,TmpObj.CODE]
                         }
                         await db.ExecutePromiseQuery(TmpQuery);
-
                         //ALT BİRİM UPDATE
                         TmpQuery = 
                         {
@@ -219,7 +222,6 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                             value : [TmpObj.CUSTOMER_CODE,TmpObj.CODE]
                         }
                         let TmpData = await db.GetPromiseQuery(TmpQuery);
-
                         //EĞER TEDARİKÇİ FİYATI VAR İSE
                         if(TmpData.length > 0)
                         {
@@ -251,7 +253,6 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
 
                             await db.ExecutePromiseTag($scope.Firma,'FiyatKaydet',InsertData)
                         }
-
                         //SATIŞ FİYATI GETİRİLİYOR
                         TmpQuery = 
                         {
@@ -297,13 +298,26 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
             }
         });
     }
-    $scope.Init = function()
+    function MenseiGetir()
+    {
+        return new Promise(resolve => 
+        {
+            db.GetData($scope.Firma,'MenseiGetir',['FR',''],function(pData)
+            {
+                $scope.MenseiListe = pData;
+                resolve();
+            });
+        });
+        
+    }
+    $scope.Init = async function()
     {
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.Firma = 'PIQPOS'     
 
         $scope.Data = [];
         $scope.TedarikciList = [];
+        $scope.MenseiListe = [];
 
         $scope.Kodu = "";
         $scope.Adi = "";
@@ -313,6 +327,58 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
         $scope.GrupGetir();
         $scope.TedarikciGetir();
 
+        $scope.CmbTedarikci = 
+        {
+            width: "100%",
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: 'Tedarikci',
+                dataSource: 
+                {
+                    deep: true,
+                    dataPath: 'TedarikciList'
+                }
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.Tedarikci = ""
+                }
+            }
+        }
+        $scope.CmbGrup = 
+        {
+            width: "100%",
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: 'Grup',
+                dataSource: 
+                {
+                    deep: true,
+                    dataPath: 'GrupList'
+                }
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.Grup = ""
+                }
+            }
+        }
+
+        await MenseiGetir();
         TblFiyatInit();
     }
     $scope.GrupGetir = function()
@@ -371,7 +437,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     "ISNULL(ITEM_PRICE.PRICE,0) AS PRICE, " +
                     "CASE WHEN ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE  " +
                     "CONVERT(nvarchar,ROUND((ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2) - COST_PRICE) / 1.27) / ROUND([PRICE] / ((ITEMS.VAT / 100) + 1),2)) * 100,0)) END AS NETMARJ, " +
-                    "ISNULL((SELECT NAME FROM COUNTRY WHERE CODE = ITEMS.ORGINS),'') AS ORGINS, " +
+                    "ISNULL((SELECT CODE FROM COUNTRY WHERE CODE = ITEMS.ORGINS),'') AS ORGINS, " +
                     "ITEMS.STATUS AS STATUS " +
                     "FROM ITEM_CUSTOMER  " +
                     "INNER JOIN ITEMS ON  " +
