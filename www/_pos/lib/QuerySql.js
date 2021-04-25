@@ -1408,7 +1408,8 @@ var QuerySql =
     },
     KullaniciDelete : 
     {
-        query : "DELETE FROM USERS WHERE GUID = @GUID " ,
+        query : "DELETE FROM [POS_PLU] WHERE CUSER = ISNULL((SELECT TOP 1 CODE FROM USERS WHERE GUID = @GUID),'') " +
+                "DELETE FROM USERS WHERE GUID = @GUID " ,
         param : ['GUID:string|150']
     },
     //PARAM

@@ -302,7 +302,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                         "[GRUP_INDEX] " +
                         "FROM [POS_PLU] WHERE CUSER = @SUSER",
                 param : ['SUSER:string|25','DUSER:string|25'],
-                value : ['P001',$scope.Kullanici]
+                value : ['MAHO',$scope.Kullanici]
             }
 
             await db.ExecutePromiseQuery(TmpQuery);
