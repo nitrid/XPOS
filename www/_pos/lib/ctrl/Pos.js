@@ -416,7 +416,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         alertify.alert(pMsg);
     }
-    function Init()
+    async function Init()
     {
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.CihazID = $window.localStorage.getItem('device');
@@ -514,8 +514,8 @@ function Pos($scope,$window,$rootScope,db)
         $scope.SonSatisDetayList = [];   
         $scope.SonSatisTahDetayList = [];         
         $scope.TRDetayListe = [];
-        $scope.TicketPayListe = [];
-        
+        $scope.TicketPayListe = [];        
+
         $scope.ComPorts = {EkranPort : "",OdemePort:"",TeraziPort:""};
 
         setInterval(()=>
@@ -1143,7 +1143,8 @@ function Pos($scope,$window,$rootScope,db)
     function InitSifre()
     {
         $scope.SifreGiris = {};
-        $scope.SifreGiris.TxtSifreGiris = "";        
+        $scope.SifreGiris.TxtSifreGiris = "";   
+        $scope.SifreGiris.Type = 0;     
         $scope.SifreGiris.Open = function()
         {
             $('#MdlSifreGiris').modal({backdrop: 'static'});
@@ -1153,9 +1154,45 @@ function Pos($scope,$window,$rootScope,db)
             FirstKey = false;
         }
         $scope.SifreGiris.TxtSifreGirisPress = function(pKey)
-        {
+        {     
+            if(typeof pKey != 'undefined' && pKey.which != 13)       
+            {
+                return;
+            }
+            
             $('#MdlSifreGiris').modal('hide');
-            $scope.SifreGiris.Entry(true);            
+            
+            if($scope.SifreGiris.Type == 0)
+            {
+                for (let i = 0; i < $scope.KullaniciListe.length; i++) 
+                {
+                    if($scope.KullaniciListe[i].TAG == "1" && $scope.KullaniciListe[i].PASSWORD == $scope.SifreGiris.TxtSifreGiris)
+                    {
+                        $scope.SifreGiris.Entry(true); 
+                        return;
+                    }
+                }
+
+                alertify.alert(db.Language($scope.Lang,"Geçersiz şifre"))
+                $scope.SifreGiris.Entry(false); 
+                return;
+            }
+            else
+            {
+                for (let i = 0; i < $scope.KullaniciListe.length; i++) 
+                {
+                    if($scope.KullaniciListe[i].CODE == $scope.Kullanici && $scope.KullaniciListe[i].PASSWORD == $scope.SifreGiris.TxtSifreGiris)
+                    {
+                        $scope.SifreGiris.Entry(true); 
+                        return;
+                    }
+                }
+
+                alertify.alert(db.Language($scope.Lang,"Geçersiz şifre"))
+                $scope.SifreGiris.Entry(false); 
+                return;
+            }
+                       
         }  
     }
     function InsertSonYenile(pData)
@@ -1757,7 +1794,8 @@ function Pos($scope,$window,$rootScope,db)
             InitTicketPay();
 
             $scope.ParamListe = await db.GetPromiseTag($scope.Firma,'ParamGetir',[$scope.CihazID]);
-            $scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',[$scope.Kullanici]);
+            $scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',['']);
+            //$scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',[$scope.Kullanici]);
 
             if($scope.ParamListe.length > 0)
             {
@@ -2687,7 +2725,7 @@ function Pos($scope,$window,$rootScope,db)
         }
         else if(FocusSifre)
         {
-            $scope.TxtSifreGiris = $scope.TxtSifreGiris.toString().substring(0,$scope.TxtSifreGiris.length-1); 
+            $scope.SifreGiris.TxtSifreGiris = $scope.SifreGiris.TxtSifreGiris.toString().substring(0,$scope.SifreGiris.TxtSifreGiris.length-1); 
         }
     }
     $scope.BtnOnayClick = function()
@@ -2961,11 +2999,11 @@ function Pos($scope,$window,$rootScope,db)
         {
             if(FirstKey)
             {
-                $scope.TxtSifreGiris = $scope.TxtSifreGiris + Key; 
+                $scope.SifreGiris.TxtSifreGiris = $scope.SifreGiris.TxtSifreGiris + Key; 
             }
             else
             {
-                $scope.TxtSifreGiris = Key; 
+                $scope.SifreGiris.TxtSifreGiris = Key; 
                 FirstKey = true;
             }
         }
@@ -3574,6 +3612,8 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnFiyatGuncelle = function()
     {
+        $scope.SifreGiris.Type = 0; 
+        $scope.SifreGiris.TxtSifreGiris = ""
         $scope.SifreGiris.Open();
         $scope.SifreGiris.Entry = function(pStatus)
         {
@@ -3592,7 +3632,16 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnKasaAc = function()
     {
-        db.EscposCaseOpen();
+        $scope.SifreGiris.Type = 1; 
+        $scope.SifreGiris.TxtSifreGiris = ""
+        $scope.SifreGiris.Open();
+        $scope.SifreGiris.Entry = function(pStatus)
+        {
+            if(pStatus)
+            {
+                db.EscposCaseOpen();
+            }
+        }
     }
     $scope.BtnKartOdeme = function()
     {                

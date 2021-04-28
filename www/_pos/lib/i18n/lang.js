@@ -439,7 +439,8 @@ var lang =
             "Müşteri reyondan tekrar ek alış veriş yapmak istedi." : "Produit manquant retour client instantannée.",
             "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek." : "Mise en attente achat du personnel.",
             "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek." : "Refus CB client ... retour journée.",
-            "Miktar girmediniz !" : "Quantite non valide !"            
+            "Miktar girmediniz !" : "Quantite non valide !",
+            "Geçersiz şifre" : "Geçersiz şifre"
         }
     }
 }
