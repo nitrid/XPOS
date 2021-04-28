@@ -2238,6 +2238,7 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 else   
                 {
+                    document.getElementById("Sound").play(); 
                     alertify.alert(db.Language($scope.Lang,"Okuttuğunuz Barkod Sistemde Bulunamadı."));
                     $scope.TxtBarkod = "";
                 }
@@ -3611,8 +3612,7 @@ function Pos($scope,$window,$rootScope,db)
         FirstKey = false;
     }
     $scope.BtnFiyatGuncelle = function()
-    {
-        console.log(Param)
+    {        
         for (let i = 0; i < Param[0].UrunFiyatDegisimListesi.split(',').length; i++) 
         {
             if(Param[0].UrunFiyatDegisimListesi.split(',')[i] == $scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE)
