@@ -3612,10 +3612,10 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnFiyatGuncelle = function()
     {
-        let TmpStok = '02528,002233,60656,01424,01423,60660,0223,0221,00,02560,02057,01777,02527';
-        for (let i = 0; i < TmpStok.split(',').length; i++) 
+        console.log(Param)
+        for (let i = 0; i < Param[0].UrunFiyatDegisimListesi.split(',').length; i++) 
         {
-            if(TmpStok.split(',')[i] == $scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE)
+            if(Param[0].UrunFiyatDegisimListesi.split(',')[i] == $scope.SatisList[$scope.IslemListeSelectedIndex].ITEM_CODE)
             {
                 $('#MdlFiyatGuncelle').modal({backdrop: 'static'});
                 $scope.TxtFiyatGuncelle = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE.toString();
