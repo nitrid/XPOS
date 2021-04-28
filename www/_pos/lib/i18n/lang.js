@@ -439,7 +439,12 @@ var lang =
             "Müşteri reyondan tekrar ek alış veriş yapmak istedi." : "Produit manquant retour client instantannée.",
             "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek." : "Mise en attente achat du personnel.",
             "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek." : "Refus CB client ... retour journée.",
-            "Miktar girmediniz !" : "Quantite non valide !"            
+            "Miktar girmediniz !" : "Quantite non valide !",
+            "Lütfen ürün silme nedeninizi girin?" : "Veuillez entrer le motif de la supression de l’article?",
+            "Müşteri ürünü almaktan vazgeçti." : "Le client ne veut plus le produit en question.",
+            "Fiyat hatalı olduğu için müşteri almadı." : "Le client ne veut plus car prix incorrect.",
+            "Hatalı ürün seçildi doğrusuyla değiştirildi." : "Changement d’article suite erreur d’achat.",
+            "Test amaçlı ürün okutuldu." : "Produit scanné suite à test."             
         }
     }
 }
