@@ -28,6 +28,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusRepasMiktar = false;
     let FocusTicketBarkod = false;
     let FocusParkAciklama = false;
+    let FocusSifre = false;
     let FirstKey = false;
     let SonTahIndex = 0;
     let CariParam = "";
@@ -355,6 +356,11 @@ function Pos($scope,$window,$rootScope,db)
         FocusTicketBarkod = false;
         FocusParkAciklama = false;
     });
+    $('#MdlSifreGiris').on('hide.bs.modal', function () 
+    {
+        FocusBarkod = true;
+        FocusSifre = false;
+    });
     if(typeof require != 'undefined')
     {
         //BURAYA TEKRAR BAKILACAK (CALLBACK DESTROY)
@@ -470,7 +476,7 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtTicketBarkod = "";
         $scope.TicketSonTutar = 0;
         $scope.TicketTopTutar = 0;
-        $scope.TxtParkAciklama = "";
+        $scope.TxtParkAciklama = "";            
 
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
@@ -522,6 +528,8 @@ function Pos($scope,$window,$rootScope,db)
         },1000);
 
         InitClass();
+        
+        InitSifre();
     }
     function InitClass()
     {
@@ -1132,6 +1140,24 @@ function Pos($scope,$window,$rootScope,db)
             ]
         });
     }
+    function InitSifre()
+    {
+        $scope.SifreGiris = {};
+        $scope.SifreGiris.TxtSifreGiris = "";        
+        $scope.SifreGiris.Open = function()
+        {
+            $('#MdlSifreGiris').modal({backdrop: 'static'});
+            FocusSifre = true;
+            FocusBarkod = false;     
+
+            FirstKey = false;
+        }
+        $scope.SifreGiris.TxtSifreGirisPress = function(pKey)
+        {
+            $('#MdlSifreGiris').modal('hide');
+            $scope.SifreGiris.Entry(true);            
+        }  
+    }
     function InsertSonYenile(pData)
     {    
         $scope.SatisList = pData;                          
@@ -1583,6 +1609,10 @@ function Pos($scope,$window,$rootScope,db)
         else if(FocusParkAciklama)
         {
             $window.document.getElementById("TxtParkAciklama").focus();
+        }
+        else if(FocusSifre)
+        {
+            $window.document.getElementById("TxtSifreGiris").focus();
         }
     }    
     $scope.IslemListeRowClick = function(pIndex,pItem)
@@ -2655,6 +2685,10 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtParkAciklama = $scope.TxtParkAciklama.toString().substring(0,$scope.TxtParkAciklama.length-1); 
         }
+        else if(FocusSifre)
+        {
+            $scope.TxtSifreGiris = $scope.TxtSifreGiris.toString().substring(0,$scope.TxtSifreGiris.length-1); 
+        }
     }
     $scope.BtnOnayClick = function()
     {
@@ -2920,6 +2954,18 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.TxtParkAciklama = Key; 
                 }
 
+                FirstKey = true;
+            }
+        }
+        else if(FocusSifre)
+        {
+            if(FirstKey)
+            {
+                $scope.TxtSifreGiris = $scope.TxtSifreGiris + Key; 
+            }
+            else
+            {
+                $scope.TxtSifreGiris = Key; 
                 FirstKey = true;
             }
         }
@@ -3528,13 +3574,21 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnFiyatGuncelle = function()
     {
-        $('#MdlFiyatGuncelle').modal({backdrop: 'static'});
-        $scope.TxtFiyatGuncelle = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE.toString();
+        $scope.SifreGiris.Open();
+        $scope.SifreGiris.Entry = function(pStatus)
+        {
+            if(pStatus)
+            {
+                $('#MdlFiyatGuncelle').modal({backdrop: 'static'});
+                $scope.TxtFiyatGuncelle = $scope.SatisList[$scope.IslemListeSelectedIndex].PRICE.toString();
 
-        FocusFiyatGuncelle = true;
-        FocusBarkod = false;     
+                FocusFiyatGuncelle = true;
+                FocusBarkod = false;     
 
-        FirstKey = false;
+                FirstKey = false;
+            }
+        }
+        
     }
     $scope.BtnKasaAc = function()
     {
@@ -4719,5 +4773,5 @@ function Pos($scope,$window,$rootScope,db)
         }
         
         TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},600000);
-    }
+    }      
 }
