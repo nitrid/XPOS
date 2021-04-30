@@ -445,7 +445,7 @@ var lang =
             "Fiyat hatalı olduğu için müşteri almadı." : "Le client ne veut plus car prix incorrect.",
             "Hatalı ürün seçildi doğrusuyla değiştirildi." : "Changement d’article suite erreur d’achat.",
             "Test amaçlı ürün okutuldu." : "Produit scanné suite à test.",
-            "Ürünü almaktan Vazgeçti" : "Üründen Vazgeçti",
+            "Üründen Vazgeçti" : "Üründen Vazgeçti",
             "Fiyat Hatalı" : "Fiyat Hatalı",
             "Hatalı Ürün" : "Hatalı Ürün",
             "Test Amaçlı Okutma" : "Test Amaçlı Okutma",
