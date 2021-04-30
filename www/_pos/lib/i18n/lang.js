@@ -353,7 +353,7 @@ var lang =
             "Girdiğiniz puan satış tutarından fazla olamaz !" : "Nombre de points ne peut pas être supérieur au total!",
             "Sıfır İskonto Yapılamaz.!" : "Remise ne peut être 0 !",
             "Tutardan Fazla İskonto Yapılamaz.!" : "La Remise ne peut être supérieur au total!",
-             "Tutar sıfır girilemez !" : "Prix ne peut être 0 !",
+            "Tutar sıfır girilemez !" : "Prix ne peut être 0 !",
             "Çıkmak istediğinize eminmisiniz" : "Voulez-vous quitter?",
             "Bugün" : "Aujourd'hui",
             "Dün" : "Hier",
@@ -432,7 +432,7 @@ var lang =
             "Kullanıcı Listesi" : "Liste utilisateur",
             "Kullanıcı Seç" : "Choix utilisateur",
             "Yetersiz Ödeme" : "Montant insuffisant!",
-            "Ek Alış Veriş" : "Rajout de courses...",
+            "Ek Alış Veriş" : "Rajout d´achat...",
             "Mağaza Personeli" : "Personnel du magasin.",
             "K. Kartı Geçmedi" : "Refus CB.",
             "Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak." : "Somme manquante client ...retour magasin journée.",
@@ -449,8 +449,8 @@ var lang =
             "Fiyat Hatalı" : "Fiyat Hatalı",
             "Hatalı Ürün" : "Hatalı Ürün",
             "Test Amaçlı Okutma" : "Test Amaçlı Okutma",
-            "Geçersiz şifre" : "Geçersiz şifre",
-            "Yetkili Şifresini Giriniz" : "Yetkili Şifresini Giriniz"
+            "Geçersiz şifre" : "Mot de passe invalide.",
+            "Yetkili Şifresini Giriniz" : "Mot de passe utilisateur."
         }
     }
 }
