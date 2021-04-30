@@ -673,7 +673,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
             }
 
             await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraDelete',['POS_PAYMENT',$scope.SatisFisDetayList[0].TYPE,$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO]);
-            await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_PAYMENT',$scope.SatisFisDetayList[0].TYPE,$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO,$scope.TxtAciklama]);
+            await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_PAYMENT','',$scope.SatisFisDetayList[0].TYPE,$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO,0,$scope.TxtAciklama]);
 
         }
         else

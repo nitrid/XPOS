@@ -1084,9 +1084,11 @@ var QuerySql =
                 ",[LUSER] " +
                 ",[LDATE] " +
                 ",[TABLE_NAME] " +
+                ",[TAG] " +
                 ",[TYPE] " +
                 ",[REF] " +
                 ",[REF_NO] " +
+                ",[LINE_NO] " +
                 ",[DESCRIPTION] " +
                 ") VALUES ( " +
                 " @CUSER		--<CUSER, nvarchar(25),> \n" + 
@@ -1094,12 +1096,14 @@ var QuerySql =
                 ",@LUSER		--<LUSER, nvarchar(25),> \n" + 
                 ",GETDATE()		--<LDATE, datetime,> \n" + 
                 ",@TABLE_NAME	--<TABLE_NAME, nvarchar(25),> \n" + 
+                ",@TAG	        --<TAG, nvarchar(25),> \n" + 
                 ",@TYPE			--<TYPE, tinyint,> \n" + 
                 ",@REF			--<REF, nvarchar(25),> \n" + 
                 ",@REF_NO		--<REF_NO, int,> \n" + 
+                ",@LINE_NO		--<LINE_NO, int,> \n" + 
                 ",@DESCRIPTION	--<DESCRIPTION, nvarchar(max),> \n" + 
                 ")",
-        param : ['CUSER:string|25','LUSER:string|25','TABLE_NAME:string|25','TYPE:int','REF:string|25','REF_NO:int','DESCRIPTION:string|max']
+        param : ['CUSER:string|25','LUSER:string|25','TABLE_NAME:string|25','TAG:string|25','TYPE:int','REF:string|25','REF_NO:int','LINE_NO:int','DESCRIPTION:string|max']
     },
     PosMasterExtraDelete :
     {
