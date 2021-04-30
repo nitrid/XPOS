@@ -450,7 +450,17 @@ var lang =
             "Hatalı Ürün" : "Hatalı Ürün",
             "Test Amaçlı Okutma" : "Test Amaçlı Okutma",
             "Geçersiz şifre" : "Mot de passe invalide.",
-            "Yetkili Şifresini Giriniz" : "Mot de passe utilisateur."
+            "Yetkili Şifresini Giriniz" : "Mot de passe utilisateur.",
+            "Tiket Silme Açıklaması" : "Tiket Silme Açıklaması",
+		    "Lütfen tiket silme nedeninizi girin?" : "Lütfen tiket silme nedeninizi girin?",
+		    "Alişverişten Vazgeçti." : "Alişverişten Vazgeçti.",
+			"Müşteri Alişverişinden vazgeçti." : "Müşteri Alişverişinden vazgeçti.",
+			"Yetersiz Ödeme." : "Yetersiz Ödeme.",
+			"Müşteri ödeme tutarını karşılayamadı." : "Müşteri ödeme tutarını karşılayamadı.",
+			"K.Kartı yetersiz bakiye." : "K.Kartı yetersiz bakiye.",
+			"Müşterinin k.kartı geçmedi." : "Müşterinin k.kartı geçmedi.",
+			"Test Amaçlı." : "Test Amaçlı.",
+			"Test amaçlı tiket oluşturuldu ve silindi." : "Test amaçlı tiket oluşturuldu ve silindi."
         }
     }
 }

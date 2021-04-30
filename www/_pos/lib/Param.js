@@ -59,25 +59,25 @@ var Param = [
 	},
 	"EvrakSilAciklama" : 
 	{
-		"Title" : "Ürün Silme Açıklaması",
-		"Content" : "Lütfen ürün silme nedeninizi girin?",
+		"Title" : "Tiket Silme Açıklaması",
+		"Content" : "Lütfen tiket silme nedeninizi girin?",
 		"Model" : 
 		[
 			{
-				"View" : "Üründen Vazgeçti",
-				"Value" : "Müşteri ürünü almaktan vazgeçti."
+				"View" : "Alişverişten Vazgeçti.",
+				"Value" : "Müşteri Alişverişinden vazgeçti."
 			},
 			{
-				"View" : "Fiyat Hatalı",
-				"Value" : "Fiyat hatalı olduğu için müşteri almadı."
+				"View" : "Yetersiz Ödeme.",
+				"Value" : "Müşteri ödeme tutarını karşılayamadı."
 			},
 			{
-				"View" : "Hatalı Ürün",
-				"Value" : "Hatalı ürün seçildi doğrusuyla değiştirildi."
+				"View" : "K.Kartı yetersiz bakiye.",
+				"Value" : "Müşterinin k.kartı geçmedi."
 			},
 			{
-				"View" : "Test Amaçlı Okutma",
-				"Value" : "Test amaçlı ürün okutuldu."
+				"View" : "Test Amaçlı.",
+				"Value" : "Test amaçlı tiket oluşturuldu ve silindi."
 			}
 		]
 	},
