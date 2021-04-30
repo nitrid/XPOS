@@ -9,6 +9,78 @@ var Param = [
 	"MikroId": "1",
 	"Yetkili": true,
 	"UrunFiyatDegisimListesi" : "02528,002233,60656,01424,01423,60660,0223,0221,00,02560,02057,01777,02527",
+	"ParkAciklama" : 
+	{
+		"Title" : "Park Açıklaması",
+		"Content" : "Lütfen Açıklama Giriniz",
+		"Model" : 
+		[
+			{
+				"View" : "Yetersiz Ödeme",
+				"Value" : "Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak."
+			},
+			{
+				"View" : "Ek Alış Veriş",
+				"Value" : "Müşteri reyondan tekrar ek alış veriş yapmak istedi."
+			},
+			{
+				"View" : "Mağaza Personeli",
+				"Value" : "Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek."
+			},
+			{
+				"View" : "K. Kartı Geçmedi",
+				"Value" : "Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek."
+			}
+		]
+	},
+	"SatirSilAciklama" : 
+	{
+		"Title" : "Ürün Silme Açıklaması",
+		"Content" : "Lütfen ürün silme nedeninizi girin?",
+		"Model" : 
+		[
+			{
+				"View" : "Üründen Vazgeçti",
+				"Value" : "Müşteri ürünü almaktan vazgeçti."
+			},
+			{
+				"View" : "Fiyat Hatalı",
+				"Value" : "Fiyat hatalı olduğu için müşteri almadı."
+			},
+			{
+				"View" : "Hatalı Ürün",
+				"Value" : "Hatalı ürün seçildi doğrusuyla değiştirildi."
+			},
+			{
+				"View" : "Test Amaçlı Okutma",
+				"Value" : "Test amaçlı ürün okutuldu."
+			}
+		]
+	},
+	"EvrakSilAciklama" : 
+	{
+		"Title" : "Ürün Silme Açıklaması",
+		"Content" : "Lütfen ürün silme nedeninizi girin?",
+		"Model" : 
+		[
+			{
+				"View" : "Üründen Vazgeçti",
+				"Value" : "Müşteri ürünü almaktan vazgeçti."
+			},
+			{
+				"View" : "Fiyat Hatalı",
+				"Value" : "Fiyat hatalı olduğu için müşteri almadı."
+			},
+			{
+				"View" : "Hatalı Ürün",
+				"Value" : "Hatalı ürün seçildi doğrusuyla değiştirildi."
+			},
+			{
+				"View" : "Test Amaçlı Okutma",
+				"Value" : "Test amaçlı ürün okutuldu."
+			}
+		]
+	},
 	"Sistem": {
 		"KiloBarkod": "0",
 		"KiloFlag": "",

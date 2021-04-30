@@ -27,8 +27,7 @@ function Pos($scope,$window,$rootScope,db)
     let FocusTeraziFiyat = false;
     let FocusRepasMiktar = false;
     let FocusTicketBarkod = false;
-    let FocusParkAciklama = false;
-    let FocusSilAciklama = false;
+    let FocusAciklama = false;
     let FocusSifre = false;
     let FirstKey = false;
     let SonTahIndex = 0;
@@ -336,31 +335,10 @@ function Pos($scope,$window,$rootScope,db)
         FocusRepasMiktar = false;
         FocusTicketBarkod = false;
     });
-    $('#MdlParkAciklama').on('hide.bs.modal', function () 
+    $('#MdlAciklama').on('hide.bs.modal', function () 
     {
         FocusBarkod = true;
-        FocusAraToplam = false;
-        FocusMusteri = false;
-        FocusStok = false;
-        FocusStokGrup = false;
-        FocusMiktarGuncelle = false;
-        FocusFiyatGuncelle = false;
-        FocusSonTahGuncelle = false;
-        FocusKartOdeme = false;
-        FocusSadakatIndirim = false;
-        FocusIskontoYuzde = false;
-        FocusIskontoTutar = false;
-        FocusAvans = false;
-        FocusPluKodu = false;
-        FocusPluAdi = false;
-        FocusRepasMiktar = false;
-        FocusTicketBarkod = false;
-        FocusParkAciklama = false;
-    });
-    $('#MdlSilAciklama').on('hide.bs.modal', function () 
-    {
-        FocusBarkod = true;
-        FocusSilAciklama = false;
+        FocusAciklama = false;
     });
     $('#MdlSifreGiris').on('hide.bs.modal', function () 
     {
@@ -482,8 +460,6 @@ function Pos($scope,$window,$rootScope,db)
         $scope.TxtTicketBarkod = "";
         $scope.TicketSonTutar = 0;
         $scope.TicketTopTutar = 0;
-        $scope.TxtParkAciklama = "";            
-        $scope.TxtSilAciklama = "";
 
         $scope.Saat = moment(new Date(),"HH:mm:ss").format("HH:mm:ss");
 
@@ -535,8 +511,8 @@ function Pos($scope,$window,$rootScope,db)
         },1000);
 
         InitClass();
-        
         InitSifre();
+        InitAciklama();
     }
     function InitClass()
     {
@@ -882,7 +858,7 @@ function Pos($scope,$window,$rootScope,db)
             }],
             rowClick: function(args)
             {
-                $scope.TxtParkAciklama = args.item.DESCRIPTION
+                $scope.AciklamaGiris.Txt = args.item.DESCRIPTION
                 $scope.ParkIslemListeRowClick(args.itemIndex,args.item);
                 $scope.$apply();
             }
@@ -1201,6 +1177,38 @@ function Pos($scope,$window,$rootScope,db)
             }
                        
         }  
+    }
+    function InitAciklama()
+    {
+        $scope.AciklamaGiris = {};
+        $scope.AciklamaGiris.Title = "";
+        $scope.AciklamaGiris.Model = []
+        $scope.AciklamaGiris.Txt = "";
+        $scope.AciklamaGiris.Open = function()
+        {
+            $('#MdlAciklama').modal({backdrop: 'static'});
+            FocusAciklama = true;
+            FocusBarkod = false;
+        }
+        $scope.AciklamaGiris.Save = function()
+        {
+            $('#MdlAciklama').modal('hide');
+
+            if($scope.AciklamaGiris.Txt.length < 25)
+            {
+                $scope.AciklamaGiris.Entry(false);
+                alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
+                return;
+            }
+            if($scope.AciklamaGiris.Txt == "")
+            {
+                $scope.AciklamaGiris.Entry(false);
+                alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
+                return;
+            }
+            
+            $scope.AciklamaGiris.Entry(true);
+        }
     }
     function InsertSonYenile(pData)
     {    
@@ -1650,11 +1658,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             $window.document.getElementById("TxtTicketBarkod").focus();
         }
-        else if(FocusParkAciklama)
-        {
-            $window.document.getElementById("TxtParkAciklama").focus();
-        }
-        else if(FocusSilAciklama)
+        else if(FocusAciklama)
         {
             $window.document.getElementById("TxtSilAciklama").focus();
         }
@@ -2731,13 +2735,9 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtRepasMiktar = $scope.TxtRepasMiktar.toString().substring(0,$scope.TxtRepasMiktar.length-1); 
         }
-        else if(FocusParkAciklama)
+        else if(FocusAciklama)
         {
-            $scope.TxtParkAciklama = $scope.TxtParkAciklama.toString().substring(0,$scope.TxtParkAciklama.length-1); 
-        }
-        else if(FocusSilAciklama)
-        {
-            $scope.TxtSilAciklama = $scope.TxtSilAciklama.toString().substring(0,$scope.TxtSilAciklama.length-1); 
+            $scope.AciklamaGiris.Txt = $scope.AciklamaGiris.Txt.toString().substring(0,$scope.AciklamaGiris.Txt.length-1); 
         }
         else if(FocusSifre)
         {
@@ -2960,103 +2960,52 @@ function Pos($scope,$window,$rootScope,db)
                 FirstKey = true;
             }
         }
-        else if(FocusParkAciklama)
+        else if(FocusAciklama)
         {
             if(FirstKey)
             {
                 if(Key == '1')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[0].Value)
                 }
                 else if(Key == '2')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşteri reyondan tekrar ek alış veriş yapmak istedi.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[1].Value)
                 }
                 else if(Key == '3')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[2].Value)
                 }
                 else if(Key == '4')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[3].Value)
                 }
                 else
                 {
-                    $scope.TxtParkAciklama = $scope.TxtParkAciklama + Key;    
+                    $scope.AciklamaGiris.Txt = $scope.AciklamaGiris.Txt + Key;    
                 }
             }
             else
             {                                
                 if(Key == '1')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin ödemesi yetmedi gün içerisinde ödemesini yapıp alış veririşini tamamlayacak.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[0].Value)
                 }
                 else if(Key == '2')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşteri reyondan tekrar ek alış veriş yapmak istedi.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[1].Value)
                 }
                 else if(Key == '3')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Mağaza personeli alış verişini yaptı ödemesini daha sonra gerçekleştirecek.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[2].Value)
                 }
                 else if(Key == '4')
                 {
-                    $scope.TxtParkAciklama = db.Language($scope.Lang,'Müşterinin kartı geçmedi daha sonra ödemesini yapmak için gelecek.')
+                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[3].Value)
                 }
                 else
                 {
-                    $scope.TxtParkAciklama = Key; 
-                }
-
-                FirstKey = true;
-            }
-        }
-        else if(FocusSilAciklama)
-        {
-            if(FirstKey)
-            {
-                if(Key == '1')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Müşteri ürünü almaktan vazgeçti.')
-                }
-                else if(Key == '2')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Fiyat hatalı olduğu için müşteri almadı.')
-                }
-                else if(Key == '3')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Hatalı ürün seçildi doğrusuyla değiştirildi.')
-                }
-                else if(Key == '4')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Test amaçlı ürün okutuldu.')
-                }
-                else
-                {
-                    $scope.TxtSilAciklama = $scope.TxtSilAciklama + Key;    
-                }
-            }
-            else
-            {                                
-                if(Key == '1')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Müşteri ürünü almaktan vazgeçti.')
-                }
-                else if(Key == '2')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Fiyat hatalı olduğu için müşteri almadı.')
-                }
-                else if(Key == '3')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Hatalı ürün seçildi doğrusuyla değiştirildi.')
-                }
-                else if(Key == '4')
-                {
-                    $scope.TxtSilAciklama = db.Language($scope.Lang,'Test amaçlı ürün okutuldu.')
-                }
-                else
-                {
-                    $scope.TxtSilAciklama = Key; 
+                    $scope.AciklamaGiris.Txt = Key; 
                 }
 
                 FirstKey = true;
@@ -3114,11 +3063,46 @@ function Pos($scope,$window,$rootScope,db)
         alertify.confirm(db.Language($scope.Lang,'Evrağı iptal etmek istediğinize eminmisiniz ?'), 
         function()
         { 
-            $scope.SilAciklamaTip = 0;
-            $scope.TxtSilAciklama = "";
-            $('#MdlSilAciklama').modal({backdrop: 'static'});
-            FocusSilAciklama = true;
-            FocusBarkod = false;           
+            $scope.AciklamaGiris.Title = Param[0].EvrakSilAciklama.Title;
+            $scope.AciklamaGiris.Content = Param[0].EvrakSilAciklama.Content;
+            $scope.AciklamaGiris.Model = Param[0].EvrakSilAciklama.Model;
+            $scope.AciklamaGiris.Txt = ""
+            $scope.AciklamaGiris.Open();
+            $scope.AciklamaGiris.Entry = async function(pStatus)
+            {
+                if(pStatus)
+                {
+                    if($scope.SatisList.length > 0)
+                    {
+                        await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','FULL DELETE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+        
+                        db.ExecuteTag($scope.Firma,'PosSatisBelgeIptal',[$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
+                        {
+                            if(typeof(data.result.err) == 'undefined')
+                            {
+                                db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
+                                {
+                                    if(typeof(data.result.err) != 'undefined')
+                                    {
+                                        console.log(data.result.err);
+                                    }
+                                });
+            
+                                $scope.YeniEvrak();
+                            }
+                            else
+                            {
+                                console.log(data.result.err);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Kayıtlı evrak olmadan evrak'ı iptal edemezsiniz !"));
+                    }
+                }
+            }        
         }
         ,function(){});
     }
@@ -3130,139 +3114,93 @@ function Pos($scope,$window,$rootScope,db)
         alertify.confirm(db.Language($scope.Lang,'Satırı iptal etmek istediğinize eminmisiniz ?'), 
         async function()
         {   
-            $scope.SilAciklamaTip = 1;
-            $scope.TxtSilAciklama = "";
-            $('#MdlSilAciklama').modal({backdrop: 'static'});
-            FocusSilAciklama = true;
-            FocusBarkod = false;
-        },
-        function(){});
-    }
-    $scope.BtnSilAciklamaKaydet = async function()
-    {        
-        if($scope.TxtSilAciklama.length < 25)
-        {
-            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
-            return;
-        }
-        if($scope.TxtSilAciklama == "")
-        {
-            alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
-            return;
-        }
-        if($scope.SilAciklamaTip == 0)
-        {
-            if($scope.SatisList.length > 0)
+            $scope.AciklamaGiris.Title = Param[0].SatirSilAciklama.Title;
+            $scope.AciklamaGiris.Content = Param[0].SatirSilAciklama.Content;
+            $scope.AciklamaGiris.Model = Param[0].SatirSilAciklama.Model;
+            $scope.AciklamaGiris.Txt = ""
+            $scope.AciklamaGiris.Open();
+            $scope.AciklamaGiris.Entry = async function(pStatus)
             {
-                await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','FULL DELETE',0,$scope.Seri,$scope.Sira,0,$scope.TxtSilAciklama]);
-                $('#MdlSilAciklama').modal('hide');
-
-                db.ExecuteTag($scope.Firma,'PosSatisBelgeIptal',[$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
+                if(pStatus)
                 {
-                    if(typeof(data.result.err) == 'undefined')
+                    if($scope.IslemListeSelectedIndex > -1)
                     {
-                        db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
+                        await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','ROW DELETE',0,$scope.SatisList[$scope.IslemListeSelectedIndex].REF,$scope.SatisList[$scope.IslemListeSelectedIndex].REF_NO,$scope.SatisList[$scope.IslemListeSelectedIndex].LINE_NO,$scope.AciklamaGiris.Txt]);
+                        //SUB TOTAL SİLME İŞLEMİ 
+                        if($scope.SatisList[$scope.IslemListeSelectedIndex].GUID == "")
                         {
-                            if(typeof(data.result.err) != 'undefined')
+                            let TmpQuery = 
                             {
-                                console.log(data.result.err);
+                                db : $scope.Firma,
+                                query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE SUBTOTAL > 0 AND DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ",
+                                param:  ['SUBTOTAL','DEPARTMENT','TYPE','REF','REF_NO'],
+                                type:   ['int','int','int','string|25','int'],
+                                value:  [0,$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
                             }
-                        });
-    
-                        $scope.YeniEvrak();
-                    }
-                    else
-                    {
-                        console.log(data.result.err);
-                    }
-                });
-            }
-            else
-            {
-                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Kayıtlı evrak olmadan evrak'ı iptal edemezsiniz !"));
-            }
-        }
-        else
-        {
-            if($scope.IslemListeSelectedIndex > -1)
-            {
-                await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','ROW DELETE',0,$scope.SatisList[$scope.IslemListeSelectedIndex].REF,$scope.SatisList[$scope.IslemListeSelectedIndex].REF_NO,$scope.SatisList[$scope.IslemListeSelectedIndex].LINE_NO,$scope.TxtSilAciklama]);
-                $('#MdlSilAciklama').modal('hide');
-                
-                //SUB TOTAL SİLME İŞLEMİ 
-                if($scope.SatisList[$scope.IslemListeSelectedIndex].GUID == "")
-                {
-                    let TmpQuery = 
-                    {
-                        db : $scope.Firma,
-                        query:  "UPDATE POS_SALES SET SUBTOTAL = @SUBTOTAL WHERE SUBTOTAL > 0 AND DEPARTMENT = @DEPARTMENT AND TYPE = @TYPE AND REF = @REF AND REF_NO = @REF_NO ",
-                        param:  ['SUBTOTAL','DEPARTMENT','TYPE','REF','REF_NO'],
-                        type:   ['int','int','int','string|25','int'],
-                        value:  [0,$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
-                    }
-                            
-                    await db.GetPromiseQuery(TmpQuery)
-    
-                    db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
-                    {
-                        InsertSonYenile(pData)
-                    })
-                }
-                else
-                {
-                    db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],async function(data)
-                    {
-                        if(typeof(data.result.err) == 'undefined')
-                        {
-                            if($scope.SatisList.length <= 1)
+                                    
+                            await db.GetPromiseQuery(TmpQuery)
+            
+                            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
                             {
-                                db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
-                                {
-                                    if(typeof(data.result.err) != 'undefined')
-                                    {
-                                        console.log(data.result.err);
-                                    }
-                                });
-                                
-                                $scope.YeniEvrak();
-                            }
-                            else
-                            {
-                                //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
-                                // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
-                                // $scope.SatisList = TmpSatisData;
-    
-                                // for (let i = 0; i < $scope.SatisList.length; i++) 
-                                // {               
-                                //     await FiyatUpdate($scope.SatisList[i]);
-                                // }  
-                                /***************************************************************** */                                                    
-    
-                                db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
-                                {
-                                    $scope.SatisList = data;                                                                  
-                                    DipToplamHesapla();
-                                    $("#TblIslem").jsGrid({data : $scope.SatisList});  
-                                    $scope.TxtBarkod = ""; 
-                                    $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
-                                });
-                            }
+                                InsertSonYenile(pData)
+                            })
                         }
                         else
                         {
-                            console.log(data.result.err);
-                        }                                        
-                    });    
-                }            
+                            db.ExecuteTag($scope.Firma,'PosSatisSatirIptal',[$scope.SatisList[$scope.IslemListeSelectedIndex].GUID],async function(data)
+                            {
+                                if(typeof(data.result.err) == 'undefined')
+                                {
+                                    if($scope.SatisList.length <= 1)
+                                    {
+                                        db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
+                                        {
+                                            if(typeof(data.result.err) != 'undefined')
+                                            {
+                                                console.log(data.result.err);
+                                            }
+                                        });
+                                        
+                                        $scope.YeniEvrak();
+                                    }
+                                    else
+                                    {
+                                        //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
+                                        // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
+                                        // $scope.SatisList = TmpSatisData;
+            
+                                        // for (let i = 0; i < $scope.SatisList.length; i++) 
+                                        // {               
+                                        //     await FiyatUpdate($scope.SatisList[i]);
+                                        // }  
+                                        /***************************************************************** */                                                    
+            
+                                        db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
+                                        {
+                                            $scope.SatisList = data;                                                                  
+                                            DipToplamHesapla();
+                                            $("#TblIslem").jsGrid({data : $scope.SatisList});  
+                                            $scope.TxtBarkod = ""; 
+                                            $scope.IslemListeRowClick(0,$scope.SatisList[0]);   
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    console.log(data.result.err);
+                                }                                        
+                            });    
+                        }            
+                    }
+                    else
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Seçili satır olmadan evrak iptal edemezsiniz !"));
+                    }
+                }
             }
-            else
-            {
-                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Seçili satır olmadan evrak iptal edemezsiniz !"));
-            }
-        }
-        
+        },
+        function(){});
     }
     $scope.BtnParkdakiIslem = function()
     {
@@ -3272,29 +3210,19 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
-            $scope.TxtParkAciklama = "";
-            $('#MdlParkAciklama').modal({backdrop: 'static'});
-            FocusParkAciklama = true;
-            FocusBarkod = false;
-        }
-    }
-    $scope.BtnParkAciklamaKaydet = async function()
-    {
-        if($scope.TxtParkAciklama.length < 25)
-        {
-            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
-            return;
-        }
-        if($scope.TxtParkAciklama == "")
-        {
-            alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
-            return;
-        }
-        if($scope.SatisList.length > 0)
-        {
-            await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','PARK DESC',0,$scope.Seri,$scope.Sira,0,$scope.TxtParkAciklama]);
-            $('#MdlParkAciklama').modal('hide');
-            $scope.YeniEvrak();
+            $scope.AciklamaGiris.Title = Param[0].ParkAciklama.Title;
+            $scope.AciklamaGiris.Content = Param[0].ParkAciklama.Content;
+            $scope.AciklamaGiris.Model = Param[0].ParkAciklama.Model;
+            $scope.AciklamaGiris.Txt = ""
+            $scope.AciklamaGiris.Open();
+            $scope.AciklamaGiris.Entry = async function(pStatus)
+            {
+                if(pStatus)
+                {
+                    await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','PARK DESC',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                    $scope.YeniEvrak();
+                }
+            }
         }
     }
     $scope.BtnParkSec = function(pRef,pRefNo)

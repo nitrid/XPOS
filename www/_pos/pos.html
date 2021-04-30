@@ -1403,7 +1403,7 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-12">
-                                        <p class="text-center h5 text-break">{{TxtParkAciklama}}</p>
+                                        <p class="text-center h5 text-break">{{AciklamaGiris.Txt}}</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -3134,35 +3134,35 @@
                     </div>
                 </div>
                 <!-- Ürün Sil Aciklama -->
-                <div class="modal fade " id="MdlSilAciklama" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                <div class="modal fade " id="MdlAciklama" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-simple modal-center modal-primary modal-lg">
                         <div class="modal-content">
                             <div class="modal-header" style="height: 60px;">
-                                <h4 class="modal-title" langu>Ürün Silme Açıklaması</h4>
+                                <h4 class="modal-title" langu>{{AciklamaGiris.Title}}</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row py-1">
                                     <div class="col-12">
-                                        <h5 class="text-primary text-center" langu>Lütfen ürün silme nedeninizi girin?</h5>
+                                        <h5 class="text-primary text-center" langu>{{AciklamaGiris.Content}}</h5>
                                     </div>
                                 </div>
                                 <div class="form-group row py-5">
                                     <div class="col-12">
-                                        <textarea class="form-control" ng-model="TxtSilAciklama" id="TxtSilAciklama" rows="4"></textarea>
+                                        <textarea class="form-control" ng-model="AciklamaGiris.Txt" id="TxtSilAciklama" rows="4"></textarea>
                                     </div>
                                 </div>
                                 <div class="row py-1">
                                     <div class="col-lg-3 px-1">
-                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('1')" langu>Üründen Vazgeçti</button>
+                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('1')" langu>{{AciklamaGiris.Model[0].View}}</button>
                                     </div>
                                     <div class="col-lg-3 px-1">
-                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('2')" langu>Fiyat Hatalı</button>
+                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('2')" langu>{{AciklamaGiris.Model[1].View}}</button>
                                     </div>
                                     <div class="col-lg-3 px-1">
-                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('3')" langu>Hatalı Ürün</button>
+                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('3')" langu>{{AciklamaGiris.Model[2].View}}</button>
                                     </div>
                                     <div class="col-lg-3 px-1">
-                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('4')" langu>Test Amaçlı Okutma</button>
+                                        <button type="button" class="btn btn-primary btn btn-secondary btn-block btn-lg" style="height: 45px;font-size: 16px;" ng-click="BtnTusClick('4')" langu>{{AciklamaGiris.Model[3].View}}</button>
                                     </div>
                                 </div>
                                 <div class="row py-1">
@@ -3281,7 +3281,7 @@
                                         <button type="button" class="btn btn-raised btn-danger btn-block btn-lg" data-dismiss="modal" aria-label="Close"><i class="icon fa-close" style="font-size: 18px;" aria-hidden="true"></i></button>                                        
                                     </div>
                                     <div class="col-lg-4 px-1 offset-1">
-                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnSilAciklamaKaydet()"><i class="icon fa-check" style="font-size: 18px;" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="AciklamaGiris.Save()"><i class="icon fa-check" style="font-size: 18px;" aria-hidden="true"></i></button>
                                     </div>
                                     <div class="col-lg-3 px-1 offset-1">
                                         <button type="button" class="btn btn-raised btn-success btn-block btn-lg" ng-click="BtnSilClick()"><i class="icon wb-arrow-left" style="font-size: 18px;" aria-hidden="true"></i></button>
