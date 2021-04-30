@@ -40,7 +40,7 @@ var Param = [
 		"Model" : 
 		[
 			{
-				"View" : "Üründen Vazgeçti",
+				"View" : "Ürünü almaktan Vazgeçti",
 				"Value" : "Müşteri ürünü almaktan vazgeçti."
 			},
 			{
