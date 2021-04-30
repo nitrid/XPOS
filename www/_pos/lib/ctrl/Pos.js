@@ -3344,7 +3344,7 @@ function Pos($scope,$window,$rootScope,db)
             FocusBarkod = false;
         }
     }
-    $scope.BtnParkAciklamaKaydet = function()
+    $scope.BtnParkAciklamaKaydet = async function()
     {
         if($scope.TxtParkAciklama.length < 25)
         {
