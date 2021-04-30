@@ -356,7 +356,7 @@ function Pos($scope,$window,$rootScope,db)
                 if(JSON.parse(pData.msg).transaction_result != 0)
                 {
                     $("#MdlKartYukleniyor").modal("hide"); 
-                    alertify.confirm(db.Language($scope.Lang,'Ödeme gerçekleşmedi'), function()
+                    alertify.confirm($scope.SetLang('Ödeme gerçekleşmedi'), function()
                     {
                         $("#MdlKartYukleniyor").modal("show");
                     });    
@@ -708,14 +708,14 @@ function Pos($scope,$window,$rootScope,db)
             [
             {
                 name: "NO",
-                title: db.Language($scope.Lang,"NO"),
+                title: $scope.SetLang("NO"),
                 type: "text",
                 align: "center",
                 width: 30
             },
             {
                 name: "ITEM_NAME",
-                title: db.Language($scope.Lang,"ADI"),
+                title: $scope.SetLang("ADI"),
                 type: "text",
                 align: "center",
                 width: 200,
@@ -726,21 +726,21 @@ function Pos($scope,$window,$rootScope,db)
             },
             {
                 name: "QUANTITY",
-                title: db.Language($scope.Lang,"MIKTAR"),
+                title: $scope.SetLang("MIKTAR"),
                 type: "decimal",
                 align: "center",
                 width: 60
             },         
             {
                 name: "PRICE",
-                title: db.Language($scope.Lang,"FIYAT"),
+                title: $scope.SetLang("FIYAT"),
                 type: "decimal",
                 align: "center",
                 width: 60
             },
             {
                 name: "CAMOUNT",
-                title: db.Language($scope.Lang,"TUTAR"),
+                title: $scope.SetLang("TUTAR"),
                 type: "decimal",
                 align: "center",
                 width: 60
@@ -780,14 +780,14 @@ function Pos($scope,$window,$rootScope,db)
             fields: 
             [{
                 name: "TYPE_NAME",
-                title: db.Language($scope.Lang,"TIP"),
+                title: $scope.SetLang("TIP"),
                 type: "number",
                 align: "center",
                 width: 60
             }, 
             {
                 name: "AMOUNT",
-                title: db.Language($scope.Lang,"TUTAR"),
+                title: $scope.SetLang("TUTAR"),
                 type: "decimal",
                 align: "center",
                 width: 60
@@ -816,42 +816,42 @@ function Pos($scope,$window,$rootScope,db)
             fields: 
             [{
                 name: "LUSER",
-                title: db.Language($scope.Lang,"KULLANICI"),
+                title: $scope.SetLang("KULLANICI"),
                 type: "text",
                 align: "center",
                 width: 75
             },
             {
                 name: "DATE",
-                title: db.Language($scope.Lang,"TARIH"),
+                title: $scope.SetLang("TARIH"),
                 type: "text",
                 align: "center",
                 width: 75
             },
             {
                 name: "REF",
-                title: db.Language($scope.Lang,"SERI"),
+                title: $scope.SetLang("SERI"),
                 type: "text",
                 align: "center",
                 width: 50
             }, 
             {
                 name: "REF_NO",
-                title: db.Language($scope.Lang,"SIRA"),
+                title: $scope.SetLang("SIRA"),
                 type: "text",
                 align: "center",
                 width: 50
             },
             {
                 name: "AMOUNT",
-                title: db.Language($scope.Lang,"TUTAR"),
+                title: $scope.SetLang("TUTAR"),
                 type: "decimal",
                 align: "center",
                 width: 60
             },
             {
                 name: "DESCRIPTION",
-                title: db.Language($scope.Lang,"ACIKLAMA"),
+                title: $scope.SetLang("ACIKLAMA"),
                 type: "text",
                 align: "center",
                 width: 200
@@ -883,70 +883,70 @@ function Pos($scope,$window,$rootScope,db)
             [
             {
                 name: "CDATE",
-                title: db.Language($scope.Lang,"TARIH"),
+                title: $scope.SetLang("TARIH"),
                 type: "date",
                 align: "center",
                 width: 50
             },
             {
                 name: "CHOUR",
-                title: db.Language($scope.Lang,"SAAT"),
+                title: $scope.SetLang("SAAT"),
                 type: "date",
                 align: "center",
                 width: 50
             },
             {
                 name: "REF",
-                title: db.Language($scope.Lang,"SERI"),
+                title: $scope.SetLang("SERI"),
                 type: "TEXT",
                 align: "center",
                 width: 35
             },
             {
                 name: "REF_NO",
-                title: db.Language($scope.Lang,"SIRA"),
+                title: $scope.SetLang("SIRA"),
                 type: "number",
                 align: "center",
                 width: 35
             },
             {
                 name: "LINE_NO",
-                title: db.Language($scope.Lang,"SATIR"),
+                title: $scope.SetLang("SATIR"),
                 type: "number",
                 align: "center",
                 width: 30
             },
             {
                 name: "CUSTOMER_CODE",
-                title: db.Language($scope.Lang,"MÜŞTERİ"),
+                title: $scope.SetLang("MÜŞTERİ"),
                 type: "number",
                 align: "center",
                 width: 100
             },
             {
                 name: "USER",
-                title: db.Language($scope.Lang,"KULLANICI"),
+                title: $scope.SetLang("KULLANICI"),
                 type: "TEXT",
                 align: "center",
                 width: 50
             },
             {
                 name: "DISCOUNT",
-                title: db.Language($scope.Lang,"INDIRIM"),
+                title: $scope.SetLang("INDIRIM"),
                 type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "LOYALTY_AMOUNT",
-                title: db.Language($scope.Lang,"SADAKAT"),
+                title: $scope.SetLang("SADAKAT"),
                 type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "TTC",
-                title: db.Language($scope.Lang,"TUTAR"),
+                title: $scope.SetLang("TUTAR"),
                 type: "decimal",
                 align: "center",
                 width: 50
@@ -980,35 +980,35 @@ function Pos($scope,$window,$rootScope,db)
             [
             {
                 name: "BARCODE",
-                title: db.Language($scope.Lang,"BARKOD"),
+                title: $scope.SetLang("BARKOD"),
                 type: "number",
                 align: "center",
                 width: 100
             },
             {
                 name: "NAME",
-                title: db.Language($scope.Lang,"NAME"),
+                title: $scope.SetLang("NAME"),
                 type: "TEXT",
                 align: "center",
                 width: 150
             },            
             {
                 name: "QUANTITY",
-                title: db.Language($scope.Lang,"MIKTAR"),
+                title: $scope.SetLang("MIKTAR"),
                 type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "PRICE",
-                title: db.Language($scope.Lang,"FIYAT"),
+                title: $scope.SetLang("FIYAT"),
                 type: "decimal",
                 align: "center",
                 width: 50
             },
             {
                 name: "AMOUNT",
-                title: db.Language($scope.Lang,"TUTAR"),
+                title: $scope.SetLang("TUTAR"),
                 type: "decimal",
                 align: "center",
                 width: 50
@@ -1044,13 +1044,13 @@ function Pos($scope,$window,$rootScope,db)
                 [
                 {
                     name: "TYPE",
-                    title: db.Language($scope.Lang,"TIP"),
+                    title: $scope.SetLang("TIP"),
                     align: "center",
                     width: 75
                 },
                 {
                     name: "AMOUNT",
-                    title: db.Language($scope.Lang, "AMOUNT"),
+                    title: $scope.SetLang( "AMOUNT"),
                     type: "decimal",
                     align: "center",
                     width: 35
@@ -1156,7 +1156,7 @@ function Pos($scope,$window,$rootScope,db)
                     }
                 }
 
-                alertify.alert(db.Language($scope.Lang,"Geçersiz şifre"))
+                alertify.alert($scope.SetLang("Geçersiz şifre"))
                 $scope.SifreGiris.Entry(false); 
                 return;
             }
@@ -1171,7 +1171,7 @@ function Pos($scope,$window,$rootScope,db)
                     }
                 }
 
-                alertify.alert(db.Language($scope.Lang,"Geçersiz şifre"))
+                alertify.alert($scope.SetLang("Geçersiz şifre"))
                 $scope.SifreGiris.Entry(false); 
                 return;
             }
@@ -1197,13 +1197,13 @@ function Pos($scope,$window,$rootScope,db)
             if($scope.AciklamaGiris.Txt.length < 25)
             {
                 $scope.AciklamaGiris.Entry(false);
-                alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
+                alertify.alert($scope.SetLang("Girmiş olduğunuz açıklama 25 karakter den küçük olamaz."));
                 return;
             }
             if($scope.AciklamaGiris.Txt == "")
             {
                 $scope.AciklamaGiris.Entry(false);
-                alertify.alert(db.Language($scope.Lang,"Açıklama alanını boş geçemezsiniz !"))
+                alertify.alert($scope.SetLang("Açıklama alanını boş geçemezsiniz !"))
                 return;
             }
             
@@ -1845,7 +1845,7 @@ function Pos($scope,$window,$rootScope,db)
             }
             else
             {
-                alertify.alert(db.Language($scope.Lang,"Parametre Getirme İşlemi Başarısız Oldu, Lütfen CihazID'nizi Kontrol Edin."))
+                alertify.alert($scope.SetLang("Parametre Getirme İşlemi Başarısız Oldu, Lütfen CihazID'nizi Kontrol Edin."))
             }
             
             $scope.Miktar = 1;
@@ -2049,7 +2049,7 @@ function Pos($scope,$window,$rootScope,db)
                 }
                 else
                 {
-                    alertify.alert(db.Language($scope.Lang,"Müşteri bulunamadı !"));
+                    alertify.alert($scope.SetLang("Müşteri bulunamadı !"));
                 }                
 
                 $scope.TxtBarkod = ""; 
@@ -2072,7 +2072,7 @@ function Pos($scope,$window,$rootScope,db)
 
                 if($scope.SatisList.length == 0)
                 {
-                    alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+                    alertify.alert($scope.SetLang("Satış olmadan ödeme alamazsınız !"));
                     $scope.TxtBarkod = "";
                     return;
                 }
@@ -2084,14 +2084,14 @@ function Pos($scope,$window,$rootScope,db)
 
                     if(db.Equal($scope.TahList,"TYPE",0))
                     {
-                        alertify.alert(db.Language($scope.Lang,"Bon d'avoir girmeden önce girili tahsilatları temizleyiniz !"));
+                        alertify.alert($scope.SetLang("Bon d'avoir girmeden önce girili tahsilatları temizleyiniz !"));
                         $scope.TxtBarkod = "";
                         return;
                     }
                 }
                 else
                 {
-                    alertify.alert(db.Language($scope.Lang,"Bu barkod tipini bu bölümden okutamazsınız !"));
+                    alertify.alert($scope.SetLang("Bu barkod tipini bu bölümden okutamazsınız !"));
                     $scope.TxtBarkod = "";
                     return;
                     // if(pBarkod.length == 22)
@@ -2110,14 +2110,14 @@ function Pos($scope,$window,$rootScope,db)
 
                     // if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
                     // {
-                    //     alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                    //     alertify.alert($scope.SetLang("Geçersiz ticket."));
                     //     $scope.TxtBarkod = "";
                     //     return;
                     // }
 
                     // if(parseFloat(TmpTicket / 100).toDigit2() > 21)
                     // {
-                    //     alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
+                    //     alertify.alert($scope.SetLang("Bu tutarda  ticket olamaz !"));
                     //     $scope.TxtBarkod = "";
                     //     return;
                     // }
@@ -2152,11 +2152,11 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         if(data[0].CODE == '001')
                         {
-                            alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                            alertify.alert($scope.SetLang("Çalıntı Ticket !"));
                         }
                         else
                         {
-                            alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                            alertify.alert($scope.SetLang("Daha önce kullanılmıştır !"));
                         }
                         
                     }
@@ -2229,7 +2229,7 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         if($scope.Stok[0].PRICE == 0)
                         {
-                            let TmpConfirm = await db.Confirm(db.Language($scope.Lang,"Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?"));
+                            let TmpConfirm = await db.Confirm($scope.SetLang("Ürünün fiyat bilgisi tanımsız ! Devam etmek istermisiniz ?"));
 
                             if(TmpConfirm == false)
                             {
@@ -2254,7 +2254,7 @@ function Pos($scope,$window,$rootScope,db)
                 else   
                 {
                     document.getElementById("Sound").play(); 
-                    alertify.alert(db.Language($scope.Lang,"Okuttuğunuz Barkod Sistemde Bulunamadı."));
+                    alertify.alert($scope.SetLang("Okuttuğunuz Barkod Sistemde Bulunamadı."));
                     $scope.TxtBarkod = "";
                 }
             });
@@ -2512,7 +2512,7 @@ function Pos($scope,$window,$rootScope,db)
 
                 if($scope.SatisList.length == 0)
                 {
-                    alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+                    alertify.alert($scope.SetLang("Satış olmadan ödeme alamazsınız !"));
                     $scope.TxtTicketBarkod = "";
                     return;
                 }
@@ -2533,14 +2533,14 @@ function Pos($scope,$window,$rootScope,db)
 
                 if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
                 {
-                    alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                    alertify.alert($scope.SetLang("Geçersiz ticket."));
                     $scope.TxtTicketBarkod = "";
                     return;
                 }
 
                 if(parseFloat(TmpTicket / 100).toDigit2() > 21)
                 {
-                    alertify.alert(db.Language($scope.Lang,"Bu tutarda  ticket olamaz !"));
+                    alertify.alert($scope.SetLang("Bu tutarda  ticket olamaz !"));
                     $scope.TxtTicketBarkod = "";
                     return;
                 }
@@ -2594,11 +2594,11 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         if(data[0].CODE == '001')
                         {
-                            alertify.alert(db.Language($scope.Lang,"Çalıntı Ticket !"));
+                            alertify.alert($scope.SetLang("Çalıntı Ticket !"));
                         }
                         else
                         {
-                            alertify.alert(db.Language($scope.Lang,"Daha önce kullanılmıştır !"));
+                            alertify.alert($scope.SetLang("Daha önce kullanılmıştır !"));
                         }
                         
                     }
@@ -2612,7 +2612,7 @@ function Pos($scope,$window,$rootScope,db)
             else
             {
                 $scope.TxtTicketBarkod = "";
-                alertify.alert(db.Language($scope.Lang,"Geçersiz ticket."));
+                alertify.alert($scope.SetLang("Geçersiz ticket."));
                 return;
             }
         }
@@ -2661,7 +2661,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 console.log($scope.SatisList[$scope.IslemListeSelectedIndex].MIN_PRICE)
                 FirstKey = false;
-                alertify.alert(db.Language($scope.Lang,"Geçersiz fiyat girdiniz !"))
+                alertify.alert($scope.SetLang("Geçersiz fiyat girdiniz !"))
             }
         }
     }
@@ -2966,19 +2966,19 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(Key == '1')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[0].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[0].Value)
                 }
                 else if(Key == '2')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[1].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[1].Value)
                 }
                 else if(Key == '3')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[2].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[2].Value)
                 }
                 else if(Key == '4')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[3].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[3].Value)
                 }
                 else
                 {
@@ -2989,19 +2989,19 @@ function Pos($scope,$window,$rootScope,db)
             {                                
                 if(Key == '1')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[0].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[0].Value)
                 }
                 else if(Key == '2')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[1].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[1].Value)
                 }
                 else if(Key == '3')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[2].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[2].Value)
                 }
                 else if(Key == '4')
                 {
-                    $scope.AciklamaGiris.Txt = db.Language($scope.Lang,$scope.AciklamaGiris.Model[3].Value)
+                    $scope.AciklamaGiris.Txt = $scope.SetLang($scope.AciklamaGiris.Model[3].Value)
                 }
                 else
                 {
@@ -3057,10 +3057,10 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnBelgeIptal = function()
     {
-        alertify.okBtn(db.Language($scope.Lang,'Evet'));
-        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+        alertify.okBtn($scope.SetLang('Evet'));
+        alertify.cancelBtn($scope.SetLang('Hayır'));
 
-        alertify.confirm(db.Language($scope.Lang,'Evrağı iptal etmek istediğinize eminmisiniz ?'), 
+        alertify.confirm($scope.SetLang('Evrağı iptal etmek istediğinize eminmisiniz ?'), 
         function()
         { 
             $scope.AciklamaGiris.Title = Param[0].EvrakSilAciklama.Title;
@@ -3098,8 +3098,8 @@ function Pos($scope,$window,$rootScope,db)
                     }
                     else
                     {
-                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                        alertify.alert(db.Language($scope.Lang,"Kayıtlı evrak olmadan evrak'ı iptal edemezsiniz !"));
+                        alertify.okBtn($scope.SetLang("Tamam"));
+                        alertify.alert($scope.SetLang("Kayıtlı evrak olmadan evrak'ı iptal edemezsiniz !"));
                     }
                 }
             }        
@@ -3108,10 +3108,10 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnSatirIptal = function()
     {
-        alertify.okBtn(db.Language($scope.Lang,'Evet'));
-        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+        alertify.okBtn($scope.SetLang('Evet'));
+        alertify.cancelBtn($scope.SetLang('Hayır'));
 
-        alertify.confirm(db.Language($scope.Lang,'Satırı iptal etmek istediğinize eminmisiniz ?'), 
+        alertify.confirm($scope.SetLang('Satırı iptal etmek istediğinize eminmisiniz ?'), 
         async function()
         {   
             $scope.AciklamaGiris.Title = Param[0].SatirSilAciklama.Title;
@@ -3194,8 +3194,8 @@ function Pos($scope,$window,$rootScope,db)
                     }
                     else
                     {
-                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                        alertify.alert(db.Language($scope.Lang,"Seçili satır olmadan evrak iptal edemezsiniz !"));
+                        alertify.okBtn($scope.SetLang("Tamam"));
+                        alertify.alert($scope.SetLang("Seçili satır olmadan evrak iptal edemezsiniz !"));
                     }
                 }
             }
@@ -3275,8 +3275,8 @@ function Pos($scope,$window,$rootScope,db)
     {   
         if($scope.SatisList.length < 1)
         {
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Satış işlemi yapmadan tahsilat giremezsiniz !"));
+            alertify.okBtn($scope.SetLang("Tamam"));
+            alertify.alert($scope.SetLang("Satış işlemi yapmadan tahsilat giremezsiniz !"));
             return;
         }
         
@@ -3418,17 +3418,17 @@ function Pos($scope,$window,$rootScope,db)
         }
         else
         {
-            alertify.alert(db.Language($scope.Lang,"Henüz iade edilecek bir ürün girişi yapmadınız !"))
+            alertify.alert($scope.SetLang("Henüz iade edilecek bir ürün girişi yapmadınız !"))
         }
     }
     $scope.BtnIadeAl = function(pTip)
     {
         $('#MdlIadeTip').modal('hide'); 
 
-        alertify.okBtn(db.Language($scope.Lang,'Evet'));
-        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+        alertify.okBtn($scope.SetLang('Evet'));
+        alertify.cancelBtn($scope.SetLang('Hayır'));
 
-        alertify.confirm(db.Language($scope.Lang,'Iade almak istediğinize eminmisiniz ?'), 
+        alertify.confirm($scope.SetLang('Iade almak istediğinize eminmisiniz ?'), 
         function()
         { 
             if($scope.SatisList.length > 0)
@@ -3451,11 +3451,11 @@ function Pos($scope,$window,$rootScope,db)
                     //TİP 0 İSE NAKİT İADE 1 İSE BONDAVOIR
                     if(pTip == 0)
                     {
-                        $scope.ModalMsg.IadeParaUstu = db.Language($scope.Lang,"Tutarı iade ediniz !")
+                        $scope.ModalMsg.IadeParaUstu = $scope.SetLang("Tutarı iade ediniz !")
                     }
                     else
                     {       
-                        $scope.ModalMsg.IadeParaUstu = db.Language($scope.Lang,"Tutarın daki iade fişini müşteriye teslim ediniz !");
+                        $scope.ModalMsg.IadeParaUstu = $scope.SetLang("Tutarın daki iade fişini müşteriye teslim ediniz !");
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
                         let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
@@ -3571,23 +3571,23 @@ function Pos($scope,$window,$rootScope,db)
             }
             else
             {
-                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Kayıtlı evrak olmadan iade alamazsınız !"));
+                alertify.okBtn($scope.SetLang("Tamam"));
+                alertify.alert($scope.SetLang("Kayıtlı evrak olmadan iade alamazsınız !"));
             }
         }
         ,function(){});
     }
     $scope.BtnKullaniciDegistir = function()
     {   
-        alertify.confirm(db.Language($scope.Lang,"Kullanıcı değiştirmek istediğinize eminmisiniz ?"),
+        alertify.confirm($scope.SetLang("Kullanıcı değiştirmek istediğinize eminmisiniz ?"),
 
         function(){
-            alertify.okBtn(db.Language($scope.Lang,'Evet'));
+            alertify.okBtn($scope.SetLang('Evet'));
             var url = "index.html";
             $window.location.href = url;
         },
         function(){
-            alertify.cancelBtn(db.Language($scope.Lang,'Vazgeç'));
+            alertify.cancelBtn($scope.SetLang('Vazgeç'));
         });
     }
     $scope.BtnSonSatis = function()
@@ -3691,8 +3691,8 @@ function Pos($scope,$window,$rootScope,db)
     {                
         if($scope.SatisList.length < 1)
         {
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Satış işlemi yapmadan tahsilat giremezsiniz !"));
+            alertify.okBtn($scope.SetLang("Tamam"));
+            alertify.alert($scope.SetLang("Satış işlemi yapmadan tahsilat giremezsiniz !"));
             return;
         }
 
@@ -3722,7 +3722,7 @@ function Pos($scope,$window,$rootScope,db)
     } 
     $scope.BtnKartZorla = function()
     {
-        alertify.confirm(db.Language($scope.Lang,'Ödemeyi aldığınıza eminmisiniz ?'), () => 
+        alertify.confirm($scope.SetLang('Ödemeyi aldığınıza eminmisiniz ?'), () => 
         {
             $scope.TahTip = 1;
 
@@ -3766,8 +3766,8 @@ function Pos($scope,$window,$rootScope,db)
     {                
         if($scope.SatisList.length < 1)
         {
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Satış işlemi yapmadan tahsilat giremezsiniz !"));
+            alertify.okBtn($scope.SetLang("Tamam"));
+            alertify.alert($scope.SetLang("Satış işlemi yapmadan tahsilat giremezsiniz !"));
             return;
         }
 
@@ -3819,7 +3819,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY == 1)
         {
-            alertify.alert(db.Language($scope.Lang,"Miktar 1 den küçük olamaz."))
+            alertify.alert($scope.SetLang("Miktar 1 den küçük olamaz."))
             return;
         }
         $scope.PosSatisMiktarUpdate($scope.SatisList[$scope.IslemListeSelectedIndex],$scope.SatisList[$scope.IslemListeSelectedIndex].QUANTITY -1);
@@ -3934,12 +3934,12 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.Class.BtnEdit == "icon wb-lock")
         {
-            alertify.alert(db.Language($scope.Lang,"Dikkat Plu Düzenleme Aktifleştirildi."));
+            alertify.alert($scope.SetLang("Dikkat Plu Düzenleme Aktifleştirildi."));
             $scope.Class.BtnEdit = "icon wb-unlock"
         }
         else
         {
-            alertify.alert(db.Language($scope.Lang,"Dikkat Plu Düzenleme Devre Dışı Bırakıldı."));
+            alertify.alert($scope.SetLang("Dikkat Plu Düzenleme Devre Dışı Bırakıldı."));
             $scope.Class.BtnEdit = "icon wb-lock"
         }
     }
@@ -4038,7 +4038,7 @@ function Pos($scope,$window,$rootScope,db)
         {
             if($scope.PluGrupIndex.toString() == "")
             {
-                alertify.alert(db.Language($scope.Lang,'Lütfen önce grup tanımlayınız !'))
+                alertify.alert($scope.SetLang('Lütfen önce grup tanımlayınız !'))
                 return;
             }
         }
@@ -4068,7 +4068,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(typeof(InsertResult.result.err) == 'undefined')
                 {   
-                    alert(db.Language($scope.Lang,"Kayıt İşlemi Başarıyla Gerçekleşti."))
+                    alert($scope.SetLang("Kayıt İşlemi Başarıyla Gerçekleşti."))
                     $("#MdlPluEdit").modal("hide");
                     $scope.PluGrupAdi = "";
                     $scope.PluIndex = "";
@@ -4087,7 +4087,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(typeof(InsertResult.result.err) == 'undefined')
                 {   
-                    alert(db.Language($scope.Lang,"Güncelleme İşlemi Başarıyla Gerçekleşti."))
+                    alert($scope.SetLang("Güncelleme İşlemi Başarıyla Gerçekleşti."))
                     $("#MdlPluEdit").modal("hide");
                     $scope.PluGrupAdi = "";
                     $scope.PluIndex = "";
@@ -4426,17 +4426,17 @@ function Pos($scope,$window,$rootScope,db)
                     $(this).jsGrid({data : $scope.SonSatisTahDetayList});
                 });
             });
-            alertify.alertdb.Language($scope.Lang,("Girilen tutar hatalıdır !"))
+            alertify.alert$scope.SetLang(("Girilen tutar hatalıdır !"))
         }
     }
     $scope.BtnCariDegistir = function()
     {
         if($scope.CariKodu != CariParam)
         {
-            alertify.okBtn(db.Language($scope.Lang,'Evet'));
-            alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+            alertify.okBtn($scope.SetLang('Evet'));
+            alertify.cancelBtn($scope.SetLang('Hayır'));
 
-            alertify.confirm(db.Language($scope.Lang,'Müşteriden çıkış yapmak istiyormusunuz ?'), () => 
+            alertify.confirm($scope.SetLang('Müşteriden çıkış yapmak istiyormusunuz ?'), () => 
             {
                 $scope.CariKodu = CariParam
                 $scope.CariAdi = ''
@@ -4459,12 +4459,12 @@ function Pos($scope,$window,$rootScope,db)
     {            
         if($scope.SatisList.length == 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Satış yapmadan puan kullanamazsınız !"));
+            alertify.alert($scope.SetLang("Satış yapmadan puan kullanamazsınız !"));
             return;
         }
         if($scope.CariPuan == 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Kullanılacak puan yok !"));
+            alertify.alert($scope.SetLang("Kullanılacak puan yok !"));
             return;
         }
 
@@ -4482,13 +4482,13 @@ function Pos($scope,$window,$rootScope,db)
         if($scope.TxtSadakatIndirim > ($scope.CariPuan - $scope.CariKullanPuan))
         {
             FirstKey = false;
-            alertify.alert(db.Language($scope.Lang,"Girdiğiniz puan mevcut puandan fazla olamaz !"));
+            alertify.alert($scope.SetLang("Girdiğiniz puan mevcut puandan fazla olamaz !"));
             return;
         }
         if(TmpPuanTutar > $scope.GenelToplam)
         {
             FirstKey = false;
-            alertify.alert(db.Language($scope.Lang,"Girdiğiniz puan satış tutarından fazla olamaz !"));
+            alertify.alert($scope.SetLang("Girdiğiniz puan satış tutarından fazla olamaz !"));
             return;
         }
 
@@ -4617,12 +4617,12 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TxtIskontoTutar <= 0 || $scope.TxtIskontoYuzde <= 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Sıfır İskonto Yapılamaz.!"));
+            alertify.alert($scope.SetLang("Sıfır İskonto Yapılamaz.!"));
             return;
         }
         if($scope.TxtIskontoSatisSonra < 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Tutardan Fazla İskonto Yapılamaz.!"));
+            alertify.alert($scope.SetLang("Tutardan Fazla İskonto Yapılamaz.!"));
             return;
         }
         
@@ -4709,7 +4709,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TxtAvans <= 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Tutar sıfır girilemez !"));
+            alertify.alert($scope.SetLang("Tutar sıfır girilemez !"));
             return;
         }
 
@@ -4755,7 +4755,7 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnCikis = function()
     {
-        alertify.confirm(db.Language($scope.Lang,"Çıkmak istediğinize eminmisiniz"),
+        alertify.confirm($scope.SetLang("Çıkmak istediğinize eminmisiniz"),
         () => 
         {
             $window.location.href = "index.html";
@@ -4823,7 +4823,7 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length == 0)
         {
-            alertify.alert(db.Language($scope.Lang,"Satış olmadan ödeme alamazsınız !"));
+            alertify.alert($scope.SetLang("Satış olmadan ödeme alamazsınız !"));
             return;
         }
 
@@ -4866,5 +4866,9 @@ function Pos($scope,$window,$rootScope,db)
         }
         
         TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},600000);
-    }      
+    }    
+    $scope.SetLang = function(pData)
+    {
+        return db.Language($scope.Lang,pData)
+    }  
 }
