@@ -3358,11 +3358,14 @@ function Pos($scope,$window,$rootScope,db)
         }
         if($scope.SatisList.length > 0)
         {
-            db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.Seri,$scope.Sira,$scope.TxtParkAciklama],function()
-            {
-                $('#MdlParkAciklama').modal('hide');
-                $scope.YeniEvrak();
-            })
+            await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','PARK DESC',0,$scope.Seri,$scope.Sira,0,$scope.TxtParkAciklama]);
+            $('#MdlParkAciklama').modal('hide');
+            $scope.YeniEvrak();
+            // db.ExecuteTag($scope.Firma,'ParkAciklamaInsert',[$scope.Kullanici,$scope.Kullanici,$scope.Seri,$scope.Sira,$scope.TxtParkAciklama],function()
+            // {
+            //     $('#MdlParkAciklama').modal('hide');
+            //     $scope.YeniEvrak();
+            // })
         }
     }
     $scope.BtnParkSec = function(pRef,pRefNo)
