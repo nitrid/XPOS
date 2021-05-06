@@ -4615,6 +4615,11 @@ function Pos($scope,$window,$rootScope,db)
     });
     $scope.BtnIskontoKaydet = function()
     {
+        if($scope.TahList.length > 0)
+        {
+            alertify.alert($scope.SetLang("İndirim Yapmadan Önce Lütfen Tüm Ödemeleri Siliniz !"));
+            return;
+        }
         if($scope.TxtIskontoTutar <= 0 || $scope.TxtIskontoYuzde <= 0)
         {
             alertify.alert($scope.SetLang("Sıfır İskonto Yapılamaz.!"));
