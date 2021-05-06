@@ -263,12 +263,24 @@ function EtiketBasimCtrl ($scope,$window,db)
             alertify.alert(db.Language($scope.Lang,"Yazdırma emri gönderildi."))
         }
     }
+    function base64ToBlob(base64) {
+        //const binaryString = window.atob(base64);
+        const len = base64.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; ++i) {
+          bytes[i] = base64.charCodeAt(i);
+        }
+      
+        return new Blob([bytes], { type: 'application/pdf' });
+      };
     $scope.OnIzleme = function()
     {
-        db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/x.repx',DATA:[{KODU:'005'}]}",(pResult)=>
+        db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:[{NAME:'KELAM',PRICE1:15,PRICE2:55,UNDER_UNIT_PRICE2:'XXXX'}]}",(pResult)=>
         {
+            
+            console.log(pResult)
             var mywindow = window.open('', 'my div');
-            mywindow.document.write(pResult);
+            mywindow.document.write('<object data="data:application/pdf;base64,' + pResult + ' type="application/pdf" width="100%" height="100%"></object>');
 
             //mywindow.print();
             //mywindow.close();

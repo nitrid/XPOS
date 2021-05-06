@@ -19,7 +19,7 @@ function _Print(pData,pCallback)
 }
 function _Once(pCallback)
 {
-    terminal.stdout.once('data', function (data) 
+    terminal.stdout.on('data', function (data) 
     {
         pCallback(data.toString().split('|')[1])
     }); 
