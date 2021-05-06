@@ -2,6 +2,7 @@ let fs = require('fs');
 let _sql = require("./sqllib");
 let io = require('socket.io')();
 let lic = require('./license');
+let devprint = new (require('../devprint/devprint'));
 
 let msql;
 let tsql;
@@ -12,9 +13,9 @@ let LicMenu = "";
 function dbengine(config)
 {    
     this.config = config;
-    io.listen(config.port);   
+    io.listen(config.port);  
+    
 }
-
 io.on('connection', function(socket) 
 {
     socket.on('GetMenu',function(pParam,pFn)
@@ -172,6 +173,13 @@ io.on('connection', function(socket)
                 fn(false);
         });
     });
+    socket.on("DevPrint",function(pParam,fn)
+    {
+        console.log(11)
+        devprint.Print(pParam,function(pData)
+        {
+            fn(pData)
+        });
+    })
 });
-
 module.exports = dbengine;

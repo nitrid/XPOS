@@ -195,6 +195,8 @@ function EtiketBasimCtrl ($scope,$window,db)
         let TmpData = await db.GetPromiseQuery(TmpQuery);
         $scope.EtiketListe = TmpData;
         $scope.$apply();
+
+       
     }
     $scope.BtnStokSecim = async function()
     {
@@ -260,5 +262,16 @@ function EtiketBasimCtrl ($scope,$window,db)
 
             alertify.alert(db.Language($scope.Lang,"Yazdırma emri gönderildi."))
         }
+    }
+    $scope.OnIzleme = function()
+    {
+        db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/x.repx',DATA:[{KODU:'005'}]}",(pResult)=>
+        {
+            var mywindow = window.open('', 'my div');
+            mywindow.document.write(pResult);
+
+            //mywindow.print();
+            //mywindow.close();
+        })
     }
 }

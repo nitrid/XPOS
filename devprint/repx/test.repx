@@ -1,0 +1,80 @@
+/// <XRTypeInfo>
+///   <AssemblyFullName>DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</AssemblyFullName>
+///   <AssemblyLocation>D:\Program Files (x86)\Bekasoft\Nitrows Admin\DevExpress.XtraReports.v19.2.dll</AssemblyLocation>
+///   <TypeName>DevExpress.XtraReports.UI.XtraReport</TypeName>
+///   <Localization>tr-TR</Localization>
+///   <Version>19.2</Version>
+///   <Resources>
+///     <Resource Name="XtraReportSerialization.Report">
+/// zsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJjZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OSNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAAAAAAAAAAAFBBRFBBRFC0AAAA</Resource>
+///   </Resources>
+/// </XRTypeInfo>
+namespace XtraReportSerialization {
+    
+    public class Report : DevExpress.XtraReports.UI.XtraReport {
+        private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
+        private DevExpress.XtraReports.UI.DetailBand Detail;
+        private DevExpress.XtraReports.UI.XRLabel label1;
+        private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
+        private System.Resources.ResourceManager _resources;
+        private string _resourceString;
+        public Report() {
+            this._resourceString = DevExpress.XtraReports.Serialization.XRResourceManager.GetResourceFor("XtraReportSerialization.Report");
+            this.InitializeComponent();
+        }
+        private System.Resources.ResourceManager resources {
+            get {
+                if (_resources == null) {
+                    this._resources = new DevExpress.XtraReports.Serialization.XRResourceManager(this._resourceString);
+                }
+                return this._resources;
+            }
+        }
+        private void InitializeComponent() {
+            this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.Detail = new DevExpress.XtraReports.UI.DetailBand();
+            this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
+            this.label1 = new DevExpress.XtraReports.UI.XRLabel();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            // 
+            // TopMargin
+            // 
+            this.TopMargin.Name = "TopMargin";
+            // 
+            // Detail
+            // 
+            this.Detail.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+                        this.label1});
+            this.Detail.Name = "Detail";
+            // 
+            // BottomMargin
+            // 
+            this.BottomMargin.Name = "BottomMargin";
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Arial", 16F);
+            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(202.0833F, 31.25F);
+            this.label1.Multiline = true;
+            this.label1.Name = "label1";
+            this.label1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.label1.SizeF = new System.Drawing.SizeF(228.125F, 32.37502F);
+            this.label1.StylePriority.UseFont = false;
+            this.label1.Text = "FURKAN TEKNOERP";
+            // 
+            // Report
+            // 
+            this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+                        this.TopMargin,
+                        this.Detail,
+                        this.BottomMargin});
+            this.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.Name = "Report";
+            this.PageHeight = 1100;
+            this.PageWidth = 850;
+            this.StyleSheetPath = null;
+            this.Version = "19.2";
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+        }
+    }
+}
