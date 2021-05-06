@@ -512,7 +512,7 @@ function Pos($scope,$window,$rootScope,db)
 
         InitClass();
         InitSifre();
-        InitAciklama();
+        InitAciklama();        
     }
     function InitClass()
     {
