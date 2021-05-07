@@ -278,24 +278,13 @@ function EtiketBasimCtrl ($scope,$window,db)
         db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:[{NAME:'KELAM',PRICE1:15,PRICE2:55,UNDER_UNIT_PRICE2:'XXXX'}]}",(pResult)=>
         {
             
+            console.log(pResult)
             if(pResult.split('|')[0] != 'ERR')
             {
                 // The Base64 string of a simple PDF file                
-                var mywindow = window.open('', 'my div');
-                // let TmpMeta = mywindow.document.createElement('meta');
-                // TmpMeta.httpEquiv = "Content-Security-Policy";
-                // TmpMeta.content = "object-src 'none'"
-                // mywindow.document.getElementsByTagName('head')[0].appendChild(TmpMeta)
-                let TmpEmbed = mywindow.document.createElement('embed');
-                TmpEmbed.src = "data:application/pdf;base64," + pResult.split('|')[1];
-                TmpEmbed.type = "application/pdf";
-                TmpEmbed.width = "100%";
-                TmpEmbed.height = "100%";
-                mywindow.document.body.appendChild(TmpEmbed)
-                //mywindow.document.write("<embed src='data:application/pdf;base64," + pResult.split('|')[1] + " type='application/pdf' width='100%' height='600px' style='margin-top: 35px; border: 1px solid #ccc;'")
-                
-                // var mywindow = window.open('', 'my div');
-                // mywindow.document.write('<object data="data:application/pdf;base64,' + pResult.split('|')[1] + ' type="application/pdf" width="100%" height="100%"></object>');
+                var mywindow = window.open('', 'my div');                
+                mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
+                mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
             }
             
 
