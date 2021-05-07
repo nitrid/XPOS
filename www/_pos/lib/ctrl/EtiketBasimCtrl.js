@@ -277,19 +277,12 @@ function EtiketBasimCtrl ($scope,$window,db)
     {
         db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:[{NAME:'KELAM',PRICE1:15,PRICE2:55,UNDER_UNIT_PRICE2:'XXXX'}]}",(pResult)=>
         {
-            
-            console.log(pResult)
             if(pResult.split('|')[0] != 'ERR')
             {
-                // The Base64 string of a simple PDF file                
                 var mywindow = window.open('', 'my div');                
                 mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
                 mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
             }
-            
-
-            //mywindow.print();
-            //mywindow.close();
         })
     }
 }
