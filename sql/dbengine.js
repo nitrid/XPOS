@@ -175,7 +175,6 @@ io.on('connection', function(socket)
     });
     socket.on("DevPrint",function(pParam,fn)
     {
-        console.log(11)
         devprint.Print(pParam,function(pData)
         {
             fn(pData)

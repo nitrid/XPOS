@@ -1,84 +1,29 @@
-/// <XRTypeInfo>
-///   <AssemblyFullName>DevExpress.XtraReports.v9.3, Version=9.3.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a</AssemblyFullName>
-///   <AssemblyLocation>C:\Program Files (x86)\Bekasoft\Nitrows Admin\DevExpress.XtraReports.v9.3.dll</AssemblyLocation>
-///   <TypeName>DevExpress.XtraReports.UI.XtraReport</TypeName>
-///   <Localization>en-US</Localization>
-/// </XRTypeInfo>
-namespace XtraReportSerialization {
-    
-    public class xtraReport1 : DevExpress.XtraReports.UI.XtraReport {
-        private DevExpress.XtraReports.UI.TopMarginBand TopMargin;
-        private DevExpress.XtraReports.UI.XRLabel label2;
-        private DevExpress.XtraReports.UI.XRLabel label1;
-        private DevExpress.XtraReports.UI.DetailBand Detail;
-        private DevExpress.XtraReports.UI.BottomMarginBand BottomMargin;
-        private System.Resources.ResourceManager _resources;
-        public xtraReport1() {
-            this.InitializeComponent();
-        }
-        private System.Resources.ResourceManager resources {
-            get {
-                if (_resources == null) {
-                    string resourceString = @"zsrvvgEAAACRAAAAbFN5c3RlbS5SZXNvdXJjZXMuUmVzb3VyY2VSZWFkZXIsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OSNTeXN0ZW0uUmVzb3VyY2VzLlJ1bnRpbWVSZXNvdXJjZVNldAIAAAAAAAAAAAAAAFBBRFBBRFC0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
-                    this._resources = new DevExpress.XtraReports.Serialization.XRResourceManager(resourceString);
-                }
-                return this._resources;
-            }
-        }
-        private void InitializeComponent() {
-            this.TopMargin = new DevExpress.XtraReports.UI.TopMarginBand();
-            this.Detail = new DevExpress.XtraReports.UI.DetailBand();
-            this.BottomMargin = new DevExpress.XtraReports.UI.BottomMarginBand();
-            this.label2 = new DevExpress.XtraReports.UI.XRLabel();
-            this.label1 = new DevExpress.XtraReports.UI.XRLabel();
-            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
-            // 
-            // TopMargin
-            // 
-            this.TopMargin.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
-                        this.label2,
-                        this.label1});
-            this.TopMargin.HeightF = 90.00001F;
-            this.TopMargin.Name = "TopMargin";
-            // 
-            // Detail
-            // 
-            this.Detail.HeightF = 100F;
-            this.Detail.Name = "Detail";
-            // 
-            // BottomMargin
-            // 
-            this.BottomMargin.HeightF = 100F;
-            this.BottomMargin.Name = "BottomMargin";
-            // 
-            // label2
-            // 
-            this.label2.LocationFloat = new DevExpress.Utils.PointFloat(550F, 10.00001F);
-            this.label2.Name = "label2";
-            this.label2.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.label2.SizeF = new System.Drawing.SizeF(100F, 23F);
-            this.label2.Text = "KARACA";
-            // 
-            // label1
-            // 
-            this.label1.LocationFloat = new DevExpress.Utils.PointFloat(10.00001F, 10.00001F);
-            this.label1.Name = "label1";
-            this.label1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
-            this.label1.SizeF = new System.Drawing.SizeF(100F, 23F);
-            this.label1.Text = "ALI KEMAL";
-            // 
-            // xtraReport1
-            // 
-            this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
-                        this.TopMargin,
-                        this.Detail,
-                        this.BottomMargin});
-            this.Margins = new System.Drawing.Printing.Margins(100, 100, 90, 100);
-            this.Name = "xtraReport1";
-            this.PageHeight = 1100;
-            this.PageWidth = 850;
-            this.Version = "9.3";
-            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
-        }
-    }
-}
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report1" DataSourceSchema="[&#xD;&#xA;    {&#xD;&#xA;        &quot;NAME&quot; : &quot;XXX&quot;,&#xD;&#xA;        &quot;PRICE1&quot; : 10,&#xD;&#xA;        &quot;PRICE2&quot; : 50,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE2&quot; : &quot;AAA&quot;&#xD;&#xA;    }&#xD;&#xA;]" Margins="0, 0, 0, 0" PaperKind="Custom" PageWidth="400" PageHeight="1169" Version="19.2" DataMember="DATA" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="0" />
+    <Item2 Ref="3" ControlType="DetailBand" Name="Detail" HeightF="671.875">
+      <Controls>
+        <Item1 Ref="4" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="258.288055,229.8461" LocationFloat="101.461853, 7.00000143" Font="Asap Condensed Bold, 35pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="5" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
+          </ExpressionBindings>
+          <StylePriority Ref="6" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="7" ControlType="XRLabel" Name="label2" Multiline="true" Text="122" TextAlignment="TopRight" SizeF="183.239166,189.583344" LocationFloat="101.461853, 236.8461" Font="Oswald, 120pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="8" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="9" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+      </Controls>
+    </Item2>
+    <Item3 Ref="10" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="0" />
+  </Bands>
+  <ExportOptions Ref="11">
+    <Html Ref="12" TableLayout="false" />
+  </ExportOptions>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v19.2" Ref="0" Content="~Xtra#NULL" Type="System.Data.DataTable" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>
