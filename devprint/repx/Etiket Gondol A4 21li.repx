@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report2" SnapGridSize="25" DataSourceSchema="[&#xD;&#xA;    {&#xD;&#xA;        &quot;BARCODE&quot; : &quot;123456&quot;,&#xD;&#xA;        &quot;CDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;CODE&quot; : &quot;0001&quot;,&#xD;&#xA;        &quot;CUSER&quot; : &quot;ADMIN&quot;,&#xD;&#xA;        &quot;DESIGN&quot; : &quot;&quot;,&#xD;&#xA;        &quot;GUID&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP_NAME&quot; : &quot;&quot;,&#xD;&#xA;        &quot;LDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;LUSER&quot; : &quot;&quot;,&#xD;&#xA;        &quot;NAME&quot; : &quot;XXX&quot;,&#xD;&#xA;        &quot;PRICE&quot; : 1,&#xD;&#xA;        &quot;PRICE1&quot; : 10,&#xD;&#xA;        &quot;PRICE2&quot; : 50,&#xD;&#xA;        &quot;PRINT_COUNT&quot; : 5,&#xD;&#xA;        &quot;STATUS&quot; : 0,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE&quot; : 50,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE2&quot; : 15,&#xD;&#xA;        &quot;UNDER_UNIT_VALUE&quot; : 10&#xD;&#xA;    },&#xD;&#xA;    {&#xD;&#xA;        &quot;BARCODE&quot; : &quot;123456&quot;,&#xD;&#xA;        &quot;CDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;CODE&quot; : &quot;0001&quot;,&#xD;&#xA;        &quot;CUSER&quot; : &quot;ADMIN&quot;,&#xD;&#xA;        &quot;DESIGN&quot; : &quot;&quot;,&#xD;&#xA;        &quot;GUID&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP_NAME&quot; : &quot;&quot;,&#xD;&#xA;        &quot;LDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;LUSER&quot; : &quot;&quot;,&#xD;&#xA;        &quot;NAME&quot; : &quot;XXX&quot;,&#xD;&#xA;        &quot;PRICE&quot; : 1,&#xD;&#xA;        &quot;PRICE1&quot; : 10,&#xD;&#xA;        &quot;PRICE2&quot; : 50,&#xD;&#xA;        &quot;PRINT_COUNT&quot; : 5,&#xD;&#xA;        &quot;STATUS&quot; : 0,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE&quot; : 50,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE2&quot; : 15,&#xD;&#xA;        &quot;UNDER_UNIT_VALUE&quot; : 10&#xD;&#xA;    },&#xD;&#xA;    {&#xD;&#xA;        &quot;BARCODE&quot; : &quot;123456&quot;,&#xD;&#xA;        &quot;CDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;CODE&quot; : &quot;0001&quot;,&#xD;&#xA;        &quot;CUSER&quot; : &quot;ADMIN&quot;,&#xD;&#xA;        &quot;DESIGN&quot; : &quot;&quot;,&#xD;&#xA;        &quot;GUID&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP_NAME&quot; : &quot;&quot;,&#xD;&#xA;        &quot;LDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;LUSER&quot; : &quot;&quot;,&#xD;&#xA;        &quot;NAME&quot; : &quot;XXX&quot;,&#xD;&#xA;        &quot;PRICE&quot; : 1,&#xD;&#xA;        &quot;PRICE1&quot; : 10,&#xD;&#xA;        &quot;PRICE2&quot; : 50,&#xD;&#xA;        &quot;PRINT_COUNT&quot; : 5,&#xD;&#xA;        &quot;STATUS&quot; : 0,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE&quot; : 50,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE2&quot; : 15,&#xD;&#xA;        &quot;UNDER_UNIT_VALUE&quot; : 10&#xD;&#xA;    },&#xD;&#xA;    {&#xD;&#xA;        &quot;BARCODE&quot; : &quot;123456&quot;,&#xD;&#xA;        &quot;CDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;CODE&quot; : &quot;0001&quot;,&#xD;&#xA;        &quot;CUSER&quot; : &quot;ADMIN&quot;,&#xD;&#xA;        &quot;DESIGN&quot; : &quot;&quot;,&#xD;&#xA;        &quot;GUID&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP&quot; : &quot;&quot;,&#xD;&#xA;        &quot;ITEM_GRP_NAME&quot; : &quot;&quot;,&#xD;&#xA;        &quot;LDATE&quot; : &quot;20200101&quot;,&#xD;&#xA;        &quot;LUSER&quot; : &quot;&quot;,&#xD;&#xA;        &quot;NAME&quot; : &quot;XXX&quot;,&#xD;&#xA;        &quot;PRICE&quot; : 1,&#xD;&#xA;        &quot;PRICE1&quot; : 10,&#xD;&#xA;        &quot;PRICE2&quot; : 50,&#xD;&#xA;        &quot;PRINT_COUNT&quot; : 5,&#xD;&#xA;        &quot;STATUS&quot; : 0,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE&quot; : 50,&#xD;&#xA;        &quot;UNDER_UNIT_PRICE2&quot; : 15,&#xD;&#xA;        &quot;UNDER_UNIT_VALUE&quot; : 10&#xD;&#xA;    }&#xD;&#xA;]" ReportUnit="TenthsOfAMillimeter" Margins="31, 30, 145, 145" PaperKind="A4" PageWidth="2100" PageHeight="2970" Version="19.2" DataMember="DATA" DataSource="#Ref-0" Dpi="254" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="145" Dpi="254" />
+    <Item2 Ref="3" ControlType="DetailBand" Name="Detail" HeightF="385" Dpi="254">
+      <HierarchyPrintOptions Ref="4" Indent="50.8" />
+      <MultiColumn Ref="5" ColumnCount="3" ColumnWidth="665" ColumnSpacing="4" Layout="AcrossThenDown" Mode="UseColumnWidth" />
+      <Controls>
+        <Item1 Ref="6" ControlType="XRBarCode" Name="barCode1" Module="3" TextAlignment="BottomRight" SizeF="364.25,68.79163" LocationFloat="336.3121, 222.7708" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="26,26,0,0,254">
+          <Symbology Ref="7" Name="EAN13" />
+          <ExpressionBindings>
+            <Item1 Ref="8" EventName="BeforePrint" PropertyName="Text" Expression="[BARCODE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="9" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="10" ControlType="XRLabel" Name="label7" Multiline="true" Text="3.5€/kg" TextAlignment="BottomLeft" SizeF="141.6876,47.625" LocationFloat="551.8746, 312.3749" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="11" EventName="BeforePrint" PropertyName="Text" Expression="[UNDER_UNIT_PRICE2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="12" UseFont="false" UseTextAlignment="false" />
+        </Item2>
+        <Item3 Ref="13" ControlType="XRLabel" Name="label5" Multiline="true" Text="BEYPAZARI EAU MIN. GAZ.GRIOTTE 6X20CL" TextAlignment="TopRight" SizeF="364.5,158.0833" LocationFloat="35.58326, 24.99993" Dpi="254" Font="Poppins, 9.75pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="14" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
+          </ExpressionBindings>
+          <StylePriority Ref="15" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="16" ControlType="XRLabel" Name="label4" Multiline="true" Text="9" TextAlignment="TopRight" SizeF="182.8537,129.6458" LocationFloat="47.33376, 212.1875" Dpi="254" Font="Arial, 19pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="17" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="18" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="19" ControlType="XRLabel" Name="label3" Multiline="true" Text="€" TextAlignment="TopLeft" SizeF="37.04167,129.6458" LocationFloat="219.6042, 212.1875" Dpi="254" Font="Arial, 19pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="20" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="21" ControlType="XRLabel" Name="label2" Multiline="true" Text="99" TextAlignment="TopLeft" SizeF="114.0621,129.6458" LocationFloat="256.6458, 212.1875" Dpi="254" Font="Arial, 12pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="22" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="23" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="24" ControlType="XRLabel" Name="label1" Multiline="true" Text="000004ABC" TextAlignment="BottomRight" SizeF="229.0416,44.97919" LocationFloat="287.2081, 315.0208" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="25" EventName="BeforePrint" PropertyName="Text" Expression="[CODE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="26" UseFont="false" UseTextAlignment="false" />
+        </Item7>
+        <Item8 Ref="27" ControlType="XRLabel" Name="label8" Multiline="true" Text="|" TextAlignment="BottomLeft" SizeF="47.625,52.91666" LocationFloat="516.2496, 307.0833" Dpi="254" Padding="5,5,0,0,254">
+          <StylePriority Ref="28" UseTextAlignment="false" />
+        </Item8>
+      </Controls>
+    </Item2>
+    <Item3 Ref="29" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="145" Dpi="254" />
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v19.2" Ref="0" Content="~Xtra#NULL" Type="System.Data.DataTable" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>
