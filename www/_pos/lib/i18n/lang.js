@@ -282,7 +282,7 @@ var lang =
             "Kayıt olmadan sileme işlemi yapamazsınız !" : "Il faut d'abord se désinscrire!",
             "Kodu bölümünü girmeden kayıt edemezsiniz !" : "Vous ne pouvez pas enregistrer sans entrer la référence!",
             "TEDARİKÇİ KODU" : "Référence Fourniseur",
-            "BARKOD" : "Code barre",
+            "BARKOD" : "Code Barre",
             "FİYAT" : "Prix",
             "ALT B. DEGER" : "Contenu Détail",
             "ALT B. FİYAT" : "Contenu Prix",
@@ -461,7 +461,8 @@ var lang =
 			"Müşterinin k.kartı geçmedi." : "Refus carte bancaire.",
 			"Test Amaçlı." : "Lecture test.",
 			"Test amaçlı tiket oluşturuldu ve silindi." : "Ticket en lecture test et annulation.",
-            "İndirim Yapmadan Önce Lütfen Tüm Ödemeleri Siliniz !" : "Veuillez effacer les saisies paiements avant la remise !"
+            "İndirim Yapmadan Önce Lütfen Tüm Ödemeleri Siliniz !" : "Veuillez effacer les saisies paiements avant la remise !",
+            "Yazdırma emri gönderildi." : "impression en cours!"
         }
     }
 }
