@@ -658,7 +658,35 @@ var QuerySql =
     },
     LabelQueueInsert :
     {
-        query : "INSERT INTO [dbo].[LABEL_QUEUE] ( " +
+        query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 DESIGN FROM LABEL_QUEUE WHERE DESIGN = @DESIGN AND STATUS = 0),'') " +
+                "IF @TMPCODE = '' " +
+                "INSERT INTO [dbo].[LABEL_QUEUE] ( " +
+                " [CUSER] " +
+                ",[CDATE] " +
+                ",[LUSER] " +
+                ",[LDATE] " +
+                ",[DATA] " +
+                ",[DESIGN] " +
+                ",[PRINT_COUNT] " +
+                ",[STATUS] " +
+                ") VALUES ( " +
+                " @CUSER		--<CUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<CDATE, datetime,> \n" +
+                ",@LUSER		--<LUSER, nvarchar(25),> \n" +
+                ",GETDATE()		--<LDATE, datetime,> \n" +
+                ",@DATA			--<DATA, nvarchar(max),> \n" +
+                ",@DESIGN		--<DESIGN, nvarchar(50),> \n" +
+                ",@PRINT_COUNT	--<PRINT_COUNT, int,> \n" +
+                ",@STATUS		--<STATUS, int,> \n" +
+                ") \n" +
+                "ELSE " + 
+                "UPDATE [dbo].[LABEL_QUEUE] SET [DATA] = @DATA WHERE [DESIGN] = @DESIGN AND [STATUS] = 0",
+        param : ['CUSER:string|25','LUSER:string|25','DATA:string|max','DESIGN:string|50','PRINT_COUNT:int','STATUS:int']
+    },
+    LabelQueueUpdate :
+    {
+        query : "UPDATE [dbo].[LABEL_QUEUE] SET [DATA] = @DATA" +
                 " [CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +

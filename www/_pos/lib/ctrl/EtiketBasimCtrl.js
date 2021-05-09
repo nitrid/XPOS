@@ -195,8 +195,6 @@ function EtiketBasimCtrl ($scope,$window,db)
         let TmpData = await db.GetPromiseQuery(TmpQuery);
         $scope.EtiketListe = TmpData;
         $scope.$apply();
-
-       
     }
     $scope.BtnStokSecim = async function()
     {
@@ -240,6 +238,42 @@ function EtiketBasimCtrl ($scope,$window,db)
             if($scope.EtiketListe[i].DESIGN_NAME == $scope.EtiketName)
             {
                 $scope.EtiketObj = $scope.EtiketListe[i];
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT " +
+                            "CODE, " +
+                            "BARCODE, " +
+                            "NAME, " +
+                            "ITEM_GRP, " +
+                            "ITEM_GRP_NAME, " +
+                            "PRICE, " +
+                            "UNDER_UNIT_VALUE, " +
+                            "UNDER_UNIT_PRICE " +
+                            "FROM LABEL_QUEUE AS D  " +
+                            "CROSS APPLY  " +
+                            "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
+                            "WITH  " +
+                            "( " +
+                            "[CODE] nvarchar(25) '$.CODE', " +
+                            "[BARCODE] float '$.BARCODE', " +
+                            "[NAME] nvarchar(50) '$.NAME', " +
+                            "[ITEM_GRP] nvarchar(50) '$.ITEM_GRP', " +
+                            "[ITEM_GRP_NAME] nvarchar(50) '$.ITEM_GRP_NAME', " +
+                            "[PRICE] nvarchar(50) '$.PRICE', " +
+                            "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
+                            "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE' " +
+                            ")) JS " +
+                            "WHERE STATUS = 0 AND DESIGN = @DESIGN",
+                    param:  ['DESIGN'],
+                    type:   ['string|25'],
+                    value:  [$scope.EtiketObj.TAG]
+                }
+                db.GetDataQuery(TmpQuery,function(pData)
+                {
+                    $scope.BarkodListe = pData;
+                    InitBarkodGrid();
+                });
             }
         }
     }
@@ -286,7 +320,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                     "UNDER_UNIT_PRICE, " +
                     "SUBSTRING([PRICE],0,CHARINDEX('.',[PRICE])) AS PRICE1, " +
                     "SUBSTRING([PRICE],CHARINDEX('.',[PRICE]) + 1,LEN([PRICE])) AS PRICE2, " +
-                    "[UNDER_UNIT_PRICE] + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2  " +
+                    "[UNDER_UNIT_PRICE] + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2, " +
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH " + 
                     "FROM LABEL_QUEUE AS D  " +
                     "CROSS APPLY  " +
                     "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
@@ -308,18 +343,18 @@ function EtiketBasimCtrl ($scope,$window,db)
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
-            console.log("{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:" + JSON.stringify(pData) + "}")
-            db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/Afis A4 Cirt 2li.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+            if(pData.length > 0)
             {
-                console.log(pResult)
-                if(pResult.split('|')[0] != 'ERR')
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
-                    var mywindow = window.open('', 'my div');                
-                    mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
-                    mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
-                }
-            })
-        });     
-        
+                    if(pResult.split('|')[0] != 'ERR')
+                    {
+                        var mywindow = window.open('', 'my div');                
+                        mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
+                        mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
+                    }
+                })
+            }
+        });
     }
 }
