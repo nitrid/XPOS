@@ -1968,7 +1968,6 @@ function Pos($scope,$window,$rootScope,db)
             $scope.StokListe = StokData;
             $("#TblStok").jsGrid({data : $scope.StokListe});
         });
-
     }
     $scope.BtnStokGridSec = function()
     {        
@@ -2060,6 +2059,12 @@ function Pos($scope,$window,$rootScope,db)
 
             if(pBarkod.indexOf("*") != -1)
             {
+                if(pBarkod.split("*")[0] == "")
+                {
+                    alertify.alert($scope.SetLang("Miktar girmediniz !"));
+                    $scope.TxtBarkod = "";
+                    return
+                }
                 $scope.Miktar = pBarkod.split("*")[0];
                 pBarkod = pBarkod.split("*")[1];
             }
@@ -3340,7 +3345,6 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TxtBarkod != '')
         {
-            console.log($scope.TxtBarkod.split('*')[1])
             let TmpQuery = 
             {
                 db : $scope.Firma,
