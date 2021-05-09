@@ -29,20 +29,34 @@
     <div class="panel">
         <div class="panel-body">
             <div class="row pt-10">
-                <div class="col-2" style="padding: 0px;">
-                    <div class="input-group">
-                        <input type="text" class="form-control ng-pristine ng-valid ng-not-empty ng-touched" name="name" autocomplete="off" ng-model="Barkodu" ng-keypress="TxtBarkodPress($event)">
-                        <span class="input-group-append">
-                            <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnStokSecim()">
-                                <i class="icon wb-search" aria-hidden="true"></i>
-                            </button>
-                        </span>
+                <div class="col-2">
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label">
+                            <div class="float-right" langu>Ürün :</div>
+                        </label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control ng-pristine ng-valid ng-not-empty ng-touched" name="name" autocomplete="off" ng-model="Barkodu" ng-keypress="TxtBarkodPress($event)">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnStokSecim()">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-2">
-                    <select class="form-control" ng-model="EtiketName" ng-change="DesignChange()">
-                        <option ng-repeat="option in EtiketListe" value="{{option.DESIGN_NAME}}">{{option.DESIGN_NAME}}</option>
-                    </select>
+                    <div class="form-group row">
+                        <label class="col-md-5 form-control-label">
+                            <div class="float-right" langu>Kağıt Formatı :</div>
+                        </label>
+                        <div class="col-md-7">
+                            <select class="form-control" ng-model="EtiketName" ng-change="DesignChange()">
+                                <option ng-repeat="option in EtiketListe" value="{{option.DESIGN_NAME}}">{{option.DESIGN_NAME}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row pt-20"> 
