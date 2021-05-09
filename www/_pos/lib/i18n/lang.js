@@ -462,7 +462,8 @@ var lang =
 			"Test Amaçlı." : "Lecture test.",
 			"Test amaçlı tiket oluşturuldu ve silindi." : "Ticket en lecture test et annulation.",
             "İndirim Yapmadan Önce Lütfen Tüm Ödemeleri Siliniz !" : "Veuillez effacer les saisies paiements avant la remise !",
-            "Yazdırma emri gönderildi." : "impression en cours!"
+            "Yazdırma emri gönderildi." : "impression en cours!",
+            "Ürün :" : "Produit :",
         }
     }
 }
