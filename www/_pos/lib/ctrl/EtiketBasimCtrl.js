@@ -215,7 +215,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         {
             $scope.BarkodListe.push(SelectedData[i]);
         }
-
+        
         InitBarkodGrid();
     }
     $scope.TxtBarkodPress = async function(e)
@@ -263,26 +263,63 @@ function EtiketBasimCtrl ($scope,$window,db)
             alertify.alert(db.Language($scope.Lang,"Yazdırma emri gönderildi."))
         }
     }
-    function base64ToBlob(base64) {
-        //const binaryString = window.atob(base64);
-        const len = base64.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; ++i) {
-          bytes[i] = base64.charCodeAt(i);
-        }
-      
-        return new Blob([bytes], { type: 'application/pdf' });
-      };
     $scope.OnIzleme = function()
     {
-        db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:[{NAME:'KELAM',PRICE1:15,PRICE2:55,UNDER_UNIT_PRICE2:'XXXX'}]}",(pResult)=>
+        let TmpQuery = 
         {
-            if(pResult.split('|')[0] != 'ERR')
+            db : $scope.Firma,
+            query:  "SELECT " +
+                    "CUSER, " +
+                    "CDATE, " +
+                    "LUSER, " +
+                    "LDATE, " +
+                    "DESIGN, " +
+                    "PRINT_COUNT, " +
+                    "STATUS, " +
+                    "CODE, " +
+                    "BARCODE, " +
+                    "NAME, " +
+                    "ITEM_GRP, " +
+                    "ITEM_GRP_NAME, " +
+                    "PRICE, " +
+                    "UNDER_UNIT_VALUE, " +
+                    "UNDER_UNIT_PRICE, " +
+                    "SUBSTRING([PRICE],0,CHARINDEX('.',[PRICE])) AS PRICE1, " +
+                    "SUBSTRING([PRICE],CHARINDEX('.',[PRICE]) + 1,LEN([PRICE])) AS PRICE2, " +
+                    "[UNDER_UNIT_PRICE] + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2  " +
+                    "FROM LABEL_QUEUE AS D  " +
+                    "CROSS APPLY  " +
+                    "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
+                    "WITH  " +
+                    "( " +
+                    "[CODE] nvarchar(25) '$.CODE', " +
+                    "[BARCODE] float '$.BARCODE', " +
+                    "[NAME] nvarchar(50) '$.NAME', " +
+                    "[ITEM_GRP] nvarchar(50) '$.ITEM_GRP', " +
+                    "[ITEM_GRP_NAME] nvarchar(50) '$.ITEM_GRP_NAME', " +
+                    "[PRICE] nvarchar(50) '$.PRICE', " +
+                    "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
+                    "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE' " +
+                    ")) JS " +
+                    "WHERE STATUS = 0 AND DESIGN = @DESIGN",
+            param:  ['DESIGN'],
+            type:   ['string|25'],
+            value:  [$scope.EtiketObj.TAG]
+        }
+        db.GetDataQuery(TmpQuery,function(pData)
+        {
+            console.log("{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/d.repx',DATA:" + JSON.stringify(pData) + "}")
+            db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/Afis A4 Cirt 2li.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
             {
-                var mywindow = window.open('', 'my div');                
-                mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
-                mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
-            }
-        })
+                console.log(pResult)
+                if(pResult.split('|')[0] != 'ERR')
+                {
+                    var mywindow = window.open('', 'my div');                
+                    mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
+                    mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
+                }
+            })
+        });     
+        
     }
 }
