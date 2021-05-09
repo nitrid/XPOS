@@ -2061,7 +2061,8 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(pBarkod.split("*")[0] == "")
                 {
-                    alertify.alert($scope.SetLang("Miktar girmediniz !"));
+                    document.getElementById("Sound").play(); 
+                    alertify.alert($scope.SetLang("Miktar sıfır giremezsiniz !"));
                     $scope.TxtBarkod = "";
                     return
                 }
