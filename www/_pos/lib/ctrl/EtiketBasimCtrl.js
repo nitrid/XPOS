@@ -143,7 +143,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CUSTOMER_ITEM_CODE AS CODE, " +
+                        "ISNULL(CUSTOMER_ITEM_CODE,ITEMS.CODE) AS CODE, " +
                         "ITEM_BARCODE.BARCODE AS BARCODE, " +
                         "ITEMS.NAME AS NAME, " +
                         "ITEMS.ITEM_GRP AS ITEM_GRP, " +
@@ -155,7 +155,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "FROM ITEMS " +
                         "INNER JOIN ITEM_BARCODE ON  " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE  " +
-                        "INNER JOIN ITEM_CUSTOMER ON " +
+                        "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " +
                         "WHERE ((BARCODE = @BARCODE) OR (ITEMS.CODE = @BARCODE) OR (@BARCODE = '')) AND ITEMS.STATUS = 1",
                 param : ['BARCODE:string|25'],
