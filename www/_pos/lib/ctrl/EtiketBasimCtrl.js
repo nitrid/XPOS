@@ -1,6 +1,7 @@
 function EtiketBasimCtrl ($scope,$window,db)
 {
-    let SelectedData = []
+    let SelectedData = [];
+    let RefSelectedData = [];
     let TmpGrid;
 
     function InitBarkodGrid()
@@ -135,6 +136,65 @@ function EtiketBasimCtrl ($scope,$window,db)
             }
         }).dxDataGrid("instance");        
     }
+    function InitReferansSecimGrid()
+    {
+        if(typeof TmpGrid != 'undefined')
+        {
+            TmpGrid.deselectAll();
+            TmpGrid.clearSelection();
+        }
+        
+
+        TmpGrid = $("#TblReferansSecim").dxDataGrid(
+        {
+            dataSource: $scope.ReferansListe,
+            allowColumnReordering: true,
+            showBorders: true,
+            selection: 
+            {
+                mode: "multiple"
+            },
+            filterRow: 
+            { 
+                visible: true
+            },
+            headerFilter: {
+                visible: true
+            },
+            paging: 
+            {
+                pageSize: 15
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [15, 30, 90, 120, 500, 1000],
+                showInfo: true
+            },
+            columns: 
+            [
+                {
+                    dataField: "LDATE",
+                    caption: db.Language($scope.Lang,"TARIH"),
+                    dataType: "date"
+                },
+                {
+                    dataField: "LUSER",
+                    caption: db.Language($scope.Lang,"KULLANICI"),
+                    dataType: "string"
+                },
+                {
+                    dataField: "REFERANCE",
+                    caption: db.Language($scope.Lang,"REFERANS"),
+                    dataType: "string"
+                }
+            ],
+            onSelectionChanged: function(selectedItems) 
+            {
+                RefSelectedData = selectedItems.selectedRowsData;
+            }
+        }).dxDataGrid("instance");        
+    }
     function BarkodGetir(pBarkod)
     {
         return new Promise(async resolve => 
@@ -171,6 +231,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     $scope.Init = async function()
     {
         SelectedData = [];
+        RefSelectedData = [];
 
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.Sube = "1";
@@ -180,11 +241,15 @@ function EtiketBasimCtrl ($scope,$window,db)
         $scope.StokSecimListe = [];
         $scope.BarkodListe = [];
         $scope.EtiketListe = [];
+        $scope.ReferansListe = [];
         $scope.EtiketObj = {};
         $scope.EtiketName = "";
+        $scope.Barkodu = ""
+        $scope.Referans = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REFERANCE),0) + 1 AS REFERANCE FROM LABEL_QUEUE WHERE LUSER = @LUSER",param:['LUSER:string|25'],value:[$scope.Kullanici]}))[0].REFERANCE;
 
         InitBarkodGrid();
         InitStokSecimGrid();
+        InitReferansSecimGrid();
 
         let TmpQuery = 
         {
@@ -208,13 +273,13 @@ function EtiketBasimCtrl ($scope,$window,db)
     $scope.BtnStokGridSec = async function()
     {
         $("#MdlStokSecim").modal('hide');
+        $scope.Kaydet();
+        // for(let i = 0;i < SelectedData.length;i++)
+        // {
+        //     $scope.BarkodListe.push(SelectedData[i]);
+        // }
         
-        for(let i = 0;i < SelectedData.length;i++)
-        {
-            $scope.BarkodListe.push(SelectedData[i]);
-        }
-        
-        InitBarkodGrid();
+        // InitBarkodGrid();
     }
     $scope.TxtBarkodPress = async function(e)
     {
@@ -238,64 +303,76 @@ function EtiketBasimCtrl ($scope,$window,db)
             if($scope.EtiketListe[i].DESIGN_NAME == $scope.EtiketName)
             {
                 $scope.EtiketObj = $scope.EtiketListe[i];
-                let TmpQuery = 
-                {
-                    db : $scope.Firma,
-                    query:  "SELECT " +
-                            "CODE, " +
-                            "BARCODE, " +
-                            "NAME, " +
-                            "ITEM_GRP, " +
-                            "ITEM_GRP_NAME, " +
-                            "PRICE, " +
-                            "UNDER_UNIT_VALUE, " +
-                            "UNDER_UNIT_PRICE " +
-                            "FROM LABEL_QUEUE AS D  " +
-                            "CROSS APPLY  " +
-                            "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
-                            "WITH  " +
-                            "( " +
-                            "[CODE] nvarchar(25) '$.CODE', " +
-                            "[BARCODE] float '$.BARCODE', " +
-                            "[NAME] nvarchar(50) '$.NAME', " +
-                            "[ITEM_GRP] nvarchar(50) '$.ITEM_GRP', " +
-                            "[ITEM_GRP_NAME] nvarchar(50) '$.ITEM_GRP_NAME', " +
-                            "[PRICE] nvarchar(50) '$.PRICE', " +
-                            "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
-                            "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE' " +
-                            ")) JS " +
-                            "WHERE STATUS = 0 AND DESIGN = @DESIGN",
-                    param:  ['DESIGN'],
-                    type:   ['string|25'],
-                    value:  [$scope.EtiketObj.TAG]
-                }
-                db.GetDataQuery(TmpQuery,function(pData)
-                {
-                    $scope.BarkodListe = pData;
-                    InitBarkodGrid();
-                });
             }
+        }
+    }
+    $scope.BtnReferansSecim = async function()
+    {
+        let TmpData = (await db.GetPromiseQuery({query:"SELECT * FROM LABEL_QUEUE WHERE LUSER = @LUSER",param:['LUSER:string|25'],value:[$scope.Kullanici]}))
+
+        $scope.ReferansListe = TmpData
+        InitReferansSecimGrid();
+        $("#MdlReferansSecim").modal('show');
+    }
+    $scope.BtnReferansGridSec = function()
+    {
+        $("#MdlReferansSecim").modal('hide');
+        if(RefSelectedData.length > 0)
+        {
+            $scope.Referans = RefSelectedData[0].REFERANCE;
+
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT " +
+                        "CODE, " +
+                        "BARCODE, " +
+                        "NAME, " +
+                        "ITEM_GRP, " +
+                        "ITEM_GRP_NAME, " +
+                        "PRICE, " +
+                        "UNDER_UNIT_VALUE, " +
+                        "UNDER_UNIT_PRICE " +
+                        "FROM LABEL_QUEUE AS D  " +
+                        "CROSS APPLY  " +
+                        "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
+                        "WITH  " +
+                        "( " +
+                        "[CODE] nvarchar(25) '$.CODE', " +
+                        "[BARCODE] float '$.BARCODE', " +
+                        "[NAME] nvarchar(50) '$.NAME', " +
+                        "[ITEM_GRP] nvarchar(50) '$.ITEM_GRP', " +
+                        "[ITEM_GRP_NAME] nvarchar(50) '$.ITEM_GRP_NAME', " +
+                        "[PRICE] nvarchar(50) '$.PRICE', " +
+                        "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
+                        "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE' " +
+                        ")) JS " +
+                        "WHERE STATUS = 0 AND REFERANCE = @REFERANCE",
+                param:  ['REFERANCE'],
+                type:   ['int'],
+                value:  [$scope.Referans]
+            }
+            db.GetDataQuery(TmpQuery,function(pData)
+            {
+                $scope.BarkodListe = pData;
+                InitBarkodGrid();
+            });
         }
     }
     $scope.Kaydet = function()
     {
-        if(typeof $scope.EtiketObj.DESIGN_NAME != 'undefined')
-        {
-            let Data = {data:$scope.BarkodListe}
+        let Data = {data:$scope.BarkodListe}
 
-            let InsertData = 
-            [
-                $scope.Kullanici,
-                $scope.Kullanici,
-                JSON.stringify(Data),
-                $scope.EtiketObj.TAG,
-                1,
-                0
-            ]
-            db.ExecuteTag($scope.Firma,'LabelQueueInsert',InsertData)
-
-            alertify.alert(db.Language($scope.Lang,"Yazdırma emri gönderildi."))
-        }
+        let InsertData = 
+        [
+            $scope.Kullanici,
+            $scope.Kullanici,
+            $scope.Referans,
+            JSON.stringify(Data),
+            1,
+            0
+        ]
+        db.ExecuteTag($scope.Firma,'LabelQueueInsert',InsertData)
     }
     $scope.OnIzleme = function()
     {

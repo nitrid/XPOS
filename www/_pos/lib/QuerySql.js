@@ -659,15 +659,15 @@ var QuerySql =
     LabelQueueInsert :
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
-                "SET @TMPCODE = ISNULL((SELECT TOP 1 DESIGN FROM LABEL_QUEUE WHERE DESIGN = @DESIGN AND STATUS = 0),'') " +
+                "SET @TMPCODE = ISNULL((SELECT TOP 1 DATA FROM LABEL_QUEUE WHERE REFERANCE = @REFERANCE AND STATUS = 0),'') " +
                 "IF @TMPCODE = '' " +
                 "INSERT INTO [dbo].[LABEL_QUEUE] ( " +
                 " [CUSER] " +
                 ",[CDATE] " +
                 ",[LUSER] " +
                 ",[LDATE] " +
+                ",[REFERANCE] " +
                 ",[DATA] " +
-                ",[DESIGN] " +
                 ",[PRINT_COUNT] " +
                 ",[STATUS] " +
                 ") VALUES ( " +
@@ -675,14 +675,14 @@ var QuerySql =
                 ",GETDATE()		--<CDATE, datetime,> \n" +
                 ",@LUSER		--<LUSER, nvarchar(25),> \n" +
                 ",GETDATE()		--<LDATE, datetime,> \n" +
+                ",@REFERANCE	--<REFERANCE, int,> \n" +
                 ",@DATA			--<DATA, nvarchar(max),> \n" +
-                ",@DESIGN		--<DESIGN, nvarchar(50),> \n" +
                 ",@PRINT_COUNT	--<PRINT_COUNT, int,> \n" +
                 ",@STATUS		--<STATUS, int,> \n" +
                 ") \n" +
                 "ELSE " + 
-                "UPDATE [dbo].[LABEL_QUEUE] SET [DATA] = @DATA WHERE [DESIGN] = @DESIGN AND [STATUS] = 0",
-        param : ['CUSER:string|25','LUSER:string|25','DATA:string|max','DESIGN:string|50','PRINT_COUNT:int','STATUS:int']
+                "UPDATE [dbo].[LABEL_QUEUE] SET [DATA] = @DATA WHERE [REFERANCE] = @REFERANCE AND [STATUS] = 0",
+        param : ['CUSER:string|25','LUSER:string|25','REFERANCE:int','DATA:string|max','PRINT_COUNT:int','STATUS:int']
     },
     LabelQueueUpdate :
     {
