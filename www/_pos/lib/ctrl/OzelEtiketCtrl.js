@@ -68,7 +68,7 @@ function OzelEtiketCtrl ($scope,$window,db)
 
         $("#MdlSecim").modal('hide');
     }
-    $scope.Init = function()
+    $scope.Init = async function()
     {
         $scope.Kullanici = $window.sessionStorage.getItem('User');
 
@@ -86,6 +86,7 @@ function OzelEtiketCtrl ($scope,$window,db)
         $scope.Fiyat = 0;
         $scope.Aciklama = "";
         $scope.BasimAdeti = 1;
+        $scope.Referans = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REFERANCE),0) + 1 AS REFERANCE FROM LABEL_QUEUE WHERE LUSER = @LUSER",param:['LUSER:string|25'],value:[$scope.Kullanici]}))[0].REFERANCE;
     }
     $scope.BtnModalSecim = function()
     {
@@ -99,22 +100,25 @@ function OzelEtiketCtrl ($scope,$window,db)
     {
         if($scope.Kodu != "")
         {
-            let Data = 
+            let Data = {};
+            Data.data = [];
+
+            for (let i = 0; i < $scope.BasimAdeti; i++) 
             {
-                data : 
-                [   
-                    {
-                        Kodu : '27' + $scope.Kodu.toString().substring(1,$scope.Kodu.length) + (parseFloat(parseFloat($scope.Fiyat).toFixed(2)) * 100).toString().padStart(5,'0'),
-                        Fiyat : $scope.Fiyat,
-                        Aciklama : $scope.Aciklama,
-                    }
-                ]
+                let TmpData = 
+                {
+                    Kodu : '27' + $scope.Kodu.toString().substring(1,$scope.Kodu.length) + (parseFloat(parseFloat($scope.Fiyat).toFixed(2)) * 100).toString().padStart(5,'0'),
+                    Fiyat : $scope.Fiyat,
+                    Aciklama : $scope.Aciklama,
+                }
+                Data.data.push(TmpData)
             }
             
             let InsertData = 
             [
                 $scope.Kullanici,
                 $scope.Kullanici,
+                $scope.Referans,
                 JSON.stringify(Data),
                 "1",
                 $scope.BasimAdeti,

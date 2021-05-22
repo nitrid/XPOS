@@ -2188,7 +2188,23 @@ function Pos($scope,$window,$rootScope,db)
                     pBarkod = pBarkod.substring(0,7) + "MMMCCF";
                 }
             }
-
+            /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+            if(pBarkod.substring(0,2) == "27")
+            {
+                let TmpQuery =
+                {
+                    query : "SELECT CODE FROM ITEMS WHERE SPECIAL1 = @SPECIAL1",
+                    param : ['SPECIAL1:string|25'],
+                    value : ['0' + pBarkod.substring(2,7)]
+                }   
+                let TmpData = await db.GetPromiseQuery(TmpQuery);
+                if(TmpData.length > 0)
+                {
+                    pBarkod = TmpData[0].CODE
+                }
+                
+            }
+            /* ************************************************************** */
             db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
             {
                 if(BarkodData.length > 0)
@@ -2256,6 +2272,12 @@ function Pos($scope,$window,$rootScope,db)
                             $scope.PosSatisInsert();
                         }
                     }
+                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                    if(pBarkod.substring(0,2) == "27")
+                    {
+                        $scope.Stok[0].PRICE = parseFloat(pBarkod.substring(7,12)) / 100
+                    }
+                    /* ************************************************************** */
                 }
                 else   
                 {

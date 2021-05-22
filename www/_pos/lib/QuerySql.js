@@ -1385,6 +1385,12 @@ var QuerySql =
         param : ['DEVICE:string|25']
         
     },
+    //SİPARİŞ 
+    MaxSiparisNo :
+    {
+        query : "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXSIRA FROM ORDERM WHERE REF = @REF AND DOC_TYPE = @DOC_TYPE",
+        param : ['REF:string|25','DOC_TYPE:int']
+    },
     //KULLANICI PARAMETRE
     KullaniciGetir :
     {

@@ -40,3 +40,10 @@ TYPE = 1 => ÇIKIŞ
 TYPE = 0 => ANA BİRİM
 TYPE = 1 => ALT BİRİM
 TYPE = 2 => ÜST BİRİM
+--------------------------
+# ORDERM
+DOC_TYPE = 0 => NORMAL SİPARİŞ
+DOC_TYPE = 1 => ŞUBE SİPARİŞ
+
+TYPE = 0 => GİRİŞ
+TYPE = 1 => ÇIKIŞ

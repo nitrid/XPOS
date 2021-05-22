@@ -212,7 +212,7 @@
               </li>
               <li class="site-menu-item has-sub">
                 <a href="#!Stok?mode='list'">
-                  <i class='site-menu-icon fa-barcode'></i>
+                  <i class='site-menu-icon fa-tags'></i>
                   <span class='site-menu-title' langu>Etiket Gondol</span>
                   <span class='site-menu-arrow'></span>
                 </a>
@@ -250,7 +250,7 @@
               </li>
               <li class="site-menu-item has-sub">
                 <a href="#">
-                  <i class='site-menu-icon fa-tags'></i>
+                  <i class='site-menu-icon fa-signal'></i>
                   <span class='site-menu-title' langu>Satış</span>
                   <span class='site-menu-arrow'></span>
                 </a>
@@ -276,6 +276,53 @@
                     </a>
                   </li>
                 </ul>                
+              </li>
+              <li class="site-menu-item has-sub">
+                <a href="#">
+                  <i class='site-menu-icon fa-handshake-o'></i>
+                  <span class='site-menu-title' langu>Sipariş</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class="site-menu-item has-sub pl-20">
+                    <a href="#">
+                      <i class='site-menu-icon fa-file font-size-12'></i>
+                      <span class='site-menu-title' langu>Evraklar</span>
+                      <span class='site-menu-arrow'></span>
+                    </a>
+                    <ul class='site-menu-sub'>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!AlinanSiparisEvrak'>
+                          <span class='site-menu-title' langu>Alınan Sipariş</span>
+                        </a>
+                      </li>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!VerilenSiparisEvrak'>
+                          <span class='site-menu-title' langu>Verilen Sipariş</span>
+                        </a>
+                      </li>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!SubeSiparisEvrak'>
+                          <span class='site-menu-title' langu>Şube Sipariş</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="site-menu-item has-sub pl-20">
+                    <a href="#">
+                      <i class='site-menu-icon fa-bar-chart font-size-12'></i>
+                      <span class='site-menu-title' langu>Raporlar</span>
+                      <span class='site-menu-arrow'></span>
+                    </a>
+                    <ul class='site-menu-sub'>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!SatisFisListesi'>
+                          <span class='site-menu-title' langu>Alınan Sipariş Raporu</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
               <li class="site-menu-item has-sub" id="menu" >
                 
@@ -431,6 +478,7 @@
     <script src="lib/ctrl/PosSatisRaporCtrl.js"></script>
     <script src="lib/ctrl/TopluTicketGirisCtrl.js"></script>
     <script src="lib/ctrl/TopluTicketListesiCtrl.js"></script>
+    <script src="lib/ctrl/siparis/SiparisEvrakCtrl.js"></script>
     <script src="lib/QuerySql.js"></script>    
 
     <script src="lib/App.js"></script>
@@ -441,40 +489,40 @@
     <script src="theme/dx/dx.all.js"></script>
     <script src="https://cdn3.devexpress.com/jslib/20.2.6/js/localization/dx.messages.fr.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.js"></script>
-  <script>
-      (function(document, window, $){
-        'use strict';
-    
-        var Site = window.Site;
-        $(document).ready(function(){
-          Site.run();
-        });
-      })(document, window, jQuery);
+    <script>
+        (function(document, window, $){
+          'use strict';
+      
+          var Site = window.Site;
+          $(document).ready(function(){
+            Site.run();
+          });
+        })(document, window, jQuery);
 
-      //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
-      function DecimalField(config) 
-      {
-        jsGrid.NumberField.call(this, config);
-      }
-      DecimalField.prototype = new jsGrid.NumberField(
-      {
-    
-        itemTemplate: function(value) {
-            return value.toFixed(2);
-        },
-        filterValue: function() {
-            return parseFloat(this.filterControl.val() || 0);
-        },
-        insertValue: function() {
-            return parseFloat(this.insertControl.val() || 0);
-        },
-        editValue: function() {
-            return parseFloat(this.editControl.val() || 0);
+        //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
+        function DecimalField(config) 
+        {
+          jsGrid.NumberField.call(this, config);
         }
-      });
-      jsGrid.fields.decimal = DecimalField;
-      //*******************************************//      
-  </script>
+        DecimalField.prototype = new jsGrid.NumberField(
+        {
+      
+          itemTemplate: function(value) {
+              return value.toFixed(2);
+          },
+          filterValue: function() {
+              return parseFloat(this.filterControl.val() || 0);
+          },
+          insertValue: function() {
+              return parseFloat(this.insertControl.val() || 0);
+          },
+          editValue: function() {
+              return parseFloat(this.editControl.val() || 0);
+          }
+        });
+        jsGrid.fields.decimal = DecimalField;
+        //*******************************************//      
+    </script>
 
   </body>
 </html>
