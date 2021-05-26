@@ -1,0 +1,39 @@
+
+<div class="col-12" ng-controller="PosSatisRaporCtrl" ng-init="Init()">
+    <div class="col-12">
+        <div class="page-header">
+            <h1 class="page-title" langu>POS SATIŞ RAPORU</h1>
+            <div class="page-header-actions">
+            </div>
+        </div>   
+        <div class="panel">
+            <div class="panel-body container-fluid">
+                <div class="row pt-10">
+                    <div id="Date" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 350px;font-size: 14px;">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+                <div class="row pt-20"> 
+                    <button class="btn btn-block btn-primary" ng-click="BtnRunReport()" langu>
+                        Çalıştır
+                    </button>
+                </div>
+                <div class="row pt-20"> 
+                    <div id="col-9">
+                        <div id="salesgrid"></div>
+                    </div>      
+                    <div id="col-9">
+                        <div id="paymentdetailgrid"></div>
+                    </div>      
+                    <div id="col-3">
+                        <div id="paymentgrid"></div>
+                    </div>                 
+                </div>
+                <div class="row pt-20"> 
+                                          
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

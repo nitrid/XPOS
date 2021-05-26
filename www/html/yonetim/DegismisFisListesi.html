@@ -1,0 +1,82 @@
+<div class="col-12" ng-controller="DegismisFisListesiCtrl" ng-init="Init()">
+    <div class="col-12">
+        <div class="tab-content">
+            <div id="TbMain" class="tab-pane active">
+                <div class="page-header">
+                    <h1 class="page-title" langu>DEĞİŞMİŞ FİŞ LİSTESİ</h1>
+                    <div class="page-header-actions">
+                    </div>
+                </div>   
+                <div class="panel">
+                    <div class="panel-body container-fluid">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">
+                                        <div class="float-right" langu>İlk Tarih :</div>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div class="input-group input-group-icon">
+                                            <input type="text" class="form-control" id="IlkTarih" type="text" ng-model="IlkTarih" data-provide="datepicker"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">
+                                        <div class="float-right" langu>Son Tarih :</div>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div class="input-group input-group-icon">
+                                            <input type="text" class="form-control" id="SonTarih" type="text" ng-model="SonTarih" data-provide="datepicker"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label">
+                                        <div class="float-right" langu>Fiş Tipi :</div>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+                                            <select class="form-control" ng-model="FisTipi">
+                                                <option value="0" langu>Ödemesi Değişmiş</option>                                
+                                                <option value="1" langu>Satış İptalleri</option>   
+                                                <option value="2" langu>Satır İptalleri</option>                               
+                                            </select>  
+                                        </div>                            
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="form-control-lg btn-raised btn btn-primary btn-block font-size-20" type="button" ng-click="BtnDegismisFisListeGetir()">
+                                    <i class="icon wb-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="TblDegismisFisListesi"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<script>
+    $("#IlkTarih").datepicker(
+    {
+        language: "fr"
+    });
+    $("#SonTarih").datepicker(
+    {
+        language: "fr"
+    }); 
+    
+</script>

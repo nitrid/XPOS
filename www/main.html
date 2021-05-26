@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en" ng-app="app">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">      
+      <!-- Tell the browser to be responsive to screen width -->
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
+      <meta name="author" content="">
+  
+      <meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; style-src 'self' http://* https://* file://* 'unsafe-inline'; script-src 'self' http://* https://* file://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: *">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="msapplication-tap-highlight" content="no">  
+    <title>piqpos | Powered by PiqSoft</title>
+    
+    <link rel="apple-touch-icon" href="theme/base/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" href="theme/base/assets/images/favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="theme/global/css/bootstrap.css">
+    <link rel="stylesheet" href="theme/global/css/bootstrap-extend.css">
+    <link rel="stylesheet" href="theme/base/assets/css/site.css">
+    <!--Custom-->
+    <link rel="stylesheet" href="custom.css">   
+
+    <!-- Add-on Stil Dosyaları Basla -->
+    <link rel="stylesheet" href="theme/global/vendor/animsition/animsition.css">
+    <link rel="stylesheet" href="theme/global/vendor/asscrollable/asScrollable.css">
+    <link rel="stylesheet" href="theme/global/vendor/switchery/switchery.css">
+    <link rel="stylesheet" href="theme/global/vendor/intro-js/introjs.css">
+    <link rel="stylesheet" href="theme/global/vendor/slidepanel/slidePanel.css">
+    <link rel="stylesheet" href="theme/global/vendor/flag-icon-css/flag-icon.css">
+    <link rel="stylesheet" href="theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/uikit/modals.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/pages/profile.css">
+    <link rel="stylesheet" href="theme/global/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="theme/global/vendor/bootstrap-select/bootstrap-select.css">
+    <link rel="stylesheet" href="theme/global/vendor/bootstrap-tokenfield/bootstrap-tokenfield.css">
+    <link rel="stylesheet" href="theme/global/dropify/dropify.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!-- Datatables -->
+    <!-- <link rel="stylesheet" href="theme/global/vendor/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-fixedheader-bs4/dataTables.fixedheader.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-fixedcolumns-bs4/dataTables.fixedcolumns.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-rowgroup-bs4/dataTables.rowgroup.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-scroller-bs4/dataTables.scroller.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-select-bs4/dataTables.select.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-responsive-bs4/dataTables.responsive.bootstrap4.css">
+    <link rel="stylesheet" href="theme/global/vendor/datatables.net-buttons-bs4/dataTables.buttons.bootstrap4.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/tables/datatable.css"> -->
+    <!--JS Grid-->
+    <link rel="stylesheet" href="theme/global/vendor/jsgrid/jsgrid.css">
+    <link rel="stylesheet" href="theme/base/assets/examples/css/tables/jsgrid.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="theme/global/fonts/web-icons/web-icons.min.css">
+    <link rel="stylesheet" href="theme/global/fonts/brand-icons/brand-icons.min.css">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    
+    <link rel="stylesheet" type="text/css" href="theme/dx/dx.common.css" />
+    <link rel="stylesheet" type="text/css" href="theme/dx/dx.light.css" />
+    <!-- <link rel="stylesheet" href="theme/global/vendor/datetimepicker.css"> -->
+    <!--[if lt IE 9]>
+    <script src="theme/global/vendor/html5shiv/html5shiv.min.js"></script>
+    <![endif]-->
+  
+    <!--[if lt IE 10]>
+    <script src="theme/global/vendor/media-match/media.match.min.js"></script>
+    <script src="theme/global/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Scripts -->
+    <script src="theme/global/vendor/breakpoints/breakpoints.js"></script>
+    <script>
+      Breakpoints();
+    </script>  
+    <style>
+      #loading 
+      {
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          position: fixed;
+          display: block;
+          opacity: 0.7;
+          background-color: #fff;
+          z-index: 99;
+          text-align: center;
+      }
+      .dropdown-menu 
+      {
+        font-size: 10px;
+      }
+      .dropdown-item 
+      {
+        padding: 0.3rem 0.8rem;
+      }
+      .dx-data-row 
+      {  
+          font-size: 12px;  
+      }  
+      .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
+      .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td,
+      .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
+      .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td 
+      {
+          background-color: #3e8ef7ce;
+      }
+      .dx-texteditor-input
+      {
+        min-height: 30px;
+        padding-bottom: 4px; 
+      }
+    </style>  
+  </style>
+    </head>
+  
+    <body class="animsition site-navbar-small site-menubar-fold site-menubar-keep" ng-controller="Main" ng-Init = "Init()">
+      <div id="loading" style="display:none"></div>
+      <audio id="Sound">
+        <source src="sound/beep.mp3" type="audio/mpeg">
+      </audio>
+      <audio id="Sound2">
+        <source src="sound/beep_double.mp3" type="audio/mpeg">
+      </audio>
+    <!--[if lt IE 8]>
+          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-fixed-top navbar-inverse" role="navigation" role="navigation">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggler hamburger hamburger-close navbar-toggler-left hided" data-toggle="menubar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="hamburger-bar"></span>
+          </button>
+          <!-- <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-collapse" data-toggle="collapse">
+            <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+          </button>
+          <div class="navbar-brand navbar-brand-center site-gridmenu-toggle active" data-toggle="gridmenu" aria-expanded="true">
+            <img class="navbar-brand-logo" src="../../../assets/images/logo.png" title="Remark">
+            <span class="navbar-brand-text hidden-xs-down"> Remark</span>
+          </div>
+          <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-search" data-toggle="collapse">
+            <span class="sr-only">Toggle Search</span>
+            <i class="icon wb-search" aria-hidden="true"></i>
+          </button> -->
+        </div>
+            <div class="navbar-container container-fluid">
+              <!-- Navbar Collapse -->
+              <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                <!-- Navbar Toolbar -->
+                <ul class="nav navbar-toolbar">
+                  <li class="nav-item hidden-float" id="toggleMenubar">
+                    <a class="nav-link" data-toggle="menubar" role="button">
+                      <i class="icon hamburger hamburger-arrow-left">
+                        <span class="sr-only">Toggle menubar</span>
+                        <span class="hamburger-bar"></span>
+                      </i>
+                    </a>
+                  </li>
+                  <li class="nav-item hidden-sm-down" id="toggleFullscreen">
+                    <a class="nav-link icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                      <span class="sr-only">Toggle fullscreen</span>
+                    </a>
+                  </li>
+                </ul>
+                <!-- End Navbar Toolbar -->
+              </div>
+              <!-- End Navbar Collapse -->
+            </div>
+      </nav>
+    <!-- Navigasyon Basla -->
+      <div class="site-menubar site-menubar-light">
+        <div class="site-menubar-body">
+          <div>
+            <ul class="site-menu">
+                <li class="site-menu-item has-sub">
+                  <a href="#!">
+                      <i class="site-menu-icon wb-home" aria-hidden="true"></i>
+                      <span class="site-menu-title" langu>Ana Sayfa</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="site-menu" data-plugin="menu">
+              <li class="site-menu-item has-sub">
+                <a href="#!Stok?mode='list'">
+                  <i class='site-menu-icon fa-pencil-square-o'></i>
+                  <span class='site-menu-title' langu>Stok</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!Stok'>
+                      <span class='site-menu-title' langu>Stok Tanıtım</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!Stok?mode="list"'>
+                      <span class='site-menu-title' langu>Stok Listesi</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!FiyatListeYonetimi'>
+                      <span class='site-menu-title' langu>Fiyat Liste Yönetimi</span>
+                    </a>
+                  </li>                  
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!TopluTicketGiris'>
+                      <span class='site-menu-title' langu>Toplu Ticket Giriş</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!TopluTicketListesi'>
+                      <span class='site-menu-title' langu>Toplu Ticket Listesi</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="site-menu-item has-sub">
+                <a href="#">
+                  <i class='site-menu-icon fa-tags'></i>
+                  <span class='site-menu-title' langu>Etiket Gondol</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!EtiketBasim'>
+                      <span class='site-menu-title' langu>Etiket Basımı</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!OzelEtiket'>
+                      <span class='site-menu-title' langu>Özel Etiket Basımı</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="site-menu-item has-sub">
+                <a href="#!CariListesi">
+                  <i class='site-menu-icon fa-user'></i>
+                  <span class='site-menu-title' langu>Cari</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!Cari'>
+                      <span class='site-menu-title' langu>Yeni Cari</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!CariListesi'>
+                      <span class='site-menu-title' langu>Cari Listesi</span>
+                    </a>
+                  </li>
+                </ul>                
+              </li>
+              <li class="site-menu-item has-sub">
+                <a href="#">
+                  <i class='site-menu-icon fa-signal'></i>
+                  <span class='site-menu-title' langu>Satış</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!SatisFisListesi'>
+                      <span class='site-menu-title' langu>Satış Fiş Listesi</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!DegismisFisListesi'>
+                      <span class='site-menu-title' langu>Değişmiş Fiş Listesi</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!MusteriPuanListesi'>
+                      <span class='site-menu-title' langu>Müşteri Bazlı Puan Listesi</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!PosSatisRapor'>
+                      <span class='site-menu-title' langu>Pos Satış Raporu</span>
+                    </a>
+                  </li>
+                </ul>                
+              </li>
+              <li class="site-menu-item has-sub">
+                <a href="#">
+                  <i class='site-menu-icon fa-handshake-o'></i>
+                  <span class='site-menu-title' langu>Sipariş</span>
+                  <span class='site-menu-arrow'></span>
+                </a>
+                <ul class='site-menu-sub'>
+                  <li class="site-menu-item has-sub pl-20">
+                    <a href="#">
+                      <i class='site-menu-icon fa-file font-size-12'></i>
+                      <span class='site-menu-title' langu>Evraklar</span>
+                      <span class='site-menu-arrow'></span>
+                    </a>
+                    <ul class='site-menu-sub'>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!AlinanSiparisEvrak'>
+                          <span class='site-menu-title' langu>Alınan Sipariş</span>
+                        </a>
+                      </li>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!VerilenSiparisEvrak'>
+                          <span class='site-menu-title' langu>Verilen Sipariş</span>
+                        </a>
+                      </li>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!SubeSiparisEvrak'>
+                          <span class='site-menu-title' langu>Şube Sipariş</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="site-menu-item has-sub pl-20">
+                    <a href="#">
+                      <i class='site-menu-icon fa-bar-chart font-size-12'></i>
+                      <span class='site-menu-title' langu>Raporlar</span>
+                      <span class='site-menu-arrow'></span>
+                    </a>
+                    <ul class='site-menu-sub'>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!SatisFisListesi'>
+                          <span class='site-menu-title' langu>Alınan Sipariş Raporu</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="site-menu-item has-sub" id="menu" >
+                
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="site-menubar-footer">
+          <a href="index.html" class="fold-show" data-placement="top" data-toggle="tooltip"
+            data-original-title="Settings">
+            <span class="icon wb-power" aria-hidden="true" style="color:red"></span>
+          </a>
+        </div>
+      </div>
+      
+    <!-- Navigasyon Bitir -->
+    <!-- Sayfa Basla -->
+    
+    <div class="page px-1">
+      <!-- Panel Modals Styles -->
+      <div ng-view></div>
+    
+
+    </div>
+    <!-- Sayfa Bitir -->
+  
+    <!-- Footer Basla-->
+    <footer class="site-footer">
+      <div class="site-footer-legal">© 2018
+        <a href="www.teknoerp.com.tr">Nitro</a>
+      </div>
+      <div class="site-footer-right">
+        Nitro sürüm No - 1.0
+        
+      </div>
+
+    </footer>
+    <!-- Footer Bitir-->
+    
+    <!-- Script Basla -->
+    <!-- Core  -->
+    <script src="theme/global/vendor/babel-external-helpers/babel-external-helpers.js"></script>
+    <script src="theme/global/vendor/jquery/jquery.js"></script>
+    <script src="theme/global/vendor/popper-js/umd/popper.min.js"></script>
+    <script src="theme/global/vendor/bootstrap/bootstrap.js"></script>
+    <script src="theme/global/vendor/animsition/animsition.js"></script>
+    <script src="theme/global/vendor/mousewheel/jquery.mousewheel.js"></script>
+    <script src="theme/global/vendor/asscrollbar/jquery-asScrollbar.js"></script>
+    <script src="theme/global/vendor/asscrollable/jquery-asScrollable.js"></script>
+    <script src="theme/global/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+    
+    <!-- Plugins -->
+    <script src="theme/global/vendor/switchery/switchery.js"></script>
+    <script src="theme/global/vendor/intro-js/intro.js"></script>
+    <script src="theme/global/vendor/screenfull/screenfull.js"></script>
+    <script src="theme/global/vendor/slidepanel/jquery-slidePanel.js"></script>
+    <script src="theme/global/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="theme/global/vendor/alertify/alertify.js"></script>
+    <script src="theme/global/vendor/aspaginator/jquery-asPaginator.min.js"></script>
+    <script src="theme/global/vendor/icheck/icheck.min.js"></script>
+    <script src="theme/global/vendor/bootstrap-select/bootstrap-select.js"></script>
+    <script src="theme/global/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.js"></script>
+    <script src="theme/global/vendor/jquery-labelauty/jquery-labelauty.js"></script>
+    <script src="theme/global/dropify/dropify.js"></script>
+
+    <!-- Scripts -->
+    <script src="theme/global/js/Component.js"></script>
+    <script src="theme/global/js/Plugin.js"></script>
+    <script src="theme/global/js/Base.js"></script>
+    <script src="theme/global/js/Config.js"></script>
+
+    <script src="theme/base/assets/js/Section/Menubar.js"></script>
+    <script src="theme/base/assets/js/Section/GridMenu.js"></script>
+    <script src="theme/base/assets/js/Section/Sidebar.js"></script>
+    <script src="theme/base/assets/js/Section/PageAside.js"></script>
+    <script src="theme/base/assets/js/Plugin/menu.js"></script>
+
+    <script src="theme/global/js/config/colors.js"></script>
+    <script src="theme/base/assets/js/config/tour.js"></script>
+    <script>Config.set('assets', 'theme/base/assets');</script>
+    
+    <!-- Page -->
+    <script src="theme/base/assets/js/Site.js"></script>
+    <script src="theme/global/js/Plugin/asscrollable.js"></script>
+    <script src="theme/global/js/Plugin/slidepanel.js"></script>
+    <script src="theme/global/js/Plugin/switchery.js"></script>
+    <script src="theme/global/vendor/bootstrap-datepicker/bootstrap-datepicker.fr.min.js"></script>
+    <script src="theme/global/js/Plugin/alertify.js"></script>
+    <script src="theme/global/js/Plugin/aspaginator.js"></script>
+    <script src="theme/global/js/Plugin/responsive-tabs.js"></script>
+    <script src="theme/global/js/Plugin/tabs.js"></script>
+    <script src="theme/global/js/Plugin/icheck.js"></script>
+    <script src="theme/global/vendor/switchery/switchery.js"></script>
+    <script src="theme/global/js/Plugin/bootstrap-select.js"></script>
+
+    <!-- Datatables-->
+    <!-- <script src="theme/global/vendor/datatables.net/jquery.dataTables.js"></script>
+    <script src="theme/global/vendor/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="theme/global/vendor/datatables.net-fixedheader/dataTables.fixedHeader.js"></script>
+    <script src="theme/global/vendor/datatables.net-fixedcolumns/dataTables.fixedColumns.js"></script>
+    <script src="theme/global/vendor/datatables.net-rowgroup/dataTables.rowGroup.js"></script>
+    <script src="theme/global/vendor/datatables.net-scroller/dataTables.scroller.js"></script>
+    <script src="theme/global/vendor/datatables.net-responsive/dataTables.responsive.js"></script>
+    <script src="theme/global/vendor/datatables.net-responsive-bs4/responsive.bootstrap4.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons/dataTables.buttons.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons/buttons.html5.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons/buttons.flash.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons/buttons.print.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons/buttons.colVis.js"></script>
+    <script src="theme/global/vendor/datatables.net-buttons-bs4/buttons.bootstrap4.js"></script>
+    <script src="theme/global/vendor/datatables.net-select/dataTables.select.min.js"></script>
+    <script src="theme/global/js/Plugin/datatables.js"></script> -->
+    <!-- JS Grid-->
+    <script src="theme/global/vendor/jsgrid/jsgrid.js"></script>
+    <script src="theme/base/assets/examples/js/tables/jsgrid-db.js"></script>
+    <script src="theme/base/assets/examples/js/tables/jsgrid.js"></script>
+
+    
+    <!-- Chart-->
+    <script src="theme/global/vendor/chart-js/Chart.js"></script>
+    <!-- Nitro -->    
+    <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/moment-with-locales.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.3.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    <script src="lib/i18n/18n.js"></script>
+    <script src="lib/i18n/lang.js"></script>
+
+    <script src="js/DbService.js"></script>
+    <script src="js/Directive.js"></script>
+    <script src="js/CardPayment.js"></script>
+    <script src="js/MettlerScale.js"></script>
+    <script src="js/Scanner.js"></script>
+    
+    <script src="lib/ctrl/Login.js"></script>
+    <script src="lib/ctrl/Main.js"></script>
+    <script src="lib/ctrl/ayarlar/KullaniciParametreCtrl.js"></script>
+    <script src="lib/ctrl/ayarlar/CihazParametreCtrl.js"></script>
+    <script src="lib/ctrl/StokCtrl.js"></script>
+    <script src="lib/ctrl/CariCtrl.js"></script>
+    <script src="lib/ctrl/CariListeCtrl.js"></script>
+    <script src="lib/ctrl/OzelEtiketCtrl.js"></script>
+    <script src="lib/ctrl/SatisFisListesiCtrl.js"></script>
+    <script src="lib/ctrl/DegismisFisListesiCtrl.js"></script>
+    <script src="lib/ctrl/MusteriPuanListesiCtrl.js"></script>
+    <script src="lib/ctrl/EtiketBasimCtrl.js"></script>
+    <script src="lib/ctrl/FiyatListeYonetimiCtrl.js"></script>
+    <script src="lib/ctrl/PosSatisRaporCtrl.js"></script>
+    <script src="lib/ctrl/TopluTicketGirisCtrl.js"></script>
+    <script src="lib/ctrl/TopluTicketListesiCtrl.js"></script>
+    <script src="lib/ctrl/siparis/SiparisEvrakCtrl.js"></script>
+    <script src="lib/QuerySql.js"></script>    
+
+    <script src="lib/App.js"></script>
+    <script src="lib/Controller.js"></script>
+    <script src="lib/Param.js"></script>
+    <script src="lib/ParamTemp.js"></script>
+    
+    <script src="theme/dx/dx.all.js"></script>
+    <script src="https://cdn3.devexpress.com/jslib/20.2.6/js/localization/dx.messages.fr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.js"></script>
+    <script>
+      if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
+      {
+          var body = document.getElementsByTagName('body')[0];
+          var js = document.createElement("script");
+          js.type = "text/javascript";
+          js.src = "cordova.js";
+          body.appendChild(js);
+      }
+
+      (function(document, window, $){
+        'use strict';
+    
+        var Site = window.Site;
+        $(document).ready(function(){
+          Site.run();
+        });
+      })(document, window, jQuery);
+
+      //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
+      function DecimalField(config) 
+      {
+        jsGrid.NumberField.call(this, config);
+      }
+      DecimalField.prototype = new jsGrid.NumberField(
+      {
+    
+        itemTemplate: function(value) {
+            return value.toFixed(2);
+        },
+        filterValue: function() {
+            return parseFloat(this.filterControl.val() || 0);
+        },
+        insertValue: function() {
+            return parseFloat(this.insertControl.val() || 0);
+        },
+        editValue: function() {
+            return parseFloat(this.editControl.val() || 0);
+        }
+      });
+      jsGrid.fields.decimal = DecimalField;
+      //*******************************************//      
+    </script>
+
+  </body>
+</html>
+

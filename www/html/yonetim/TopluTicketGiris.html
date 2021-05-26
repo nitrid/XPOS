@@ -1,0 +1,78 @@
+<div class="col-12" ng-controller = "TopluTicketGirisCtrl" ng-init="Init()">
+    <div class="page-header">
+        <h1 class="page-title" langu>Toplu Ticket Girişi</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Init()">
+                <i class="icon fa-file-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Kaydet()">
+                <i class="icon fa-save" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Sil()">
+                <i class="icon fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
+                <i class="icon fa-print" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="panel-body container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label">
+                        <div class="float-right" langu>Başlangıç Numarası :</div>
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="TopluTicketGiris[0].STARTCODE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label">
+                        <div class="float-right" langu>Fiyat :</div>
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="TopluTicketGiris[0].PRICE">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label">
+                        <div class="float-right" langu>Tip :</div>
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="TopluTicketGiris[0].TYPE">
+                    </div>
+                </div>
+            </div>      
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label">
+                        <div class="float-right" langu>Yıl :</div>
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="TopluTicketGiris[0].YEAR">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <div class="form-group row">
+                    <label class="col-md-2 form-control-label">
+                        <div class="float-right" langu>Bitiş Numarası :</div>
+                    </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="TopluTicketGiris[0].ENDCODE">
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>

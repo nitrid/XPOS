@@ -1,0 +1,93 @@
+<div class="col-12" ng-controller="OzelEtiketCtrl" ng-init="Init()">
+    <div class="page-header">
+        <h1 class="page-title" langu>ÖZEL ETİKET BASIMI</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Init()">
+                <i class="icon fa-file-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Kaydet()">
+                <i class="icon fa-save" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body">
+            <div class="form-group row">
+                <label class="col-md-1 form-control-label">
+                    <div class="float-right" langu>Referans :</div>
+                </label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" autocomplete="off" ng-model="Kodu" ng-keypress="TxtStokKeyPress($event)" ng-blur = "TxtStokKeyPress()"/>
+                        <span class="input-group-append">
+                            <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim()">
+                                <i class="icon wb-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-1 form-control-label">
+                    <div class="float-right" langu>Fiyat :</div>
+                </label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" autocomplete="off" ng-model="Fiyat"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-1 form-control-label">
+                    <div class="float-right" langu>Açıklama :</div>
+                </label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" autocomplete="off" ng-model="Aciklama"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-1 form-control-label">
+                    <div class="float-right" langu>Basım Adedi :</div>
+                </label>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="name" autocomplete="off" ng-model="BasimAdeti"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODALLAR -->
+    <!-- Stok Seçim Modal -->
+    <div class="modal fade" id="MdlSecim" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Seçim</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="TblSecim" class="jsgrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#BasTarih").datepicker({
+        language: "tr"
+    });
+    $("#BitTarih").datepicker({
+        language: "tr"
+    });    
+</script>

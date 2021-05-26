@@ -5,6 +5,8 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _MenuData = {};
     let _CardPayment = new CardPayment();
     let _MettlerScale = new MettlerScale();
+    let _Scanner = new Scanner();
+
     moment.locale('tr');
 
     Number.prototype.toDigit2 = function()
@@ -535,6 +537,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     this.Equal = _Equal;
     this.IsUnitBarcode = _IsUnitBarcode;
     this.ListEqual = _ListEqual;
+    this.Scanner = _Scanner;
     // $APPLY YERİNE YAPILDI.
     this.SafeApply = function(pScope,pFn) 
     {

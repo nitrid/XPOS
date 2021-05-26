@@ -1,0 +1,598 @@
+<div class="col-12" ng-controller="CariCtrl" ng-init="Init()">
+    <div class="page-header">
+        <h1 class="page-title" langu>CARİ KARTI</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Init()">
+                <i class="icon fa-file-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Kaydet()">
+                <i class="icon fa-save" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip"
+                ng-click="Sil()">
+                <i class="icon fa-trash-o" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip">
+                <i class="icon fa-print" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Tip :</div>
+                        </label>
+                        <div class="col-md-4">
+                            <select class="form-control" ng-model="CariListe[0].TYPE" ng-change="TypeChange()">
+                                <option value="0" langu>Bireysel</option>
+                                <option value="1" langu>Şirket</option>
+                            </select>
+                        </div>
+                        <label class="col-md-1 form-control-label">
+                            <div class="float-right">Cins :</div>
+                        </label>
+                        <div class="col-md-4">
+                            <select class="form-control" ng-model="CariListe[0].GENUS">
+                                <option value="0" langu>Müşteri</option>
+                                <option value="1" langu>Tedarikçi</option>
+                                <option value="2" langu>Her İkisi</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Kodu :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off"
+                                    ng-model="CariListe[0].CODE">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('Cari')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Adı :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].NAME">
+                        </div>
+                    </div>
+                    <div class="form-group row" ng-style="StyleKurum">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Soyadı :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].LAST_NAME">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Grubu :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].CUSTOMER_GRP" />
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalSecim('CariGrup')">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnModalCariGrupEkle()">
+                                        <i class="icon wb-plus" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Telefon 1 :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].PHONE1">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Telefon 2 :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].PHONE2">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Gsm Tel. :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].GSM_PHONE">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Diger Tel. :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].OTHER_PHONE">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>E-Mail :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].EMAIL">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label">
+                            <div class="float-right" langu>Web :</div>
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariListe[0].WEB">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="nav-tabs-horizontal" data-plugin="tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" data-toggle="tab" href="" ng-click="BtnTabAdres()">Adres</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-toggle="tab" href="" ng-click="BtnTabYasal()">Yasal</a>
+                            </li>                            
+                        </ul>
+                        <div class="tab-content pt-20">
+                            <!--ADRES TAB-->
+                            <div class="tab-pane active show" id="TabAdres" role="tabpanel">
+                                <div class="row px-10">
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Adres :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <textarea class="form-control" id="textareaDefault" rows="3" ng-model="CariListe[0].ADRESS"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Posta Kodu :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].ZIPCODE">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Şehir :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].CITY">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Ülke :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" ng-model="CariListe[0].COUNTRY">
+                                                    <option value="AF">AFGANİSTAN</option>
+                                                    <option value="DE">ALMANYA</option>
+                                                    <option value="US">AMERİKA BİRLEŞİ</option>
+                                                    <option value="UM">AMERİKAN MİNOR</option>
+                                                    <option value="AS">AMERİKAN SAMOA</option>
+                                                    <option value="AD">ANDORA</option>
+                                                    <option value="AO">ANGOLA</option>
+                                                    <option value="AI">ANGUİLLA</option>
+                                                    <option value="AQ">ANTARTİKA</option>
+                                                    <option value="AG">ANTİGUA VE BARB</option>
+                                                    <option value="AR">ARJANTİN</option>
+                                                    <option value="AL">ARNAVUTLUK</option>
+                                                    <option value="AW">ARUBA</option>
+                                                    <option value="AU">AVUSTRALYA</option>
+                                                    <option value="AT">AVUSTURYA</option>
+                                                    <option value="AZ">AZERBAYCAN</option>
+                                                    <option value="BS">BAHAMALAR</option>
+                                                    <option value="BH">BAHREYN</option>
+                                                    <option value="BD">BANGLADEŞ</option>
+                                                    <option value="BB">BARBADOS</option>
+                                                    <option value="EH">BATI SAHARA</option>
+                                                    <option value="WS">BATI SAMOA</option>
+                                                    <option value="VG">BATI VİRGİN ADA</option>
+                                                    <option value="BY">BELARUS</option>
+                                                    <option value="BE">BELÇİKA</option>
+                                                    <option value="BZ">BELİZE</option>
+                                                    <option value="BJ">BENİN</option>
+                                                    <option value="BM">BERMUDA</option>
+                                                    <option value="BT">BHUTAN</option>
+                                                    <option value="AE">BİRLEŞİK ARAP E</option>
+                                                    <option value="BO">BOLİVYA</option>
+                                                    <option value="BA">BOSNA HERSEK</option>
+                                                    <option value="BW">BOTSWANA</option>
+                                                    <option value="BV">BOUVET ADALARI</option>
+                                                    <option value="BR">BREZİLYA</option>
+                                                    <option value="IO">BRİTANYA HİNT A</option>
+                                                    <option value="BN">BRUNEİ DARUSSAL</option>
+                                                    <option value="BG">BULGARİSTAN</option>
+                                                    <option value="BF">BURKİNA FASO</option>
+                                                    <option value="BI">BURUNDİ</option>
+                                                    <option value="CV">CAP VERDE</option>
+                                                    <option value="GI">CEBELİTARIK</option>
+                                                    <option value="DZ">CEZAYİR</option>
+                                                    <option value="CX">CHRİSTMAS ADALA</option>
+                                                    <option value="DJ">CİBUTİ</option>
+                                                    <option value="CC">COCOS (KEELİNG)</option>
+                                                    <option value="CK">COOK ADALARI</option>
+                                                    <option value="CW">CURACAO</option>
+                                                    <option value="TD">ÇAD</option>
+                                                    <option value="KY">ÇAYMAN ADALARI</option>
+                                                    <option value="CEC">ÇEÇENİSTAN</option>
+                                                    <option value="CZ">ÇEK CUMHURİYETİ</option>
+                                                    <option value="CN">ÇİN</option>
+                                                    <option value="DGT">DAĞISTAN</option>
+                                                    <option value="DK">DANİMARKA</option>
+                                                    <option value="DM">DOMİNİK</option>
+                                                    <option value="DO">DOMİNİK CUMHURİ</option>
+                                                    <option value="EC">EKVADOR</option>
+                                                    <option value="GQ">EKVATORAL GİNE</option>
+                                                    <option value="SV">EL SALVADOR</option>
+                                                    <option value="ID">ENDONEZYA</option>
+                                                    <option value="ER">ERİTREA</option>
+                                                    <option value="AM">ERMENİSTAN</option>
+                                                    <option value="EE">ESTONYA</option>
+                                                    <option value="ET">ETİYOPYA</option>
+                                                    <option value="FK">FALKLAND ADALAR</option>
+                                                    <option value="FO">FAROE ADALARI</option>
+                                                    <option value="MA">FAS</option>
+                                                    <option value="FJ">FİJİ</option>
+                                                    <option value="CI">FİLDİŞİ SAHİLİ</option>
+                                                    <option value="PH">FİLİPİNLER</option>
+                                                    <option value="PS">FİLİSTİN BÖLGES</option>
+                                                    <option value="FI">FİNLANDİYA</option>
+                                                    <option value="FR">FRANSA</option>
+                                                    <option value="GF">FRANSIZ GUYANAS</option>
+                                                    <option value="PF">FRANSIZ POLONEZ</option>
+                                                    <option value="GA">GABON</option>
+                                                    <option value="GM">GAMBİYA</option>
+                                                    <option value="GH">GANA</option>
+                                                    <option value="GN">GİNE</option>
+                                                    <option value="GW">GİNE-BİSSA</option>
+                                                    <option value="GD">GRENADA</option>
+                                                    <option value="GL">GRÖNLAND</option>
+                                                    <option value="GP">GUADELOUPE</option>
+                                                    <option value="GT">GUATEMALA</option>
+                                                    <option value="GG">GUERNSEY, C.I.</option>
+                                                    <option value="GU">GUYAM</option>
+                                                    <option value="GY">GUYANA</option>
+                                                    <option value="ZA">GÜNEY AFRİKA</option>
+                                                    <option value="TF">GÜNEY FRANSA BÖ</option>
+                                                    <option value="KR">GÜNEY KORE</option>
+                                                    <option value="GS">GÜNEY SANDVİÇ A</option>
+                                                    <option value="GE">GÜRCİSTAN</option>
+                                                    <option value="HT">HAİTİ</option>
+                                                    <option value="HM">HEARD VE MCDONA</option>
+                                                    <option value="HR">HIRVATİSTAN</option>
+                                                    <option value="IN">HİNDİSTAN</option>
+                                                    <option value="NL">HOLLANDA</option>
+                                                    <option value="AN">HOLLANDA ANTİLL</option>
+                                                    <option value="HN">HONDURAS</option>
+                                                    <option value="HK">HONG KONG</option>
+                                                    <option value="IQ">IRAK</option>
+                                                    <option value="ISE">ISKAT EDİLEN</option>
+                                                    <option value="IM">ISLE OF MAN</option>
+                                                    <option value="GB">İNGİLTERE</option>
+                                                    <option value="IR">İRAN</option>
+                                                    <option value="IE">İRLANDA</option>
+                                                    <option value="CTL">İSKOÇYA</option>
+                                                    <option value="ES">İSPANYA</option>
+                                                    <option value="IL">İSRAİL</option>
+                                                    <option value="SE">İSVEÇ</option>
+                                                    <option value="CH">İSVİÇRE</option>
+                                                    <option value="IT">İTALYA</option>
+                                                    <option value="IS">İZLANDA</option>
+                                                    <option value="JM">JAMAİKA</option>
+                                                    <option value="JP">JAPONYA</option>
+                                                    <option value="JE">JERSEY</option>
+                                                    <option value="KH">KAMBOÇYA</option>
+                                                    <option value="CM">KAMERUN</option>
+                                                    <option value="CA">KANADA</option>
+                                                    <option value="ME">KARADAG</option>
+                                                    <option value="QA">KATAR</option>
+                                                    <option value="KZ">KAZAKİSTAN</option>
+                                                    <option value="KE">KENYA</option>
+                                                    <option value="CY">KIBRIS</option>
+                                                    <option value="KG">KIRGIZİSTAN</option>
+                                                    <option value="KI">KİRİBATİ</option>
+                                                    <option value="CO">KOLOMBİYA</option>
+                                                    <option value="KM">KOMOROS</option>
+                                                    <option value="CG">KONGO</option>
+                                                    <option value="CD">KONGO CUMHURİYE</option>
+                                                    <option value="KSV">KOSOVA</option>
+                                                    <option value="CR">KOSTARİKA</option>
+                                                    <option value="KW">KUVEYT</option>
+                                                    <option value="NCY">KUZEY KIBRIS TÜ</option>
+                                                    <option value="KP">KUZEY KORE</option>
+                                                    <option value="MP">KUZEY MARİANA A</option>
+                                                    <option value="CU">KÜBA</option>
+                                                    <option value="LA">LAO</option>
+                                                    <option value="LS">LESOTHO</option>
+                                                    <option value="LV">LETONYA</option>
+                                                    <option value="LR">LİBERYA</option>
+                                                    <option value="LY">LİBYA</option>
+                                                    <option value="LI">LİECHTENSTEİN</option>
+                                                    <option value="LT">LİTVANYA</option>
+                                                    <option value="LB">LÜBNAN</option>
+                                                    <option value="LU">LÜKSEMBURG</option>
+                                                    <option value="HU">MACARİSTAN</option>
+                                                    <option value="MO">MACAU</option>
+                                                    <option value="MG">MADAGASKAR</option>
+                                                    <option value="MK">MAKEDONYA</option>
+                                                    <option value="MW">MALAWİ</option>
+                                                    <option value="MV">MALDİVLER</option>
+                                                    <option value="MY">MALEZYA</option>
+                                                    <option value="ML">MALİ</option>
+                                                    <option value="MT">MALTA</option>
+                                                    <option value="MH">MARSHALL ADALAR</option>
+                                                    <option value="MQ">MARTİNİQUE</option>
+                                                    <option value="MU">MAURİTİUS</option>
+                                                    <option value="YT">MAYOTTE</option>
+                                                    <option value="MX">MEKSİKA</option>
+                                                    <option value="EG">MISIR</option>
+                                                    <option value="FM">MİKRONESYA</option>
+                                                    <option value="MD">MOLDOVYA</option>
+                                                    <option value="MC">MONAKO</option>
+                                                    <option value="MN">MONGOLYA</option>
+                                                    <option value="MS">MONTSERRAT</option>
+                                                    <option value="MR">MORİTANYA</option>
+                                                    <option value="MZ">MOZAMBİK</option>
+                                                    <option value="MM">MYANMAR</option>
+                                                    <option value="NA">NAMİBYA</option>
+                                                    <option value="NR">NAURU</option>
+                                                    <option value="NP">NEPAL</option>
+                                                    <option value="NE">NİJER</option>
+                                                    <option value="NG">NİJERYA</option>
+                                                    <option value="NI">NİKARAGUA</option>
+                                                    <option value="NU">NİUE</option>
+                                                    <option value="NF">NORFOLK ADALARI</option>
+                                                    <option value="NO">NORVEÇ</option>
+                                                    <option value="CF">ORTA AFRİKA CUM</option>
+                                                    <option value="UZ">ÖZBEKİSTAN</option>
+                                                    <option value="PK">PAKİSTAN</option>
+                                                    <option value="PW">PALAU</option>
+                                                    <option value="PA">PANAMA</option>
+                                                    <option value="PG">PAPUA YENİ GİNE</option>
+                                                    <option value="PY">PARAGUAY</option>
+                                                    <option value="PE">PERU</option>
+                                                    <option value="PN">PİTCAİRN ADALAR</option>
+                                                    <option value="PL">POLONYA</option>
+                                                    <option value="PT">PORTEKİZ</option>
+                                                    <option value="PR">PORTO RİKO</option>
+                                                    <option value="RE">REUNİON ADALARI</option>
+                                                    <option value="RO">ROMANYA</option>
+                                                    <option value="RU">RUSYA FEDERASYO</option>
+                                                    <option value="RW">RWANDA</option>
+                                                    <option value="KN">SAİNT KİTTS VE</option>
+                                                    <option value="LC">SAİNT LUCİA</option>
+                                                    <option value="VC">SAİNT VİNCENT V</option>
+                                                    <option value="SM">SAN MARİNO</option>
+                                                    <option value="ST">SAO TOME VE PRİ</option>
+                                                    <option value="SN">SENEGAL</option>
+                                                    <option value="SC">SEYŞEL ADALARI</option>
+                                                    <option value="RS">SIRBİSTAN</option>
+                                                    <option value="SL">SİERRA LEONE</option>
+                                                    <option value="SG">SİNGAPUR</option>
+                                                    <option value="SK">SLOVAKYA CUMHUR</option>
+                                                    <option value="SI">SLOVENYA</option>
+                                                    <option value="SB">SOLOMON ADALARI</option>
+                                                    <option value="SO">SOMALİ</option>
+                                                    <option value="LK">SRİ LANKA</option>
+                                                    <option value="SH">ST. HELENA</option>
+                                                    <option value="PM">ST. PİERRE VE M</option>
+                                                    <option value="SD">SUDAN</option>
+                                                    <option value="SR">SURİNAM</option>
+                                                    <option value="SY">SURİYE</option>
+                                                    <option value="SA">SUUDİ ARABİSTAN</option>
+                                                    <option value="SJ">SVALBARD VE JAN</option>
+                                                    <option value="SZ">SWAZİLAND</option>
+                                                    <option value="CL">ŞİLİ</option>
+                                                    <option value="TJ">TACİKİSTAN</option>
+                                                    <option value="TZ">TANZANYA</option>
+                                                    <option value="TH">TAYLAND</option>
+                                                    <option value="TW">TAYVAN</option>
+                                                    <option value="TG">TOGO</option>
+                                                    <option value="TK">TOKELAU</option>
+                                                    <option value="TO">TONGA</option>
+                                                    <option value="TT">TRİNİDAD VE TOB</option>
+                                                    <option value="TN">TUNUS</option>
+                                                    <option value="TC">TURKS &amp; CAICOS</option>
+                                                    <option value="TV">TUVALU</option>
+                                                    <option value="TST">TÜRKİSTAN</option>
+                                                    <option value="TR">TÜRKİYE</option>
+                                                    <option value="TM">TÜRKMENİSTAN</option>
+                                                    <option value="UG">UGANDA</option>
+                                                    <option value="UA">UKRAYNA</option>
+                                                    <option value="OM">UMMAN</option>
+                                                    <option value="UY">URUGUAY</option>
+                                                    <option value="JO">ÜRDÜN</option>
+                                                    <option value="VU">VANUATU</option>
+                                                    <option value="VA">VATİKAN</option>
+                                                    <option value="VE">VENEZUELA</option>
+                                                    <option value="VN">VİETNAM</option>
+                                                    <option value="VI">VİRGİN ADALARI</option>
+                                                    <option value="WF">WALLİS VE FUTUN</option>
+                                                    <option value="YE">YEMEN</option>
+                                                    <option value="NC">YENİ KALEDONYA</option>
+                                                    <option value="NZ">YENİ ZELANDA</option>
+                                                    <option value="GR">YUNANİSTAN</option>
+                                                    <option value="ZM">ZAMBİA</option>
+                                                    <option value="ZW">ZİMBABVE</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!------------->
+                            <!--YASAL TAB-->
+                            <div class="tab-pane" id="TabYasal" role="tabpanel">
+                                <div class="row px-10">
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>SIRET No :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].SIRET_ID">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>APE Kodu :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].APECODE">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Vergi Dairesi :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].TAX_OFFICE">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Vergi No :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].TAX_NO">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Ulus. Kdv No :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control" name="name" autocomplete="off"  ng-model="CariListe[0].INT_VAT_NO">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-md-3 form-control-label">
+                                                <div class="float-right" langu>Vergi Tipi :</div>
+                                            </label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" ng-model="CariListe[0].TAX_TYPE">
+                                                    <option value="0" langu>Ulusal</option>
+                                                    <option value="1" langu>Uluslararası</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!------------->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODALLAR -->
+    <!-- Cari Seçim Modal -->
+    <div class="modal fade" id="MdlSecim" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="BtnModalKapat()" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Cari Seçim</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row pb-10">
+                        <div class="form-group col-lg-12">
+                            <button class="btn btn-block btn-primary" ng-click="BtnGridSec()">Seç</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="TblSecim" class="jsgrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cari Grup Ekle Modal -->
+    <div class="modal fade" id="MdlCariGrupEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Grup Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right" langu>Kodu :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariGrupModal.Kodu" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 form-control-label">
+                            <div class="float-right" langu>Adı :</div>
+                        </label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off" ng-model="CariGrupModal.Adi" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" ng-click="BtnCariGrupKaydet()" langu>
+                                Kaydet
+                            </button>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <button class="btn btn-block btn-primary" data-dismiss="modal" langu>
+                                Çıkış
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#BasTarih").datepicker({
+        language: "tr"
+    });
+    $("#BitTarih").datepicker({
+        language: "tr"
+    });    
+</script>

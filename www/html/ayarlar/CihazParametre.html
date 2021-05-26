@@ -1,0 +1,151 @@
+<div class="col-12" ng-controller="CihazParametreCtrl" ng-init="YeniEvrak()">
+    <div class="row">
+        <div class="col-12">
+            <div class="tab-content">
+                <div id="TbMain" class="tab-pane active">
+                    <div class="row">
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4 langu>CİHAZ TANIMLAMA</h4></label>
+                        </div>
+                        <div class="col-2 offset-7 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnCihazInsert(0)" langu>Yeni Ekle</button>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div id="TblCihaz"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TbParametre" class="tab-pane">
+                    <div class="row">
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4 langu>CİHAZ PARAMETRELERİ</h4></label>
+                        </div>
+                        <div class="col-3 py-2">
+                            <label class="form-control-label"><h4 langu>CİHAZ : {{KasaID}}</h4></label>
+                        </div>
+                        <div class="col-2 offset-2 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnParamGuncelle()" langu>Güncelle</button>
+                        </div>
+                        <div class="col-2 py-2">
+                            <button type="submit" class="btn btn-primary form-control btn-block" style="height:40px; font-size: 16px;" ng-click="BtnGeri()"><i class="icon wb-reply" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="form-group row py-2">
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Firma :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "Firma">
+                                </div>
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Cari Kodu :</label>
+                                <div class="col-4">
+                                  <input type="text" class="form-control" ng-model = "CariKodu">
+                                </div>
+                            </div>
+                            <div class="form-group row py-2">
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Satış Seri :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "SatisSeri">
+                                </div>
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Şube No :</label>
+                                <div class="col-4">
+                                    <select class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="SubeKodu">
+                                        <option ng-repeat="option in SubeListe" value="{{option.KODU}}">{{option.ADI}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row py-2">
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Ekran Port :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "EkranPort">
+                                </div>
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Ödeme Port  :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "OdemePort">
+                                </div>
+                            </div>
+                            <div class="form-group row py-2">
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Terazi Port :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "TeraziPort">
+                                </div>
+                                <label style="height:40px; font-size: 15px;" class="col-2 form-control-label" langu>Scanner Port :</label>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" ng-model = "ScannerPort">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--CİHAZ EKLE -->
+    <div class="modal fade" id="MdlCihaz" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title">CİHAZ EKLE</h4>
+                </div>
+                <div class="modal-body py-10">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Cihaz ID* :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="KasaID">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Kasa Adı* :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="KasaAdi">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Aktif / Pasif :</b></span></div></label>
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" ng-model="AktifPasif">
+                            <label for="inputUnchecked"></label>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <button type="submit" class="btn btn-primary form-control btn-block col-12" style="height:40px; font-size: 16px;" ng-click="BtnCihazInsert(1)" langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CİHAZ GÜNCELLE -->
+    <div class="modal fade" id="MdlCihazGuncelle" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>CİHAZ GÜNCELLE</h4>
+                </div>
+                <div class="modal-body py-10">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Kasa ID* :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="KasaID" disabled>
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Kasa Adı* :</b></span></div></label>
+                        <input type="text" class="form-control col-9" ng-model="KasaAdi">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-3 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Aktif / Pasif :</b></span></div></label>
+                        <div class="checkbox-custom checkbox-primary">
+                            <input type="checkbox" ng-model="AktifPasif">
+                            <label for="inputUnchecked"></label>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <button type="submit" class="btn btn-primary form-control btn-block col-12" style="height:40px; font-size: 16px;" ng-click="BtnCihazGuncelle(1,'')" langu>Güncelle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
