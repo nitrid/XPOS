@@ -59,7 +59,11 @@ angular.module("app",
     })
     .when("/AlinanSiparisEvrak",
     {
-        templateUrl : "html/siparis/SiparisEvrak.html"
+        templateUrl : "html/siparis/AlinanSiparisEvrak.html"
+    })
+    .when("/VerilenSiparisEvrak",
+    {
+        templateUrl : "html/siparis/VerilenSiparisEvrak.html"
     })
     .when("/KullaniciParametre",
     {

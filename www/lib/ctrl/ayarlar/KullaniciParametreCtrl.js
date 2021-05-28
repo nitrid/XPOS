@@ -119,18 +119,22 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     }
                 ],
                 [
-                    // { 
-                    //     itemTemplate: function(_, item) 
-                    //     {
-                    //         return $("<div class='btn-group'><button type='button' style='height:30px; font-size: 12px;' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>Ayarlar</button><div class='dropdown-menu' aria-labelledby='exampleSizingDropdown1' role='menu'><a class='dropdown-item' role='menuitem' ng-click='Deneme()'>Sistem Ayarları</a><a class='dropdown-item' role='menuitem'>Pos Ayarları</a><a class='dropdown-item' role='menuitem'>Menü Ayarları</a></div></div>")
-                    //             .on("click", function() 
-                    //             {
-                    //                 $scope.Kodu = item.CODE
-                    //             });
-                    //     },
-                    //     width: 25
-                    // }
-                ],
+                    { 
+                        itemTemplate: function(_, item) 
+                        {
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
+                                .on("click", function() 
+                                {
+                                    ParamGetir(item.ID);
+                                    $scope.KasaID = item.ID
+                                    $("#TbMain").removeClass('active');
+                                    $("#TbParametre").addClass('active');
+                                    $scope.$apply();
+                                });
+                        },
+                        width: 25
+                    }
+                ]
             ],
         });
     }

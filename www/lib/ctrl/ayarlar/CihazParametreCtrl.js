@@ -240,7 +240,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
     }
     function ParamGetir(pID)
     {
-        db.GetData($scope.Firma,'ParamGetir',[pID],function(data)
+        db.GetData($scope.Firma,'ParamGetir',[pID,'CİHAZ'],function(data)
         {   
             for (let i = 0; i < data.length; i++) 
             {
@@ -281,7 +281,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
     }
     function ParamDelete(pData)
     {
-        db.ExecuteTag($scope.Firma,'ParamDelete',[pData.ID],async function(InsertResult)
+        db.ExecuteTag($scope.Firma,'ParamDelete',[pData.ID,'CİHAZ'],async function(InsertResult)
         {              
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
@@ -322,7 +322,8 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
         [
             pValues[0],
             pKeys[0],
-            pID
+            pID,
+            'CİHAZ'
         ];
 
         db.ExecuteTag($scope.Firma,'ParamUpdate',UpdateData,async function(UpdateResult)

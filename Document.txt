@@ -45,7 +45,16 @@ TYPE = 2 => ÜST BİRİM
 DOC_TYPE = 0 => NORMAL SİPARİŞ
 DOC_TYPE = 1 => ŞUBE SİPARİŞ
 
-TYPE = 0 => GİRİŞ
-TYPE = 1 => ÇIKIŞ
+TYPE = 0 => GİRİŞ (VERİLEN)
+TYPE = 1 => ÇIKIŞ (ALINAN)
+--------------------------
+# CUSTOMERS
+TYPE = 0 => BİREYSEL
+TYPE = 1 => ŞİRKET
+
+GENUS = 0 => MÜŞTERİ
+GENUS = 1 => TEDARİKÇİ
+GENUS = 0 => HER İKİSİ
+--------------------------
 
 ÖZELLİKLE İLK KURULUMLARDA SQL E BAĞLANMADIĞINDA LOGİN EKRANI KİLİTLENİYOR.

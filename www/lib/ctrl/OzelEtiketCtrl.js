@@ -86,7 +86,7 @@ function OzelEtiketCtrl ($scope,$window,db)
         $scope.Fiyat = 0;
         $scope.Aciklama = "";
         $scope.BasimAdeti = 1;
-        $scope.Referans = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REFERANCE),0) + 1 AS REFERANCE FROM LABEL_QUEUE WHERE LUSER = @LUSER",param:['LUSER:string|25'],value:[$scope.Kullanici]}))[0].REFERANCE;
+        $scope.RefNo = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REF_NO),0) + 1 AS REF_NO FROM LABEL_QUEUE WHERE REF = @REF",param:['REF:string|25'],value:['X']}))[0].REF_NO;
     }
     $scope.BtnModalSecim = function()
     {
@@ -118,7 +118,8 @@ function OzelEtiketCtrl ($scope,$window,db)
             [
                 $scope.Kullanici,
                 $scope.Kullanici,
-                $scope.Referans,
+                'X',
+                $scope.RefNo,
                 JSON.stringify(Data),
                 "1",
                 $scope.BasimAdeti,

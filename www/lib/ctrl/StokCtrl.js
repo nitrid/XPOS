@@ -1437,6 +1437,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.MAIN_UNIT_FACTOR = 1;
         TmpStokObj.WEIGHING = false;
         TmpStokObj.BARCODE = "";
+        TmpStokObj.SPECIAL1 = "";
         TmpStokObj.SALE_JOIN_LINE = false;
 
         $scope.StokListe.push(TmpStokObj);
@@ -1572,7 +1573,7 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
         
-        if($scope.StokListe[0].ITEM_GRP.split('/')[0] == '017' && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
+        if(($scope.StokListe[0].ITEM_GRP != null && $scope.StokListe[0].ITEM_GRP.split('/')[0] == '017') && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
             alertify.alert(db.Language($scope.Lang,"Menşei bölümünü boş geçemezsiniz !"));
@@ -1629,7 +1630,7 @@ function StokCtrl ($scope,$window,$location,db)
             parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
             $scope.StokListe[0].STATUS,            
             $scope.StokListe[0].WEIGHING,
-            $scope.StokListe[0].SPECIAL1 != null ? $scope.StokListe[0].CODE : $scope.StokListe[0].SPECIAL1,
+            $scope.StokListe[0].SPECIAL1,
             $scope.StokListe[0].ORGINS,
             $scope.StokListe[0].SALE_JOIN_LINE,
         ];
@@ -1649,7 +1650,7 @@ function StokCtrl ($scope,$window,$location,db)
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
                             $scope.BarkodModal.Tip = 0
-
+                            console.log($scope.BarkodModal.Barkod)
                             $scope.BtnBarkodKaydet();
                         }
                     });
@@ -1848,9 +1849,12 @@ function StokCtrl ($scope,$window,$location,db)
                 //BARKOD LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartBarkodListeGetir',[$scope.StokListe[0].CODE],function(BarkodData)
                 {
-                    $scope.BarkodListe = BarkodData;
-                    $scope.StokListe[0].BARCODE = $scope.BarkodModal.Barkod;
-                    TblBarkodInit()
+                    if(BarkodData.length > 0)
+                    {
+                        $scope.BarkodListe = BarkodData;
+                        $scope.StokListe[0].BARCODE = BarkodData[0].BARCODE;
+                        TblBarkodInit()
+                    }                    
                 });
             }
         });
@@ -2490,11 +2494,13 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.StokListe[0].BARCODE = "";
                 },function()
                 {
-                    StokGetir(TmpResult[0].ITEM_CODE);
+                    db.ExecuteTag($scope.Firma,'StokKartSil',[$scope.StokListe[0].CODE],function(data)
+                    {
+                        StokGetir(TmpResult[0].ITEM_CODE);
+                    });
                 });
             }
         }
-
     }
     $scope.CmbVatBlur = function()
     {

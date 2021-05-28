@@ -1808,7 +1808,7 @@ function Pos($scope,$window,$rootScope,db)
             InitTRDetayGrid();
             InitTicketPay();
 
-            $scope.ParamListe = await db.GetPromiseTag($scope.Firma,'ParamGetir',[$scope.CihazID]);
+            $scope.ParamListe = await db.GetPromiseTag($scope.Firma,'ParamGetir',[$scope.CihazID,'CİHAZ']);
             $scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',['']);
             //$scope.KullaniciListe = await db.GetPromiseTag($scope.Firma,'KullaniciGetir',[$scope.Kullanici]);
 

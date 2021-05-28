@@ -1393,6 +1393,62 @@ var QuerySql =
         query : "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXSIRA FROM ORDERM WHERE REF = @REF AND DOC_TYPE = @DOC_TYPE",
         param : ['REF:string|25','DOC_TYPE:int']
     },
+    SiparisInsert : 
+    {
+        query:  "DECLARE @TMP DATETIME " +
+                "SET @TMP = GETDATE() " +
+                "EXEC [dbo].[PRD_ORDER_INSERT] " + 
+                "@CUSER = @PCUSER, " + 
+                "@CDATE = @TMP, " + 
+                "@LUSER = @PLUSER, " + 
+                "@LDATE = @TMP, " + 
+                "@TYPE = @PTYPE, " + 
+                "@DOC_TYPE = @PDOC_TYPE, " + 
+                "@REF = @PREF, " + 
+                "@REF_NO = @PREF_NO, " + 
+                "@DOC_DATE = @PDOC_DATE, " + 
+                "@DOC_FROM = @PDOC_FROM, " + 
+                "@DOC_TO = @PDOC_TO, " + 
+                "@ITEM_CODE = @PITEM_CODE, " + 
+                "@QUANTITY = @PQUANTITY, " + 
+                "@PRICE = @PPRICE, " + 
+                "@DISCOUNT = @PDISCOUNT, " + 
+                "@VAT = @PVAT, " + 
+                "@STATUS = @PSTATUS",
+        param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int','PDOC_DATE:date','PDOC_FROM:string|25',
+                 'PDOC_TO:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PSTATUS:bit']
+    },
+    SiparisSatirUpdate :
+    {
+        query:  "DECLARE @TMP DATETIME " +
+                "SET @TMP = GETDATE() " +
+                "EXEC [dbo].[PRD_ORDER_LINE_UPDATE] " + 
+                "@DGUID = @PDGUID, " + 
+                "@LUSER = @PLUSER, " + 
+                "@LDATE = @TMP, " + 
+                "@ITEM_CODE = @PITEM_CODE, " + 
+                "@QUANTITY = @PQUANTITY, " + 
+                "@PRICE = @PPRICE, " + 
+                "@DISCOUNT = @PDISCOUNT, " + 
+                "@VAT = @PVAT ",  
+        param : ['PDGUID:string|50','PLUSER:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float']
+    },
+    SiparisSatirDelete :
+    {
+        query:  "EXEC [dbo].[PRD_ORDER_DELETE] " + 
+                "@DELTYPE = @PDELTYPE, " +
+                "@DGUID = @PDGUID " , 
+        param : ['PDELTYPE:int','PDGUID:string|50']
+    },
+    SiparisEvrakDelete :
+    {
+        query:  "EXEC [dbo].[PRD_ORDER_DELETE] " + 
+                "@DELTYPE = @PDELTYPE, " +
+                "@DOC_TYPE = @PDOC_TYPE, " +
+                "@REF = @PREF, " +
+                "@REF_NO = @PREF_NO " , 
+        param : ['PDELTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int']
+    },
     //KULLANICI PARAMETRE
     KullaniciGetir :
     {
@@ -1457,18 +1513,18 @@ var QuerySql =
     },
     ParamGetir : 
     {
-        query : "SELECT * FROM PARAMS WHERE ID = @ID " ,
-        param : ['ID:string|25']
+        query : "SELECT * FROM PARAMS WHERE ID = @ID AND ((TAG = @TAG) OR (@TAG = ''))" ,
+        param : ['ID:string|25','TAG:string|25']
     },
     ParamDelete : 
     {
-        query : "DELETE FROM PARAMS WHERE ID = @ID " ,
-        param : ['ID:string|150']
+        query : "DELETE FROM PARAMS WHERE ID = @ID AND ((TAG = @TAG) OR (@TAG = ''))" ,
+        param : ['ID:string|150','TAG:string|25']
     },
     ParamUpdate : 
     {
-        query : "UPDATE PARAMS SET VALUE = @VALUE,LDATE = GETDATE() WHERE NAME = @NAME AND ID = @ID ",
-        param : ['VALUE:string|25','NAME:string|25','ID:string|25']
+        query : "UPDATE PARAMS SET VALUE = @VALUE,LDATE = GETDATE() WHERE NAME = @NAME AND ID = @ID AND ((TAG = @TAG) OR (@TAG = ''))",
+        param : ['VALUE:string|25','NAME:string|25','ID:string|25','TAG:string|25']
     },
     //CİHAZ PARAMETRE
     CihazGetir :
