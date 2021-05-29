@@ -390,7 +390,7 @@ function SiparisEvrakCtrl ($scope,$window,db)
             }
             else
             {
-                alertify.alert("Ürün Bulunamadı !")
+                alertify.alert(db.Language($scope.Lang,"Ürün Bulunamadı !"))
                 $scope.BtnTemizle();                
             }
         });
@@ -516,12 +516,12 @@ function SiparisEvrakCtrl ($scope,$window,db)
     {
         if($scope.TxtCari == '')
         {
-            alertify.alert("Lütfen Cari Seçiniz !")
+            alertify.alert(db.Language($scope.Lang,"Lütfen Cari Seçiniz !"))
             return;
         }
         if($scope.Depo == '')
         {
-            alertify.alert("Lütfen Depo Seçiniz !")
+            alertify.alert(db.Language($scope.Lang,"Lütfen Depo Seçiniz !"))
             return;
         }
 

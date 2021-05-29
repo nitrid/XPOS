@@ -167,7 +167,7 @@ function MusteriPuanListesiCtrl ($scope,$window,db)
                 if(typeof e.data.DATE == 'undefined')
                 {
                     alertify.alert(db.Language($scope.Lang,"Lütfen tarih alanını boş geçmeyiniz."))
-                    e.cancel = true
+                    e.cancel = true 
                     return;
                 }
                 else if(typeof e.data.DESCRIPTION == 'undefined')

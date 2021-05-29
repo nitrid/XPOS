@@ -182,7 +182,7 @@ function Login ($scope,$rootScope,$window,db)
         {
             if(data == true)
             {
-                $scope.ConnectionStatus = 'Bağlantı Başarılı.';
+                $scope.ConnectionStatus = db.Language($scope.Lang,'Bağlantı Başarılı.');
 
                 if(localStorage.mode == 'false')
                 {
@@ -191,7 +191,7 @@ function Login ($scope,$rootScope,$window,db)
             }
             else
             {
-                $scope.ConnectionStatus = 'Bağlantı Başarısız.';
+                $scope.ConnectionStatus = db.Language($scope.Lang,'Bağlantı Başarısız.');
                 db.Disconnect();
             }
             $scope.$apply();            

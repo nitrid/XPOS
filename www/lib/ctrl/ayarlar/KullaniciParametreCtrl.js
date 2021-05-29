@@ -122,7 +122,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu></button>").text(db.Language($scope.Lang,"Ayarlar"))
                                 .on("click", function() 
                                 {
                                     ParamGetir(item.ID);
