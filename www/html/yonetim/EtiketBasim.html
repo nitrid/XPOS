@@ -32,7 +32,7 @@
                     <div class="row pt-10">
                         <div class="col-md-4">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label">
+                                <label class="col-md-3 form-control-label" langu>
                                     <div class="pl-20" langu>Ref - Ref No :</div>
                                 </label>
                                 <div class="col-md-9">
@@ -52,7 +52,7 @@
                     <div class="row pt-10">
                         <div class="col-md-4">
                             <div class="form-group row">
-                                <label class="col-md-3 form-control-label">
+                                <label class="col-md-3 form-control-label" langu>
                                     <div class="pl-20" langu>Ürün :</div>
                                 </label>
                                 <div class="col-md-9">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group row">
-                                <label class="col-md-4 form-control-label">
+                                <label class="col-md-4 form-control-label" langu>
                                     <div class="pl-20" langu>Kağıt Formatı :</div>
                                 </label>
                                 <div class="col-md-8">
@@ -83,17 +83,17 @@
                 <div class="col-md-2">
                     <div class="form-group row">
                         <label class="col-md-12 form-control-label">
-                            <div class="pl-20" langu>Sayfa : <span>{{Sayfa}}</span></div>
+                            <div class="pl-20"><a langu>Sayfa :</a><span>{{Sayfa}}</span></div>
                         </label>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-12 form-control-label">
-                            <div class="pl-20" langu>Boş Etiket Alanı : <span>{{BosEtiketAlan}}</span></div>
+                            <div class="pl-20"><a langu>Boş Etiket Alanı :</a><span>{{BosEtiketAlan}}</span></div>
                         </label>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-12 form-control-label">
-                            <div class="pl-20" langu>Okutulan Satır Sayısı : <span>{{BarkodListe.length}}</span></div>
+                            <div class="pl-20"><a langu>Okutulan Satır Sayısı :</a><span>{{BarkodListe.length}}</span></div>
                         </label>
                     </div>
                 </div>
@@ -173,22 +173,22 @@
                             <div class="pearls row">
                                 <div class="pearl current col-4 active" id="Pearl1" aria-expanded="true">
                                   <div class="pearl-icon"><i class="icon wb-user" aria-hidden="true"></i></div>
-                                  <span class="pearl-title">Başla</span>
+                                  <span class="pearl-title" langu>Başla</span>
                                 </div>
                                 <div class="pearl col-4 disabled" id="Pearl2" aria-expanded="false">
                                   <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
-                                  <span class="pearl-title">Kriter</span>
+                                  <span class="pearl-title" langu>Kriter</span>
                                 </div>
                                 <div class="pearl col-4 disabled" id="Pearl3" aria-expanded="false">
                                   <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
-                                  <span class="pearl-title">Son</span>
+                                  <span class="pearl-title" langu>Son</span>
                                 </div>
                             </div>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="Wizard1" role="tabpanel">
                                     <div class="row">
                                         <div class="col-12">
-                                            <h3 class="text-center">Sihirbaz ürün seçmenize yardımcı olacaktır.</h3>
+                                            <h3 class="text-center" langu>Sihirbaz ürün seçmenize yardımcı olacaktır.</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@
                                         <div class="col-12">
                                             <div class="checkbox-custom checkbox-default">
                                                 <input type="checkbox" ng-model="Wizard.FrmCheck[0]" ng-change="Wizard.CheckChange(0)">
-                                                <label class="font-size-20">Son yazdırma tarihinden itibaren değişenler</label>
+                                                <label class="font-size-20" langu>Son yazdırma tarihinden itibaren değişenler</label>
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@
                                         <div class="col-8">
                                             <div class="checkbox-custom checkbox-default">
                                                 <input type="checkbox" ng-model="Wizard.FrmCheck[1]" ng-change="Wizard.CheckChange(1)">
-                                                <label class="font-size-20">Seçilen tarihten itibaren değişenler</label>
+                                                <label class="font-size-20" langu>Seçilen tarihten itibaren değişenler</label>
                                             </div>
                                         </div>
                                         <div class="col-2 offset-0">
@@ -218,7 +218,7 @@
                                         <div class="col-6">
                                             <div class="checkbox-custom checkbox-default">
                                                 <input type="checkbox" ng-model="Wizard.FrmCheck[2]" ng-change="Wizard.CheckChange(2)">
-                                                <label class="font-size-20">Grup</label>
+                                                <label class="font-size-20" langu>Grup</label>
                                             </div>
                                         </div>
                                         <div class="col-4 offset-0">
@@ -229,7 +229,7 @@
                                         <div class="col-6">
                                             <div class="checkbox-custom checkbox-default">
                                                 <input type="checkbox" ng-model="Wizard.FrmCheck[3]" ng-change="Wizard.CheckChange(3)">
-                                                <label class="font-size-20">Tedarikçi Ürünleri</label>
+                                                <label class="font-size-20" langu>Tedarikçi Ürünleri</label>
                                             </div>
                                         </div>
                                         <div class="col-4 offset-0">
@@ -248,14 +248,14 @@
                                         <div class="col-6">
                                             <div class="checkbox-custom checkbox-default">
                                                 <input type="checkbox" ng-model="Wizard.FrmCheck[4]" ng-change="Wizard.CheckChange(4)">
-                                                <label class="font-size-20">Tüm Ürünler</label>
+                                                <label class="font-size-20" langu>Tüm Ürünler</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="Wizard3" role="tabpanel" aria-expanded="false">
                                   <div class="text-center my-20">
-                                    <h4>Seçmiş olduğunuz kritere uygun ürünler eklenecektir.Onaylıyormuysun ?</h4>
+                                    <h4 langu>Seçmiş olduğunuz kritere uygun ürünler eklenecektir.Onaylıyormuysun ?</h4>
                                   </div>
                                 </div>
                             </div>

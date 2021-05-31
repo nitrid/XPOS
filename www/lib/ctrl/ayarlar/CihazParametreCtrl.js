@@ -96,7 +96,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                                     $scope.$apply();
                                 });
                         },
-                        width: 25
+                        width: 50
                     }
                 ],
                 [
@@ -118,14 +118,14 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                                     ,function(){});
                                 });
                         },
-                        width: 25
+                        width: 30
                     }
                 ],
                 [
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu></button>").text(db.Language($scope.Lang,"Ayarlar"))
                                 .on("click", function() 
                                 {
                                     ParamGetir(item.ID);
@@ -135,7 +135,7 @@ function CihazParametreCtrl($route,$scope,$window,$rootScope,db)
                                     $scope.$apply();
                                 });
                         },
-                        width: 25
+                        width: 35
                     }
                 ],
             ],

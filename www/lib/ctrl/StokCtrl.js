@@ -544,7 +544,7 @@ function StokCtrl ($scope,$window,$location,db)
                 },
                 {
                     dataField: "EXVAT",
-                    caption : db.Language($scope.Lang,"Vergi Haric"),
+                    caption : db.Language($scope.Lang,"Vergi Hariç"),
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
@@ -1498,7 +1498,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.Cmb.Cins = 
         {
             width: "100%",
-            dataSource: [{CODE : "0",NAME : "Mal"},{CODE : "1",NAME : "Hizmet"},{CODE : "2",NAME : "Depozit"}],
+            dataSource: [{CODE : "0",NAME : db.Language($scope.Lang,"Mal")},{CODE : "1",NAME : db.Language($scope.Lang,"Hizmet")},{CODE : "2",NAME : db.Language($scope.Lang,"Depozit")}],
             displayExpr: "NAME",
             valueExpr: "CODE",
             value: "0",
@@ -1610,7 +1610,7 @@ function StokCtrl ($scope,$window,$location,db)
             if($scope.StokListe[0].UNDER_UNIT_FACTOR == 0)
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen alt birimi giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen alt birimi giriniz "));
                 return;
             }
         }

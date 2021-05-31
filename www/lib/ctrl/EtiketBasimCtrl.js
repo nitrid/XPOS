@@ -575,7 +575,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     {
         if($scope.Etiket == '')
         {
-            alertify.alert("Lütfen Etiket Tipi Seçiniz !")
+            alertify.alert(db.Language($scope.Lang,"Lütfen Etiket Tipi Seçiniz !"))
             return;
         }
 

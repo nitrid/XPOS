@@ -30,7 +30,7 @@ function OzelEtiketCtrl ($scope,$window,db)
             [
                 {
                     name: "CODE",
-                    title : "CODE",
+                    title : db.Language($scope.Lang,"CODE"),
                     type : "text",
                     align: "center",
                     width: 100
@@ -38,7 +38,7 @@ function OzelEtiketCtrl ($scope,$window,db)
                 },
                 {
                     name: "NAME",
-                    title : "NAME",
+                    title : db.Language($scope.Lang,"NAME"),
                     type : "text",
                     align: "center",
                     width: 300
