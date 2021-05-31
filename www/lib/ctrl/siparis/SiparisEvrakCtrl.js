@@ -1,343 +1,215 @@
-function SiparisEvrakCtrl ($scope,$window,db)
+function SiparisEvrakCtrl ($scope,$window,$timeout,db)
 {
-    document.onkeydown = function(e)
+    let CariSelectedRow = null;
+    let IslemSelectedRow = null;
+    let StokSelectedRow = null;
+    function Init()
     {
-        if($("#TbBarkod").hasClass('active') && (document.activeElement.id != 'TxtMiktar' && document.activeElement.id != 'TxtFiyat'))
-        {
-            $window.document.getElementById("TxtBarkod").focus();
-        }
-    }
-    function TblEvrakInit()
-    {
-        if(typeof TmpGrid != 'undefined')
-        {
-            TmpGrid.deselectAll();
-            TmpGrid.clearSelection();
-        }
-        TmpGrid = $("#TblEvrakSecim").dxDataGrid(
-        {
-            dataSource: $scope.EvrakSecimListe,
-            allowColumnReordering: true,
-            showBorders: true,
-            filterRow: 
-            { 
-                visible: true
-            },
-            headerFilter: {
-                visible: true
-            },
-            paging: 
-            {
-                pageSize: 15
-            },
-            pager: 
-            {
-                showPageSizeSelector: true,
-                allowedPageSizes: [15, 30, 90, 120, 500, 1000],
-                showInfo: true
-            },
-            selection: 
-            {
-                mode: "single"
-            },
-            columns: 
-            [
-                {
-                    dataField: "REF",
-                    caption: db.Language($scope.Lang,"REF"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "REF_NO",
-                    caption: db.Language($scope.Lang,"REF NO"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "TO",
-                    caption: db.Language($scope.Lang,"NEREDEN"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "FROM",
-                    caption: db.Language($scope.Lang,"NEREYE"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "AMOUNT",
-                    caption: db.Language($scope.Lang,"TUTAR"),
-                    dataType: "string"
-                }
-            ],
-            onSelectionChanged: function(selectedItems) 
-            {
-                if(selectedItems.selectedRowsData.length > 0)
-                {
-                    $scope.TxtSeri = selectedItems.selectedRowsData[0].REF;
-                    $scope.TxtSira = selectedItems.selectedRowsData[0].REF_NO;
-                    $scope.$apply()
-                }
-            }
-        }).dxDataGrid("instance");        
-    }
-    function TblCariInit()
-    {
-        if(typeof TmpGrid != 'undefined')
-        {
-            TmpGrid.deselectAll();
-            TmpGrid.clearSelection();
-        }
-        TmpGrid = $("#TblCariSecim").dxDataGrid(
-        {
-            dataSource: $scope.CariSecimListe,
-            allowColumnReordering: true,
-            showBorders: true,
-            selection: 
-            {
-                mode: "single"
-            },
-            filterRow: 
-            { 
-                visible: true
-            },
-            headerFilter: {
-                visible: true
-            },
-            paging: 
-            {
-                pageSize: 15
-            },
-            pager: 
-            {
-                showPageSizeSelector: true,
-                allowedPageSizes: [15, 30, 90, 120, 500, 1000],
-                showInfo: true
-            },
-            columns: 
-            [
-                {
-                    dataField: "CODE",
-                    caption: db.Language($scope.Lang,"CODE"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "NAME",
-                    caption: db.Language($scope.Lang,"NAME"),
-                    dataType: "string"
-                }
-            ],
-            onSelectionChanged: function(selectedItems) 
-            {
-                if(selectedItems.selectedRowsData.length > 0)
-                {
-                    $scope.TxtCari = selectedItems.selectedRowsData[0].CODE;
-                    $scope.$apply();
-                }
-            }
-        }).dxDataGrid("instance");        
-    }
-    function TblStokInit()
-    {
-        if(typeof TmpGrid != 'undefined')
-        {
-            TmpGrid.deselectAll();
-            TmpGrid.clearSelection();
-        }
-        TmpGrid = $("#TblStokSecim").dxDataGrid(
-        {
-            dataSource: $scope.StokSecimListe,
-            allowColumnReordering: true,
-            showBorders: true,
-            selection: 
-            {
-                mode: "single"
-            },
-            filterRow: 
-            { 
-                visible: true
-            },
-            headerFilter: {
-                visible: true
-            },
-            paging: 
-            {
-                pageSize: 15
-            },
-            pager: 
-            {
-                showPageSizeSelector: true,
-                allowedPageSizes: [15, 30, 90, 120, 500, 1000],
-                showInfo: true
-            },
-            columns: 
-            [
-                {
-                    dataField: "CODE",
-                    caption: db.Language($scope.Lang,"CODE"),
-                    dataType: "string"
-                },
-                {
-                    dataField: "NAME",
-                    caption: db.Language($scope.Lang,"NAME"),
-                    dataType: "string"
-                }
-            ],
-            onSelectionChanged: function(selectedItems) 
-            {
-                if(selectedItems.selectedRowsData.length > 0)
-                {
-                    $scope.TxtBarkod = selectedItems.selectedRowsData[0].CODE;
-                    $scope.$apply();
-                }
-            }
-        }).dxDataGrid("instance");        
-    }
-    function TblIslemInit()
-    {
-        let Grd = $("#TblIslem").dxDataGrid(
-        {
-            dataSource: $scope.IslemListe,
-            allowColumnReordering: true,
-            allowColumnResizing: true,
-            showBorders: true,
-            columnResizingMode: "nextColumn",
-            columnMinWidth: 50,
-            columnAutoWidth: true,
-            width:"100%",
-            paging: 
-            {
-                enabled: false
-            },
-            editing: 
-            {
-                mode: "batch",
-                allowUpdating: true,
-                allowDeleting: true
-            },
-            bindingOptions: 
-            {
-                dataSource : "IslemListe"
-            },
-            columns: 
-            [
-                {
-                    dataField: "ITEM_CODE",
-                    caption: db.Language($scope.Lang,"Kodu"),
-                    allowEditing: false,
-                    width: "20%"
-                },     
-                {
-                    dataField: "ITEM_NAME",
-                    caption: db.Language($scope.Lang,"Adı"),
-                    alignment: "center",
-                    allowEditing: false,
-                    width: "40%"
-                }, 
-                {
-                    dataField: "QUANTITY",
-                    caption: db.Language($scope.Lang,"Miktar"),
-                    dataType: "number",
-                    alignment: "center",
-                    allowEditing: true,
-                    width: "10%",
-                    cellTemplate: function(element, info)
-                    {
-                        let TmpTutar = info.data.QUANTITY * info.data.PRICE
-                        $scope.IslemListe[info.rowIndex].AMOUNT = TmpTutar;
-                        element.append("<div>" + info.text + "</div>")
-                    }
-                }, 
-                {
-                    dataField: "PRICE",
-                    caption: db.Language($scope.Lang,"Fiyat"),
-                    dataType: "number",
-                    allowEditing: false,
-                    width: "10%"
-                }, 
-                {
-                    dataField: "AMOUNT",
-                    caption : db.Language($scope.Lang,"Tutar"),
-                    dataType: "number",
-                    alignment: "center",
-                    allowEditing: false,
-                    width: "10%"
-                }
-            ],
-            onRowUpdated: function(e) 
-            {         
-                let TmpTutar = e.data.QUANTITY * e.data.PRICE;
-                e.data.VAT = TmpTutar - (TmpTutar / ((e.data.VATRATE / 100) + 1));
-                let InserData = 
-                [
-                    e.data.GUID,
-                    $scope.Kullanici,
-                    e.data.ITEM_CODE,
-                    e.data.QUANTITY,
-                    e.data.PRICE,
-                    e.data.DISCOUNT,
-                    e.data.VAT
-                ]
-                db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
-                {
-                    $scope.BtnTemizle();
+        DevExpress.localization.locale('fr');
+        $scope.Kullanici = $window.sessionStorage.getItem('User');
+        $scope.Firma = 'PIQPOS' 
 
-                    let TmpData = await EvrakGetir($scope.TxtSeri,$scope.TxtSira,$scope.EvrTip,$scope.Tip);
-                    $scope.IslemListe = TmpData;
-                    TblIslemInit();
-                    $scope.EvrLock = true;
-                    $scope.$apply();
-                });
-            },
-            onRowRemoved: function(e) 
-            {
-                db.ExecuteTag($scope.Firma,'SiparisSatirDelete',[0,e.data.GUID],async function(data)
-                {
-                    $scope.BtnTemizle();
-
-                    let TmpData = await EvrakGetir($scope.TxtSeri,$scope.TxtSira,$scope.EvrTip,$scope.Tip);
-                    if(TmpData.length > 0)
-                    {
-                        $scope.IslemListe = TmpData;
-                        TblIslemInit();
-                        $scope.EvrLock = true;
-                        $scope.$apply();
-                    }
-                    else
-                    {
-                        $scope.Init();
-                    }
-                });
-            },
-        }).dxDataGrid("instance");
-    }
-    function CmbBirimInit()
-    {
-        $scope.Cmb.Birim = 
+        if(typeof localStorage.Lang != 'undefined')
         {
+            $scope.Lang = localStorage.Lang;
+        }
+        else
+        {
+            $scope.Lang = "TR";
+        }
+        
+        $scope.Seri = "";
+        $scope.Sira;
+        $scope.EvrakTip = 0;
+        $scope.Tip = 0;
+        $scope.CariKodu = "";  
+        $scope.CariAdi = "";
+        $scope.DepoNo;
+        $scope.DepoAdi;
+        $scope.Tarih = moment(new Date()).format("DD.MM.YYYY");
+        $scope.Saat = moment(new Date()).format("LTS");
+        $scope.Barkod = "";
+        $scope.Birim = "0";
+        $scope.StokGridTip = "0";
+        $scope.StokGridText = "";
+        $scope.ToplamSatir = 0;
+        $scope.Fiyat = "";
+
+        $scope.DepoListe = [];
+        $scope.CariListe = [];
+        $scope.SiparisListe = [];
+        $scope.BirimListe = [];
+        $scope.StokListe = [];
+
+        $scope.AraToplam = 0;
+        $scope.ToplamIndirim = 0;
+        $scope.NetToplam = 0;
+        $scope.ToplamKdv = 0;
+        $scope.GenelToplam = 0;
+
+        $scope.Stok = [];
+        $scope.Miktar = 1;                
+
+        $scope.CmbCariAra = "0";
+        $scope.TxtCariAra = ""; 
+        $scope.OtoEkle = false;
+        $scope.EvrakLock = false;
+        $scope.BarkodLock = false;
+        $scope.FiyatLock = false;
+        $scope.DepoMiktar = false;
+
+        $scope.IslemListeSelectedIndex = -1;  
+
+        // DÜZENLE MODAL
+        $scope.MiktarEdit = 0;
+        $scope.FiyatEdit = 0;
+
+        $scope.Loading = false;
+        $scope.TblLoading = true;        
+    }
+    function InitCariGrid()
+    {
+        $("#TblCari").jsGrid
+        ({
             width: "100%",
-            dataSource: $scope.BirimListe,
-            displayExpr: "NAME",
-            valueExpr: "TYPE",
-            value: "",
-            showClearButton: true,
-            searchEnabled: true,
-            bindingOptions: 
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.CariListe,
+            paging : true,
+            pageSize: 10,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields:
+            [
+                {
+                    name: "CODE",
+                    type: "number",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "NAME",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ],
+            rowClick: function(args)
             {
-                value: "Birim",
-                dataSource : "BirimListe"
-            },
-            onSelectionChanged : function(e)
-            {                
-                if(e.selectedItem == null)
-                {
-                    $scope.Birim = ""
-                }
-                else
-                {
-                    $scope.TxtCarpan = $scope.BirimListe[$scope.Birim].FACTOR;
-                    $scope.MiktarFiyatValid();
-                }
+                $scope.CariListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
             }
-        }
+        });
+    }
+    function InitIslemGrid()
+    {
+        $("#TblIslem").jsGrid({
+            responsive: true,
+            width: "100%",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.SiparisListe,
+            paging : true,
+            pageIndex : true,
+            pageSize: 10,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+           
+            fields: 
+            [
+            {
+                name: "NO",
+                title: "NO",
+                type: "number",
+                align: "center",
+                width: 75
+                
+            }, 
+            {
+                name: "ITEM_CODE",
+                title: "KODU",
+                type: "text",
+                align: "center",
+                width: 100
+            },
+            {
+                name: "ITEM_NAME",
+                title: "ADI",
+                type: "text",
+                align: "center",
+                width: 200
+            }, 
+            {
+                name: "QUANTITY",
+                title: "MİKTAR",
+                type: "number",
+                align: "center",
+                width: 100
+            }, 
+            {
+                name: "PRICE",
+                title: "FİYAT",
+                type: "number",
+                align: "center",
+                width: 100
+            }, 
+            {
+                name: "AMOUNT",
+                title: "TUTAR",
+                type: "number",
+                align: "center",
+                width: 100
+            }
+           ],
+            rowClick: function(args)
+            {
+                $scope.IslemListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
+    function InitStokGrid()
+    {
+        $("#TblStok").jsGrid
+        ({
+            width: "100%",
+            height: "auto",
+            autoload : true,
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.StokListe,
+            paging : true,
+
+            fields: 
+            [
+                {
+                    name: "CODE",
+                    title: "KODU",
+                    type: "text",
+                    align: "center",
+                    width: 125
+                }, 
+                {
+                    name: "NAME",
+                    title: "ADI",
+                    type: "text",
+                    align: "center",
+                    width: 200
+                }
+            ],
+            rowClick: function(args)
+            {
+                $scope.StokListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
+    function BarkodFocus()
+    {
+        $timeout( function(){$window.document.getElementById("Barkod").focus();},100);  
     }
     function BirimGetir(pKodu)
     {
@@ -361,346 +233,351 @@ function SiparisEvrakCtrl ($scope,$window,db)
             });
         });
     }
-    function StokGetir(pBarkod)
+    function StokBarkodGetir(pBarkod)
     {
-        db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
+        if(pBarkod != '')
         {
-            $scope.StokListe = BarkodData;
-            if($scope.StokListe.length > 0)
-            {
-                $scope.BirimListe = await BirimGetir($scope.StokListe[0].CODE);                
-                CmbBirimInit();
-                $scope.Birim = 0;
-                
-                let TmpTutar = 0;
+            db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
+            { 
+                if(BarkodData.length > 0)
+                {
+                    $scope.Stok = BarkodData;
+                    $scope.StokKodu = $scope.Stok[0].CODE;
+                    
+                    $scope.Stok[0].AMOUNT = 0;
+                    $scope.Stok[0].DISCOUNT = 0;
+                    $scope.Stok[0].VATAMOUNT = 0;
+                    $scope.Stok[0].TOPAMOUNT = 0;
 
-                $scope.TxtStokBilgi = $scope.StokListe[0].CODE + " - " + $scope.StokListe[0].NAME;
-                $scope.TxtMiktar = 1;
-                $scope.TxtCarpan = $scope.BirimListe[$scope.Birim].FACTOR;
-                $scope.TxtFiyat = $scope.StokListe[0].PRICE;
-                TmpTutar = $scope.StokListe[0].PRICE * ($scope.TxtMiktar * $scope.StokListe[0].FACTOR);
-                $scope.TxtKdv = TmpTutar - (TmpTutar / (($scope.StokListe[0].VAT / 100) + 1));
-                $scope.TxtTutar = TmpTutar - $scope.TxtKdv;
-                $scope.TxtIndirim = 0;
-                $scope.TxtTopTutar = TmpTutar;                
-                
-                $window.document.getElementById("TxtMiktar").focus();
-                $window.document.getElementById("TxtMiktar").select();
-                $scope.$apply();
-            }
-            else
-            {
-                alertify.alert(db.Language($scope.Lang,"Ürün Bulunamadı !"))
-                $scope.BtnTemizle();                
-            }
-        });
-    }
-    function EvrakGetir(pSeri,pSira,pEvrTip,pTip)
-    {
-        return new Promise(async resolve => 
-        {
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "SELECT *, " + 
-                        "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
-                        "FROM ORDER_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE",
-                param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
-                type:   ['string|25','int','int','int'],
-                value:  [pSeri,pSira,pEvrTip,pTip]
-            }
-            db.GetDataQuery(TmpQuery,function(pData)
-            {
-                resolve(pData);
+                    $scope.BirimListe = await BirimGetir($scope.Stok[0].CODE);
+                    $scope.Birim = "0";
+
+                    if($scope.BirimListe.length > 0)
+                    {
+                        $scope.Stok[0].UNIT = $scope.BirimListe[0].TYPE;
+                        $scope.Stok[0].FACTOR = $scope.BirimListe[0].FACTOR;
+                    }
+                    else
+                    {
+                        $scope.Stok[0].UNIT = 1;
+                        $scope.Stok[0].FACTOR = 1;
+                    }
+
+                    $scope.MiktarFiyatValid();
+                    $scope.BarkodLock = true;
+                    $scope.$apply();
+
+                    if($scope.OtoEkle == true)
+                    {
+                        $scope.Insert()
+                    }
+                    else
+                    {
+                        $window.document.getElementById("Miktar").focus();
+                        $window.document.getElementById("Miktar").select();
+                    }
+                }
+                else
+                {   
+                    alertify.alert("<a style='color:#3e8ef7''>" + "Stok Bulunamamıştır !" + "</a>" );          
+                    console.log("Stok Bulunamamıştır.");
+                    Beep();
+                }
             });
-        });
+        }
     }
-    $scope.Init = async function(pTip)
+    $scope.YeniEvrak = async function(pTip)
     {
-        DevExpress.localization.locale('fr');
-        $scope.Kullanici = $window.sessionStorage.getItem('User');
-        $scope.Firma = 'PIQPOS'                
+        Init();
+        InitCariGrid();
+        InitIslemGrid();
+        InitStokGrid();
 
-        if(typeof localStorage.Lang != 'undefined')
+        if(pTip == 0)
         {
-            $scope.Lang = localStorage.Lang;
-        }
-        else
-        {
-            $scope.Lang = "TR";
-        }
-
-        $scope.EvrTip = 0;
-        $scope.Tip = 0;
-        $scope.Depo = "";
-        $scope.Birim = "";
-        $scope.EvrLock = false;
-        
-        if(pTip == 'Alınan Sipariş')
-        {
-            $scope.EvrTip = 0;
+            $scope.EvrakTip = 0;
             $scope.Tip = 1;
         }
-        else if(pTip == 'Verilen Sipariş')
+        else if(pTip == 1)
         {
-            $scope.EvrTip = 0;
+            $scope.EvrakTip = 0;
             $scope.Tip = 0;
         }
 
-        $scope.TxtSeri = "SIP";
-        $scope.TxtSira = (await db.GetPromiseTag($scope.Firma,'MaxSiparisNo',[$scope.TxtSeri,$scope.EvrTip]))[0].MAXSIRA;
-        $scope.TxtCari = "";
-        $scope.TxtBarkod = "";
-        $scope.TxtStokKodu = "";
-        $scope.TxtStokBilgi = "";
-        $scope.TxtCarpan = 0;
-        $scope.TxtMiktar = 0;
-        $scope.TxtFiyat = 0;
-        $scope.TxtIndirim = 0;
-        $scope.TxtKdv = 0;
-        $scope.TxtTutar = 0;
-        $scope.TxtTopTutar = 0;
+        $scope.EvrakLock = false;
+        $scope.Seri = "SIP";
+        $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxSiparisNo',[$scope.TxtSeri,$scope.EvrTip]))[0].MAXSIRA;
 
-        $scope.CariSecimListe = [];
-        $scope.EvrakSecimListe = [];
-        $scope.IslemListe = [];
-        $scope.StokListe = [];
-        $scope.BirimListe = [];
-        $scope.StokSecimListe = [];
-        
+        $scope.Stok = 
+        [
+            {
+                PRICE : 0,
+                AMOUNT : 0,
+                DISCOUNT : 0,
+                VATAMOUNT : 0,
+                TOPAMOUNT :0
+            }
+        ];
+
         let TmpQuery =
         {
             db : $scope.Firma,
-            query:  "SELECT [CODE] AS CODE,[NAME] AS NAME FROM DEPOT"
+            query:  "SELECT [CODE] AS CODE,[NAME] AS NAME FROM DEPOT ORDER BY CODE ASC"
         }
         $scope.DepoListe = (await db.GetPromiseQuery(TmpQuery));
-
-        $scope.Cmb = {};
-        $scope.Cmb.Depo = 
+        $scope.DepoNo = "1";
+        $scope.DepoListe.forEach(function(item) 
         {
-            width: "100%",
-            dataSource: $scope.DepoListe,
-            displayExpr: "NAME",
-            valueExpr: "CODE",
-            value: "",
-            showClearButton: true,
-            searchEnabled: true,
-            bindingOptions: 
-            {
-                value: "Depo",
-                dataSource : "DepoListe",
-                disabled : "EvrLock"
-            },
-            onSelectionChanged : function(e)
-            {                
-                if(e.selectedItem == null)
-                {
-                    $scope.Depo = ""
-                }
-            }
-        }            
-        
-        TblIslemInit();
-        TblEvrakInit();
-        TblCariInit();
-        TblStokInit();
-
-        $scope.BtnHome();
-    }
-    $scope.BtnHome = function()
-    {
-        $("#TbMain").addClass('active');  
-        $("#TbBarkod").removeClass('active');
-    }
-    $scope.BtnBarkodGiris = function()
-    {
-        if($scope.TxtCari == '')
-        {
-            alertify.alert(db.Language($scope.Lang,"Lütfen Cari Seçiniz !"))
-            return;
-        }
-        if($scope.Depo == '')
-        {
-            alertify.alert(db.Language($scope.Lang,"Lütfen Depo Seçiniz !"))
-            return;
-        }
-
-        $("#TbMain").removeClass('active');  
-        $("#TbBarkod").addClass('active');
-    }
-    $scope.BtnEvrakSecim = function()
-    {
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query:  "SELECT " +
-                    "REF AS [REF], " +
-                    "REF_NO AS [REF_NO], " +
-                    "DOC_DATE AS [DOC_DATE], " +
-                    "DOC_FROM_NAME AS [FROM], " +
-                    "DOC_TO_NAME AS [TO], " +
-                    "AMOUNT AS AMOUNT " +
-                    "FROM ORDER_M_VW_01 WHERE DOC_TYPE = @DOC_TYPE AND TYPE = @TYPE",
-            param:  ['DOC_TYPE','TYPE'],
-            type:   ['int','int'],
-            value:  [$scope.EvrTip,$scope.Tip]
-        }
-        db.GetDataQuery(TmpQuery,function(pData)
-        {
-            $('#MdlEvrakSecim').modal('show');
-            $scope.EvrakSecimListe = pData;
-            TblEvrakInit();
+            if(item.CODE == $scope.DepoNo)
+                $scope.DepoAdi = item.NAME;
         });
-    }
-    $scope.BtnEvrakGridSec = async function()
-    {
-        $('#MdlEvrakSecim').modal('hide');
-        if($scope.TxtSeri != '' || $scope.TxtSira != 0)
-        {
-            let TmpData = await EvrakGetir($scope.TxtSeri,$scope.TxtSira,$scope.EvrTip,$scope.Tip);
-            
-            if($scope.EvrTip == 0 && $scope.Tip == 1)
-            {
-                $scope.Depo = TmpData[0].DOC_FROM
-                $scope.TxtCari = TmpData[0].DOC_TO
-            }
-            else if($scope.EvrTip == 0 && $scope.Tip == 0)
-            {
-                $scope.Depo = TmpData[0].DOC_TO
-                $scope.TxtCari = TmpData[0].DOC_FROM
-            }
 
-            $scope.IslemListe = TmpData;
-            TblIslemInit();
-            $scope.EvrLock = true;
-            $scope.$apply();
+        BarkodFocus();
+    }
+    $scope.MainClick = function() 
+    {
+        $("#TbMain").addClass('active');
+        $("#TbBelgeBilgisi").removeClass('active');
+        $("#TbCariSec").removeClass('active');
+        $("#TbBarkodGiris").removeClass('active');
+        $("#TbIslemSatirlari").removeClass('active');
+        $("#TblAciklama").removeClass('active');
+        $("#TbStok").removeClass('active');
+    }
+    $scope.CariSecClick = function() 
+    {
+        if($scope.Sira == 0 || typeof $scope.Sira == "undefined")
+        {            
+            alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Evrak Siranın Gelmesini Bekleyin!" + "</a>" );
+        }
+        else
+        {
+            if($scope.SiparisListe.length == 0)
+            {
+                $("#TbCariSec").addClass('active');
+                $("#TbMain").removeClass('active');
+                $("#TbBelgeBilgisi").removeClass('active');
+                $("#TbIslemSatirlari").removeClass('active');
+                $("#TblAciklama").removeClass('active');
+                $("#TbStok").removeClass('active');
+            }        
+            else
+            {
+                alertify.alert("<a style='color:#3e8ef7''>" + "Cari Seçim Ekranına Girmeye Yetkiniz Yok !" + "</a>" );
+            }
         }
     }
-    $scope.BtnCariSecim = function()
+    $scope.BelgeBilgisiClick = function() 
     {
+        $("#TbBelgeBilgisi").addClass('active');
+        $("#TbMain").removeClass('active');
+        $("#TblAciklama").removeClass('active');
+        $("#TbStok").removeClass('active');
+    }
+    $scope.BarkodGirisClick = function() 
+    {   
+        if($scope.Sira == 0 || typeof $scope.Sira == "undefined")
+        {            
+            alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Evrak Siranın Gelmesini Bekleyin!" + "</a>" );
+        }
+        else
+        {
+            if($scope.CariAdi != "")
+            {
+                $("#TbBarkodGiris").addClass('active');
+                $("#TbMain").removeClass('active');
+                $("#TbCariSec").removeClass('active');
+                $("#TbBelgeBilgisi").removeClass('active');
+                $("#TbIslemSatirlari").removeClass('active');
+                $("#TblAciklama").removeClass('active');
+                $("#TbStok").removeClass('active');
+
+                BarkodFocus();
+            }
+            else
+            {
+                alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Cari Seçiniz !" + "</a>" );
+            }
+        }
+    }
+    $scope.TbIslemSatirlariClick = function() 
+    {
+        $("#TbIslemSatirlari").addClass('active');
+        $("#TbMain").removeClass('active');
+        $("#TbCariSec").removeClass('active');
+        $("#TbBelgeBilgisi").removeClass('active');
+        $("#TbBarkodGiris").removeClass('active');
+        $("#TblAciklama").removeClass('active');
+        $("#TbStok").removeClass('active');
+    }
+    $scope.CariListeRowClick = function(pIndex,pItem,pObj)
+    {    
+        if ( CariSelectedRow ) { CariSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        CariSelectedRow = $row;
+        
+        $scope.CariKodu = $scope.CariListe[pIndex].CODE;
+        $scope.CariAdi = $scope.CariListe[pIndex].NAME;
+        $scope.MainClick();
+    }
+    $scope.BtnCariListeleEnter = function(keyEvent)
+    {
+        if(keyEvent.which === 13)
+        {
+            $scope.BtnCariListele();
+        }
+    }
+    $scope.BtnCariListele = function()
+    {   
+        $scope.Loading = true;
+        $scope.TblLoading = false;
+        let Kodu = '';
+        let Adi = '';
+        
+
+        if($scope.TxtCariAra != "")
+        {
+            if($scope.CmbCariAra == "0")
+            {   
+                Adi = $scope.TxtCariAra.replace("*","%").replace("*","%");
+            }
+            else
+            {
+                Kodu = $scope.TxtCariAra.replace("*","%").replace("*","%");
+            }
+        }
+        
         let TmpQuery = 
         {
             db : $scope.Firma,
             query:  "SELECT " +
                     "CODE AS CODE," +
                     "NAME AS NAME " +
-                    "FROM CUSTOMERS WHERE GENUS = 1",
+                    "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
+            param: ['CODE:string|25','NAME:string|100'],
+            value: [Kodu,Adi]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
-            $('#MdlCariSecim').modal('show');
-            $scope.CariSecimListe = pData;
-            TblCariInit();
+            $scope.CariListe = pData;
+            if($scope.CariListe.length > 0)
+            {
+                $scope.Loading = false;
+                $scope.TblLoading = true;
+                $("#TblCari").jsGrid({data : $scope.CariListe});  
+                $("#TblCari").jsGrid({pageIndex: true})
+            }
+            else
+            {
+                alertify.alert("Cari Bulunamadı")
+                $scope.Loading = false;
+                $scope.TblLoading = true;
+                $("#TblCari").jsGrid({data : $scope.CariListe});
+                $("#TblCari").jsGrid({pageIndex: true})
+            }
         });
     }
-    $scope.BtnCariGridSec = function()
+    $scope.DepoChange = function()
     {
-        $('#MdlCariSecim').modal('hide');
-    }
-    $scope.BtnStokSecim = function()
-    {
-        db.StokBarkodGetir($scope.Firma,'',async function(BarkodData)
+        $scope.DepoListe.forEach(function(item) 
         {
-            $('#MdlStokSecim').modal('show');
-            $scope.StokSecimListe = BarkodData;
-            TblStokInit();
-        });
+            if(item.CODE == $scope.DepoNo)
+                $scope.DepoAdi = item.NAME;
+        }); 
     }
-    $scope.BtnStokGridSec = function()
+    $scope.BirimChange = function()
     {
-        $('#MdlStokSecim').modal('hide');
-        if($scope.TxtBarkod != '')
+        if($scope.BirimListe.length > 0)
         {
-            StokGetir($scope.TxtBarkod);
+            $scope.Stok[0].UNIT = $scope.BirimListe.filter(function(d){return d.TYPE == $scope.Birim})[0].TYPE;
+            $scope.Stok[0].FACTOR = $scope.BirimListe.filter(function(d){return d.TYPE == $scope.Birim})[0].FACTOR;
+            $scope.MiktarFiyatValid();
+        }
+    } 
+    $scope.BtnStokBarkodGetir = function(keyEvent)
+    {
+        if(keyEvent.which === 13)
+        {
+            StokBarkodGetir($scope.Barkod);  
         }
     }
-    $scope.BtnStokBarkodGetir = function(pKey)
+    $scope.BtnBarkodGetirClick = function()
     {
-        if(pKey.which === 13)
-        {
-            StokGetir($scope.TxtBarkod)
-        }
+        StokBarkodGetir($scope.Barkod);
+    }
+    $scope.ScanBarkod = function()
+    {
+        cordova.plugins.barcodeScanner.scan(
+            function (result) 
+            {
+                $scope.Barkod = result.text;
+                StokBarkodGetir($scope.Barkod);
+            },
+            function (error) 
+            {
+                //alert("Scanning failed: " + error);
+            },
+            {
+                prompt : "Barkod Okutunuz",
+                orientation : "portrait"
+            }
+        );
     }
     $scope.MiktarFiyatValid = function()
     {
-        if($scope.StokListe.length > 0)
+        if($scope.Stok.length > 0)
         {
-            let TmpTutar = ($scope.TxtCarpan * $scope.TxtMiktar) * $scope.TxtFiyat;
+            let TmpTutar = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
 
-            $scope.TxtKdv = TmpTutar - (TmpTutar / (($scope.StokListe[0].VAT / 100) + 1));
-            $scope.TxtTutar = TmpTutar - $scope.TxtKdv;
-            $scope.TxtIndirim = 0;
-            $scope.TxtTopTutar = TmpTutar;
+            $scope.Stok[0].VATAMOUNT = TmpTutar - (TmpTutar / (($scope.Stok[0].VAT / 100) + 1));
+            $scope.Stok[0].AMOUNT = TmpTutar - $scope.Stok[0].VATAMOUNT;
+            $scope.Stok[0].DISCOUNT = 0;
+            $scope.Stok[0].TOPAMOUNT = TmpTutar;
         }
     }
     $scope.BtnTemizle = function()
     {
-        $scope.BirimListe = [];
-        CmbBirimInit();
-        $scope.Birim = 0;
-
-        $scope.TxtBarkod = "";
-        $scope.TxtStokBilgi = "";
-        $scope.TxtMiktar = 0;
-        $scope.TxtCarpan = 0;
-        $scope.TxtFiyat = 0;
-        $scope.TxtKdv = 0;
-        $scope.TxtTutar = 0;
-        $scope.TxtIndirim = 0;
-        $scope.TxtTopTutar = 0;                
-
-        $window.document.getElementById("TxtBarkod").focus();
-    }
-    $scope.BtnEkle = function()
-    {
-        let TmpFrom = "";
-        let TmpTo = "";
-        
-        if($scope.EvrTip == 0 && $scope.Tip == 1)
-        {
-            TmpFrom = $scope.Depo;
-            TmpTo = $scope.TxtCari;
-        }
-        else if($scope.EvrTip == 0 && $scope.Tip == 0)
-        {
-            TmpTo = $scope.Depo;
-            TmpFrom = $scope.TxtCari;
-        }
-
-        let InserData = 
+        $scope.Barkod = "";
+        $scope.Stok = null;
+        $scope.Stok = 
         [
-            $scope.Kullanici,
-            $scope.Kullanici,
-            $scope.Tip,
-            $scope.EvrTip,
-            $scope.TxtSeri,
-            $scope.TxtSira,
-            moment(new Date()).format("DD.MM.YYYY"),
-            TmpFrom,
-            TmpTo,
-            $scope.StokListe[0].CODE,
-            $scope.TxtMiktar * $scope.TxtCarpan,
-            $scope.TxtFiyat,
-            $scope.TxtIndirim,
-            $scope.TxtKdv,
-            1
-        ]
-        db.ExecuteTag($scope.Firma,'SiparisInsert',InserData,async function(pData)
-        {
-            $scope.BtnTemizle();
+            {
+                PRICE : 0,
+                AMOUNT : 0,
+                DISCOUNT : 0,
+                VATAMOUNT : 0,
+                TOPAMOUNT :0
+            }
+        ];
+        $scope.Miktar = 1;
+        $scope.BarkodLock = false;
 
-            let TmpData = await EvrakGetir($scope.TxtSeri,$scope.TxtSira,$scope.EvrTip,$scope.Tip);
-            $scope.IslemListe = TmpData;
-            TblIslemInit();
-            $scope.EvrLock = true;
-            $scope.$apply();
-        });
+        $scope.BirimListe = [];
+        BarkodFocus();      
     }
-    $scope.BtnEvrakSil = function()
+    $scope.MiktarPress = function(keyEvent)
     {
-        db.ExecuteTag($scope.Firma,'SiparisEvrakDelete',[1,$scope.EvrTip,$scope.TxtSeri,$scope.TxtSira],async function(data)
+        if(keyEvent.which == 40)
         {
-            $scope.Init();
-        });
+            $window.document.getElementById("Fiyat").focus();
+            $window.document.getElementById("Fiyat").select();
+        }
+        if(keyEvent.which == 13)
+        {
+            $scope.Insert();
+        }
+    }
+    $scope.FiyatPress = function(keyEvent)
+    {
+        if(keyEvent.which == 38)
+        {
+            $window.document.getElementById("Miktar").focus();
+            $window.document.getElementById("Miktar").select();
+        }
+        if(keyEvent.which == 13)
+        {
+            $scope.Insert();
+        }
     }
 }
