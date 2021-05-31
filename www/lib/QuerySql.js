@@ -332,6 +332,8 @@ var QuerySql =
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
                 "SET @TMPCODE = ISNULL((SELECT BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = @ITEM_CODE AND BARCODE = @BARCODE),'') " +
+                "IF @BARCODE <> '' " +
+                "BEGIN " +
                 "IF @TMPCODE = '' " +
                 "BEGIN " +
                 "INSERT INTO [dbo].[ITEM_BARCODE] " +
@@ -363,6 +365,7 @@ var QuerySql =
                 ",[UNIT] = @UNIT " +
                 ",[TYPE] = @TYPE " +
                 "WHERE [BARCODE] = @TMPCODE " +
+                "END " +
                 "END ",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','BARCODE:string|50','UNIT:string|50','TYPE:int']
     },

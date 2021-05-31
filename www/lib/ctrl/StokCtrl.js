@@ -1903,7 +1903,11 @@ function StokCtrl ($scope,$window,$location,db)
                 $("#MdlTedarikciEkle").modal('show');
             },function()
             {
-                StokGetir(TmpResult[0].ITEM_CODE);
+                db.ExecuteTag($scope.Firma,'StokKartSil',[$scope.StokListe[0].CODE],function(data)
+                {
+                    console.log(11)
+                    StokGetir(TmpResult[0].ITEM_CODE);
+                });
             });
         }
         else

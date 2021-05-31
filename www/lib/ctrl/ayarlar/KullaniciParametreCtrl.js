@@ -125,8 +125,8 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                             return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
                                 .on("click", function() 
                                 {
-                                    ParamGetir(item.ID);
-                                    $scope.KasaID = item.ID
+                                    // ParamGetir(item.ID);
+                                    // $scope.KasaID = item.ID
                                     $("#TbMain").removeClass('active');
                                     $("#TbParametre").addClass('active');
                                     $scope.$apply();
@@ -204,6 +204,107 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
             {
                 alertify.alert(db.Language($scope.Lang,"Kullanıcı Silme İşleminde Hata."));
                 console.log(InsertResult.result.err);
+            }
+        });
+    }
+    function ParamGetir(pId,pTag)
+    {
+        db.GetData($scope.Firma,'ParamGetir',[pId,'CİHAZ'],function(data)
+        {   
+            for (let i = 0; i < data.length; i++) 
+            {
+                if(data[i].NAME == "SatisSeri")
+                {
+                    $scope.SatisSeri = data[i].VALUE;
+                }
+                else if(data[i].NAME == "CariKodu")
+                {
+                    $scope.CariKodu = data[i].VALUE;
+                }
+                else if(data[i].NAME == "DepoNo")
+                {
+                    $scope.SubeKodu = data[i].VALUE;
+                }
+                else if(data[i].NAME == "EkranPort")
+                {
+                    $scope.EkranPort = data[i].VALUE;
+                }
+                else if(data[i].NAME == "OdemePort")
+                {
+                    $scope.OdemePort = data[i].VALUE;
+                }
+                else if(data[i].NAME == "TeraziPort")
+                {
+                    $scope.TeraziPort = data[i].VALUE;
+                }
+                else if(data[i].NAME == "ScannerPort")
+                {
+                    $scope.ScannerPort = data[i].VALUE;
+                }
+            }
+            db.GetData($scope.Firma,'CmbDepoGetir',['TÜMÜ'],function(data)
+            {   
+                $scope.SubeListe = data;
+            });
+        });
+    }
+    function ParamDelete(pData)
+    {
+        db.ExecuteTag($scope.Firma,'ParamDelete',[pData.ID,'CİHAZ'],async function(InsertResult)
+        {              
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {   
+             
+            }   
+            else
+            {
+                console.log(InsertResult.result.err);
+            }
+        });
+    }
+    function ParamInsert(pKeys,pValues,pKasaID,pTag)
+    {
+        let InsertData = 
+        [
+            pKasaID,
+            pKasaID,
+            pKeys[0],
+            pValues[0],
+            pTag,
+            pKasaID
+        ];
+
+        db.ExecuteTag($scope.Firma,'ParamInsert',InsertData,async function(InsertResult)
+        {              
+            if(typeof(InsertResult.result.err) == 'undefined')
+            {   
+            }   
+            else
+            {
+                console.log(InsertResult.result.err);
+            }
+        });
+    }
+    function ParamUpdate(pKeys,pValues,pId,pTag)
+    {
+        var UpdateData = 
+        [
+            pValues[0],
+            pKeys[0],
+            pId,
+            pTag
+        ];
+
+        db.ExecuteTag($scope.Firma,'ParamUpdate',UpdateData,async function(UpdateResult)
+        {              
+            if(typeof(UpdateResult.result.err) == 'undefined')
+            {   
+                //alert("Parametre Güncellendi.");
+            }   
+            else
+            {
+                alertify.alert(db.Language($scope.Lang,"Parametre Güncelleme İşleminde Hata."));
+                console.log(UpdateResult.result.err);
             }
         });
     }

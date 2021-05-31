@@ -34,7 +34,13 @@
                     </div>
                     <div class="panel">
                         <div class="panel-body">
-                  
+                            <div class="row">
+                                <div class="col-3 py-2">
+                                    <select class="form-control form-control-sm col-12" ng-model="ParamName" ng-change="CmbParamChange()">
+                                        <option ng-repeat="option in CmbParamList" value="{{option.Name}}">{{option.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

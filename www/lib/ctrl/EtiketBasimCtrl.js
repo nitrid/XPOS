@@ -7,6 +7,24 @@ function EtiketBasimCtrl ($scope,$window,db)
 
     $scope.Wizard = {};
     
+    document.onkeydown = function(e)
+    {       
+        if(!$("#MdlReferansSecim").hasClass('show') && !ElementFocus() && !$("#MdlWizard").hasClass('show') && document.activeElement.id != 'Ref' && document.activeElement.id != 'RefNo')
+        {
+            $window.document.getElementById("Barkodu").focus();
+        }
+    }
+    function ElementFocus()
+    {
+        for (let i = 0; i < document.getElementsByClassName("dx-texteditor-input").length; i++) 
+        {
+            if(document.getElementsByClassName("dx-texteditor-input")[i] === document.activeElement)
+            {
+                return true
+            }
+        }
+        return false
+    }
     function InitBarkodGrid()
     {
         $("#TblBarkodListesi").dxDataGrid(
@@ -428,10 +446,10 @@ function EtiketBasimCtrl ($scope,$window,db)
             }
         }
 
-        setInterval(()=>
-        {
-            $window.document.getElementById("Barkodu").focus();
-        },500);
+        // setInterval(()=>
+        // {
+        //     $window.document.getElementById("Barkodu").focus();
+        // },500);
     }
     $scope.BtnStokSecim = async function()
     {

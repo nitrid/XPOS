@@ -2,10 +2,21 @@ function SiparisEvrakCtrl ($scope,$window,db)
 {
     document.onkeydown = function(e)
     {
-        if($("#TbBarkod").hasClass('active') && (document.activeElement.id != 'TxtMiktar' && document.activeElement.id != 'TxtFiyat'))
+        if($("#TbBarkod").hasClass('active') && !ElementFocus() && (document.activeElement.id != 'TxtMiktar' && document.activeElement.id != 'TxtFiyat'))
         {
             $window.document.getElementById("TxtBarkod").focus();
         }
+    }
+    function ElementFocus()
+    {
+        for (let i = 0; i < document.getElementsByClassName("dx-texteditor-input").length; i++) 
+        {
+            if(document.getElementsByClassName("dx-texteditor-input")[i] === document.activeElement)
+            {
+                return true
+            }
+        }
+        return false
     }
     function TblEvrakInit()
     {
@@ -28,7 +39,7 @@ function SiparisEvrakCtrl ($scope,$window,db)
             },
             paging: 
             {
-                pageSize: 15
+                pageSize: 10
             },
             pager: 
             {
@@ -104,7 +115,7 @@ function SiparisEvrakCtrl ($scope,$window,db)
             },
             paging: 
             {
-                pageSize: 15
+                pageSize: 10
             },
             pager: 
             {
@@ -160,7 +171,7 @@ function SiparisEvrakCtrl ($scope,$window,db)
             },
             paging: 
             {
-                pageSize: 15
+                pageSize: 10
             },
             pager: 
             {
