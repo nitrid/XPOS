@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report4" DataSourceSchema="[{&quot;CODE&quot;:&quot;000.7798&quot;,&quot;BARCODE&quot;:&quot;3700056700295&quot;,&quot;NAME&quot;:&quot;O'REGAL ARACHIDES DECORTIQUEES CRUES 500G&quot;,&quot;ITEM_GRP&quot;:&quot;005&quot;,&quot;ITEM_GRP_NAME&quot;:&quot;FRUITS SECS&quot;,&quot;PRICE&quot;:&quot;1.99&quot;,&quot;UNDER_UNIT_VALUE&quot;:&quot;0.5 Kg&quot;,&quot;UNDER_UNIT_PRICE&quot;:&quot;3.98&quot;,&quot;DESCRIPTION&quot;:&quot;&quot;},{&quot;CODE&quot;:&quot;000004ABC&quot;,&quot;BARCODE&quot;:&quot;3124480186676&quot;,&quot;NAME&quot;:&quot;OASIS TROPICAL                         33CL&quot;,&quot;ITEM_GRP&quot;:&quot;007&quot;,&quot;ITEM_GRP_NAME&quot;:&quot;BOISSON&quot;,&quot;PRICE&quot;:&quot;0.79&quot;,&quot;UNDER_UNIT_VALUE&quot;:&quot;0.33 L&quot;,&quot;UNDER_UNIT_PRICE&quot;:&quot;2.39&quot;,&quot;DESCRIPTION&quot;:&quot;&quot;}&#xD;&#xA;]" Margins="0, 3, 0, 0" PaperKind="A4" PageWidth="827" PageHeight="1169" Version="19.2" DataMember="DATA" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="1" ControlType="TopMarginBand" Name="TopMargin" HeightF="0" />
+    <Item2 Ref="2" ControlType="DetailBand" Name="Detail" HeightF="496.60083">
+      <Controls>
+        <Item1 Ref="3" ControlType="XRPanel" Name="panel1" SizeF="824,84.37497" LocationFloat="0, 412.225861" BackColor="Yellow">
+          <Controls>
+            <Item1 Ref="4" ControlType="XRLabel" Name="label8" Multiline="true" Text="PROMO" TextAlignment="TopCenter" SizeF="803.999939,61.24994" LocationFloat="10.0000067, 9.99996948" Font="Poppins Medium, 36pt, style=Bold" Padding="2,2,0,0,100" Borders="None">
+              <StylePriority Ref="5" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+          <StylePriority Ref="6" UseBackColor="false" />
+        </Item1>
+        <Item2 Ref="7" ControlType="XRLabel" Name="label6" Multiline="true" Text="ORIGINE:" SizeF="169.791656,47.75479" LocationFloat="90.75001, 364.471069" Font="Poppins Medium, 28pt" Padding="2,2,0,0,100" Borders="None">
+          <StylePriority Ref="8" UseFont="false" UseBorders="false" />
+        </Item2>
+        <Item3 Ref="9" ControlType="XRLabel" Name="label7" Multiline="true" Text="label6" TextAlignment="TopLeft" SizeF="256.249969,47.75479" LocationFloat="260.541656, 364.471069" Font="Poppins Medium, 28pt" Padding="2,2,0,0,100" Borders="None">
+          <ExpressionBindings>
+            <Item1 Ref="10" EventName="BeforePrint" PropertyName="Text" Expression="[ORGINS]" />
+          </ExpressionBindings>
+          <StylePriority Ref="11" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="12" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="665.5797,206.929428" LocationFloat="110.836853, 1.91666794" Font="Poppins Black, 35pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="13" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
+          </ExpressionBindings>
+          <StylePriority Ref="14" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="15" ControlType="XRLabel" Name="label2" Multiline="true" Text="122" TextAlignment="TopRight" SizeF="371.875,189.583282" LocationFloat="91.3024139, 174.887787" Font="Poppins Black, 120pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="16" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE1]" />
+          </ExpressionBindings>
+          <StylePriority Ref="17" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+        <Item6 Ref="18" ControlType="XRLabel" Name="label4" Multiline="true" Text="€" TextAlignment="TopLeft" SizeF="97.91666,189.5833" LocationFloat="463.177429, 172.8878" Font="Poppins Black, 120pt, style=Bold" Padding="2,2,0,0,100">
+          <StylePriority Ref="19" UseFont="false" UseTextAlignment="false" />
+        </Item6>
+        <Item7 Ref="20" ControlType="XRLabel" Name="label3" Multiline="true" Text="99" SizeF="159.375,130.208282" LocationFloat="561.094055, 194.262787" Font="Poppins Black, 80pt, style=Bold" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="21" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="22" UseFont="false" />
+        </Item7>
+        <Item8 Ref="23" ControlType="XRLabel" Name="label1" Multiline="true" Text="label5" TextAlignment="TopRight" SizeF="89.48926,21.5127258" LocationFloat="596.9798, 324.471039" Font="Arial, 8pt" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="24" EventName="BeforePrint" PropertyName="Text" Expression="[UNDER_UNIT_PRICE2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="25" UseFont="false" UseTextAlignment="false" />
+        </Item8>
+      </Controls>
+    </Item2>
+    <Item3 Ref="26" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="0" />
+  </Bands>
+</XtraReportsLayoutSerializer>

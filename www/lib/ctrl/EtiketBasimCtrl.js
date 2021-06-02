@@ -72,29 +72,29 @@ function EtiketBasimCtrl ($scope,$window,db)
                     caption: db.Language($scope.Lang,"FİYAT"),
                     dataType: "number",
                     //width: "100",
-                    hidingPriority: 0
+                    hidingPriority: 1
                 },
                 {
                     dataField: "UNDER_UNIT_VALUE",
                     caption: db.Language($scope.Lang,"ALT B. DEGER"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 1
+                    hidingPriority: 0
                 },
                 {
                     dataField: "UNDER_UNIT_PRICE",
                     caption: db.Language($scope.Lang,"ALT B. FİYAT"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 2
+                    hidingPriority: 1
                 },
                 {
                     dataField: "DESCRIPTION",
                     caption: db.Language($scope.Lang,"ÖZEL ALAN"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 3
-                },
+                    hidingPriority: 2
+                }
             ],
             onRowRemoved: function(e) 
             {
@@ -106,9 +106,19 @@ function EtiketBasimCtrl ($scope,$window,db)
                     $scope.BosEtiketAlan = EtiketSelected.PAGE_COUNT - ($scope.BarkodListe.length % EtiketSelected.PAGE_COUNT);
                 }
             },
-            onRowUpdated: function(e) 
+            onRowUpdated: async function(e) 
             {
                 $scope.Kaydet();
+                
+                TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE, LDATE = GETDATE() WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY = 1",
+                    param: ['PRICE:float','ITEM_CODE:string|25'],
+                    value: [e.data.PRICE,e.data.CODE]
+                }
+                await db.ExecutePromiseQuery(TmpQuery);
+
                 if(typeof EtiketSelected != 'undefined')
                 {
                     $scope.Sayfa = Math.ceil($scope.BarkodListe.length / EtiketSelected.PAGE_COUNT);
@@ -157,32 +167,38 @@ function EtiketBasimCtrl ($scope,$window,db)
                 {
                     dataField: "CODE",
                     caption: db.Language($scope.Lang,"KODU"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "100"
                 },
                 {
                     dataField: "BARCODE",
                     caption: db.Language($scope.Lang,"BARKOD"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "100"
                 },
                 {
                     dataField: "NAME",
                     caption: db.Language($scope.Lang,"ADI"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "300"
                 },
                 {
                     dataField: "ITEM_GRP_NAME",
                     caption: db.Language($scope.Lang,"GRUP"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "100"
                 },
                 {
                     dataField: "PRICE",
                     caption: db.Language($scope.Lang,"FİYAT"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "70"
                 },
                 {
                     dataField: "DESCRIPTION",
                     caption: db.Language($scope.Lang,"ÖZEL ALAN"),
-                    dataType: "string"
+                    dataType: "string",
+                    width: "100"
                 }
             ],
             onSelectionChanged: function(selectedItems) 
@@ -198,7 +214,6 @@ function EtiketBasimCtrl ($scope,$window,db)
             TmpGrid.deselectAll();
             TmpGrid.clearSelection();
         }
-        
 
         TmpGrid = $("#TblReferansSecim").dxDataGrid(
         {
@@ -262,7 +277,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         {
             for (let i = 0; i < $scope.BarkodListe.length; i++) 
             {
-                if($scope.BarkodListe[i].BARCODE == pBarkod)
+                if(pBarkod != '' && $scope.BarkodListe[i].BARCODE == pBarkod)
                 {
                     document.getElementById("Sound2").play(); 
                     resolve([])
@@ -274,7 +289,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "ISNULL(MAX(CUSTOMER_ITEM_CODE),ITEMS.CODE) AS CODE, " +
+                        "ITEMS.CODE AS CODE, " +
                         "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ORDER BY ITEM_BARCODE.LDATE DESC),'') AS BARCODE, " +
                         "MAX(ITEMS.NAME) AS NAME, " +
                         "ISNULL((SELECT TOP 1 C.NAME FROM CUSTOMERS AS C WHERE C.CODE = MAX(ITEM_CUSTOMER.CUSTOMER_CODE)),'') AS CUSTOMER_NAME, " +
@@ -286,7 +301,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL(MAX(FACTOR),0),2) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON " +
+                        "LEFT OUTER JOIN ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
@@ -308,7 +323,6 @@ function EtiketBasimCtrl ($scope,$window,db)
                 document.getElementById("Sound").play(); 
             }
         });
-        
     }
     $scope.Init = async function()
     {        
@@ -593,7 +607,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                     "STATUS, " +
                     "CODE, " +
                     "BARCODE, " +
-                    "NAME, " +
+                    "REPLACE(NAME,'|', CHAR(13)) AS NAME, " +
                     "ITEM_GRP, " +
                     "ITEM_GRP_NAME, " +
                     "CUSTOMER_NAME, " +
@@ -604,8 +618,9 @@ function EtiketBasimCtrl ($scope,$window,db)
                     "SUBSTRING(TRIM(STR(PRICE, 15, 2)),CHARINDEX('.',TRIM(STR(PRICE, 15, 2))) + 1,LEN(TRIM(STR(PRICE, 15, 2)))) AS PRICE2, " +
                     "TRIM(STR([UNDER_UNIT_PRICE], 15, 2)) + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2, " +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
-                    "DESCRIPTION AS DESCRIPTION " + 
-                    "FROM LABEL_QUEUE AS D  " +
+                    "DESCRIPTION AS DESCRIPTION, " + 
+                    "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = (SELECT TOP 1 ORGINS FROM ITEMS AS ITM WHERE ITM.CODE = JS.CODE)),'') AS ORGINS " +
+                    "FROM LABEL_QUEUE AS D " +
                     "CROSS APPLY  " +
                     "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
                     "WITH  " +

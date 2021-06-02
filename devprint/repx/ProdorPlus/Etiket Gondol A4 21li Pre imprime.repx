@@ -37,7 +37,7 @@
           </ExpressionBindings>
           <StylePriority Ref="21" UseFont="false" UsePadding="false" UseTextAlignment="false" />
         </Item6>
-        <Item7 Ref="22" ControlType="XRLabel" Name="label5" Multiline="true" CanGrow="false" Text="BEYPAZARI EAU MIN. GAZ.GRIOTTE 6X20CL" TextAlignment="TopLeft" SizeF="390.0417,150" LocationFloat="15.0000134, 7.99995565" Dpi="254" Font="Poppins Black, 9.75pt, style=Bold" Padding="0,0,0,0,254">
+        <Item7 Ref="22" ControlType="XRLabel" Name="label5" Multiline="true" CanGrow="false" Text="BEYPAZARI EAU MIN. GAZ.GRIOTTE 6X20CL" TextAlignment="TopLeft" SizeF="410.5418,176.187561" LocationFloat="15.0000134, 7.99995565" Dpi="254" Font="Poppins Black, 9.75pt, style=Bold" Padding="0,0,0,0,254">
           <ExpressionBindings>
             <Item1 Ref="23" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
           </ExpressionBindings>

@@ -2021,6 +2021,10 @@ function Pos($scope,$window,$rootScope,db)
     {
         if(pBarkod != '')
         {   
+            if(pBarkod.substring(0,1) == 'F')
+            {
+                pBarkod = pBarkod.substring(1,pBarkod.length);
+            }
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {

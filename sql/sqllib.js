@@ -134,6 +134,7 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
                             let yyyy = 0
                             let mm = 0
                             let dd = 0
+
                             if(numbers[0].length > 2)
                             {
                                 yyyy = numbers[0];

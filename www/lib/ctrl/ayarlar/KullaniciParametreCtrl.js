@@ -122,7 +122,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                     { 
                         itemTemplate: function(_, item) 
                         {
-                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu></button>").text(db.Language($scope.Lang,"Ayarlar"))
+                            return $("<button type='submit' style='height:30px; font-size: 12px;' class='btn btn-primary btn-block' langu>Ayarlar</button>")
                                 .on("click", function() 
                                 {
                                     // ParamGetir(item.ID);
@@ -209,7 +209,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
     }
     function ParamGetir(pId,pTag)
     {
-        db.GetData($scope.Firma,'ParamGetir',[pId,'CİHAZ'],function(data)
+        db.GetData($scope.Firma,'ParamGetir',[pId,pTag],function(data)
         {   
             for (let i = 0; i < data.length; i++) 
             {

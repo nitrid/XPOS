@@ -511,13 +511,14 @@ function StokCtrl ($scope,$window,$location,db)
                     allowEditing: true,
                     width: "10%",
                     cellTemplate: function(element, info)
-                    {
+                    {        
                         if(moment().diff(moment(info.data.FINISH_DATE),'year') > 1)
                         {
                             element.append("<div></div>")
                         }
                         else
                         {
+                            
                             element.append("<div>" + info.text + "</div>")
                         }
                     }
@@ -588,6 +589,7 @@ function StokCtrl ($scope,$window,$location,db)
             ],
             onRowUpdated: function(e) 
             {         
+                console.log(e)
                 if($scope.StokListe[0].COST_PRICE == "" || $scope.StokListe[0].COST_PRICE == 0)
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
@@ -1121,6 +1123,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.TedarikciModal.Kodu = "";
         $scope.TedarikciModal.Adi = "";
         $scope.TedarikciModal.StokKodu = "";
+        console.log($scope.TedarikciModal.StokKodu)
     }
     function UrunGrupModalInit()
     {
@@ -1692,10 +1695,10 @@ function StokCtrl ($scope,$window,$location,db)
                         }                        
                     }
                 }
-                else
-                {
-                    db.ExecuteTag($scope.Firma,'StokImageDelete',[$scope.StokListe[0].CODE]);
-                }
+                // else
+                // {
+                //     db.ExecuteTag($scope.Firma,'StokImageDelete',[$scope.StokListe[0].CODE]);
+                // }
 
                 if(typeof pCallBack != 'undefined')
                 {
@@ -1764,8 +1767,10 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.FiyatModal.Cari
         ];
 
+        console.log(1)
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
         {
+            console.log(2)
             if(typeof(InsertResult.result.err) == 'undefined')
             {
                 if(InsertResult.result.recordset[0].ITEM_CODE != '')

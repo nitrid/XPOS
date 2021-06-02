@@ -424,8 +424,8 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
             db : $scope.Firma,
             query:  "SELECT  " +
                     "ITEMS.CODE AS CODE, " +
-                    "ITEM_CUSTOMER.CUSTOMER_ITEM_CODE AS CUSTOMER_ITEM_CODE, " +
-                    "ITEM_CUSTOMER.CUSTOMER_CODE AS CUSTOMER_CODE, " +
+                    "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, " +
+                    "ISNULL(ITEM_CUSTOMER.CUSTOMER_CODE,'') AS CUSTOMER_CODE, " +
                     "ISNULL((SELECT TOP 1 LAST_NAME + ' ' + NAME FROM CUSTOMERS WHERE CODE = ITEM_CUSTOMER.CUSTOMER_CODE),'') CUSTOMER, " +
                     "ITEMS.NAME AS NAME, " +
                     "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + '/' + ISNULL((SELECT UNIT.SHORT FROM UNIT WHERE NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_CODE = ITEMS.CODE AND TYPE = 0),'1/U') MAIN_UNIT, " +
@@ -440,7 +440,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                     "ISNULL((SELECT CODE FROM COUNTRY WHERE CODE = ITEMS.ORGINS),'') AS ORGINS, " +
                     "ITEMS.STATUS AS STATUS " +
                     "FROM ITEM_CUSTOMER  " +
-                    "INNER JOIN ITEMS ON  " +
+                    "RIGHT OUTER JOIN ITEMS ON  " +
                     "ITEMS.CODE = ITEM_CODE " +
                     "LEFT OUTER JOIN ITEM_PRICE ON " +
                     "ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 AND ITEM_PRICE.START_DATE = '19700101' " +
