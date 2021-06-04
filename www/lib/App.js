@@ -65,6 +65,10 @@ angular.module("app",
     {
         templateUrl : "html/siparis/VerilenSiparisEvrak.html"
     })
+    .when("/TopluSiparisBirlestirme",
+    {
+        templateUrl : "html/siparis/TopluSiparisBirlestirme.html"
+    })
     .when("/KullaniciParametre",
     {
         templateUrl : "html/ayarlar/KullaniciParametre.html"

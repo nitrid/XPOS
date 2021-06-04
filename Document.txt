@@ -44,6 +44,7 @@ TYPE = 2 => ÜST BİRİM
 # ORDERM
 DOC_TYPE = 0 => NORMAL SİPARİŞ
 DOC_TYPE = 1 => ŞUBE SİPARİŞ
+DOC_TYPE = 2 => TOPLU SİPARİŞ
 
 TYPE = 0 => GİRİŞ (VERİLEN)
 TYPE = 1 => ÇIKIŞ (ALINAN)

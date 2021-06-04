@@ -16,8 +16,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         else
         {
             $scope.Lang = "TR";
-        }
-        
+        }                
+
         $scope.Seri = "";
         $scope.Sira = 0;
         $scope.EvrakTip = 0;
@@ -34,6 +34,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         $scope.StokGridText = "";
         $scope.ToplamSatir = 0;
         $scope.Fiyat = "";
+        $scope.Cins = "0";
+        $scope.BtnCariView = true;
 
         $scope.DepoListe = [];
         $scope.CariListe = [];
@@ -243,6 +245,11 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                 {
                     $scope.Stok = BarkodData;
                     $scope.StokKodu = $scope.Stok[0].CODE;
+                    
+                    if($scope.EvrakTip == 2)
+                    {
+                        $scope.Stok[0].PRICE = 0;
+                    }
                     
                     $scope.Stok[0].AMOUNT = 0;
                     $scope.Stok[0].DISCOUNT = 0;
@@ -456,7 +463,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         }
         else
         {
-            if($scope.CariAdi != "")
+            if($scope.CariAdi != "" || $scope.Cins == "1")
             {
                 $("#TbBarkodGiris").addClass('active');
                 $("#TbMain").removeClass('active');
@@ -712,15 +719,23 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             let TmpFrom = "";
             let TmpTo = "";
             
-            if($scope.EvrakTip == 0 && $scope.Tip == 1)
+            if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
             {
                 TmpFrom = $scope.DepoNo;
                 TmpTo = $scope.CariKodu;
             }
-            else if($scope.EvrakTip == 0 && $scope.Tip == 0)
+            else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
             {
                 TmpTo = $scope.DepoNo;
                 TmpFrom = $scope.CariKodu;
+            }
+            else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
+            {
+                TmpTo = $scope.DepoNo;
+            }
+            else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
+            {
+                TmpFrom = $scope.DepoNo;
             }
 
             let InserData = 
@@ -800,13 +815,21 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                 {
                     if($scope.SiparisListe.length <= 1)
                     {
-                        if($scope.EvrakTip == 0 && $scope.Tip == 1)
+                        if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
                         {
                             $scope.YeniEvrak(1);
                         }
-                        else if($scope.EvrakTip == 0 && $scope.Tip == 0)
+                        else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
                         {
                             $scope.YeniEvrak(0);
+                        }
+                        else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
+                        {
+                            $scope.YeniEvrak(0);
+                        }
+                        else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
+                        {
+                            $scope.YeniEvrak(1);
                         }
                     }
                     else
@@ -842,15 +865,35 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             $scope.EvrakTip = TmpData[0].DOC_TYPE;
             $scope.Tip = TmpData[0].TYPE;
 
-            if($scope.EvrakTip == 0 && $scope.Tip == 1)
+            if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
             {
                 $scope.DepoNo = TmpData[0].DOC_FROM;
                 $scope.CariKodu = TmpData[0].DOC_TO;
+                $scope.Cins = "0";
+                $scope.BtnCariView = true;
             }
-            else if($scope.EvrakTip == 0 && $scope.Tip == 0)
+            else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
             {
                 $scope.DepoNo = TmpData[0].DOC_TO;
                 $scope.CariKodu = TmpData[0].DOC_FROM;
+                $scope.Cins = "0";
+                $scope.BtnCariView = true;
+            }
+            else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
+            {
+                $scope.DepoNo = TmpData[0].DOC_TO;
+                $scope.CariKodu = "";
+                $scope.CariAdi = "";
+                $scope.Cins = "1";
+                $scope.BtnCariView = false;
+            }
+            else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
+            {
+                $scope.DepoNo = TmpData[0].DOC_FROM;
+                $scope.CariKodu = "";
+                $scope.CariAdi = "";
+                $scope.Cins = "1";
+                $scope.BtnCariView = false;
             }
 
             $scope.Tarih = new Date(TmpData[0].DOC_DATE).toLocaleDateString();                
@@ -876,28 +919,31 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             $scope.CmbCariAra = "0";
             $scope.TxtCariAra = "";
 
-            let TmpQuery = 
+            if($scope.EvrakTip != "2")
             {
-                db : $scope.Firma,
-                query:  "SELECT " +
-                        "CODE AS CODE," +
-                        "NAME AS NAME " +
-                        "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
-                param: ['CODE:string|25','NAME:string|100'],
-                value: [$scope.CariKodu,'']
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT " +
+                            "CODE AS CODE," +
+                            "NAME AS NAME " +
+                            "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
+                    param: ['CODE:string|25','NAME:string|100'],
+                    value: [$scope.CariKodu,'']
+                }
+                db.GetDataQuery(TmpQuery,function(pData)
+                {
+                    $scope.CariListe = pData;
+                    $scope.CariAdi = $scope.CariListe[0].NAME
+    
+                    $("#TblCari").jsGrid({data : $scope.CariListe});
+    
+                    let Obj = $("#TblCari").data("JSGrid");
+                    let Item = Obj.rowByItem($scope.CariListe[0]);
+                    
+                    $scope.CariListeRowClick(0,Item,Obj);
+                });
             }
-            db.GetDataQuery(TmpQuery,function(pData)
-            {
-                $scope.CariListe = pData;
-                $scope.CariAdi = $scope.CariListe[0].NAME
-
-                $("#TblCari").jsGrid({data : $scope.CariListe});
-
-                let Obj = $("#TblCari").data("JSGrid");
-                let Item = Obj.rowByItem($scope.CariListe[0]);
-                
-                $scope.CariListeRowClick(0,Item,Obj);
-            });
 
             TmpQuery =
             {
@@ -945,13 +991,21 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             {
                 db.ExecuteTag($scope.Firma,'SiparisEvrakDelete',[1,$scope.EvrakTip,$scope.Seri,$scope.Sira],async function(data)
                 {
-                    if($scope.EvrakTip == 0 && $scope.Tip == 1)
+                    if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
                     {
                         $scope.YeniEvrak(1);
                     }
-                    else if($scope.EvrakTip == 0 && $scope.Tip == 0)
+                    else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
                     {
                         $scope.YeniEvrak(0);
+                    }
+                    else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
+                    {
+                        $scope.YeniEvrak(0);
+                    }
+                    else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
+                    {
+                        $scope.YeniEvrak(1);
                     }
                     alertify.alert("<a style='color:#3e8ef7''>" + "Evrak Silme İşlemi Başarıyla Gerçekleşti !" + "</a>" );
                 });
@@ -962,5 +1016,26 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
         }
         ,function(){});
+    }
+    $scope.CinsChange = async function()
+    {
+        if($scope.Cins == 0)
+        {
+            $scope.EvrakTip = 0;
+            $scope.BtnCariView = true;
+            $scope.CariKodu = "";  
+            $scope.CariAdi = "";
+            $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxSiparisNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
+            $scope.$apply();
+        }
+        else if($scope.Cins == 1)
+        {
+            $scope.EvrakTip = 2;
+            $scope.BtnCariView = false;
+            $scope.CariKodu = "";  
+            $scope.CariAdi = "";
+            $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxSiparisNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
+            $scope.$apply();
+        }
     }
 }

@@ -1,0 +1,173 @@
+<style>
+    .alertify { z-index:999999 !important; }
+</style>
+<div class="col px-0" ng-controller="TopluSiparisBirlestirmeCtrl" ng-init="Init()">
+    <div class="page-header py-30">
+        <h1 class="page-title font-size-20" langu>TOPLU SİPARİŞ BİRLEŞTİRME</h1>
+        <div class="page-header-actions" style="right: 0px;">
+            <!-- <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click="BtnHome()">
+                <i class="icon fa-home" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btn btn-sm btn-icon btn-inverse btn-round" data-toggle="tooltip" ng-click="BtnBarkodGiris()">
+                <i class="icon fa-barcode" aria-hidden="true"></i>
+            </button> -->
+        </div>
+    </div>    
+    <div class="panel">
+        <div class="panel-heading py-20">
+            <h3 class="panel-title px-md-30"></h3>
+            <div class="panel-actions panel-actions-keep">
+                <div class="dropdown">
+                    <button type="button" class="btn btn-outline btn-primary dropdown-toggle font-size-16" id="exampleIconsDropdown" data-toggle="dropdown" aria-expanded="true" langu>İşlemler</button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="exampleIconsDropdown" role="menu" x-placement="bottom-start" style="font-size: 1rem;">
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem" ng-click="Init()" langu>Yeni</a>
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem" ng-click="BtnWizard()" langu>Sipariş Birleştir</a>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-md-3 form-control-label pl-20" langu>Seri - Sıra :</label>
+                        <div class="col-md-9 px-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control" autocomplete="off" ng-model="Seri" maxlength="20" ng-disabled="EvrLock" />
+                                <input type="text" class="form-control ng-pristine ng-valid ng-not-empty ng-touched" name="name" autocomplete="off" ng-model="Sira" ng-disabled="EvrLock">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary btn-custom" ng-click="BtnEvrakSecim()" style="z-index: 0;">
+                                        <i class="icon wb-search" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-block" ng-click="BtnEvrakSecim()" style="z-index: 0;">Getir</button>
+                </div> -->
+            </div>
+            <div class="row py-10">
+                <div class="col-md-12">
+                    <div id="TblIslem" style="width: 100%;">                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODALLAR -->
+    <!-- Sipariş Seçim Modal -->
+    <div class="modal fade" id="MdlEvrakSecim" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-lg modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Sipariş Seçim</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row py-10">
+                        <div class="col-12">
+                            <button class="form-control-lg btn btn-primary btn-block font-size-20" type="button" ng-click="BtnEvrakGridSec()" langu>Seç</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="TblEvrakSecim" style="max-height: 750px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Cari Seçim Modal -->
+    <div class="modal fade" id="MdlCariSecim" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-lg modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Cari Seçim</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="row py-10">
+                        <div class="col-12">
+                            <button class="form-control-lg btn btn-primary btn-block font-size-20" type="button" ng-click="BtnCariGridSec()" langu>Seç</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="TblCariSecim" style="max-height: 750px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Wizard Modal -->
+    <div class="modal fade" id="MdlWizard" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-lg modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Sihirbaz</h4>
+                </div>
+                <div class="modal-body py-15">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="pearls row">
+                                <div class="pearl current col-4 active" id="Pearl1" aria-expanded="true">
+                                  <div class="pearl-icon"><i class="icon wb-user" aria-hidden="true"></i></div>
+                                  <span class="pearl-title" langu>Başla</span>
+                                </div>
+                                <div class="pearl col-4 disabled" id="Pearl2" aria-expanded="false">
+                                  <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                                  <span class="pearl-title" langu>Kriter</span>
+                                </div>
+                                <div class="pearl col-4 disabled" id="Pearl3" aria-expanded="false">
+                                  <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
+                                  <span class="pearl-title" langu>Son</span>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="Wizard1" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="text-center" langu>Sihirbaz sipariş birleştirmenize yardımcı olacaktır.</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="Wizard2" role="tabpanel">
+                                    <div class="row py-10">
+                                        <div class="col-12">
+                                            <label class="font-size-20" langu>Lütfen sipariş serisi belirtiniz.</label>
+                                            <input type="text" class="form-control ng-pristine ng-valid ng-not-empty ng-touched" ng-model="Wizard.Seri">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="Wizard3" role="tabpanel" aria-expanded="false">
+                                  <div class="text-center my-20">
+                                    <h4 langu>Toplu sipariş birleştirmeyi.Onaylıyormuysun ?</h4>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <button class="btn btn-primary btn-block" ng-click="BtnWizardBack()"><i class="icon fa-arrow-left font-size-20" aria-hidden="true"></i></button>
+                                </div>
+                                <div class="offset-8 col-2">
+                                    <button class="btn btn-primary btn-block" ng-click="BtnWizardNext()"><i class="icon fa-arrow-right font-size-20" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

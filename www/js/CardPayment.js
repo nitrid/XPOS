@@ -58,6 +58,7 @@ var CardPayment =
                             msg = Object.keys(TmpData).map( k => TmpData[k] ).join('');
                             if (msg.length > 34) return console.log('ERR. : failed data > 34 characters.', msg);
                             real_msg_with_etx = msg.concat(String.fromCharCode(3));//ETX
+                            
                             lrc = generate_lrc(real_msg_with_etx);
                             //STX + msg + lrc
                             tpe_msg = (String.fromCharCode(2)).concat(real_msg_with_etx).concat(String.fromCharCode(lrc));

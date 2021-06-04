@@ -14,6 +14,14 @@ angular.module('app.db', []).service('db',function($rootScope)
         return Number(this.toFixed(2));
         //return Number(Number(Math.round((this * 1000)) / 1000).toFixed(2));
     }
+    // Array.prototype.toGroupBy = function(pKey)
+    // {
+    //     return this.reduce(function(rv, x) 
+    //     {
+    //         (rv[x[pKey]] = rv[x[pKey]] || []).push(x);
+    //         return rv;
+    //     }, {});
+    // }
     if (typeof(localStorage.host) !== "undefined") 
     {
         _Host = 'http://' + localStorage.host + ':' + localStorage.socketport;

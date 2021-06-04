@@ -11,8 +11,9 @@
                 <div id="TbMain" class="tab-pane active">
                     <div class="row pb-20">
                         <div class="col-8 px-1">
-                            <select class="form-control form-control">
-                                <option value="0">Verilen Sipariş</option>                                
+                            <select class="form-control form-control" ng-change="CinsChange()" ng-model="Cins">
+                                <option value="0">Verilen Sipariş</option>    
+                                <option value="1">Toplu Verilen Sipariş</option>                             
                             </select>
                         </div>
                         <div class="col-4 px-1">
@@ -45,7 +46,7 @@
                             <button class="btn btn-block btn-primary h-50" ng-click="BelgeBilgisiClick()">Belge Bilgisi</button>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-block btn-primary h-50" ng-click="CariSecClick()">Cari Seç</button>
+                            <button class="btn btn-block btn-primary h-50" ng-click="CariSecClick()" ng-if="BtnCariView">Cari Seç</button>
                         </div>
                     </div>
                     <div class="row py-10">
