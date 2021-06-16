@@ -1194,7 +1194,6 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.TedarikciModal.Kodu = "";
         $scope.TedarikciModal.Adi = "";
         $scope.TedarikciModal.StokKodu = "";
-        $scope.$apply();
         console.log($scope.TedarikciModal.StokKodu)
     }
     function UrunGrupModalInit()
