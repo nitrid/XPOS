@@ -270,11 +270,14 @@ function StokCtrl ($scope,$window,$location,db)
             columns: TmpFields,
             onRowDblClick: function(e)
             {
-                StokListePage = true;
-                StokGetir(e.data.CODE);
-
-                $("#TbDetay").addClass('active');
-                $("#TbMain").removeClass('active');   
+                if(typeof e.data.NAME != 'undefined')
+                {
+                    StokListePage = true;
+                    StokGetir(e.data.CODE);
+    
+                    $("#TbDetay").addClass('active');
+                    $("#TbMain").removeClass('active');
+                }
             },
             onRowPrepared: function (rowInfo) 
             {  
@@ -391,6 +394,24 @@ function StokCtrl ($scope,$window,$location,db)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
+            
+            for (let i = 0; i < $scope.StokListesi.Barkod.split(' ').length; i++) 
+            {
+                let TmpData = $scope.StokListesi.Data.find((item) => item.CODE === $scope.StokListesi.Barkod.split(' ')[i] || item.BARCODE === $scope.StokListesi.Barkod.split(' ')[i] || item.CUSTOMER_ITEM_CODE === $scope.StokListesi.Barkod.split(' ')[i]);
+                
+                if(typeof TmpData == 'undefined')
+                {
+                    $scope.StokListesi.Data.push({CODE : $scope.StokListesi.Barkod.split(' ')[i]})
+                }
+                // for (let x = 0; x < $scope.StokListesi.Data.length; x++) 
+                // {
+                //     if($scope.StokListesi.Data[x].CODE != $scope.StokListesi.Barkod.split(' ')[i] && $scope.StokListesi.Data[x].BARCODE != $scope.StokListesi.Barkod.split(' ')[i] && (typeof $scope.StokListesi.Data[x].CUSTOMER_ITEM_CODE != 'undefined' && $scope.StokListesi.Data[x].CUSTOMER_ITEM_CODE != $scope.StokListesi.Barkod.split(' ')[i]))
+                //     {
+                //         console.log($scope.StokListesi.Barkod.split(' ')[i])
+                //     }
+                    
+                // }
+            }
             TblStokListeInit();
         });
     }
