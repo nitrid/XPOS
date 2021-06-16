@@ -418,22 +418,22 @@ function StokCtrl ($scope,$window,$location,db)
     function DrpDwnInitKolon()
     {
         let TmpKolon = 
-        [
-            {CODE : "CODE",NAME : db.Language($scope.Lang, "ÜRÜN KODU")},
+        [            
             {CODE : "NAME",NAME : db.Language($scope.Lang,"ÜRÜN TAM ADI")},
             {CODE : "SNAME",NAME : db.Language($scope.Lang,"ÜRÜN KISA ADI")},
-            {CODE : "ITEM_GRP",NAME : db.Language($scope.Lang,"ÜRÜN GRUBU")},
-            {CODE : "VAT",NAME : db.Language($scope.Lang,"VERGİ DİLİMİ")},
-            {CODE : "COST_PRICE",NAME : db.Language($scope.Lang,"MALİYET FİYATI")},
-            {CODE : "MIN_PRICE",NAME : db.Language($scope.Lang,"MİNİMUM SATIŞ FİYATI")},
-            {CODE : "MAX_PRICE",NAME : db.Language($scope.Lang,"MAKSİMUM SATIŞ FİYATI")},
+            {CODE : "ITEM_GRP",NAME : db.Language($scope.Lang,"ÜRÜN GRUBU")},                                   
             {CODE : "UNIT",NAME : db.Language($scope.Lang,"BİRİM")},
+            {CODE : "CODE",NAME : db.Language($scope.Lang, "ÜRÜN KODU")},
             {CODE : "BARCODE",NAME : db.Language($scope.Lang,"BARKODU")},
-            {CODE : "PRICE",NAME : db.Language($scope.Lang,"SATIŞ FİYATI")},
             {CODE : "CUSTOMER_ITEM_CODE",NAME : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU")},
             {CODE : "CUSTOMER",NAME : db.Language($scope.Lang,"TEDARİKÇİ")},
+            {CODE : "COST_PRICE",NAME : db.Language($scope.Lang,"MALİYET FİYATI")},
+            {CODE : "PRICE",NAME : db.Language($scope.Lang,"SATIŞ FİYATI")},    
+            {CODE : "VAT",NAME : db.Language($scope.Lang,"VERGİ DİLİMİ")},         
             {CODE : "BRUTMARJ",NAME : db.Language($scope.Lang,"BRUTMARJ")},
             {CODE : "NETMARJ",NAME : db.Language($scope.Lang,"NETMARJ")},
+            {CODE : "MIN_PRICE",NAME : db.Language($scope.Lang,"MİNİMUM SATIŞ FİYATI")},
+            {CODE : "MAX_PRICE",NAME : db.Language($scope.Lang,"MAKSİMUM SATIŞ FİYATI")},
             {CODE : "STATUS",NAME : db.Language($scope.Lang,"DURUM")}
         ]
         
