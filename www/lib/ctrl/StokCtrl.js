@@ -162,7 +162,7 @@ function StokCtrl ($scope,$window,$location,db)
                     let TmpMarj = TmpExVat - info.data.COST_PRICE;
                     let TmpMarjOran = ((TmpExVat - info.data.COST_PRICE) / TmpExVat) * 100
 
-                    if(TmpMarjOran < 30)
+                    if(TmpMarjOran.toFixed(0) < 30)
                     {
                         element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
                     }
@@ -186,7 +186,7 @@ function StokCtrl ($scope,$window,$location,db)
                     let TmpMarj = (TmpExVat - info.data.COST_PRICE) / 1.12;
                     let TmpMarjOran = (((TmpExVat - info.data.COST_PRICE) / 1.12) / TmpExVat) * 100
 
-                    if(TmpMarjOran < 30)
+                    if(TmpMarjOran.toFixed(0) < 30)
                     {
                         element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
                     }
