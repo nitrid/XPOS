@@ -1146,6 +1146,7 @@ function StokCtrl ($scope,$window,$location,db)
                 SecimSelectedRow = {};
                 SecimSelectedRow.Item = e.data
                 $scope.BtnGridSec();
+                $scope.$apply();
             }
         }).dxDataGrid("instance");
     }
@@ -2062,36 +2063,6 @@ function StokCtrl ($scope,$window,$location,db)
             $("#MdlSecim").modal('hide');
             $("#MdlTedarikciEkle").modal('show');
         }
-        // else if(ModalTip == "TedarikciMaliyet")
-        // {
-        //     let InsertData =
-        //     [
-        //         UserParam.Kullanici,
-        //         UserParam.Kullanici,
-        //         $scope.StokListe[0].CODE,
-        //         1,
-        //         0,
-        //         moment(new Date(0)).format("DD.MM.YYYY"),
-        //         moment(new Date(0)).format("DD.MM.YYYY"),
-        //         $scope.StokListe[0].COST_PRICE,
-        //         SecimSelectedRow.Item.CODE
-        //     ];
-
-        //     db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
-        //     {
-        //         if(typeof(InsertResult.result.err) == 'undefined')
-        //         {
-        //             //FİYAT LİSTESİ GETİR
-        //             db.GetData($scope.Firma,'StokKartFiyatListeGetir',[$scope.StokListe[0].CODE],function(FiyatData)
-        //             {
-        //                 $scope.FiyatListe = FiyatData;
-        //                 $("#TblFiyat").jsGrid({data : $scope.FiyatListe});
-        //             });
-        //         }
-        //     });
-
-        //     $("#MdlSecim").modal('hide');
-        // }
         else if(ModalTip == "UrunGrup")
         {
             $scope.StokListe[0].ITEM_GRP = SecimSelectedRow.Item.CODE + '/' + SecimSelectedRow.Item.NAME;
