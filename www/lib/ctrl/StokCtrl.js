@@ -1467,7 +1467,7 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }
 
-        $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"}];
+        $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"},{"CODE" : "CUSTOMER_ITEM_CODE","NAME" : "TEDARİKÇİ ÜRÜN KODU"},{"CODE" : "CUSTOMER","NAME" : "TEDARİKÇİ"}];
         $scope.StokListesi.Barkod = "";
         $scope.StokListesi.Adi = "";
         $scope.StokListesi.Grup = "";
