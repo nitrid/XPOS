@@ -112,9 +112,9 @@ var QuerySql =
     {
         query : "SELECT *, " + 
                 "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN 0 ELSE " + 
-                "ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0) END AS NETMARJORAN, " + 
+                "ROUND((((EXVAT - COST_PRICE) / 1.12) / EXVAT) * 100,0) END AS NETMARJORAN, " + 
                 "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE " + 
-                "CONVERT(nvarchar,ROUND((EXVAT - COST_PRICE) / 1.27,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((EXVAT - COST_PRICE) / 1.27) / EXVAT) * 100,0)) END AS NETMARJ, " + 
+                "CONVERT(nvarchar,ROUND((EXVAT - COST_PRICE) / 1.12,2)) + '€ / %' + CONVERT(nvarchar,ROUND((((EXVAT - COST_PRICE) / 1.12) / EXVAT) * 100,0)) END AS NETMARJ, " + 
                 "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN 0 ELSE " + 
                 "ROUND(((EXVAT - COST_PRICE) / EXVAT) * 100,0) END AS BRUTMARJORAN, " + 
                 "CASE WHEN EXVAT = 0 OR COST_PRICE = 0 THEN '0€ / %0' ELSE " + 

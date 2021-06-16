@@ -150,6 +150,54 @@ function StokCtrl ($scope,$window,$location,db)
             visible: false
         },
         {
+            dataField: "BRUTMARJ",
+            caption : db.Language($scope.Lang,"BRUTMARJ"),
+            dataType : "string",
+            visible: false,
+            cellTemplate: function(element, info)
+            {
+                if(typeof info.data.PRICE != 'undefined')
+                {
+                    let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                    let TmpMarj = TmpExVat - info.data.COST_PRICE;
+                    let TmpMarjOran = ((TmpExVat - info.data.COST_PRICE) / TmpExVat) * 100
+
+                    if(TmpMarjOran < 30)
+                    {
+                        element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                    }
+                    else
+                    {
+                        element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                    }
+                }
+            }
+        },
+        {
+            dataField: "NETMARJ",
+            caption : db.Language($scope.Lang,"NETMARJ"),
+            dataType : "string",
+            visible: false,
+            cellTemplate: function(element, info)
+            {
+                if(typeof info.data.PRICE != 'undefined')
+                {
+                    let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                    let TmpMarj = (TmpExVat - info.data.COST_PRICE) / 1.12;
+                    let TmpMarjOran = (((TmpExVat - info.data.COST_PRICE) / 1.12) / TmpExVat) * 100
+
+                    if(TmpMarjOran < 30)
+                    {
+                        element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                    }
+                    else
+                    {
+                        element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                    }
+                }
+            }
+        },
+        {
             dataField: "STATUS",
             caption : db.Language($scope.Lang,"DURUM"),
             dataType : "string",
@@ -363,6 +411,8 @@ function StokCtrl ($scope,$window,$location,db)
             {CODE : "PRICE",NAME : db.Language($scope.Lang,"SATIŞ FİYATI")},
             {CODE : "CUSTOMER_ITEM_CODE",NAME : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU")},
             {CODE : "CUSTOMER",NAME : db.Language($scope.Lang,"TEDARİKÇİ")},
+            {CODE : "BRUTMARJ",NAME : db.Language($scope.Lang,"BRUTMARJ")},
+            {CODE : "NETMARJ",NAME : db.Language($scope.Lang,"NETMARJ")},
             {CODE : "STATUS",NAME : db.Language($scope.Lang,"DURUM")}
         ]
         
