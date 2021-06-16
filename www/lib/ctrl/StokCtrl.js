@@ -1194,7 +1194,6 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.TedarikciModal.Kodu = "";
         $scope.TedarikciModal.Adi = "";
         $scope.TedarikciModal.StokKodu = "";
-        console.log($scope.TedarikciModal.StokKodu)
     }
     function UrunGrupModalInit()
     {
@@ -1207,7 +1206,7 @@ function StokCtrl ($scope,$window,$location,db)
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {
             if(StokData.length > 0)
-            {
+            {                
                 ResimGetir('dropify', StokData[0].IMAGE, 'Image.jpg');
 
                 $scope.StyleAll = {'visibility': 'visible'};
@@ -1263,6 +1262,9 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.TedarikciFiyatListe = TedarikciFiyatData;
                     TblTedarikciFiyatInit()
                 });
+
+                BarkodModalInit();
+                TedarikciModalInit();
             }
 
             if(typeof pCallback != 'undefined')
