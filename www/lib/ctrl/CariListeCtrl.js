@@ -4,129 +4,147 @@ function CariListeCtrl ($scope,$window,db)
     let TmpFields =
     [
         {
-            name: "CODE",
-            title : "CODE",
-            type : "text",
-            align: "left",
-            width: 100,
-            itemTemplate: function(value) 
-            {
-                return $("<a>").attr("href", "#!Cari?Id=" + value).text(value);
-            }            
+            dataField: "CODE",
+            caption : db.Language($scope.Lang,"CODE"),
+            dataType : "string",
         },
         {
-            name: "NAME",
-            title : "NAME",
-            align: "left",
-            width: 100
+            dataField: "NAME",
+            caption : db.Language($scope.Lang,"NAME"),
+            dataType : "string",
         },
         {
-            name: "GENUS",
-            title : "GENUS",
-            align: "left",
-            width: 75,
+            dataField: "GENUS",
+            caption : db.Language($scope.Lang,"GENUS"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "LAST_NAME",
-            title : "LAST NAME",
-            align: "left",
-            width: 75,
+            dataField: "LAST_NAME",
+            caption : db.Language($scope.Lang,"LAST_NAME"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "CUSTOMER_GRP",
-            title : "CUSTOMER GRP",
-            align: "left",
-            width: 75,
+            dataField: "CUSTOMER_GRP",
+            caption : db.Language($scope.Lang,"CUSTOMER_GRP"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "PHONE1",
-            title : "PHONE1",
-            align: "left",
-            width: 75,
+            dataField: "PHONE1",
+            caption : db.Language($scope.Lang,"PHONE1"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "PHONE2",
-            title : "PHONE2",
-            align: "left",
-            width: 75,
+            dataField: "PHONE2",
+            caption : db.Language($scope.Lang,"PHONE2"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "GSM_PHONE",
-            title : "GSM_PHONE",
-            align: "left",
-            width: 75,
+            dataField: "GSM_PHONE",
+            caption : db.Language($scope.Lang,"GSM_PHONE"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "OTHER_PHONE",
-            title : "OTHER_PHONE",
-            align: "left",
-            width: 75,
+            dataField: "OTHER_PHONE",
+            caption : db.Language($scope.Lang,"OTHER_PHONE"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "EMAIL",
-            title : "EMAIL",
-            align: "left",
-            width: 75,
+            dataField: "EMAIL",
+            caption : db.Language($scope.Lang,"EMAIL"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "WEB",
-            title : "WEB",
-            align: "left",
-            width: 75,
+            dataField: "WEB",
+            caption : db.Language($scope.Lang,"WEB"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "SIRET_ID",
-            title : "SIRET_ID",
-            align: "left",
-            width: 75,
+            dataField: "SIRET_ID",
+            caption : db.Language($scope.Lang,"SIRET_ID"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "APE_CODE",
-            title : "APE_CODE",
-            align: "left",
-            width: 75,
+            dataField: "APE_CODE",
+            caption : db.Language($scope.Lang,"APE_CODE"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "TAX_OFFICE",
-            title : "TAX_OFFICE",
-            align: "left",
-            width: 75,
+            dataField: "TAX_OFFICE",
+            caption : db.Language($scope.Lang,"TAX_OFFICE"),
+            dataType : "string",
             visible: false
         },
         {
-            name: "TAX_NO",
-            title : "TAX_NO",
-            align: "left",
-            width: 75,
+            dataField: "TAX_NO",
+            caption : db.Language($scope.Lang,"TAX_NO"),
+            dataType : "string",
             visible: false
         }
     ];
     function TblCariInit()
     {
-        $("#TblCari").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.Data,
-            paging : GrdPage,
-            pageSize: 200,
-            pageButtonCount: 5,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: TmpFields
+        $("#TblCari").dxDataGrid(
+        {
+            dataSource: $scope.Data,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            filterRow: 
+            {
+                visible: true,
+                applyFilter: "auto"
+            },
+            headerFilter: 
+            {
+                visible: true
+            },
+            paging: 
+            {
+                pageSize: 50
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [25, 50, 100, 200, 500, 1000],
+                showInfo: true
+            },
+            selection: 
+            {
+                mode: "single"
+            },
+            columns: TmpFields,
+            onRowDblClick: function(e)
+            {
+                $window.location = "#!Cari?Id=" + e.data.CODE
+            }
         });
+        // $("#TblCari").jsGrid
+        // ({
+        //     width: "100%",
+        //     updateOnResize: true,
+        //     heading: true,
+        //     selecting: true,
+        //     data : $scope.Data,
+        //     paging : GrdPage,
+        //     pageSize: 200,
+        //     pageButtonCount: 5,
+        //     pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+        //     fields: TmpFields
+        // });
     }
     function CariGetir()
     {
@@ -159,7 +177,8 @@ function CariListeCtrl ($scope,$window,db)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.Data = Data
-            $("#TblCari").jsGrid({data : $scope.Data});
+            TblCariInit();
+            //$("#TblCari").jsGrid({data : $scope.Data});
         });
     }
     $scope.Init = function()
