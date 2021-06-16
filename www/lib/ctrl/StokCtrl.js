@@ -1093,8 +1093,7 @@ function StokCtrl ($scope,$window,$location,db)
         })
     }
     function TblSecimInit(pData)
-    {
-
+    {        
         let TmpColumns = []
 
         if(pData.length > 0)
@@ -1103,58 +1102,52 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 if(item == "CODE")
                 {
-                    TmpColumns.push({name : item,type: "text",width:"20"});
+                    TmpColumns.push({dataField : item,dataType: "string",width:"20"});
                 }
                 else
                 {
-                    TmpColumns.push({name : item,type: "text"});
+                    TmpColumns.push({dataField : item,dataType: "string"});
                 }
             });
         }
 
-        let db = {
-            loadData: function(filter)
+        let Grd = $("#TblSecim").dxDataGrid(
+        {
+            dataSource: pData,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            filterRow: 
             {
-                return $.grep(pData, function(client)
-                {
-                    return (!filter.CODE || client.CODE.toLowerCase().indexOf(filter.CODE.toLowerCase()) > -1)
-                        && (!filter.NAME || client.NAME.toLowerCase().indexOf(filter.NAME.toLowerCase()) > -1)
-                });
-            }
-        };
-
-        $("#TblSecim").jsGrid
-        ({
-            width: "100%",
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : pData,
-            paging : true,
-            filtering : true,
-            pageSize: 15,
-            pageButtonCount: 3,
-            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-            fields: TmpColumns,
-            rowClick: function(args)
-            {
-                SecimListeRowClick(args.itemIndex,args.item,this);
-                $scope.$apply();
+                visible: true,
+                applyFilter: "auto"
             },
-            controller:db,
-        });
-        $("#TblSecim").jsGrid("search");
-    }
-    function SecimListeRowClick(pIndex,pItem,pObj)
-    {
-        if ( SecimSelectedRow ) { SecimSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
-        var $row = pObj.rowByItem(pItem);
-        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
-        SecimSelectedRow = $row;
-        SecimSelectedRow.Item = pItem
-        SecimSelectedRow.Index = pIndex
-
-        $scope.BtnGridSec();
+            paging: 
+            {
+                pageSize: 20
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [25, 50, 100, 200, 500, 1000],
+                showInfo: true
+            },
+            selection: 
+            {
+                mode: "single"
+            },
+            columns: TmpColumns,
+            onRowDblClick: function(e)
+            {
+                SecimSelectedRow = {};
+                SecimSelectedRow.Item = e.data
+                $scope.BtnGridSec();
+            }
+        }).dxDataGrid("instance");
     }
     function FiyatModalInit()
     {
