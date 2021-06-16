@@ -132,19 +132,6 @@ function CariListeCtrl ($scope,$window,db)
                 $window.location = "#!Cari?Id=" + e.data.CODE
             }
         });
-        // $("#TblCari").jsGrid
-        // ({
-        //     width: "100%",
-        //     updateOnResize: true,
-        //     heading: true,
-        //     selecting: true,
-        //     data : $scope.Data,
-        //     paging : GrdPage,
-        //     pageSize: 200,
-        //     pageButtonCount: 5,
-        //     pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-        //     fields: TmpFields
-        // });
     }
     function CariGetir()
     {
@@ -169,7 +156,7 @@ function CariListeCtrl ($scope,$window,db)
                     "TAX_OFFICE AS TAX_OFFICE, " + 
                     "TAX_NO AS TAX_NO, " + 
                     "INT_VAT_NO AS INT_VAT_NO " + 
-                    "FROM CUSTOMERS WHERE ((UPPER(CODE) = @CODE) OR (@CODE = '')) AND ((UPPER(NAME) LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
+                    "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%') OR (@CODE = '')) AND ((UPPER(NAME) LIKE @NAME + '%') OR (@NAME = '')) AND GENUS = @GENUS",
             param : ["CODE:string|50","NAME:string|250","GENUS:int"],
             value : [$scope.Kodu,$scope.Adi,$scope.Tip]
         }
