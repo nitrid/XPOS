@@ -141,13 +141,13 @@ function StokCtrl ($scope,$window,$location,db)
             dataField: "CUSTOMER_ITEM_CODE",
             caption : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU"),
             dataType : "string",
-            visible: false
+            visible: true
         },
         {
             dataField: "CUSTOMER",
             caption : db.Language($scope.Lang,"TEDARİKÇİ"),
             dataType : "string",
-            visible: false
+            visible: true
         },
         {
             dataField: "BRUTMARJ",
