@@ -1040,7 +1040,7 @@ function StokCtrl ($scope,$window,$location,db)
     {
         $("#TblTedarikciFiyat").dxDataGrid(
         {
-            dataSource: $scope.TedaikciListe,
+            dataSource: $scope.TedarikciFiyatListe,
             allowColumnReordering: true,
             allowColumnResizing: true,
             showBorders: true,
@@ -1266,7 +1266,7 @@ function StokCtrl ($scope,$window,$location,db)
                 //TEDARİKÇİ FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[pKodu],function(TedarikciFiyatData)
                 {
-                    $scope.TedaikciFiyatListe = TedarikciFiyatData;
+                    $scope.TedarikciFiyatListe = TedarikciFiyatData;
                     TblTedarikciFiyatInit()
                 });
             }
@@ -1388,7 +1388,7 @@ function StokCtrl ($scope,$window,$location,db)
                 //TEDARİKÇİ FİYAT LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
                 {
-                    $scope.TedaikciFiyatListe = TedarikciFiyatData;
+                    $scope.TedarikciFiyatListe = TedarikciFiyatData;
                     TblTedarikciFiyatInit()
                 });
             }
@@ -1487,7 +1487,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.BirimListe = [];
         $scope.BarkodListe = [];
         $scope.TedaikciListe = [];
-        $scope.TedaikciFiyatListe = [];
+        $scope.TedarikciFiyatListe = [];
         $scope.MenseiListe = [];
 
         TblFiyatInit();
