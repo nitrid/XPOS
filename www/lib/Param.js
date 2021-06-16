@@ -9,6 +9,14 @@ var Param = [
 	"MikroId": "1",
 	"Yetkili": true,
 	"UrunFiyatDegisimListesi" : "02528,002233,60656,01424,01423,60660,0223,0221,00,02560,02057,01777,02527",
+	"FisBaslik" : 
+	[
+		"7 ALLEE DU MIDI",
+		"54270 ESSEY LES NANCY",
+		"Tel : 03 83 93 33 07",
+		"nancy@prodorplus.fr",
+		"www.prodorplus.fr"
+	],
 	"ParkAciklama" : 
 	{
 		"Title" : "Park Açıklaması",

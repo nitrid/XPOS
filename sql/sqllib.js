@@ -160,6 +160,7 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
                 }
                 request.query(pQuery.query,(err,result) => 
                 {
+                    
                     if(err == null)
                     {
                         pResult(JSON.stringify(result));

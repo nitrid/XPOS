@@ -3,12 +3,30 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
     let TblIslem;
     function TblIslemInit()
     {
+        $('#exportButton').dxButton({
+            icon: 'exportpdf',
+            text: 'Export to PDF',
+            onClick: function() {
+              const doc = new jsPDF();
+              DevExpress.pdfExporter.exportDataGrid({
+                jsPDFDocument: doc,
+                component: TblIslem
+              }).then(function() {
+                doc.save('Order.pdf');
+              });
+            }
+        });
+
         TblIslem = $("#TblIslem").dxDataGrid(
         {
             dataSource: $scope.IslemListe,
             allowColumnReordering: true,
             allowColumnResizing: true,
             showBorders: true,
+            columnChooser: 
+            {
+                enabled: true
+            },
             scrolling: 
             {
                 columnRenderingMode: "virtual"
@@ -42,6 +60,13 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
                     dataType: "string",
                     allowEditing: false,             
                     width: "400"
+                },
+                {
+                    dataField: "CUSTOMER_ITEM_CODE",
+                    caption: db.Language($scope.Lang,"TEDARIKCI URUN KODU"),
+                    dataType: "string",
+                    allowEditing: false,
+                    width: "120"
                 },
                 {
                     dataField: "CUSTOMER_CODE",
@@ -212,7 +237,6 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
     }
     function InitBteCariKodu(cellElement, cellInfo) 
     {
-        console.log(cellInfo)
         $scope.CariSelectCell = cellInfo;
         $scope.CariKodu = cellInfo.data.CUSTOMER_CODE
         return $("<div>").dxTextBox({
@@ -237,7 +261,7 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
     }
     async function Kaydet()
     {
-        let TmpGrp = $scope.IslemListe.toGroupBy('CUSTOMER_CODE')
+        let TmpGrp = db.ToGroupBy($scope.IslemListe,'CUSTOMER_CODE')
 
         for (let i = 0; i < Object.keys(TmpGrp).length; i++) 
         {
@@ -266,7 +290,6 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
                 ]
                 
                 await db.ExecutePromiseTag($scope.Firma,'SiparisInsert',InserData)
-
             }
         }
         $('#MdlWizard').modal('hide');
@@ -274,6 +297,9 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
     }
     $scope.Init = function()
     {
+        window.jsPDF = window.jspdf.jsPDF;
+        applyPlugin(window.jsPDF);
+
         DevExpress.localization.locale('fr');
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.Firma = 'PIQPOS' 
@@ -335,6 +361,9 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
                         "ITEM_CODE AS ITEM_CODE, " + 
                         "ITEM_NAME AS ITEM_NAME, " + 
                         "CASE WHEN (SELECT COUNT(*) FROM ITEM_CUSTOMER AS C WHERE C.ITEM_CODE =  O.ITEM_CODE) = 1 THEN " + 
+                        "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER AS C WHERE C.ITEM_CODE =  O.ITEM_CODE),'') " + 
+                        "ELSE '' END AS  CUSTOMER_ITEM_CODE, " +
+                        "CASE WHEN (SELECT COUNT(*) FROM ITEM_CUSTOMER AS C WHERE C.ITEM_CODE =  O.ITEM_CODE) = 1 THEN " + 
                         "ISNULL((SELECT CUSTOMER_CODE FROM ITEM_CUSTOMER AS C WHERE C.ITEM_CODE =  O.ITEM_CODE),'') " + 
                         "ELSE '' END AS  CUSTOMER_CODE, " + 
                         "CASE WHEN (SELECT COUNT(*) FROM ITEM_CUSTOMER AS C WHERE C.ITEM_CODE =  O.ITEM_CODE) = 1 THEN " + 
@@ -369,7 +398,8 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
             query:  "SELECT " +
                     "CODE AS CODE," +
                     "NAME AS NAME, " +
-                    "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = '794043' AND CUSTOMER = CODE ORDER BY LDATE DESC),0) AS PRICE " +
+                    "ISNULL((SELECT TOP 1 CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE CUSTOMER_CODE = CODE AND ITEM_CODE = @ITEM_CODE),'') AS CUSTOMER_ITEM_CODE, " +
+                    "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND CUSTOMER = CODE ORDER BY LDATE DESC),0) AS PRICE " +
                     "FROM CUSTOMERS WHERE (CODE IN ((SELECT CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = @ITEM_CODE))) OR (@ITEM_CODE = '') AND GENUS = 1",
             param: ['ITEM_CODE:string|25'],
             value: [$scope.CariSelectCell.data.ITEM_CODE]
@@ -398,6 +428,7 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
         {
             db.SafeApply($scope,function()
             {
+                TblIslem.cellValue($scope.CariSelectCell.rowIndex,"CUSTOMER_ITEM_CODE",$scope.CariSelectCell.SelectedData.CUSTOMER_ITEM_CODE)
                 TblIslem.cellValue($scope.CariSelectCell.rowIndex,"CUSTOMER_CODE",$scope.CariSelectCell.SelectedData.CODE)
                 TblIslem.cellValue($scope.CariSelectCell.rowIndex,"CUSTOMER_NAME",$scope.CariSelectCell.SelectedData.NAME)
                 TblIslem.cellValue($scope.CariSelectCell.rowIndex,"PRICE",$scope.CariSelectCell.SelectedData.PRICE)

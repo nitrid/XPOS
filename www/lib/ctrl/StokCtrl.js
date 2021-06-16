@@ -144,6 +144,12 @@ function StokCtrl ($scope,$window,$location,db)
             visible: false
         },
         {
+            dataField: "CUSTOMER",
+            caption : db.Language($scope.Lang,"TEDARİKÇİ"),
+            dataType : "string",
+            visible: false
+        },
+        {
             dataField: "STATUS",
             caption : db.Language($scope.Lang,"DURUM"),
             dataType : "string",
@@ -274,7 +280,7 @@ function StokCtrl ($scope,$window,$location,db)
             } 
             if($scope.StokListesi.Kolon[x].CODE == "CUSTOMER_ITEM_CODE")    
             {
-                QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ";
+                QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = ITEM_CUSTOMER.CUSTOMER_CODE),'') AS CUSTOMER, ";
                 QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
                 QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
             }   
@@ -335,7 +341,7 @@ function StokCtrl ($scope,$window,$location,db)
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25","CUSTOMER_ITEM_CODE:string|25"],
             value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci,$scope.StokListesi.TedarikciKodu]
         }
-console.log(TmpQuery)
+
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
@@ -346,19 +352,20 @@ console.log(TmpQuery)
     {
         let TmpKolon = 
         [
-            {CODE : "CODE",NAME : "ÜRÜN KODU"},
-            {CODE : "NAME",NAME : "ÜRÜN TAM ADI"},
-            {CODE : "SNAME",NAME : "ÜRÜN KISA ADI"},
-            {CODE : "ITEM_GRP",NAME : "ÜRÜN GRUBU"},
-            {CODE : "VAT",NAME : "VERGİ DİLİMİ"},
-            {CODE : "COST_PRICE",NAME : "MALİYET FİYATI"},
-            {CODE : "MIN_PRICE",NAME : "MİNİMUM SATIŞ FİYATI"},
-            {CODE : "MAX_PRICE",NAME : "MAKSİMUM SATIŞ FİYATI"},
-            {CODE : "UNIT",NAME : "BİRİM"},
-            {CODE : "BARCODE",NAME : "BARKODU"},
-            {CODE : "PRICE",NAME : "SATIŞ FİYATI"},
-            {CODE : "CUSTOMER_ITEM_CODE",NAME : "TEDARİKÇİ ÜRÜN KODU"},
-            {CODE : "STATUS",NAME : "DURUM"}
+            {CODE : "CODE",NAME : db.Language($scope.Lang, "ÜRÜN KODU")},
+            {CODE : "NAME",NAME : db.Language($scope.Lang,"ÜRÜN TAM ADI")},
+            {CODE : "SNAME",NAME : db.Language($scope.Lang,"ÜRÜN KISA ADI")},
+            {CODE : "ITEM_GRP",NAME : db.Language($scope.Lang,"ÜRÜN GRUBU")},
+            {CODE : "VAT",NAME : db.Language($scope.Lang,"VERGİ DİLİMİ")},
+            {CODE : "COST_PRICE",NAME : db.Language($scope.Lang,"MALİYET FİYATI")},
+            {CODE : "MIN_PRICE",NAME : db.Language($scope.Lang,"MİNİMUM SATIŞ FİYATI")},
+            {CODE : "MAX_PRICE",NAME : db.Language($scope.Lang,"MAKSİMUM SATIŞ FİYATI")},
+            {CODE : "UNIT",NAME : db.Language($scope.Lang,"BİRİM")},
+            {CODE : "BARCODE",NAME : db.Language($scope.Lang,"BARKODU")},
+            {CODE : "PRICE",NAME : db.Language($scope.Lang,"SATIŞ FİYATI")},
+            {CODE : "CUSTOMER_ITEM_CODE",NAME : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU")},
+            {CODE : "CUSTOMER",NAME : db.Language($scope.Lang,"TEDARİKÇİ")},
+            {CODE : "STATUS",NAME : db.Language($scope.Lang,"DURUM")}
         ]
         
         $scope.StokListesi.CmbKolon = 
@@ -1323,6 +1330,7 @@ console.log(TmpQuery)
         DevExpress.localization.locale('fr');
         StokListePage = false;
         $scope.Kullanici = $window.sessionStorage.getItem('User');
+        $scope.Firma = 'PIQPOS' 
         
         if(typeof $location.$$search.mode == 'undefined')
         {
@@ -1411,7 +1419,7 @@ console.log(TmpQuery)
         $scope.BirimListe = [];
         $scope.BarkodListe = [];
         $scope.TedaikciListe = [];
-        $scope.TedaikciListe = [];
+        $scope.TedaikciFiyatListe = [];
         $scope.MenseiListe = [];
 
         TblFiyatInit();
@@ -1762,17 +1770,15 @@ console.log(TmpQuery)
             $scope.FiyatModal.StokKodu,
             $scope.FiyatModal.Tip,
             $scope.FiyatModal.Depo,
-            moment($scope.FiyatModal.Baslangic).format("DD.MM.YYYY"),
-            moment($scope.FiyatModal.Bitis).format("DD.MM.YYYY"),
+            $scope.FiyatModal.Baslangic,
+            $scope.FiyatModal.Bitis,
             parseFloat($scope.FiyatModal.Fiyat.toString().replace(',','.')),
             $scope.FiyatModal.Miktar,
             $scope.FiyatModal.Cari
         ];
 
-        console.log(1)
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
         {
-            console.log(2)
             if(typeof(InsertResult.result.err) == 'undefined')
             {
                 if(InsertResult.result.recordset[0].ITEM_CODE != '')

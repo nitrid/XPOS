@@ -41,6 +41,10 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/EtiketBasim.html"
     })
+    .when("/FiyatGor",
+    {
+        templateUrl : "html/yonetim/FiyatGor.html"
+    })
     .when("/FiyatListeYonetimi",
     {
         templateUrl : "html/yonetim/FiyatListeYonetimi.html"
@@ -52,6 +56,10 @@ angular.module("app",
     .when("/TopluTicketListesi",
     {
         templateUrl : "html/yonetim/TopluTicketListesi.html"
+    })
+    .when("/TicketKontrol",
+    {
+        templateUrl : "html/yonetim/TicketKontrol.html"
     })
     .when("/PosSatisRapor",
     {

@@ -27,7 +27,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     }
     function InitBarkodGrid()
     {
-        $("#TblBarkodListesi").dxDataGrid(
+        let TmpListe = $("#TblBarkodListesi").dxDataGrid(
         {
             dataSource: $scope.BarkodListe,
             allowColumnReordering: true,
@@ -108,24 +108,26 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             onRowUpdated: async function(e) 
             {
+                e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
+                TmpListe.refresh();
                 $scope.Kaydet();
-                
-                TmpQuery = 
-                {
-                    db : $scope.Firma,
-                    query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE, LDATE = GETDATE() WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY = 1",
-                    param: ['PRICE:float','ITEM_CODE:string|25'],
-                    value: [e.data.PRICE,e.data.CODE]
-                }
-                await db.ExecutePromiseQuery(TmpQuery);
 
-                if(typeof EtiketSelected != 'undefined')
-                {
-                    $scope.Sayfa = Math.ceil($scope.BarkodListe.length / EtiketSelected.PAGE_COUNT);
-                    $scope.BosEtiketAlan = EtiketSelected.PAGE_COUNT - ($scope.BarkodListe.length % EtiketSelected.PAGE_COUNT);
-                }
+                // TmpQuery = 
+                // {
+                //     db : $scope.Firma,
+                //     query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE, LDATE = GETDATE() WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY = 1",
+                //     param: ['PRICE:float','ITEM_CODE:string|25'],
+                //     value: [e.data.PRICE,e.data.CODE]
+                // }
+                // await db.ExecutePromiseQuery(TmpQuery);
+
+                // if(typeof EtiketSelected != 'undefined')
+                // {
+                //     $scope.Sayfa = Math.ceil($scope.BarkodListe.length / EtiketSelected.PAGE_COUNT);
+                //     $scope.BosEtiketAlan = EtiketSelected.PAGE_COUNT - ($scope.BarkodListe.length % EtiketSelected.PAGE_COUNT);
+                // }
             },
-        });
+        }).dxDataGrid("instance");
     }
     function InitStokSecimGrid()
     {
@@ -233,13 +235,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             paging: 
             {
-                pageSize: 15
-            },
-            pager: 
-            {
-                showPageSizeSelector: true,
-                allowedPageSizes: [15, 30, 90, 120, 500, 1000],
-                showInfo: true
+                pageSize: 10
             },
             columns: 
             [
@@ -296,6 +292,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "MAX(ITEMS.ITEM_GRP) AS ITEM_GRP, " +
                         "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = MAX(ITEMS.ITEM_GRP)),'') AS ITEM_GRP_NAME, " +
                         "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
+                        "MAX(FACTOR) AS FACTOR, " +
                         "CONVERT(NVARCHAR,MAX(FACTOR)) + ' ' + MAX(SHORT) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL(MAX(FACTOR),0) = 0 THEN '0' ELSE " +
                         "ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL(MAX(FACTOR),0),2) END AS UNDER_UNIT_PRICE, " +
@@ -539,6 +536,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ITEM_GRP, " +
                         "ITEM_GRP_NAME, " +
                         "PRICE, " +
+                        "FACTOR, " +
                         "UNDER_UNIT_VALUE, " +
                         "UNDER_UNIT_PRICE, " +
                         "DESCRIPTION " +
@@ -553,6 +551,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "[ITEM_GRP] nvarchar(50) '$.ITEM_GRP', " +
                         "[ITEM_GRP_NAME] nvarchar(50) '$.ITEM_GRP_NAME', " +
                         "[PRICE] nvarchar(50) '$.PRICE', " +
+                        "[FACTOR] nvarchar(50) '$.FACTOR', " +
                         "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
                         "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE', " +
                         "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION' " +
@@ -645,14 +644,15 @@ function EtiketBasimCtrl ($scope,$window,db)
         {
             if(pData.length > 0)
             {
-                console.log(JSON.stringify(pData))
                 db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
                     {
-                        var mywindow = window.open('','_blank',"width=900,height=1000,left=500");                
-                        mywindow.document.write("<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>")
-                        mywindow.document.getElementsByTagName('head')[0].innerHTML = "<title>Dev Print</title>"
+                        var mywindow = window.open('printview.html','_blank',"width=900,height=1000,left=500");      
+                        mywindow.onload = function() 
+                        {
+                            mywindow.document.getElementById("view").innerHTML="<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>"      
+                        }   
                     }
                 })
             }
@@ -825,7 +825,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                 db : $scope.Firma,
                 query:  "SELECT " +
                         "ISNULL(CUSTOMER_ITEM_CODE,ITEMS.CODE) AS CODE, " +
-                        "ITEM_BARCODE.BARCODE AS BARCODE, " +
+                        "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, " +
                         "ITEMS.NAME AS NAME, " +
                         "ITEMS.ITEM_GRP AS ITEM_GRP, " +
                         "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = ITEMS.ITEM_GRP),'') AS ITEM_GRP_NAME, " +
@@ -835,7 +835,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON  " +
+                        "LEFT OUTER JOIN ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 

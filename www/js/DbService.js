@@ -705,13 +705,13 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             TmpOperator = "-"
         }
-        // ÜST BİLGİ
+        // ÜST BİLGİ        
         TmpData.push({font:"a",style:"b",align:"ct",data:""});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGEVILLE LES ST AVOLD"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 91 00 32"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[0]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[1]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[2]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[3]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[4]});
 
         if(pType == 'Fatura')
         {
@@ -1019,11 +1019,11 @@ angular.module('app.db', []).service('db',function($rootScope)
         let TmpLine = {};
         // ÜST BİLGİ
         TmpData.push({font:"a",style:"b",align:"ct",data:""});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Z.C. HECKENWALD N3"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"57740 LONGEVILLE LES ST AVOLD"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"Tel : 03 87 91 00 32"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"longeville@prodorplus.fr"});
-        TmpData.push({font:"a",style:"b",align:"ct",data:"www.prodorplus.fr"});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[0]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[1]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[2]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[3]});
+        TmpData.push({font:"a",style:"b",align:"ct",data: Param[0].FisBaslik[4]});
 
         TmpData.push({font:"a",align:"ct",data:"------------------------------------------------"});
         TmpData.push({font:"a",align:"ct",data:"RAPPORT Z no : "});
@@ -1264,6 +1264,14 @@ angular.module('app.db', []).service('db',function($rootScope)
         {
             return pText;
         }
+    }
+    this.ToGroupBy = function(pData,pKey)
+    {
+        return pData.reduce(function(rv, x) 
+        {
+            (rv[x[pKey]] = rv[x[pKey]] || []).push(x);
+            return rv;
+        }, {});
     }
      //#endregion "PUBLIC"
 });

@@ -2206,14 +2206,16 @@ function Pos($scope,$window,$rootScope,db)
             {
                 let TmpQuery =
                 {
-                    query : "SELECT CODE FROM ITEMS WHERE SPECIAL1 = @SPECIAL1",
-                    param : ['SPECIAL1:string|25'],
-                    value : ['0' + pBarkod.substring(2,7)]
+                    query : "SELECT ITEM_CODE AS ITEM_CODE,PRICE AS PRICE FROM ITEM_UNIQ WHERE CODE = @CODE AND QUANTITY > 0",
+                    param : ['CODE:string|25'],
+                    value : [pBarkod]
                 }   
                 let TmpData = await db.GetPromiseQuery(TmpQuery);
                 if(TmpData.length > 0)
                 {
-                    pBarkod = TmpData[0].CODE
+                    pBarkod = TmpData[0].ITEM_CODE
+                    TmpFiyat = TmpData[0].PRICE
+                    console.log(pBarkod)
                 }
                 
             }
