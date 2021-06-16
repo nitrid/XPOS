@@ -336,12 +336,10 @@ function StokCtrl ($scope,$window,$location,db)
                     QueryField.Customer.Where + 
                     "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE '%' + UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
-                    "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER='')) AND " + 
-                    "((CODE IN ((SELECT TOP 1 ITEM_CODE FROM ITEM_CUSTOMER WHERE (CUSTOMER_ITEM_CODE = @CUSTOMER_ITEM_CODE)))) OR (@CUSTOMER_ITEM_CODE=''))",
-            param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25","CUSTOMER_ITEM_CODE:string|25"],
-            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci,$scope.StokListesi.TedarikciKodu]
+                    "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER='')) " ,
+            param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
+            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
-
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
@@ -1401,7 +1399,6 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"}];
         $scope.StokListesi.Barkod = "";
         $scope.StokListesi.Adi = "";
-        $scope.StokListesi.TedarikciKodu = "";
         $scope.StokListesi.Grup = "";
         $scope.StokListesi.Tedarikci = "";
         $scope.StokListesi.Durum = true;
