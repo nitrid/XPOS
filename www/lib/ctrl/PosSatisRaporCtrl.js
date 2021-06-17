@@ -417,7 +417,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
         {   
            if(ParkData.length > 0)
            {
-                alertify.alert("Parkda bekleyen ticket var !");
+                alertify.alert("Parkda bekleyen ticket var ! Kasiyer No : " + ParkData[0].LUSER);
            }
         });
     }
