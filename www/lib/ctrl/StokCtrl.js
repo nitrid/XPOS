@@ -2384,8 +2384,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            if(Data.length == 0)
-            {
+            // if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
+            // {
                 alertify.okBtn(db.Language($scope.Lang,'Evet'));
                 alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
@@ -2399,7 +2399,7 @@ function StokCtrl ($scope,$window,$location,db)
                 ,function()
                 {
                 });
-            }
+            //}
         });
     }
     $scope.TxtCostPricePress = function(pKey)
