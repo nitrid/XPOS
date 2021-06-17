@@ -293,6 +293,8 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
 
                             await db.ExecutePromiseTag($scope.Firma,'FiyatKaydet',InsertData)
                         }
+
+                        $scope.BtnAra();
                     }
                 }
             }
