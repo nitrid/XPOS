@@ -2384,7 +2384,7 @@ function StokCtrl ($scope,$window,$location,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
+            if(Data.length == 0)
             {
                 alertify.okBtn(db.Language($scope.Lang,'Evet'));
                 alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
