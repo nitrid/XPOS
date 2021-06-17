@@ -41,6 +41,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                 selectTextOnEditStart: true,
                 startEditAction: "click"
             },
+            filterValue: [["STATUS", "=", true]],
             columns: 
             [
                 {
