@@ -1023,11 +1023,47 @@ function StokCtrl ($scope,$window,$location,db)
                 let TmpQuery =
                 {
                     db : $scope.Firma,
-                    query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1",
-                    param: ['PRICE:float','CUSTOMER:string|25','ITEM_CODE:string|25'],
-                    value: [e.data.PRICE,e.data.CUSTOMER_CODE,$scope.StokListe[0].CODE]
+                    query:  "DECLARE @TMPCODE NVARCHAR(25) " +
+                            "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_PRICE WHERE [TYPE] = 1 AND [ITEM_CODE] = @ITEM_CODE AND [DEPOT] = 0 AND [CUSTOMER] = @CUSTOMER),'') " +
+                            "IF @TMPCODE = '' " +
+                            "BEGIN " +
+                            "INSERT INTO [dbo].[ITEM_PRICE] " +
+                            "([CUSER] " +
+                            ",[CDATE] " +
+                            ",[LUSER] " +
+                            ",[LDATE] " +
+                            ",[ITEM_CODE] " +
+                            ",[TYPE] " +
+                            ",[DEPOT] " +
+                            ",[START_DATE] " +
+                            ",[FINISH_DATE] " +
+                            ",[PRICE] " +
+                            ",[QUANTITY] " +
+                            ",[CUSTOMER] " +
+                            ") VALUES ( " +
+                            "@CUSER,				--<CUSER, nvarchar(25),> \n" +
+                            "GETDATE(),			    --<CDATE, datetime,> \n" +
+                            "@LUSER,				--<LUSER, nvarchar(25),> \n" +
+                            "GETDATE(),			    --<LDATE, datetime,> \n" +
+                            "@ITEM_CODE,		    --<ITEM_CODE, nvarchar(25),> \n" +
+                            "1,		    		    --<TYPE, int,> \n" +
+                            "0,				        --<DEPOT, nvarchar(25),> \n" +
+                            "'19700101',			--<START_DATE, datetime,> \n" +
+                            "'19700101',		    --<FINISH_DATE, datetime,> \n" +
+                            "@PRICE,				--<PRICE, float,> \n" +
+                            "1,     				--<QUANTITY, float,> \n" +
+                            "@CUSTOMER			    --<CUSTOMER, nvarchar(25),> \n" +
+                            ") " +
+                            "END " + 
+                            "ELSE " +
+                            "BEGIN " +
+                            "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1 " + 
+                            "END",
+                    param: ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','PRICE:float','CUSTOMER:string|25'],
+                    value: [$scope.Kullanici,$scope.Kullanici,$scope.StokListe[0].CODE,e.data.PRICE,e.data.CUSTOMER_CODE]
                 }
                 await db.ExecutePromiseQuery(TmpQuery);
+                $scope.StokListe[0].COST_PRICE = e.data.PRICE;
             },
             onRowRemoved: function(e) 
             {
@@ -1108,7 +1144,7 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 if(item == "CODE")
                 {
-                    TmpColumns.push({dataField : item,dataType: "string",width:"20"});
+                    TmpColumns.push({dataField : item,dataType: "string",width:"100"});
                 }
                 else
                 {
@@ -1375,10 +1411,8 @@ function StokCtrl ($scope,$window,$location,db)
             1,
             $scope.StokListe[0].ITEM_CUSTOMER
         ];
-        console.log(InsertData)
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
         {
-            console.log(111)
             if(typeof(InsertResult.result.err) == 'undefined')
             {
                 //TEDARİKÇİ LİSTESİ GETİR
@@ -2384,8 +2418,8 @@ function StokCtrl ($scope,$window,$location,db)
 
         db.GetDataQuery(TmpQuery,function(Data)
         {
-            // if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
-            // {
+            if(Data.length == 0 || Data[0].PRICE != $scope.StokListe[0].COST_PRICE)
+            {
                 alertify.okBtn(db.Language($scope.Lang,'Evet'));
                 alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
@@ -2399,7 +2433,7 @@ function StokCtrl ($scope,$window,$location,db)
                 ,function()
                 {
                 });
-            //}
+            }
         });
     }
     $scope.TxtCostPricePress = function(pKey)
