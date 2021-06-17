@@ -538,9 +538,9 @@ var lang =
             "Toplam Tutar:" : "Montant Total:",
             "Sipariş Seçim" : "Sélection De Commande",
             "Stok Seçim" : "Sélection d'actions",
-            "VERİLEN SİPARİŞ" : "COMMANDE PASSÉE",
+            "VERİLEN SİPARİŞ" : "Commande Passée",
             "Ürün Bulunamadı !" : "Produit non trouvé!",
-            "Lütfen Cari Seçiniz !" : "Veuillez sélectionner Actuel !",
+            "Lütfen Cari Seçiniz !" : "Sélectionner Fournisseur/ Client !",
             "Lütfen Depo Seçiniz !" : "Veuillez sélectionner un entrepôt !",
             "Sil" : "Effacer",
             "Yeni Ekle" : "Ajouter un nouveau"
