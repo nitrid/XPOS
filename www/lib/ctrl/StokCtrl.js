@@ -666,7 +666,6 @@ function StokCtrl ($scope,$window,$location,db)
             ],
             onRowUpdated: function(e) 
             {         
-                console.log(e)
                 if($scope.StokListe[0].COST_PRICE == "" || $scope.StokListe[0].COST_PRICE == 0)
                 {
                     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
@@ -1001,7 +1000,7 @@ function StokCtrl ($scope,$window,$location,db)
                     caption: db.Language($scope.Lang,"Fiyat"),
                     dataType: "number",
                     alignment: "center",
-                    allowEditing: false,
+                    allowEditing: true,
                     width: "10%"
                 }, 
                 {
@@ -1011,7 +1010,7 @@ function StokCtrl ($scope,$window,$location,db)
                     width: "10%"
                 }       
             ],
-            onRowUpdated: function(e) 
+            onRowUpdated: async function(e) 
             {   
                 let TmpVal =
                 [
@@ -1019,9 +1018,16 @@ function StokCtrl ($scope,$window,$location,db)
                     e.data.CUSTOMER_ITEM_CODE,
                     e.data.GUID
                 ]
-                db.ExecuteTag($scope.Firma,'StokTedarikciUpdate',TmpVal,function(data)
+                await db.ExecutePromiseTag($scope.Firma,'StokTedarikciUpdate',TmpVal);
+
+                let TmpQuery =
                 {
-                });
+                    db : $scope.Firma,
+                    query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1",
+                    param: ['PRICE:float','CUSTOMER:string|25','ITEM_CODE:string|25'],
+                    value: [e.data.PRICE,e.data.CUSTOMER_CODE,$scope.StokListe[0].CODE]
+                }
+                await db.ExecutePromiseQuery(TmpQuery);
             },
             onRowRemoved: function(e) 
             {
