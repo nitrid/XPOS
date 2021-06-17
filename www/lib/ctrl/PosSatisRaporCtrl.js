@@ -420,7 +420,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                 let TmpCassier = ""; 
                 for (let i = 0; i < ParkData.length; i++) 
                 {
-                    TmpCassier += ParkData[i].LUSER + '\n'
+                    TmpCassier += ParkData[i].LUSER + ' - '
                 }
                 alertify.alert("Parkda bekleyen ticket var ! Kasiyer No : " + TmpCassier);
            }
