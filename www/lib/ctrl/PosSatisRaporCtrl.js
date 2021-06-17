@@ -336,7 +336,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                             }
                             if (options.summaryProcess == 'finalize') 
                             {
-                                
+
                             }
                             
                         }
@@ -412,6 +412,14 @@ function PosSatisRaporCtrl ($scope,$window,db)
         $scope.PayDetailData = [];
 
         $scope.BtnRunReport()
+
+        db.GetData($scope.Firma,'PosSatisParkListe',[0,0,'',0],function(ParkData)
+        {   
+           if(ParkData.length > 0)
+           {
+                alertify.alert("Parkda bekleyen ticket var !");
+           }
+        });
     }
     $scope.BtnRunReport = async function()
     {
