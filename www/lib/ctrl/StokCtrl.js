@@ -267,6 +267,27 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 mode: "single"
             },
+            export: 
+            {
+                enabled: true,
+                allowExportSelectedData: true
+            },
+            onExporting: function(e) 
+            {
+                var workbook = new ExcelJS.Workbook();
+                var worksheet = workbook.addWorksheet('ITEMS');
+                
+                DevExpress.excelExporter.exportDataGrid({
+                    component: e.component,
+                    worksheet: worksheet,
+                    autoFilterEnabled: true
+                }).then(function() {
+                    workbook.xlsx.writeBuffer().then(function(buffer) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ITEMS.xlsx');
+                    });
+            });
+            e.cancel = true;
+            },
             columns: TmpFields,
             onRowDblClick: function(e)
             {
