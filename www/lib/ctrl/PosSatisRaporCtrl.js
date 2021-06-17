@@ -316,8 +316,30 @@ function PosSatisRaporCtrl ($scope,$window,db)
                         caption: "TICKET",
                         dataField: "TICKET",
                         dataType: "number",
-                        summaryType: "max",
-                        area: "data"
+                        // summaryType: "max",
+                        area: "data",
+                        summaryType: 'custom',
+                        calculateCustomSummary: function (options) 
+                        {
+                            if (options.summaryProcess == 'start') 
+                            {
+                                options.totalValue = 0; //Sum
+                                options.lastvalue = 0;
+                            }
+                            if (options.summaryProcess == 'calculate') 
+                            {
+                                if(options.lastvalue != options.value)
+                                {
+                                    options.lastvalue = options.value;
+                                    options.totalValue += options.value;
+                                }
+                            }
+                            if (options.summaryProcess == 'finalize') 
+                            {
+                                
+                            }
+                            
+                        }
                     }
                 ],
                 store: $scope.PaymentData
