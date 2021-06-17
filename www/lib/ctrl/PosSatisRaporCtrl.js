@@ -413,7 +413,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
 
         $scope.BtnRunReport()
 
-        db.GetData($scope.Firma,'PosSatisParkListe',[0,0,'',0],function(ParkData)
+        db.GetData($scope.Firma,'PosSatisParkListe',[-1,0,'',0],function(ParkData)
         {   
            if(ParkData.length > 0)
            {
