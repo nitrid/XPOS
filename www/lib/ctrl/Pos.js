@@ -3756,7 +3756,12 @@ function Pos($scope,$window,$rootScope,db)
         $("#MdlKartOdeme").modal("hide");
         $("#MdlKartYukleniyor").modal("show");        
 
-        db.PaymentSend($scope.ComPorts.OdemePort,$scope.TxtAraToplamTutar);        
+        setTimeout(() => 
+        {
+            db.PaymentSend($scope.ComPorts.OdemePort,$scope.TxtAraToplamTutar);     
+            $scope.$apply();
+        },2000)
+           
     }    
     $scope.BtnKartVazgec = function()
     {
