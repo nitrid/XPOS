@@ -265,7 +265,7 @@ function StokCtrl ($scope,$window,$location,db)
             },
             selection: 
             {
-                mode: "single"
+                mode: "multiple"
             },
             export: 
             {
