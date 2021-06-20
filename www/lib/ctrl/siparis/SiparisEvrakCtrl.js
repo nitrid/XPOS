@@ -106,7 +106,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
         });
     }
-    function InitIslemGrid()
+    function InitIslemGrid(pPage)
     {
         $("#TblIslem").jsGrid({
             responsive: true,
@@ -115,9 +115,9 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             heading: true,
             selecting: true,
             data : $scope.SiparisListe,
-            paging : true,
+            paging : pPage,
             pageIndex : true,
-            pageSize: 10,
+            pageSize: 3,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
            
@@ -388,7 +388,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
     {
         Init();
         InitCariGrid();
-        InitIslemGrid();
+        InitIslemGrid(true);
         InitStokGrid();
         InitEvrakGrid();
 
@@ -910,7 +910,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         {
             Init();
             InitCariGrid();
-            InitIslemGrid();  
+            InitIslemGrid(true);  
 
             $scope.Seri = TmpData[0].REF;
             $scope.Sira = TmpData[0].REF_NO;
@@ -1103,5 +1103,9 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         $scope.EvrakListe = (await db.GetPromiseQuery(TmpQuery));
         InitEvrakGrid();
         console.log($scope.EvrakListe)
+    }
+    $scope.BtnTumu = function()
+    {
+        InitIslemGrid(false);  
     }
 }
