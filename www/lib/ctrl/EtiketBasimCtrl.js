@@ -980,4 +980,25 @@ function EtiketBasimCtrl ($scope,$window,db)
             }
         );
     }
+    $scope.BtnReferansSil = function()
+    {
+        alertify.confirm(db.Language($scope.Lang,'Seçili Satırı Silmek İstediğinize Eminmisiniz ?'), 
+        async function()
+        { 
+            for (let i = 0; i < RefSelectedData.length; i++) 
+            {
+                TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "DELETE FROM LABEL_QUEUE WHERE REF = @REF AND REF_NO = @REF_NO",
+                    param:  ['REF:string|25','REF_NO:int'],
+                    value:  [RefSelectedData[i].REF,RefSelectedData[i].REF_NO]
+                }
+                await db.ExecutePromiseQuery(TmpQuery);
+            }
+
+            $scope.BtnReferansSecim();
+        },
+        function(){});
+    }
 }
