@@ -173,6 +173,10 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.FiyatModal.Fiyat = 0;
         $scope.FiyatModal.Miktar = 0;
 
+        $scope.UrunGrup = {};
+        $scope.UrunGrup.Value = "";
+        $scope.UrunGrup.Status = false;
+        
         InitStokGrid();
         InitFiyatSecGrid();
     }
@@ -386,9 +390,6 @@ function FiyatGorCtrl($scope,$window,db)
         }
         $scope.UrunGrupListe = (await db.ExecutePromiseQuery(TmpQuery)).result.recordset;
 
-        $scope.UrunGrup = {};
-        $scope.UrunGrup.Value = "";
-        $scope.UrunGrup.Status = false;
         $scope.UrunGrup.Cmb = 
         {
             width: "100%",
