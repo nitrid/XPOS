@@ -4,7 +4,7 @@ function FiyatGorCtrl($scope,$window,db)
     let FiyatSelectedRow = null;
     document.onkeydown = function(e)
     {       
-        if(!$("#MdlFiyatGuncelle").hasClass('show') && !$("#MdlFiyatEkle").hasClass('show'))
+        if(!$("#MdlFiyatGuncelle").hasClass('show') && !$("#MdlFiyatEkle").hasClass('show') && !$("#MdlUrunGrupGuncelle").hasClass('show'))
         {
             $window.document.getElementById("Barkod").focus();
         }

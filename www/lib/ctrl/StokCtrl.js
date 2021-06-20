@@ -406,11 +406,11 @@ function StokCtrl ($scope,$window,$location,db)
                     "WHERE ((" + QueryField.Barcode.Where + 
                     QueryField.Code.Where +
                     QueryField.Customer.Where + 
-                    "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE '%' + UPPER(@NAME) + '%') OR (@NAME = '')) AND " +
+                    "OR (@BARCODE = '')) AND ((UPPER(ITEMS.NAME) LIKE UPPER(@NAME)) OR (@NAME = '')) AND " +
                     "((ITEMS.ITEM_GRP = @ITEM_GRP) OR (@ITEM_GRP = '')) AND ((ITEMS.STATUS = @STATUS) OR (@STATUS = 0)) AND " +
                     "(((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CODE = ITEMS.CODE) = @CUSTOMER) OR (@CUSTOMER='')) " ,
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
-            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi,$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
+            value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi.replaceAll('*','%'),$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
