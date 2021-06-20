@@ -241,7 +241,7 @@ function FiyatGorCtrl($scope,$window,db)
         }
         else
         {
-            alertify.alert(db.Language($scope.Lang,"Stok Bulunamadı !"))
+            document.getElementById("Sound").play();
         }
 
         $scope.Barkod = ""
@@ -295,6 +295,7 @@ function FiyatGorCtrl($scope,$window,db)
             Adi = $scope.StokGridText.replace("*","%").replace("*","%");
         }
 
+        console.log(Adi)
         db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
         {
             $scope.StokListe = StokData;
