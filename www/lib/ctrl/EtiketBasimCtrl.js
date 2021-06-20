@@ -267,20 +267,51 @@ function EtiketBasimCtrl ($scope,$window,db)
             }
         }).dxDataGrid("instance");        
     }
+    function BarkodListeKontrol(pBarkod)
+    {
+        return new Promise(async resolve => 
+        {
+            let TmpStatus = false;
+            for (let i = 0; i < $scope.BarkodListe.length; i++) 
+            {
+                console.log(10)
+                if(pBarkod != '' && $scope.BarkodListe[i].BARCODE == pBarkod)
+                {
+                    console.log(11)
+                    TmpStatus = true;
+                    document.getElementById("Sound2").play(); 
+                    
+                    alertify.confirm(db.Language($scope.Lang,'Bu ürünü daha önce okuttunuz tekrar eklemek istediğinize eminmisiniz ?'), 
+                    async function()
+                    { 
+                        resolve(true)
+                        return;
+                    },
+                    function()
+                    {
+                        resolve(false)
+                        return;
+                    });
+                }
+            }
+
+            if(!TmpStatus)
+            {
+                resolve(true)
+                return;
+            }
+        });
+    }
     function BarkodGetir(pBarkod)
     {
         return new Promise(async resolve => 
         {
-            for (let i = 0; i < $scope.BarkodListe.length; i++) 
+            let TmpKontrol = await BarkodListeKontrol(pBarkod)
+            if(!TmpKontrol)
             {
-                if(pBarkod != '' && $scope.BarkodListe[i].BARCODE == pBarkod)
-                {
-                    document.getElementById("Sound2").play(); 
-                    resolve([])
-                    return;
-                }
+                resolve([])
+                return
             }
-
             let TmpQuery = 
             {
                 db : $scope.Firma,
