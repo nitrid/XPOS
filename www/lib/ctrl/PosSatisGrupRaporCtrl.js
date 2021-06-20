@@ -146,7 +146,7 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
-                    "ITEM_GRP AS ITEM_GRP, " +
+                    "ISNULL(ITEM_GRP,'') AS ITEM_GRP, " +
                     "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE CODE = ITEM_GRP),'') AS ITEM_GRP_NAME, " +
                     "'' AS TITLE, " +
                     "SUM(SALES.HT) AS HT, " +
