@@ -1,5 +1,6 @@
 function Main ($scope,$rootScope,$window,db)
 {
+    let TmpActiveTime;
     function MenuOlustur()
     {   
         let HtmlText = "";
@@ -48,4 +49,13 @@ function Main ($scope,$rootScope,$window,db)
             $scope.Lang = localStorage.Lang;
         });
     }
+    $scope.FrmActive = function()
+    {
+        if(typeof TmpActiveTime != 'undefined')
+        {
+            clearTimeout(TmpActiveTime);
+        }
+        
+        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},600000);
+    }  
 }

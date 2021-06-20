@@ -1170,7 +1170,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 for (let i = 0; i < $scope.KullaniciListe.length; i++) 
                 {
-                    if($scope.KullaniciListe[i].CODE == $scope.Kullanici && $scope.KullaniciListe[i].PASSWORD == $scope.SifreGiris.TxtSifreGiris)
+                    if(($scope.KullaniciListe[i].CODE == $scope.Kullanici || $scope.KullaniciListe[i].TAG == "1") && $scope.KullaniciListe[i].PASSWORD == $scope.SifreGiris.TxtSifreGiris)
                     {
                         $scope.SifreGiris.Entry(true); 
                         return;
