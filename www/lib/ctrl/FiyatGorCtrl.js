@@ -237,11 +237,11 @@ function FiyatGorCtrl($scope,$window,db)
                 console.log(TmpQuery)
                 await db.ExecutePromiseQuery(TmpQuery);
             }
-            
         }
         else
         {
             document.getElementById("Sound").play();
+            $scope.Init()
         }
 
         $scope.Barkod = ""
@@ -257,6 +257,10 @@ function FiyatGorCtrl($scope,$window,db)
         $("#TbBarkodGiris").removeClass('active');
         $("#TbIslemSatirlari").removeClass('active');
         $("#TblAciklama").removeClass('active');
+
+        $("#TblStok").jsGrid({data : []});
+        $scope.StokGridText = "";
+        $window.document.getElementById("StokGridText").focus();
     }    
     $scope.MainClick = function() 
     {
@@ -295,7 +299,6 @@ function FiyatGorCtrl($scope,$window,db)
             Adi = $scope.StokGridText.replace("*","%").replace("*","%");
         }
 
-        console.log(Adi)
         db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
         {
             $scope.StokListe = StokData;

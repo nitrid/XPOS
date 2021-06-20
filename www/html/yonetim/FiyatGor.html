@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-8 px-1">
                             <div class="input-group">
-                                <input type="text" class="form-control" ng-keypress = "BtnManuelArama($event)"  ng-model="StokGridText" >
+                                <input type="text" class="form-control" ng-keypress = "BtnManuelArama($event)"  ng-model="StokGridText" id="StokGridText">
                                 <span class="input-group-append">
                                     <button type="submit" class="btn btn-primary" ng-click="BtnStokGridGetir()"><i class="icon wb-search" aria-hidden="true"></i></button>
                                 </span>
@@ -191,6 +191,9 @@
         <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
             <div class="modal-content">
                 <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
                     <h4 class="modal-title" langu>Ürün Grubu</h4>
                 </div>
                 <div class="modal-body">
