@@ -152,7 +152,7 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
                     "SUM(SALES.HT) AS HT, " +
                     "SUM(SALES.TTC) AS TTC " +
                     "FROM POS_SALES_VW_01 AS SALES " +
-                    "INNER JOIN ITEMS ON " +
+                    "LEFT OUTER JOIN ITEMS ON " +
                     "SALES.ITEM_CODE = ITEMS.CODE " +
                     "WHERE SALES.DOC_DATE >= @ILKTARIH AND SALES.DOC_DATE <= @SONTARIH AND SALES.STATUS = 1 " +
                     "GROUP BY ITEM_GRP ORDER BY ITEM_GRP",
