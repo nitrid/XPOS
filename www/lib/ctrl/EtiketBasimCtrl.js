@@ -809,7 +809,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON  " +
+                        "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON  " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
@@ -835,7 +835,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "LEFT OUTER JOIN ITEM_BARCODE ON " +
+                        "LEFT OUTER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
@@ -863,7 +863,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON  " +
+                        "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
@@ -891,7 +891,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON  " +
+                        "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
@@ -919,7 +919,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
-                        "INNER JOIN ITEM_BARCODE ON  " +
+                        "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
