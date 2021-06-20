@@ -65,6 +65,10 @@ angular.module("app",
     {
         templateUrl : "html/rapor/PosSatisRapor.html"
     })
+    .when("/PosSatisGrupRapor",
+    {
+        templateUrl : "html/rapor/PosSatisGrupRapor.html"
+    })
     .when("/AlinanSiparisEvrak",
     {
         templateUrl : "html/siparis/AlinanSiparisEvrak.html"

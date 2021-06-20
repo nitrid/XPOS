@@ -56,6 +56,6 @@ function Main ($scope,$rootScope,$window,db)
             clearTimeout(TmpActiveTime);
         }
         
-        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},600000);
+        TmpActiveTime = setTimeout(()=>{$window.location.href = "index.html";},3600000);
     }  
 }
