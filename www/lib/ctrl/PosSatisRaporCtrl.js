@@ -23,7 +23,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
             showRowTotals: true,
             showColumnTotals: false,
             showBorders: true,
-            height: 800,
+            height: 800,            
             fieldChooser: 
             {
                 enabled: true,
@@ -31,12 +31,15 @@ function PosSatisRaporCtrl ($scope,$window,db)
             },
             dataSource: 
             {
+                retrieveFields: false,
                 fields: 
                 [
                     {
                         caption: "TARIH",
                         width: 80,
                         dataField: "DOC_DATE",
+                        dataType: "date",
+                        format: "dd/MM/yyyy",
                         area: "row",
                         expanded: true
                     }, 
@@ -160,12 +163,15 @@ function PosSatisRaporCtrl ($scope,$window,db)
             },
             dataSource: 
             {
+                retrieveFields: false,
                 fields: 
                 [
                     {
                         caption: "TARIH",
                         width: 80,
                         dataField: "DOC_DATE",
+                        dataType: "date",
+                        format: "dd/MM/yyyy",
                         area: "row",
                         expanded: true
                     }, 
@@ -267,11 +273,14 @@ function PosSatisRaporCtrl ($scope,$window,db)
             },
             dataSource: 
             {
+                retrieveFields: false,
                 fields: 
                 [
                     {
                         caption: db.Language($scope.Lang,"TARIH"),
                         dataField: "DOC_DATE",
+                        dataType: "date",
+                        format: "dd/MM/yyyy",
                         width: 80,        
                         area: "row",
                     },  
@@ -432,7 +441,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
-                    "CONVERT(NVARCHAR,MAX(SALES.DOC_DATE),103) AS DOC_DATE," +
+                    "MAX(SALES.DOC_DATE) AS DOC_DATE," +
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(SALES.DEVICE)) AS DEVICE," +
                     "CASE WHEN SALES.TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS TYPE," +
                     "'DETAILLE' AS TITLE, " +
@@ -467,7 +476,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(PAYMENT.DEVICE)) AS DEVICE, " +
                     "'' AS TITLE, " +
                     "(SELECT COUNT(REF_NO) FROM (SELECT P1.REF_NO FROM POS_PAYMENT_VW_01 AS P1 WHERE P1.DOC_DATE >= @ILKTARIH AND P1.DOC_DATE <= @SONTARIH AND P1.STATUS = 1 AND P1.REF = PAYMENT.REF GROUP BY P1.REF,P1.REF_NO) AS TBL) AS TICKET, " +
-                    "FORMAT(MAX(PAYMENT.DOC_DATE),'dd/MM/yyyy') AS DOC_DATE, " +
+                    "MAX(PAYMENT.DOC_DATE) AS DOC_DATE, " +
                     "MAX(PAYMENT.TYPE_NAME) AS PAY_TYPE, " +
                     "SUM(CASE WHEN PAYMENT.DOC_TYPE = 0 THEN PAYMENT.AMOUNT ELSE PAYMENT.AMOUNT * -1 END) AS PAY_AMOUNT " +
                     "FROM POS_PAYMENT_VW_01 AS PAYMENT " +
@@ -485,7 +494,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " + 
-                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE,  " + 
+                    "MAX(DOC_DATE) AS DOC_DATE,  " + 
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(DEVICE)) AS DEVICE, " + 
                     "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
                     "CASE WHEN TYPE = 0 THEN 'ESC' WHEN TYPE = 1 THEN 'CB' WHEN TYPE = 2 THEN 'Chq' WHEN TYPE = 3 THEN 'CHQe' WHEN TYPE = 4 THEN 'B.D''AVOIR' END AS TYPE, " + 
