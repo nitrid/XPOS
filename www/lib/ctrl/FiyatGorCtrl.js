@@ -393,8 +393,8 @@ function FiyatGorCtrl($scope,$window,db)
         {
             width: "100%",
             dataSource: $scope.UrunGrupListe,
-            displayExpr: db.Language($scope.Lang,"NAME"),
-            valueExpr: db.Language($scope.Lang,"CODE"),
+            displayExpr: "NAME",
+            valueExpr: "CODE",
             value: "",
             showClearButton: true,
             searchEnabled: true,

@@ -27,7 +27,7 @@ function Login ($scope,$rootScope,$window,db)
                 {
                     name: "CODE",
                     type: "number",
-                    align: "center",
+                    align: "left",
                     width: 100
                     
                 },
@@ -35,7 +35,7 @@ function Login ($scope,$rootScope,$window,db)
                     title: "NAME",
                     name: "NAME",
                     type: "text",
-                    align: "center",
+                    align: "left",
                     width: 300
                 }
             ],
