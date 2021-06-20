@@ -502,7 +502,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND STATUS = 1 GROUP BY REF,REF_NO,TYPE,DOC_TYPE " + 
                     "UNION ALL " + 
                     "SELECT  " + 
-                    "CONVERT(NVARCHAR,MAX(DOC_DATE),103) AS DOC_DATE, " + 
+                    "MAX(DOC_DATE) AS DOC_DATE, " + 
                     "'CAISSE ' + CONVERT(NVARCHAR,MAX(DEVICE)) AS DEVICE, " + 
                     "CASE WHEN DOC_TYPE = 0 THEN 'VENTE' ELSE 'REMB.MNT' END AS DOC_TYPE, " + 
                     "'TICKET PLUS' AS TYPE, " + 
