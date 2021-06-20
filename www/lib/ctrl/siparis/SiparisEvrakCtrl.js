@@ -3,6 +3,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
     let CariSelectedRow = null;
     let IslemSelectedRow = null;
     let StokSelectedRow = null;
+    let EvrakSelectedRow = null;
     function Init()
     {
         DevExpress.localization.locale('fr');
@@ -42,6 +43,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         $scope.SiparisListe = [];
         $scope.BirimListe = [];
         $scope.StokListe = [];
+        $scope.EvrakListe = [];
 
         $scope.AraToplam = 0;
         $scope.ToplamIndirim = 0;
@@ -209,6 +211,45 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
         });
     }
+    function InitEvrakGrid()
+    {
+        $("#TblEvrak").jsGrid
+        ({
+            width: "100%",
+            height: "auto",
+            autoload : true,
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.EvrakListe,
+            paging : true,
+            pageSize: 5,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: 
+            [
+                {
+                    name: "REF",
+                    title: db.Language($scope.Lang,"Ref"),
+                    type: "text",
+                    align: "center",
+                    width: 125
+                }, 
+                {
+                    name: "REF_NO",
+                    title: db.Language($scope.Lang,"Ref No"),
+                    type: "text",
+                    align: "center",
+                    width: 200
+                }
+            ],
+            rowClick: function(args)
+            {
+                $scope.EvrakListeRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
+        });
+    }
     function BarkodFocus()
     {
         $timeout( function(){$window.document.getElementById("Barkod").focus();},100);  
@@ -349,6 +390,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         InitCariGrid();
         InitIslemGrid();
         InitStokGrid();
+        InitEvrakGrid();
 
         if(pTip == 0)
         {
@@ -412,6 +454,16 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         $scope.Barkod = $scope.StokListe[pIndex].CODE;
         $scope.BarkodGirisClick();
         StokBarkodGetir($scope.Barkod);
+    }
+    $scope.EvrakListeRowClick = function(pIndex,pItem,pObj)
+    {
+        if ( EvrakSelectedRow ) { EvrakSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        EvrakSelectedRow = $row;
+        
+        $scope.Seri = $scope.EvrakListe[pIndex].REF;
+        $scope.Sira = $scope.EvrakListe[pIndex].REF_NO
     }
     $scope.IslemListeRowClick = function(pIndex,pItem,pObj)
     {
@@ -1037,5 +1089,19 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxSiparisNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
             $scope.$apply();
         }
+    }
+    $scope.BtnEvrakGetir = async function()
+    {
+        $("#MdlEvrakGetir").modal('show');
+        let TmpQuery =
+        {
+            db : $scope.Firma,
+            query:  "SELECT REF,REF_NO FROM ORDER_M_VW_01 WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LDATE DESC",
+            param:  ['TYPE:int','DOC_TYPE:int'],
+            value:  [$scope.Tip,$scope.EvrakTip]
+        }
+        $scope.EvrakListe = (await db.GetPromiseQuery(TmpQuery));
+        InitEvrakGrid();
+        console.log($scope.EvrakListe)
     }
 }
