@@ -131,35 +131,35 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }, 
             {
                 name: "ITEM_CODE",
-                title: "KODU",
+                title: db.Language($scope.Lang,"Kodu"),
                 type: "text",
                 align: "center",
                 width: 100
             },
             {
                 name: "ITEM_NAME",
-                title: "ADI",
+                title: db.Language($scope.Lang,"ADI"),
                 type: "text",
                 align: "center",
                 width: 200
             }, 
             {
                 name: "QUANTITY",
-                title: "MİKTAR",
+                title: db.Language($scope.Lang,"Miktar"),
                 type: "number",
                 align: "center",
                 width: 100
             }, 
             {
                 name: "PRICE",
-                title: "FİYAT",
+                title: db.Language($scope.Lang,"Fiyat"),
                 type: "number",
                 align: "center",
                 width: 100
             }, 
             {
                 name: "AMOUNT",
-                title: "TUTAR",
+                title: db.Language($scope.Lang,"TUTAR"),
                 type: "number",
                 align: "center",
                 width: 100
@@ -189,14 +189,14 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             [
                 {
                     name: "CODE",
-                    title: "KODU",
+                    title: db.Language($scope.Lang,"Kodu"),
                     type: "text",
                     align: "center",
                     width: 125
                 }, 
                 {
                     name: "NAME",
-                    title: "ADI",
+                    title: db.Language($scope.Lang,"ADI"),
                     type: "text",
                     align: "center",
                     width: 200
@@ -286,8 +286,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                 }
                 else
                 {   
-                    alertify.alert("<a style='color:#3e8ef7''>" + "Stok Bulunamamıştır !" + "</a>" );          
-                    console.log("Stok Bulunamamıştır.");
+                    alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Stok Bulunamamıştır !") + "</a>" );          
+                    console.log(db.Language($scope.Lang,"Stok Bulunamamıştır."));
                     Beep();
                 }
             });
@@ -435,7 +435,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
     {
         if($scope.Sira == 0 || typeof $scope.Sira == "undefined")
         {            
-            alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Evrak Siranın Gelmesini Bekleyin!" + "</a>" );
+            alertify.alert("<a style='color:#3e8ef7''>" + (db.Language($scope.Lang,"Lütfen Evrak Siranın Gelmesini Bekleyin!")) + "</a>" );
         }
         else
         {
@@ -459,7 +459,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
     {   
         if($scope.Sira == 0 || typeof $scope.Sira == "undefined")
         {            
-            alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Evrak Siranın Gelmesini Bekleyin!" + "</a>" );
+            alertify.alert("<a style='color:#3e8ef7''>" + (db.Language($scope.Lang,"Lütfen Evrak Siranın Gelmesini Bekleyin!")) + "</a>" );
         }
         else
         {
@@ -477,7 +477,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
             else
             {
-                alertify.alert("<a style='color:#3e8ef7''>" + "Lütfen Cari Seçiniz !" + "</a>" );
+                alertify.alert("<a style='color:#3e8ef7''>" + (db.Language($scope.Lang,"Lütfen Cari Seçiniz !")) + "</a>" );
             }
         }
     }
@@ -550,7 +550,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
             else
             {
-                alertify.alert("Cari Bulunamadı")
+                alertify.alert((db.Language($scope.Lang,"Cari Bulunamadı")))
                 $scope.Loading = false;
                 $scope.TblLoading = true;
                 $("#TblCari").jsGrid({data : $scope.CariListe});
@@ -599,7 +599,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                 //alert("Scanning failed: " + error);
             },
             {
-                prompt : "Barkod Okutunuz",
+                prompt : db.Language($scope.Lang,"Barkod Okutunuz"),
                 orientation : "portrait"
             }
         );
@@ -688,7 +688,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
             else
             {
-                alertify.alert("Stok Bulunamadı")
+                alertify.alert(db.Language($scope.Lang,"Stok Bulunamadı"))
                 $scope.Loading = false;
                 $scope.TblLoading = true;
                 $("#TblStok").jsGrid({data : $scope.StokListe});
@@ -765,7 +765,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         }
         else
         {
-            console.log("Barkod Okutunuz!");
+            console.log(db.Language($scope.Lang,"Barkod Okutunuz!"));
             $scope.InsertLock = false
         }     
         
@@ -803,10 +803,10 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
     }
     $scope.SatirDelete = function(pAlinanVerilen)
     {
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm('Seçili Satırı Silmek İstediğinize Eminmisiniz ?', 
+        alertify.confirm(db.Language($scope.Lang,'Seçili Satırı Silmek İstediğinize Eminmisiniz ?'), 
         function()
         { 
             if($scope.IslemListeSelectedIndex > -1)
@@ -846,7 +846,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
             }
             else
             {
-                alertify.alert("<a style='color:#3e8ef7''>" + "Seçili Satır Olmadan Evrak Silemezsiniz !" + "</a>" );
+                alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Seçili Satır Olmadan Evrak Silemezsiniz !" + "</a>" ));
             }
         },
         function(){});
@@ -971,20 +971,20 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
 
             BarkodFocus();
             
-            alertify.alert("<a style='color:#3e8ef7''>" + $scope.ToplamSatir + " " + "Satır Kayıt Başarıyla Getirildi.. !" + "</a>" );
+            alertify.alert("<a style='color:#3e8ef7''>" + $scope.ToplamSatir + " " + db.Language($scope.Lang,"Satır Kayıt Başarıyla Getirildi.. !") + "</a>" );
         }
         else
         {
             angular.element('#MdlEvrakGetir').modal('hide');
-            alertify.alert("<a style='color:#3e8ef7''>" + "Belge Bulunamadı !" + "</a>" );
+            alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Belge Bulunamadı !") + "</a>" );
         }
     }
     $scope.EvrakDelete = function()
     {
-        alertify.okBtn('Evet');
-        alertify.cancelBtn('Hayır');
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm('Evrağı silmek istediğinize eminmisiniz ?', 
+        alertify.confirm(db.Language($scope.Lang,'Evrağı silmek istediğinize eminmisiniz ?'), 
         function()
         { 
             if($scope.SiparisListe.length > 0)
@@ -1007,12 +1007,12 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                     {
                         $scope.YeniEvrak(1);
                     }
-                    alertify.alert("<a style='color:#3e8ef7''>" + "Evrak Silme İşlemi Başarıyla Gerçekleşti !" + "</a>" );
+                    alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Evrak Silme İşlemi Başarıyla Gerçekleşti !") + "</a>" );
                 });
             }
             else
             {
-                alertify.alert("<a style='color:#3e8ef7''>" + "Silinecek Belge Yok !" + "</a>" );
+                alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Silinecek Belge Yok !") + "</a>" );
             }
         }
         ,function(){});

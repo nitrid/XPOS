@@ -84,13 +84,13 @@ function TopluSiparisBirlestirmeCtrl ($scope,$window,db)
                 },
                 {
                     dataField: "QUANTITY",
-                    caption: db.Language($scope.Lang,"MİKTAR"),
+                    caption: db.Language($scope.Lang,"Miktar"),
                     dataType: "number",
                     width: "100",
                 },
                 {
                     dataField: "PRICE",
-                    caption: db.Language($scope.Lang,"FİYAT"),
+                    caption: db.Language($scope.Lang,"Fiyat"),
                     dataType: "number",
                     width: "100",
                 },                

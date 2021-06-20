@@ -20,17 +20,17 @@
                 <div id="TbMain" class="tab-pane active">
                     <div class="row pb-20">
                         <div class="col-7">
-                            <label class="h6 mt-10">Ürün Grubu : {{UrunGrup.Status == true ?  "Aktif" : "Pasif"}}</label>
+                            <label class="h6 mt-10"langu>Ürün Grubu Güncelleme :</label><label>{{UrunGrup.Status == true ?  "Actif" : "Passif"}}</label>
                         </div>
                         <div class="col-5 px-1">
-                            <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false"langu>İşlemler</button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
-                                <button class="dropdown-item" href="#" role="menu-item" ng-click="BtnUrunGrupDegis()" style="font-size: 1rem;">Ürün Grubu Değiştir</button>
+                                <button class="dropdown-item" href="#" role="menu-item" ng-click="BtnUrunGrupDegis()" style="font-size: 1rem;"langu>Ürün Grubu Değiştir</button>
                             </div>
                         </div>
                     </div>
                     <div class="row my-0 py-0 pb-10">
-                        <div class="col-md-1 col-lg-1 col-sm-3 text-info px-2"><div class="col-form-label float-right py-2">Barkod :</div></div>
+                        <div class="col-md-1 col-lg-1 col-sm-3 text-info px-2"><div class="col-form-label float-right py-2"langu>Barkod :</div></div>
                         <div class="col-md-11 col-lg-11 col-sm-9 px-1">
                             <div class="input-group">
                                 <input type="text" class="form-control" ng-model="Barkod" ng-keypress ="BtnStokBarkodGetir($event)" id="Barkod">
@@ -42,13 +42,13 @@
                     </div>
                     <div class="row pt-5">
                         <div class="col-5 px-1">
-                            <button type="submit" ng-click="ManuelAramaClick()" class="btn btn-primary btn-block h-40">Manuel Arama</button>        
+                            <button type="submit" ng-click="ManuelAramaClick()" class="btn btn-primary btn-block h-40"langu>Manuel Arama</button>        
                         </div>
                         <div class="col-2 px-1">
                             <button type="submit" class="btn btn-primary btn-block h-40" ng-click="ScanBarkod()"><i class="fas fa-camera-retro fa-lg"></i></button>        
                         </div>
                         <div class="col-5 px-1">
-                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="BtnStokBarkodGetir()">Getir</button>        
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="BtnStokBarkodGetir()"langu>Getir</button>        
                         </div>
                     </div>
                     <div class="row pt-5 pb-20">
@@ -67,10 +67,10 @@
                     </div>
                     <div class="row pt-50">
                         <div class="col-6 px-1">
-                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatEkle()">Fiyat Ekle</button>
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatEkle()"langu>Fiyat Ekle</button>
                         </div>
                         <div class="col-6 px-1">
-                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatGuncelle()">Fiyat Değiştir</button>
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatGuncelle()"langu>Fiyat Değiştir</button>
                         </div>
                     </div>
                 </div>
@@ -83,8 +83,8 @@
                     <div class="form-group row my-1">
                         <div class="col-4 px-1">
                             <select class="form-control" ng-model="StokGridTip">
-                                <option value="0">ADI</option>
-                                <option value="1">KODU</option>
+                                <option value="0"langu>ADI</option>
+                                <option value="1"langu>KODU</option>
                             </select>
                         </div>
                         <div class="col-8 px-1">
@@ -198,10 +198,10 @@
                     </div>
                     <div class="row">
                         <div class="col-6 px-1">
-                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupAktif()">Aktif</button>
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupAktif()"langu>Aktif</button>
                         </div>
                         <div class="col-6 px-1">
-                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupPasif()">Pasif</button>
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupPasif()"langu>Pasif</button>
                         </div>
                     </div>
                 </div>

@@ -66,21 +66,21 @@ function FiyatGorCtrl($scope,$window,db)
             [
                 {
                     name: "START_DATE",
-                    title: "BAS.TARIH",
+                    title: db.Language($scope.Lang,"BAS.TARIH"),
                     type: "text",
                     align: "center",
                     width: 125
                 }, 
                 {
                     name: "FINISH_DATE",
-                    title: "BIT.TARIH",
+                    title: db.Language($scope.Lang,"BIT.TARIH"),
                     type: "text",
                     align: "center",
                     width: 125
                 }, 
                 {
                     name: "PRICE",
-                    title: "FİYAT",
+                    title: db.Language($scope.Lang,"FİYAT"),
                     type: "text",
                     align: "center",
                     width: 100
@@ -181,8 +181,8 @@ function FiyatGorCtrl($scope,$window,db)
         {
             width: "100%",
             dataSource: $scope.UrunGrupListe,
-            displayExpr: "NAME",
-            valueExpr: "CODE",
+            displayExpr: db.Language($scope.Lang,"NAME"),
+            valueExpr: db.Language($scope.Lang,"CODE"),
             value: "",
             showClearButton: true,
             searchEnabled: true,
@@ -307,7 +307,7 @@ function FiyatGorCtrl($scope,$window,db)
             }
             else
             {
-                alertify.alert("Stok Bulunamadı")
+                alertify.alert(db.Language($scope.Lang,"Stok Bulunamadı"))
                 $scope.Loading = false;
                 $scope.TblLoading = true;
                 $("#TblStok").jsGrid({data : $scope.StokListe});

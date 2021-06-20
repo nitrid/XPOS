@@ -422,7 +422,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                 {
                     TmpCassier += ParkData[i].LUSER + ' - '
                 }
-                alertify.alert("Parkda bekleyen ticket var ! Kasiyer No : " + TmpCassier);
+                alertify.alert((db.Language($scope.Lang,"Parkda bekleyen ticket var ! --- Kasiyer No : "))+ TmpCassier);
            }
         });
     }
