@@ -165,40 +165,7 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.StokGridText = "";
 
         $scope.TblLoading = true;  
-        $scope.FirstKey = false;
-
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
-        }
-        $scope.UrunGrupListe = (await db.ExecutePromiseQuery(TmpQuery)).result.recordset;
-
-        $scope.UrunGrup = {};
-        $scope.UrunGrup.Value = "";
-        $scope.UrunGrup.Status = false;
-        $scope.UrunGrup.Cmb = 
-        {
-            width: "100%",
-            dataSource: $scope.UrunGrupListe,
-            displayExpr: db.Language($scope.Lang,"NAME"),
-            valueExpr: db.Language($scope.Lang,"CODE"),
-            value: "",
-            showClearButton: true,
-            searchEnabled: true,
-            bindingOptions: 
-            {
-                value: "UrunGrup.Value",
-                dataSource : "UrunGrupListe"
-            },
-            onSelectionChanged : function(e)
-            {              
-                if(e.selectedItem == null)
-                {
-                    $scope.UrunGrup.Value = ""
-                }
-            }
-        }
+        $scope.FirstKey = false;        
 
         $scope.FiyatModal = {};
         $scope.FiyatModal.Baslangic = "";
@@ -410,8 +377,41 @@ function FiyatGorCtrl($scope,$window,db)
             $scope.TxtFiyatGuncelle = $scope.TxtFiyatGuncelle.toString().substring(0,$scope.TxtFiyatGuncelle.length-1); 
         }        
     }
-    $scope.BtnUrunGrupDegis = function()
+    $scope.BtnUrunGrupDegis = async function()
     {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
+        }
+        $scope.UrunGrupListe = (await db.ExecutePromiseQuery(TmpQuery)).result.recordset;
+
+        $scope.UrunGrup = {};
+        $scope.UrunGrup.Value = "";
+        $scope.UrunGrup.Status = false;
+        $scope.UrunGrup.Cmb = 
+        {
+            width: "100%",
+            dataSource: $scope.UrunGrupListe,
+            displayExpr: db.Language($scope.Lang,"NAME"),
+            valueExpr: db.Language($scope.Lang,"CODE"),
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: "UrunGrup.Value",
+                dataSource : "UrunGrupListe"
+            },
+            onSelectionChanged : function(e)
+            {              
+                if(e.selectedItem == null)
+                {
+                    $scope.UrunGrup.Value = ""
+                }
+            }
+        }
+
         $('#MdlUrunGrupGuncelle').modal({backdrop: 'static'});
     }
     $scope.BtnUrunGrupAktif = function()
