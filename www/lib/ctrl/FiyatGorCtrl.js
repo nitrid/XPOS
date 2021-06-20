@@ -69,14 +69,14 @@ function FiyatGorCtrl($scope,$window,db)
                     title: db.Language($scope.Lang,"BAS.TARIH"),
                     type: "text",
                     align: "center",
-                    width: 100
+                    width: 80
                 }, 
                 {
                     name: "FINISH_DATE",
                     title: db.Language($scope.Lang,"BIT.TARIH"),
                     type: "text",
                     align: "center",
-                    width: 100
+                    width: 80
                 }, 
                 {
                     name: "PRICE",
