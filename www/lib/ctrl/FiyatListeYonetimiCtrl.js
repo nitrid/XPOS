@@ -458,11 +458,11 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
         {
             if($scope.Kodu.split(' ').length > 1)
             {
-                TmpQuery.query = TmpQuery.query.replace('{0}'," ITEMS.CODE IN (" + TmpVal + ") AND ");
+                TmpQuery.query = TmpQuery.query.replace('{0}'," ((ITEMS.CODE IN (" + TmpVal + ")) OR ITEMS.CODE IN (SELECT ITEM_CODE FROM ITEM_BARCODE WHERE BARCODE IN (" + TmpVal + "))) AND ");
             }
             else
             {
-                TmpQuery.query = TmpQuery.query.replace('{0}', " ITEMS.CODE LIKE " + TmpVal + " + '%' AND ");
+                TmpQuery.query = TmpQuery.query.replace('{0}', " ((ITEMS.CODE LIKE " + TmpVal + " + '%') OR (ITEMS.CODE = (SELECT ITEM_CODE FROM ITEM_BARCODE WHERE BARCODE LIKE " + TmpVal + " + '%'))) AND ");
             }
         }
         else
