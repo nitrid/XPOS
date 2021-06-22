@@ -394,7 +394,16 @@ function PosSatisRaporCtrl ($scope,$window,db)
         })
     }
     $scope.Init =function()
-    {                
+    {           
+        if(typeof localStorage.Lang != 'undefined')
+        {
+            $scope.Lang = localStorage.Lang;
+        }
+        else
+        {
+            $scope.Lang = "TR";
+        }
+
         $('#Date').daterangepicker(
         {
             startDate: StartDate,
@@ -402,14 +411,14 @@ function PosSatisRaporCtrl ($scope,$window,db)
             alwaysShowCalendars: true,
             ranges: 
             {
-                'Bugün': [moment(), moment()],
-                'Dün': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Bu Hafta' : [moment().startOf('week'), moment().endOf('week')],
-                'Geçen Hafta': [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
-                'Bu Ay': [moment().startOf('month'), moment().endOf('month')],
-                'Geçen Ay': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-                'Bu Yıl': [moment().startOf('year'), moment().endOf('year')],
-                'Geçen Yıl': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+                [db.Language($scope.Lang,"Bugün")] : [moment(), moment()],
+                [db.Language($scope.Lang,"Dün")]: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                [db.Language($scope.Lang,"Bu Hafta")] : [moment().startOf('week'), moment().endOf('week')],
+                [db.Language($scope.Lang,"Geçen Hafta")]: [moment().subtract(1, 'week').startOf('week'), moment().subtract(1, 'week').endOf('week')],
+                [db.Language($scope.Lang,"Bu Ay")]: [moment().startOf('month'), moment().endOf('month')],
+                [db.Language($scope.Lang,"Geçen Ay")]: [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                [db.Language($scope.Lang,"Bu Yıl")]: [moment().startOf('year'), moment().endOf('year')],
+                [db.Language($scope.Lang,"Geçen Yıl")]: [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
             }
         }, DateTitle);
 
