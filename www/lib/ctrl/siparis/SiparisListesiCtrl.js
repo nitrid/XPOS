@@ -52,6 +52,22 @@ function SiparisListesiCtrl ($scope,db)
                 enabled: true,
                 allowExportSelectedData: true
             },
+            onExporting: function(e) 
+            {
+                var workbook = new ExcelJS.Workbook();
+                var worksheet = workbook.addWorksheet('ORDER');
+                
+                DevExpress.excelExporter.exportDataGrid({
+                    component: e.component,
+                    worksheet: worksheet,
+                    autoFilterEnabled: true
+                }).then(function() {
+                    workbook.xlsx.writeBuffer().then(function(buffer) {
+                    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'ORDER.xlsx');
+                    });
+            });
+            e.cancel = true;
+            },
             columns: 
             [
                 {
@@ -197,5 +213,35 @@ function SiparisListesiCtrl ($scope,db)
             $scope.BtnAra();
         },
         function(){});
+    }
+    $scope.BtnPrint = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT * FROM ORDER_VW_01 " +
+                    "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO",
+            param:  ['TYPE','DOC_TYPE','REF','REF_NO'],
+            type:   ['int','int','string|25','int','string|25'],
+            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO]
+        }
+        db.GetDataQuery(TmpQuery,function(pData)
+        {
+            if(pData.length > 0)
+            {
+                //console.log("{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/Siparis.repx',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/Siparis.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+                {
+                    if(pResult.split('|')[0] != 'ERR')
+                    {
+                        var mywindow = window.open('printview.html','_blank',"width=900,height=1000,left=500");      
+                        mywindow.onload = function() 
+                        {
+                            mywindow.document.getElementById("view").innerHTML="<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>"      
+                        }   
+                    }
+                })
+            }
+        });
     }
 }

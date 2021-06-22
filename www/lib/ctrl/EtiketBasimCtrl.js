@@ -675,6 +675,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         {
             if(pData.length > 0)
             {
+                console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
                 db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
