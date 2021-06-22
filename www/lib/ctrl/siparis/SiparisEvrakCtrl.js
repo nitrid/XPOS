@@ -1,4 +1,4 @@
-function SiparisEvrakCtrl ($scope,$window,$timeout,db)
+function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
 {
     let CariSelectedRow = null;
     let IslemSelectedRow = null;
@@ -401,6 +401,14 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         {
             $scope.EvrakTip = 0;
             $scope.Tip = 0;
+        }
+        
+        if(typeof $location.$$search.REF != 'undefined')
+        {
+            $scope.Seri = $location.$$search.REF;
+            $scope.Sira = $location.$$search.REF_NO;
+            $scope.EvrakGetir();
+            return;
         }
 
         $scope.EvrakLock = false;

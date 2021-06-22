@@ -1,0 +1,49 @@
+<div class="col-12" ng-controller="SiparisListesiCtrl" ng-init="Init()">
+    <div class="page-header">
+        <h1 class="page-title" langu>SİPARİŞ LİSTESİ</h1>
+    </div>   
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label">
+                            <div class="float-right" langu>Tarih :</div>
+                        </label>
+                        <div class="col-md-10">
+                            <div id="Date" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 350px;font-size: 14px;">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span> <i class="fa fa-caret-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group row">
+                        <label class="col-md-2 form-control-label">
+                            <div class="float-right" langu>Tedarikçi :</div>
+                        </label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <div dx-select-box="CmbTedarikci"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 offset-2">
+                    <button class="btn btn-block btn-primary" ng-click="BtnSil()" langu>Seçili Satırları Sil</button>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-block btn-primary" ng-click="BtnAra()" langu>Ara</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="TblSiparisListe"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
