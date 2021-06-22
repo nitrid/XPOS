@@ -7,7 +7,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     let _MettlerScale = new MettlerScale();
     let _Scanner = new Scanner();
 
-    moment.locale('tr');
+    moment.locale('fr');
 
     Number.prototype.toDigit2 = function()
     {
