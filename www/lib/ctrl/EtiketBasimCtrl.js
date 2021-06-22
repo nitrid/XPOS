@@ -1021,9 +1021,9 @@ function EtiketBasimCtrl ($scope,$window,db)
                 TmpQuery = 
                 {
                     db : $scope.Firma,
-                    query:  "DELETE FROM LABEL_QUEUE WHERE REF = @REF AND REF_NO = @REF_NO",
-                    param:  ['REF:string|25','REF_NO:int'],
-                    value:  [RefSelectedData[i].REF,RefSelectedData[i].REF_NO]
+                    query:  "DELETE FROM LABEL_QUEUE WHERE GUID = @GUID",
+                    param:  ['GUID:string|50'],
+                    value:  [RefSelectedData[i].GUID]
                 }
                 await db.ExecutePromiseQuery(TmpQuery);
             }
