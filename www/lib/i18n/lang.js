@@ -657,7 +657,7 @@ var lang =
             "CARI ADI" : "Nom De Fournisseur",
             "Parkda bekleyen ticket var ! --- Kasiyer No : " : "Attention!!! ---  il y a ticket/s en attente --- Nom de caissier : ",
             "Düzenle" : "Modifié",
-            "" : "",
+            "M.Fiyatı" : "Prix Revient",
             "" : "",
             "" : "",
             "" : "",

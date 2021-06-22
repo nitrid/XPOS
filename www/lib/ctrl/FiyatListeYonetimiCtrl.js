@@ -84,7 +84,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                 },
                 {
                     dataField: "COST_PRICE",
-                    caption : db.Language($scope.Lang,"M. €"),
+                    caption : db.Language($scope.Lang,"M.Fiyatı"),
                     dataType : "number",
                 },
                 {
@@ -230,7 +230,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                             TmpQuery = 
                             {
                                 db : $scope.Firma,
-                                query : "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @CODE AND TYPE = 1",
+                                query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,LDATE = GETDATE() WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @CODE AND TYPE = 1",
                                 param : ['PRICE:float','CUSTOMER:string|25','CODE:string|25'],
                                 value : [TmpObj.COST_PRICE,TmpObj.CUSTOMER_CODE,TmpObj.CODE]
                             }
@@ -270,7 +270,7 @@ function FiyatListeYonetimiCtrl ($scope,$window,db)
                             TmpQuery = 
                             {
                                 db : $scope.Firma,
-                                query : "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE QUANTITY = @QUANTITY AND ITEM_CODE = @CODE AND TYPE = 0 AND START_DATE = '19700101'",
+                                query : "UPDATE ITEM_PRICE SET PRICE = @PRICE,LDATE = GETDATE() WHERE QUANTITY = @QUANTITY AND ITEM_CODE = @CODE AND TYPE = 0 AND START_DATE = '19700101'",
                                 param : ['PRICE:float','QUANTITY:float','CODE:string|25'],
                                 value : [TmpObj.PRICE,TmpObj.QUANTITY,TmpObj.CODE]
                             }
