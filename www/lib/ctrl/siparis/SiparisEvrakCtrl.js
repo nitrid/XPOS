@@ -869,19 +869,19 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                     {
                         if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
                         {
-                            $scope.YeniEvrak(1);
+                            $scope.YeniEvrak(0);
                         }
                         else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
                         {
-                            $scope.YeniEvrak(0);
+                            $scope.YeniEvrak(1);
                         }
                         else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
                         {
-                            $scope.YeniEvrak(0);
+                            $scope.YeniEvrak(1);
                         }
                         else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
                         {
-                            $scope.YeniEvrak(1);
+                            $scope.YeniEvrak(0);
                         }
                     }
                     else
@@ -1045,19 +1045,19 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
                 {
                     if($scope.EvrakTip == 0 && $scope.Tip == 1) //ALINAN SİPARİŞ
                     {
-                        $scope.YeniEvrak(1);
+                        $scope.YeniEvrak(0);
                     }
                     else if($scope.EvrakTip == 0 && $scope.Tip == 0) //VERİLEN SİPARİŞ
                     {
-                        $scope.YeniEvrak(0);
+                        $scope.YeniEvrak(1);
                     }
                     else if($scope.EvrakTip == 2 && $scope.Tip == 0) //VERİLEN TOPLU SİPARİŞ
                     {
-                        $scope.YeniEvrak(0);
+                        $scope.YeniEvrak(1);
                     }
                     else if($scope.EvrakTip == 2 && $scope.Tip == 1) //ALINAN TOPLU SİPARİŞ
                     {
-                        $scope.YeniEvrak(1);
+                        $scope.YeniEvrak(0);
                     }
                     alertify.alert("<a style='color:#3e8ef7''>" + db.Language($scope.Lang,"Evrak Silme İşlemi Başarıyla Gerçekleşti !") + "</a>" );
                 });
@@ -1102,7 +1102,6 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,db)
         }
         $scope.EvrakListe = (await db.GetPromiseQuery(TmpQuery));
         InitEvrakGrid();
-        console.log($scope.EvrakListe)
     }
     $scope.BtnTumu = function()
     {
