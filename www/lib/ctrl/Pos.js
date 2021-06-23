@@ -2312,7 +2312,11 @@ function Pos($scope,$window,$rootScope,db)
     {    
         //SATIR BİRLEŞTİRME İŞLEMİ
         let TmpSatirBirlestir = SatirBirlestir("SATIS");
-
+        /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+        if($scope.Stok[0].BARCODE.substring(0,2) == "27")
+        {
+            TmpSatirBirlestir.Status = false; 
+        }
         if(TmpSatirBirlestir.Status)
         {
             $scope.PosSatisMiktarUpdate($scope.SatisList[TmpSatirBirlestir.Index],$scope.SatisList[TmpSatirBirlestir.Index].QUANTITY + ($scope.Miktar * $scope.Stok[0].FACTOR))
