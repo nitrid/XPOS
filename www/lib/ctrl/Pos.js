@@ -3261,8 +3261,20 @@ function Pos($scope,$window,$rootScope,db)
                                         // {               
                                         //     await FiyatUpdate($scope.SatisList[i]);
                                         // }  
-                                        /***************************************************************** */                                                    
-            
+                                        /***************************************************************** */      
+
+                                        /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                                        if($scope.SatisList[$scope.IslemListeSelectedIndex].BARCODE.substring(0,2) == "27")
+                                        {
+                                            let TmpUniqQuery = 
+                                            {
+                                                query:  "UPDATE ITEM_UNIQ SET QUANTITY = 1 WHERE CODE = @CODE",
+                                                param:  ['CODE:string|25'],
+                                                value:  [$scope.SatisList[$scope.IslemListeSelectedIndex].BARCODE]
+                                            }
+                                            await db.ExecutePromiseQuery(TmpUniqQuery);
+                                        }
+                                        /* ************************************************************** */
                                         db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(data)
                                         {
                                             $scope.SatisList = data;                                                                  
