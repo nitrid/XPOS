@@ -666,7 +666,7 @@ var lang =
             "Geçen Ay" : "Le mois dernier",
             "Bu Yıl" : "Cette année",
             "Geçen Yıl" : "l'année dernière",
-            "" : "",
+            "CUSTOMER" : "Fournisseur",
             "" : "",
             "" : "",
             "" : "",
