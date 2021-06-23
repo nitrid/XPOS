@@ -2202,22 +2202,22 @@ function Pos($scope,$window,$rootScope,db)
                 }
             }
             /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+            let TmpSpecBar = "";
             if(pBarkod.substring(0,2) == "27")
-            {
+            {                
                 let TmpQuery =
                 {
                     query : "SELECT ITEM_CODE AS ITEM_CODE,PRICE AS PRICE FROM ITEM_UNIQ WHERE CODE = @CODE AND QUANTITY > 0",
                     param : ['CODE:string|25'],
-                    value : [pBarkod]
+                    value : [pBarkod.substring(0,7)]
                 }   
                 let TmpData = await db.GetPromiseQuery(TmpQuery);
                 if(TmpData.length > 0)
                 {
+                    TmpSpecBar = pBarkod.substring(0,7);
                     pBarkod = TmpData[0].ITEM_CODE
                     TmpFiyat = TmpData[0].PRICE
-                    console.log(pBarkod)
                 }
-                
             }
             /* ************************************************************** */
             db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
@@ -2225,7 +2225,12 @@ function Pos($scope,$window,$rootScope,db)
                 if(BarkodData.length > 0)
                 {   
                     $scope.Stok = BarkodData;
-                    
+                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                    if(TmpSpecBar != "")
+                    {
+                        $scope.Stok[0].BARCODE = TmpSpecBar;
+                    }
+                    /* ************************************************************** */
                     if(TmpFiyat > 0 )
                     {
                         $scope.Stok[0].PRICE = TmpFiyat;
@@ -2287,12 +2292,6 @@ function Pos($scope,$window,$rootScope,db)
                             $scope.PosSatisInsert();
                         }
                     }
-                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
-                    if(pBarkod.substring(0,2) == "27")
-                    {
-                        $scope.Stok[0].PRICE = parseFloat(pBarkod.substring(7,12)) / 100
-                    }
-                    /* ************************************************************** */
                 }
                 else   
                 {
@@ -2347,6 +2346,19 @@ function Pos($scope,$window,$rootScope,db)
         {         
             if(typeof(InsertResult.result.err) == 'undefined')
             {   
+                /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                if($scope.Stok[0].BARCODE.substring(0,2) == "27")
+                {
+                    let TmpQuery = 
+                    {
+                        query:  "UPDATE ITEM_UNIQ SET QUANTITY = 0 WHERE CODE = @CODE",
+                        param:  ['CODE:string|25'],
+                        value:  [$scope.Stok[0].BARCODE]
+                    }
+                    await db.ExecutePromiseQuery(TmpQuery);
+                }
+                /* ************************************************************** */
+
                 $scope.TxtBarkod = ""; 
                 //*********** BİRDEN FAZLA MİKTARLI FİYAT GÜNCELLEME İÇİN YAPILDI. */
                 // let TmpSatisData = await db.GetPromiseTag($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]);
@@ -3119,7 +3131,7 @@ function Pos($scope,$window,$rootScope,db)
                     {
                         await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','FULL DELETE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
         
-                        db.ExecuteTag($scope.Firma,'PosSatisBelgeIptal',[$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
+                        db.ExecuteTag($scope.Firma,'PosSatisBelgeIptal',[$scope.Seri,$scope.Sira,$scope.EvrakTip],async function(data)
                         {
                             if(typeof(data.result.err) == 'undefined')
                             {
@@ -3128,9 +3140,25 @@ function Pos($scope,$window,$rootScope,db)
                                     if(typeof(data.result.err) != 'undefined')
                                     {
                                         console.log(data.result.err);
-                                    }
+                                    }                                    
                                 });
             
+                                for (let i = 0; i < $scope.SatisList.length; i++) 
+                                {
+                                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                                    if($scope.SatisList[i].BARCODE.substring(0,2) == "27")
+                                    {
+                                        let TmpUniqQuery = 
+                                        {
+                                            query:  "UPDATE ITEM_UNIQ SET QUANTITY = 1 WHERE CODE = @CODE",
+                                            param:  ['CODE:string|25'],
+                                            value:  [$scope.SatisList[i].BARCODE]
+                                        }
+                                        await db.ExecutePromiseQuery(TmpUniqQuery);
+                                    }
+                                    /* ************************************************************** */
+                                }
+                                
                                 $scope.YeniEvrak();
                             }
                             else
@@ -3181,8 +3209,8 @@ function Pos($scope,$window,$rootScope,db)
                                 value:  [0,$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira]
                             }
                                     
-                            await db.GetPromiseQuery(TmpQuery)
-            
+                            await db.GetPromiseQuery(TmpQuery)                            
+
                             db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],(pData)=>
                             {
                                 InsertSonYenile(pData)
@@ -3196,14 +3224,27 @@ function Pos($scope,$window,$rootScope,db)
                                 {
                                     if($scope.SatisList.length <= 1)
                                     {
-                                        db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],function(data)
+                                        db.ExecuteTag($scope.Firma,'PosTahIptal',[$scope.Seri,$scope.Sira,0],async function(data)
                                         {
                                             if(typeof(data.result.err) != 'undefined')
                                             {
                                                 console.log(data.result.err);
-                                            }
+                                            }                                            
                                         });
                                         
+                                        /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                                        if($scope.SatisList[$scope.IslemListeSelectedIndex].BARCODE.substring(0,2) == "27")
+                                        {
+                                            let TmpUniqQuery = 
+                                            {
+                                                query:  "UPDATE ITEM_UNIQ SET QUANTITY = 1 WHERE CODE = @CODE",
+                                                param:  ['CODE:string|25'],
+                                                value:  [$scope.SatisList[$scope.IslemListeSelectedIndex].BARCODE]
+                                            }
+                                            await db.ExecutePromiseQuery(TmpUniqQuery);
+                                        }
+                                        /* ************************************************************** */
+
                                         $scope.YeniEvrak();
                                     }
                                     else

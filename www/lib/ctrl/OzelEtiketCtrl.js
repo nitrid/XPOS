@@ -76,8 +76,7 @@ function OzelEtiketCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "DECLARE @CODE AS NVARCHAR(25) " +
-                        "SET @CODE = (SELECT '27' + STR(YEAR(GETDATE()),4) + REPLACE(STR(MONTH(GETDATE()), 2), SPACE(1), '0') + REPLACE(STR(DAY(GETDATE()), 2), SPACE(1), '0') + REPLACE(STR(ISNULL(COUNT(CODE),0) + 1, 4), SPACE(1), '0') " + 
-                        "FROM ITEM_UNIQ WHERE SUBSTRING(CODE,1,10) = '27' + STR(YEAR(GETDATE()),4) + REPLACE(STR(MONTH(GETDATE()), 2), SPACE(1), '0') + REPLACE(STR(DAY(GETDATE()), 2), SPACE(1), '0')) " +
+                        "SET @CODE = (SELECT ISNULL(REPLACE(STR(MAX(CODE) + 1, 7), SPACE(1), '0'),'2700001') FROM ITEM_UNIQ WHERE CODE LIKE '27%') " +
                         "INSERT INTO [dbo].[ITEM_UNIQ] ( " +
                         " [CUSER] " +
                         ",[CDATE] " +
