@@ -11,8 +11,8 @@
           </ExpressionBindings>
           <StylePriority Ref="7" UseFont="false" UseTextAlignment="false" />
         </Item1>
-        <Item2 Ref="8" ControlType="XRBarCode" Name="barCode1" Module="5.08" AutoModule="true" TextAlignment="BottomCenter" SizeF="340,119.062546" LocationFloat="0, 110.419983" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="25,25,0,0,254">
-          <Symbology Ref="9" Name="Code39" WideNarrowRatio="3" CalcCheckSum="false" />
+        <Item2 Ref="8" ControlType="XRBarCode" Name="barCode1" Module="5.08" AutoModule="true" TextAlignment="BottomCenter" SizeF="318.833282,119.062531" LocationFloat="9.999995, 110.419983" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="25,25,0,0,254">
+          <Symbology Ref="9" Name="EAN8" />
           <ExpressionBindings>
             <Item1 Ref="10" EventName="BeforePrint" PropertyName="Text" Expression="[CODE]" />
           </ExpressionBindings>
