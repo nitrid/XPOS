@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report1" DataSourceSchema="[{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;LINE_NO&quot;:0,&quot;UNIT&quot;:&quot;U&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25},{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;LINE_NO&quot;:1,&quot;UNIT&quot;:&quot;Kg&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25}]" Margins="42, 46, 99, 61" PageWidth="850" PageHeight="1100" Version="19.2" DataMember="DATA" DataSource="#Ref-0" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="99.125">
+      <Controls>
+        <Item1 Ref="3" ControlType="XRLabel" Name="label1" Multiline="true" Text="label2" SizeF="287.5,23.0000038" LocationFloat="0, 0" Padding="2,2,0,0,100">
+          <ExpressionBindings>
+            <Item1 Ref="4" EventName="BeforePrint" PropertyName="Text" Expression="[DOC_FROM_NAME]" />
+          </ExpressionBindings>
+        </Item1>
+      </Controls>
+    </Item1>
+    <Item2 Ref="5" ControlType="DetailBand" Name="Detail" HeightF="23">
+      <Controls>
+        <Item1 Ref="6" ControlType="XRLabel" Name="label8" Multiline="true" Text="label8" SizeF="31.24997,23" LocationFloat="499.916656, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="7" EventName="BeforePrint" PropertyName="Text" Expression="[UNIT]" />
+          </ExpressionBindings>
+          <StylePriority Ref="8" UseBorders="false" />
+        </Item1>
+        <Item2 Ref="9" ControlType="XRLabel" Name="label2" Multiline="true" Text="label1" SizeF="91.0416641,23" LocationFloat="35.95832, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="10" EventName="BeforePrint" PropertyName="Text" Expression="[ITEM_CODE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="11" UseBorders="false" />
+        </Item2>
+        <Item3 Ref="12" ControlType="XRLabel" Name="label3" Multiline="true" Text="label6" TextAlignment="TopRight" SizeF="100,23" LocationFloat="652, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="13" EventName="BeforePrint" PropertyName="Text" Expression="[TOTAL_AMOUNT]" />
+          </ExpressionBindings>
+          <StylePriority Ref="14" UseBorders="false" />
+        </Item3>
+        <Item4 Ref="15" ControlType="XRLabel" Name="label4" Multiline="true" Text="label5" TextAlignment="TopRight" SizeF="82.29166,23" LocationFloat="569.7084, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="16" EventName="BeforePrint" PropertyName="Text" Expression="[TOTAL]" />
+          </ExpressionBindings>
+          <StylePriority Ref="17" UseBorders="false" />
+        </Item4>
+        <Item5 Ref="18" ControlType="XRLabel" Name="label5" Multiline="true" Text="label4" TextAlignment="TopRight" SizeF="48.9582825,23" LocationFloat="450.9585, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="19" EventName="BeforePrint" PropertyName="Text" Expression="[QUANTITY]" />
+          </ExpressionBindings>
+          <StylePriority Ref="20" UseBorders="false" />
+        </Item5>
+        <Item6 Ref="21" ControlType="XRLabel" Name="label6" Multiline="true" Text="label3" SizeF="295.8335,23" LocationFloat="126.999985, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="22" EventName="BeforePrint" PropertyName="Text" Expression="[ITEM_NAME]" />
+          </ExpressionBindings>
+          <StylePriority Ref="23" UseBorders="false" />
+        </Item6>
+        <Item7 Ref="24" ControlType="XRLabel" Name="label7" Multiline="true" Text="label7" TextAlignment="TopLeft" SizeF="35.95832,23" LocationFloat="0, 0" Padding="2,2,0,0,100" Borders="Right">
+          <ExpressionBindings>
+            <Item1 Ref="25" EventName="BeforePrint" PropertyName="Text" Expression="[LINE_NO]" />
+          </ExpressionBindings>
+          <StylePriority Ref="26" UseBorders="false" UseTextAlignment="false" />
+        </Item7>
+      </Controls>
+    </Item2>
+    <Item3 Ref="27" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="60.9583549" />
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v19.2" Ref="0" Content="~Xtra#NULL" Type="System.Data.DataTable" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>
