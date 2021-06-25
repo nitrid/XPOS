@@ -11,10 +11,10 @@ var Param = [
 	"UrunFiyatDegisimListesi" : "02528,002233,60656,01424,01423,60660,0223,0221,00,02560,02057,01777,02527",
 	"FisBaslik" : 
 	[
-		"7 ALLEE DU MIDI",
-		"54270 ESSEY LES NANCY",
-		"Tel : 03 83 93 33 07",
-		"nancy@prodorplus.fr",
+		"ZAC HECKENWALD",
+		"57740 LONGEVILLE-LES-ST-AVOLD",
+		"Tel : 03 87 91 00 32",
+		"longeville@prodorplus.fr",
 		"www.prodorplus.fr"
 	],
 	"ParkAciklama" : 

@@ -158,13 +158,13 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
                     "ISNULL(ITEM_GRP,'') AS ITEM_GRP, " +
                     "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE CODE = ITEM_GRP),'') AS ITEM_GRP_NAME, " +
                     "'' AS TITLE, " +
-                    "SUM(SALES.HT) AS HT, " +
-                    "SUM(SALES.TTC) AS TTC " +
+                    "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.HT) ELSE SUM(SALES.HT) * -1 END AS HT, " +
+                    "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.TTC) ELSE SUM(SALES.TTC) * -1 END AS TTC " +
                     "FROM POS_SALES_VW_01 AS SALES " +
                     "LEFT OUTER JOIN ITEMS ON " +
                     "SALES.ITEM_CODE = ITEMS.CODE " +
                     "WHERE SALES.DOC_DATE >= @ILKTARIH AND SALES.DOC_DATE <= @SONTARIH AND SALES.STATUS = 1 " +
-                    "GROUP BY ITEM_GRP ORDER BY ITEM_GRP",
+                    "GROUP BY ITEM_GRP,SALES.[TYPE] ORDER BY ITEM_GRP",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            

@@ -319,4 +319,8 @@ function CariCtrl ($scope,$window,$location,db)
             $("#MdlCariGrupEkle").modal('show')
         });
     }
+    $scope.Kapat = function()
+    {
+        $window.location = "/main.html#!/CariListesi"
+    }
 }
