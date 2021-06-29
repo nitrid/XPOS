@@ -252,7 +252,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     function BarkodFocus()
     {
-        $timeout( function(){$window.document.getElementById("Barkod").focus();},100);  
+        $timeout( function(){$window.document.getElementById("Barkod").focus();},500);  
     }
     function BirimGetir(pKodu)
     {
