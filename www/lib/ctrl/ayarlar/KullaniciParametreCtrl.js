@@ -380,6 +380,7 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
     {
         if($scope.Kodu != '' && $scope.Kullanici != '' && $scope.Sifre != '')
         {
+            console.log(1)
             let TmpQuery = 
             {
                 db : $scope.Firma,
@@ -407,8 +408,9 @@ function KullaniciParametreCtrl($route,$scope,$window,$rootScope,db)
                         "[GRUP_INDEX] " +
                         "FROM [POS_PLU] WHERE CUSER = @SUSER",
                 param : ['SUSER:string|25','DUSER:string|25'],
-                value : ['MAHO',$scope.Kullanici]
+                value : ['MAHO',$scope.Kodu]
             }
+            console.log(TmpQuery)
 
             await db.ExecutePromiseQuery(TmpQuery);
         }

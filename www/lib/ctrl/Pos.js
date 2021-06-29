@@ -1885,14 +1885,18 @@ function Pos($scope,$window,$rootScope,db)
                 });
             }
             //PLU GRUP GETİR
+            console.log($scope.Kullanici)
             db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,-1,0],function(PluGrpData)
             {
+                console.log(PluGrpData)
                 $scope.PluGrpList = PluGrpData;
                 if($scope.PluGrpList.length > 0)
                 {
                     $scope.PluGrupIndex = PluGrpData[0].GRUP_INDEX
+                    console.log($scope.Kullanici)
                     db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluGrpList[0].GRUP_INDEX,'1,2'],function(PluGrpData)
                     {   
+                        console.log(PluGrpData)
                         $scope.PluList = PluGrpData
                     });
                 }
