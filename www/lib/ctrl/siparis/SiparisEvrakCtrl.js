@@ -4,6 +4,16 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     let IslemSelectedRow = null;
     let StokSelectedRow = null;
     let EvrakSelectedRow = null;
+    document.onkeydown = function(e)
+    {       
+        if($("#TbBarkodGiris").hasClass('active') && document.activeElement.id != 'Miktar' && document.activeElement.id != 'Fiyat' && !$("#TbStok").hasClass('active'))
+        {
+            if(e.which != 13)
+            {
+                $scope.Barkod += e.key
+            }
+        }
+    }
     function Init()
     {
         DevExpress.localization.locale('fr');
