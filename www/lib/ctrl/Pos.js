@@ -1357,6 +1357,12 @@ function Pos($scope,$window,$rootScope,db)
         {
             db.ExecuteTag($scope.Firma,'PosSatisKapatUpdate',[$scope.Tarih,$scope.Sube,$scope.Seri,$scope.Sira,$scope.EvrakTip],function(data)
             {   
+                if(typeof data.result.err != 'undefined')
+                {
+                    console.log(data.result.err)
+                    return;
+                }
+                
                 let TmpQuery = 
                 {
                     db : $scope.Firma,
