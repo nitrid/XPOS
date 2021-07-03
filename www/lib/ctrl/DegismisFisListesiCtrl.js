@@ -73,7 +73,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                         "REF_NO AS REF_NO, " +
                         "DESCRIPTION AS DESCRIPTION " +
                         "FROM POS_MASTER_EXTRA " +
-                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH",
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'PARK DESC'",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
@@ -85,14 +85,12 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CONVERT(NVARCHAR(10),MAX(DOC_DATE)) AS DOC_DATE, " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),LDATE,103)) AS DOC_DATE, " +
                         "REF AS REF, " +
                         "REF_NO AS REF_NO, " +
-                        "'' AS DESCRIPTION " +
-                        "FROM POS_SALES  " +
-                        "WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH " +
-                        "AND STATUS = -2 " +
-                        "GROUP BY REF,REF_NO",
+                        "DESCRIPTION AS DESCRIPTION " +
+                        "FROM POS_MASTER_EXTRA " +
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'FULL DELETE'",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
@@ -104,14 +102,12 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CONVERT(NVARCHAR(10),MAX(DOC_DATE)) AS DOC_DATE, " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),LDATE,103)) AS DOC_DATE, " +
                         "REF AS REF, " +
                         "REF_NO AS REF_NO, " +
-                        "'' AS DESCRIPTION " +
-                        "FROM POS_SALES  " +
-                        "WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH " +
-                        "AND STATUS = -1 " +
-                        "GROUP BY REF,REF_NO",
+                        "DESCRIPTION AS DESCRIPTION " +
+                        "FROM POS_MASTER_EXTRA " +
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'ROW DELETE'",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
