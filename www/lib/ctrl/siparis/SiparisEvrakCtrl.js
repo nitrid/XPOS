@@ -124,7 +124,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             fields: 
             [
             {
-                name: "NO",
+                name: "LINE_NO",
                 title: "NO",
                 type: "number",
                 align: "center",
@@ -252,7 +252,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     function BarkodFocus()
     {
-        $timeout( function(){$window.document.getElementById("Barkod").focus();},100);  
+        $timeout( function(){$window.document.getElementById("Barkod").focus();},500);  
     }
     function BirimGetir(pKodu)
     {
@@ -373,7 +373,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 db : $scope.Firma,
                 query:  "SELECT *, " + 
                         "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
-                        "FROM ORDER_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE",
+                        "FROM ORDER_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
                 type:   ['string|25','int','int','int'],
                 value:  [pSeri,pSira,pEvrTip,pTip]

@@ -214,7 +214,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
             },
             onCellPrepared: function(e) 
             {        
-                if(e.cell.text == 'Espece' || e.cell.text == 'TPE' || e.cell.text == 'Cheque' || e.cell.text == 'CHEQUEe' || e.cell.text == "B.D'Avoir" || e.cell.text == "Surplus T.R.")
+                if(e.cell.text == 'Espece' || e.cell.text == 'TPE' || e.cell.text == 'Cheque' || e.cell.text == 'CHEQue' || e.cell.text == "B.D'Avoir" || e.cell.text == "Surplus T.R.")
                 {
                     e.cellElement.css("font-weight", "bold") 
                 }
@@ -462,7 +462,7 @@ function PosSatisRaporCtrl ($scope,$window,db)
                     "ISNULL((SELECT CASE WHEN MAX(DOC_TYPE) = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 0 AND PAYMENT.STATUS = 1),0) AS [Espece], " + 
                     "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 1 AND PAYMENT.STATUS = 1),0) AS [Carte Bancaire TPE], " + 
                     "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 2 AND PAYMENT.STATUS = 1),0) AS [Cheque], " + 
-                    "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 3 AND PAYMENT.STATUS = 1),0) AS [CHEQUEe], " + 
+                    "ISNULL((SELECT SUM(AMOUNT) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 3 AND PAYMENT.STATUS = 1),0) AS [CHEQue], " + 
                     "ISNULL((SELECT CASE WHEN MAX(DOC_TYPE) = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.TYPE = 4 AND PAYMENT.STATUS = 1),0) AS [Bon D''Avoir], " +
                     "ISNULL((SELECT SUM(TICKET_PLUS) FROM POS_PAYMENT_VW_01 AS PAYMENT WHERE PAYMENT.REF = SALES.REF AND PAYMENT.REF_NO = SALES.REF_NO AND PAYMENT.DOC_TYPE = SALES.TYPE AND PAYMENT.STATUS = 1),0) AS [Ticket Plus] " +  
                     "FROM POS_SALES_VW_01 AS SALES " +

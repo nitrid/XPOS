@@ -26,7 +26,7 @@ TYPE = 0 => SATIŞ
 TYPE = 1 => İADE
 --------------------------
 # TICKET
-TYPE = 0 => CHEQUEe
+TYPE = 0 => CHEQue
 TYPE = 1 => BON D'AVOIR - GIRIŞ
 TYPE = 2 => BON D'AVOIR - ÇIKIŞ
 TYPE = 3 => TANIMSIZ

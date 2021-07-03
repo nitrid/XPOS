@@ -863,7 +863,7 @@ angular.module('app.db', []).service('db',function($rootScope)
             else if(pTData[i].TYPE == 2)
                 TmpType = "Cheque"
             else if(pTData[i].TYPE == 3)
-                TmpType = "CHEQUEe"
+                TmpType = "CHEQue"
             else if(pTData[i].TYPE == 4)
                 TmpType = "BON D'AVOIR"
             else if(pTData[i].TYPE == 5)
@@ -1210,15 +1210,15 @@ angular.module('app.db', []).service('db',function($rootScope)
             TmpData.push(TmpLine); 
         }
 
-        if(_EqualToIndex(pData[2],"TYPE","CHEQUEe") > -1)
+        if(_EqualToIndex(pData[2],"TYPE","CHEQue") > -1)
         {
             TmpLine = 
             {
                 font: "b",
                 align: "lt",
-                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].TYPE ,35) + " " +
-                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].COUNT,10,"Start") + " " + 
-                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQUEe")].AMOUNT).toFixed(2),15,"Start")
+                data: _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQue")].TYPE ,35) + " " +
+                        _PrintText(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQue")].COUNT,10,"Start") + " " + 
+                        _PrintText(parseFloat(pData[2][_EqualToIndex(pData[2],"TYPE","CHEQue")].AMOUNT).toFixed(2),15,"Start")
             }
             
             TmpData.push(TmpLine); 
