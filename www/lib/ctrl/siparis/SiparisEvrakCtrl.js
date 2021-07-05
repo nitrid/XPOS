@@ -223,7 +223,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             selecting: true,
             data : $scope.EvrakListe,
             paging : true,
-            pageSize: 5,
+            pageSize: 10,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: 
@@ -233,14 +233,28 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                     title: db.Language($scope.Lang,"Ref"),
                     type: "text",
                     align: "center",
-                    width: 125
+                    width: 70
                 }, 
                 {
                     name: "REF_NO",
                     title: db.Language($scope.Lang,"Ref No"),
                     type: "text",
                     align: "center",
+                    width: 100
+                }, 
+                {
+                    name: "DOC_FROM_NAME",
+                    title: db.Language($scope.Lang,"Tedarikçi"),
+                    type: "text",
+                    align: "center",
                     width: 200
+                }, 
+                {
+                    name: "LINE_COUNT",
+                    title: db.Language($scope.Lang,"Satır Sayısı"),
+                    type: "text",
+                    align: "center",
+                    width: 100
                 }
             ],
             rowClick: function(args)
@@ -1104,7 +1118,9 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
         let TmpQuery =
         {
             db : $scope.Firma,
-            query:  "SELECT REF,REF_NO FROM ORDER_M_VW_01 WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LDATE DESC",
+            query:  "SELECT REF,REF_NO,DOC_FROM_NAME, " + 
+                    "ISNULL((SELECT COUNT(*) FROM ORDER_VW_01 AS D WHERE D.REF = M.REF AND D.REF_NO = M.REF_NO),0) AS LINE_COUNT " +
+                    "FROM ORDER_M_VW_01 AS M WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LDATE DESC",
             param:  ['TYPE:int','DOC_TYPE:int'],
             value:  [$scope.Tip,$scope.EvrakTip]
         }
