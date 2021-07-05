@@ -380,7 +380,11 @@ function StokCtrl ($scope,$window,$location,db)
         {
             QueryField.Code.Where = " ITEMS.CODE LIKE " + TmpVal + " + '%') ";
         }
-
+        if($scope.StokListesi.Adi.length > 0 && $scope.StokListesi.Adi.indexOf("*") == -1)
+        {
+            $scope.StokListesi.Adi += "*"
+        }
+        
         let TmpQuery = 
         {
             db : $scope.Firma,
@@ -2233,7 +2237,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery =
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1"
+                query:  "SELECT [CODE],[NAME] FROM CUSTOMERS WHERE TYPE = 1 ORDER BY [NAME] ASC"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
@@ -2261,7 +2265,7 @@ function StokCtrl ($scope,$window,$location,db)
             let TmpQuery =
             {
                 db : $scope.Firma,
-                query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP"
+                query:  "SELECT [CODE],[NAME] FROM ITEM_GROUP ORDER BY [NAME] ASC"
             }
             db.GetDataQuery(TmpQuery,function(Data)
             {
