@@ -332,7 +332,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                 db : $scope.Firma,
                 query:  "SELECT " +
                         "ITEMS.CODE AS CODE, " +
-                        "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ORDER BY ITEM_BARCODE.LDATE DESC),'') AS BARCODE, " +
+                        "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ((ITEM_BARCODE.BARCODE = @BARCODE) OR (ITEM_BARCODE.ITEM_CODE = @BARCODE) OR (@BARCODE = '')) ORDER BY ITEM_BARCODE.LDATE DESC),MAX(ITEM_BARCODE.BARCODE)) AS BARCODE, " +
                         "MAX(ITEMS.NAME) AS NAME, " +
                         "ISNULL((SELECT TOP 1 C.NAME FROM CUSTOMERS AS C WHERE C.CODE = MAX(ITEM_CUSTOMER.CUSTOMER_CODE)),'') AS CUSTOMER_NAME, " +
                         "MAX(ITEMS.ITEM_GRP) AS ITEM_GRP, " +
