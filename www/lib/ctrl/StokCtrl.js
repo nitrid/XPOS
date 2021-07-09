@@ -495,7 +495,7 @@ function StokCtrl ($scope,$window,$location,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
+            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP ORDER BY [NAME] ASC"
         }
         db.GetDataQuery(TmpQuery,function(Data)
         {
