@@ -120,7 +120,6 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             pageSize: 3,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
-           
             fields: 
             [
             {
@@ -211,7 +210,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             }
         });
     }
-    function InitEvrakGrid()
+    function InitEvrakGrid(pPage)
     {
         $("#TblEvrak").jsGrid
         ({
@@ -222,7 +221,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             heading: true,
             selecting: true,
             data : $scope.EvrakListe,
-            paging : true,
+            paging : pPage,
             pageSize: 10,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
@@ -1130,5 +1129,9 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     $scope.BtnTumu = function()
     {
         InitIslemGrid(false);  
+    }
+    $scope.BtnEvrakTumu = function()
+    {
+        InitEvrakGrid(false);  
     }
 }
