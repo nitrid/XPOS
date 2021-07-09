@@ -348,7 +348,7 @@ function StokCtrl ($scope,$window,$location,db)
             if($scope.StokListesi.Kolon[x].CODE == "PRICE")    
             {
                 QueryField.Price.Field = "ISNULL(ITEM_PRICE.PRICE,0) AS PRICE, ";
-                QueryField.Price.Outer = "LEFT OUTER JOIN ITEM_PRICE ON ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 AND ITEM_PRICE.FINISH_DATE > '19700101' AND ITEM_PRICE.FINISH_DATE < GETDATE() ";
+                QueryField.Price.Outer = "LEFT OUTER JOIN ITEM_PRICE ON ITEM_PRICE.ITEM_CODE = ITEMS.CODE AND ITEM_PRICE.TYPE = 0 AND ITEM_PRICE.FINISH_DATE > '19700101' AND ITEM_PRICE.FINISH_DATE > GETDATE() ";
             } 
             if($scope.StokListesi.Kolon[x].CODE == "CUSTOMER_ITEM_CODE")    
             {
