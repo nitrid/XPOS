@@ -484,10 +484,15 @@ angular.module('app.db', []).service('db',function($rootScope)
     {
         if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,2) == "02" || pValue.substring(0,2) == "29"))
         {      
-           return true;
+            //FIYAT BARKODU
+            return 1;
         }
-        
-        return false;
+        else if(pValue.length >= 12 && pValue.length <= 14 && pValue.substring(0,2) == "27")
+        {
+            //MİKTAR BARKODU
+            return 2;
+        }
+        return 0;
     }
     function _ListEqual(pData,pFiltre)
     {

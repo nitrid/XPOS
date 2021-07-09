@@ -2197,9 +2197,9 @@ function Pos($scope,$window,$rootScope,db)
             }
             //***************************** */
             let TmpFiyat = 0;
-
-            if(db.IsUnitBarcode(pBarkod))
-            {                
+            let TmpMiktar = 0;
+            if(db.IsUnitBarcode(pBarkod) == 1)
+            {   
                 if(pBarkod.length == 12)
                 {
                     TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.152445).toDigit2();
@@ -2211,9 +2211,14 @@ function Pos($scope,$window,$rootScope,db)
                     pBarkod = pBarkod.substring(0,7) + "MMMCCF";
                 }
             }
+            else if(db.IsUnitBarcode(pBarkod) == 2)
+            {
+                TmpMiktar = ((pBarkod.substring(7,pBarkod.length-1)) / 1000);
+                pBarkod = pBarkod.substring(0,7) + "KKGGG";
+            }
             /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
             let TmpSpecBar = "";
-            if(pBarkod.substring(0,2) == "27")
+            if(pBarkod.substring(0,2) == "27" && pBarkod.length >= 7 && pBarkod.length <= 8)
             {                
                 let TmpQuery =
                 {
@@ -2244,7 +2249,11 @@ function Pos($scope,$window,$rootScope,db)
                     if(TmpFiyat > 0 )
                     {
                         $scope.Stok[0].PRICE = TmpFiyat;
-                    }                                   
+                    }    
+                    if(TmpMiktar > 0 )
+                    {
+                        $scope.Miktar = TmpMiktar;
+                    }                                 
                     //EĞER BİLGİ BUTONUNA BASILDIYSA FİYAT GÖR EKRANI ÇIKACAK.
                     if($scope.Class.BtnFiyatGor == "form-group btn btn-warning btn-block my-1")
                     {
