@@ -151,7 +151,7 @@ function DegisenOrgineListesiCtrl ($scope,$window,db)
                     "CODE AS CODE, " +
                     "NAME AS NAME, " +
                     "ISNULL((SELECT NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
-                    "FROM ITEMS WHERE ITEM_GRP = @ITEM_GRP AND LDATE >= @ILKTARIH AND LDATE <= @SONTARIH",
+                    "FROM ITEMS WHERE ITEM_GRP = @ITEM_GRP AND CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH",
             param:  ['ITEM_GRP','ILKTARIH','SONTARIH'],
             type:   ['string|25','date','date'],
             value:  [$scope.Grup,moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
