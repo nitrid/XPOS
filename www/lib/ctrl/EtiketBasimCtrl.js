@@ -151,6 +151,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             dataSource: $scope.StokSecimListe,
             allowColumnReordering: true,
             showBorders: true,
+            allowColumnResizing: true,
             selection: 
             {
                 mode: "multiple"
