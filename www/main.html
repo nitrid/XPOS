@@ -563,9 +563,11 @@
       })(document, window, jQuery);
       $('.animsition-link').on('click', function()
       {
-        if($('.hamburger-arrow-left').hasClass('unfolded'))
+        console.log(111)
+        if($('.navbar-toggler').hasClass('unfolded'))
         {
-          $('#BtnHamb').click(); //bootstrap 4.x
+          console.log(112)
+          $('.navbar-toggler').click(); //bootstrap 4.x
         }
       });
       //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
