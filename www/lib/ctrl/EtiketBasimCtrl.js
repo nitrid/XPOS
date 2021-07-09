@@ -329,7 +329,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "MAX(ITEMS.NAME) AS NAME, " +
                         "ISNULL((SELECT TOP 1 C.NAME FROM CUSTOMERS AS C WHERE C.CODE = MAX(ITEM_CUSTOMER.CUSTOMER_CODE)),'') AS CUSTOMER_NAME, " +
                         "MAX(ITEMS.ITEM_GRP) AS ITEM_GRP, " +
-                        "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = MAX(ITEMS.ITEM_GRP)),'') AS ITEM_GRP_NAME, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = MAX(ITEMS.ITEM_GRP)),'') AS ITEM_GRP_NAME, " +
                         "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
                         "MAX(FACTOR) AS FACTOR, " +
                         "CONVERT(NVARCHAR,MAX(FACTOR)) + ' ' + MAX(SHORT) AS UNDER_UNIT_VALUE, " +
@@ -370,14 +370,14 @@ function EtiketBasimCtrl ($scope,$window,db)
         {
             $scope.Lang = "TR";
         }
-        console.log(1)
+        
         SelectedData = [];
         RefSelectedData = [];
         EtiketSelected = {};
-        console.log(2)
+
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.Sube = "1";
-        console.log(3)
+
         $scope.Firma = 'PIQPOS';
 
         $scope.StokSecimListe = [];
@@ -391,7 +391,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         $scope.RefNo = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REF_NO),0) + 1 AS REF_NO FROM LABEL_QUEUE WHERE REF = @REF",param:['REF:string|25'],value:[$scope.Ref]}))[0].REF_NO;
         $scope.Sayfa = 0;
         $scope.BosEtiketAlan = 0;
-        console.log(4)
+
         InitBarkodGrid();
         InitStokSecimGrid();
         InitReferansSecimGrid();
@@ -405,7 +405,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         let TmpData = await db.GetPromiseQuery(TmpQuery);
         $scope.EtiketListe = TmpData;
         $scope.$apply();
-        console.log(5)
+
         TmpQuery = 
         {
             db : $scope.Firma,
@@ -443,11 +443,10 @@ function EtiketBasimCtrl ($scope,$window,db)
                 }
             }
         }
-        console.log(6)
+        
         $scope.Wizard.GrupGetir();
-        console.log(7)
         $scope.Wizard.TedarikciGetir();
-        console.log(8)
+
         $scope.Wizard.CurrentPage = "1";
         $scope.Wizard.FrmCheck = [true,false,false,false,false]
         $scope.Wizard.Tarih = moment(new Date()).format("DD/MM/YYYY");
