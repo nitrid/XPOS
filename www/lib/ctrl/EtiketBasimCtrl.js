@@ -94,6 +94,14 @@ function EtiketBasimCtrl ($scope,$window,db)
                     dataType: "string",
                     //width: "100",
                     hidingPriority: 2
+                },
+                {
+                    dataField: "LINE_NO",
+                    caption: db.Language($scope.Lang,"SATIR NO"),
+                    dataType: "string",
+                    //width: "100",
+                    hidingPriority: 3,
+                    sortOrder: "desc"
                 }
             ],
             onRowRemoved: function(e) 
@@ -337,7 +345,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND ITEM_UNIT.TYPE = 1 " +
                         "LEFT OUTER JOIN UNIT ON " +
                         "UNIT.NAME = ITEM_UNIT.NAME " +
-                        "WHERE ((BARCODE = @BARCODE) OR (ITEMS.CODE = @BARCODE) OR (@BARCODE = '')) AND ITEMS.STATUS = 1 " + 
+                        "WHERE ((BARCODE = @BARCODE) OR (ITEMS.CODE = @BARCODE) OR (ITEM_CUSTOMER.CUSTOMER_ITEM_CODE = @BARCODE) OR (@BARCODE = '')) AND ITEMS.STATUS = 1 " + 
                         "GROUP BY ITEMS.CODE",
                 param : ['BARCODE:string|25'],
                 value : [pBarkod]
@@ -353,7 +361,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         });
     }
     $scope.Init = async function()
-    {        
+    {    
         if(typeof localStorage.Lang != 'undefined')
         {
             $scope.Lang = localStorage.Lang;
@@ -570,7 +578,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "FACTOR, " +
                         "UNDER_UNIT_VALUE, " +
                         "UNDER_UNIT_PRICE, " +
-                        "DESCRIPTION " +
+                        "DESCRIPTION, " +
+                        "ISNULL(LINE_NO,0) AS LINE_NO " +
                         "FROM LABEL_QUEUE AS D  " +
                         "CROSS APPLY  " +
                         "(SELECT * FROM OPENJSON(JSON_QUERY (D.DATA, '$.data')) " +
@@ -585,9 +594,10 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "[FACTOR] nvarchar(50) '$.FACTOR', " +
                         "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
                         "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE', " +
-                        "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION' " +
+                        "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION', " +
+                        "[LINE_NO] int '$.LINE_NO' " +
                         ")) JS " +
-                        "WHERE STATUS = 0 AND REF = @REF AND REF_NO = @REF_NO",
+                        "WHERE STATUS = 0 AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO DESC",
                 param:  ['REF','REF_NO'],
                 type:   ['string|25','int'],
                 value:  [$scope.Ref,$scope.RefNo]
@@ -603,6 +613,16 @@ function EtiketBasimCtrl ($scope,$window,db)
     {
         let Data = {data:$scope.BarkodListe}
 
+        let TmpLineNo = db.MaxColumn(Data.data,"LINE_NO");
+        for (let i = 0; i < Data.data.length; i++) 
+        {
+            if(typeof Data.data[i].LINE_NO == 'undefined')
+            {
+                TmpLineNo += 1
+                Data.data[i].LINE_NO = TmpLineNo;
+            }
+        }
+        
         let InsertData = 
         [
             $scope.Kullanici,
@@ -614,6 +634,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             0
         ]
         db.ExecuteTag($scope.Firma,'LabelQueueInsert',InsertData)
+        InitBarkodGrid();
     }
     $scope.OnIzleme = function()
     {
