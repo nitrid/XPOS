@@ -69,7 +69,30 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.FiyatEdit = 0;
 
         $scope.Loading = false;
-        $scope.TblLoading = true;        
+        $scope.TblLoading = true;   
+        
+        $scope.OzelBirim = ""
+        $scope.CmbOzelBirim = 
+        {
+            width: "100%",
+            dataSource: [{CODE:"PALET",NAME:"PALET"},{CODE:"KARTON",NAME:"KARTON"},{CODE:"BOX",NAME:"BOX"}],
+            displayExpr: "NAME",
+            valueExpr: "CODE",
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: 'OzelBirim',
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.OzelBirim = ""
+                }
+            }
+        }
     }
     function InitCariGrid()
     {
@@ -143,6 +166,13 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 type: "text",
                 align: "center",
                 width: 200
+            }, 
+            {
+                name: "DESCRIPTION",
+                title: db.Language($scope.Lang,"BIRIM"),
+                type: "text",
+                align: "center",
+                width: 100
             }, 
             {
                 name: "QUANTITY",
@@ -848,7 +878,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         $scope.MiktarEdit = $scope.SiparisListe[$scope.IslemListeSelectedIndex].QUANTITY;
         $scope.FiyatEdit = $scope.SiparisListe[$scope.IslemListeSelectedIndex].PRICE;
-
+        $scope.OzelBirim = ""
+        
         $("#MdlDuzenle").modal('show');
     }
     $scope.BtnDuzenleKaydet = function(pIndex)
@@ -863,7 +894,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             $scope.MiktarEdit,
             $scope.FiyatEdit,
             $scope.SiparisListe[pIndex].DISCOUNT,
-            TmpVat
+            TmpVat,
+            $scope.OzelBirim,
         ]
         db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
         {

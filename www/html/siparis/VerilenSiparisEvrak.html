@@ -3,6 +3,15 @@
     {
         font-size: 12px;    
     }
+    .modal.fade 
+    {
+        z-index: 1500 !important;
+    }
+    .modal-backdrop
+    {
+        z-index: 1499 !important;
+    }
+    .alertify { z-index:999999 !important; }
 </style>
 <div class="col px-0" ng-controller="SiparisEvrakCtrl" ng-init="YeniEvrak(1)">
     <div class="panel panel-bordered">
@@ -555,6 +564,10 @@ Tel:0252 214 78 58 muglasutas@hotmail.com<br>
                         <div class="form-group row my-5">
                             <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Fiyat :</b></span></div></label>
                             <input type="text" class="form-control col-8" ng-model="FiyatEdit">
+                        </div>
+                        <div class="form-group row my-5">
+                            <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Birim :</b></span></div></label>
+                            <div class="form-control col-8" dx-select-box="CmbOzelBirim"></div>
                         </div>
                     <div class="row px-10">
                         <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnDuzenleKaydet(this.IslemListeSelectedIndex)" langu>Kaydet</button>
