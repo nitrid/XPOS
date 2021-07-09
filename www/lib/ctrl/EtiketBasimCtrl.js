@@ -341,7 +341,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "CONVERT(NVARCHAR,MAX(FACTOR)) + ' ' + MAX(SHORT) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL(MAX(FACTOR),0) = 0 THEN '0' ELSE " +
                         "ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL(MAX(FACTOR),0),2) END AS UNDER_UNIT_PRICE, " +
-                        "ITEM_CUSTOMER.CUSTOMER_ITEM_CODE AS CUSTOMER_ITEM_CODE, " +
+                        "MAX(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE) AS CUSTOMER_ITEM_CODE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
                         "LEFT OUTER JOIN ITEM_BARCODE ON " +
