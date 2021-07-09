@@ -107,7 +107,7 @@ function CariCtrl ($scope,$window,$location,db)
         alertify.okBtn(db.Language($scope.Lang,'Evet'));
         alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-        alertify.confirm(db.Language($scope.Lang,'Kayıt etmek istediğinize eminmisiniz ?')), 
+        alertify.confirm(db.Language($scope.Lang,'Kayıt etmek istediğinize eminmisiniz ?'), 
         function()
         { 
             if($scope.CariListe[0].CODE != '')
@@ -171,7 +171,7 @@ function CariCtrl ($scope,$window,$location,db)
                 alertify.alert(db.Language($scope.Lang,"Kodu bölümünü boş geçemezsiniz !"));
             }
         }
-        ,function(){};
+        ,function(){});
     }
     $scope.Sil = function()
     {

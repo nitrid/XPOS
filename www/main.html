@@ -151,7 +151,7 @@
                 <!-- Navbar Toolbar -->
                 <ul class="nav navbar-toolbar">
                   <li class="nav-item hidden-float" id="toggleMenubar">
-                    <a class="nav-link" data-toggle="menubar" role="button">
+                    <a class="nav-link" data-toggle="menubar" role="button" id="BtnHamb">
                       <i class="icon hamburger hamburger-arrow-left">
                         <span class="sr-only">Toggle menubar</span>
                         <span class="hamburger-bar"></span>
@@ -241,6 +241,11 @@
                   <li class='site-menu-item'>
                     <a class='animsition-link' href='#!OzelEtiket'>
                       <span class='site-menu-title' langu>Özel Etiket Basımı</span>
+                    </a>
+                  </li>
+                  <li class='site-menu-item'>
+                    <a class='animsition-link' href='#!DegisenOrgineListesi'>
+                      <span class='site-menu-title' langu>Değişen Orgine Listesi</span>
                     </a>
                   </li>
                 </ul>
@@ -524,6 +529,7 @@
     <script src="lib/ctrl/siparis/SiparisEvrakCtrl.js"></script>
     <script src="lib/ctrl/siparis/TopluSiparisBirlestirmeCtrl.js"></script>
     <script src="lib/ctrl/siparis/SiparisListesiCtrl.js"></script>
+    <script src="lib/ctrl/DegisenOrgineListesiCtrl.js"></script>
     <script src="lib/ctrl/TicketKontrolCtrl.js"></script>
     <script src="lib/QuerySql.js"></script>    
 
@@ -555,7 +561,13 @@
           Site.run();
         });
       })(document, window, jQuery);
-
+      $('.animsition-link').on('click', function()
+      {
+        if($('.hamburger-arrow-left').hasClass('unfolded'))
+        {
+          $('#BtnHamb').click(); //bootstrap 4.x
+        }
+      });
       //JS GRİD ONDALIKLI SAYILAR İÇİN YAPILDI *****************//
       function DecimalField(config) 
       {
