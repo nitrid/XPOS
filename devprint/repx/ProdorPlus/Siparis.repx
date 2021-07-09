@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report11" DataSourceSchema="[{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;LINE_NO&quot;:0,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;UNIT&quot;:&quot;U&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25},{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;LINE_NO&quot;:1,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;UNIT&quot;:&quot;Kg&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25}]" Margins="30, 30, 189, 100" PageWidth="850" PageHeight="1100" Version="19.2" DataMember="DATA" DataSource="#Ref-0" Font="Arial, 9.75pt">
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report11" DataSourceSchema="[{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DESCRIPTION&quot;:&quot;PALET&quot;,&quot;UNIT&quot;:&quot;U&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;LINE_NO&quot;:0,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;UNIT&quot;:&quot;U&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25},{&quot;GUID&quot;:&quot;BBE2B262-7FD3-4EC1-99BB-B6E6A8B496A1&quot;,&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-06-22T18:25:05.813Z&quot;,&quot;TYPE&quot;:0,&quot;DOC_TYPE&quot;:0,&quot;REF&quot;:&quot;SIP&quot;,&quot;REF_NO&quot;:3,&quot;DOC_DATE&quot;:&quot;2021-06-22T00:00:00.000Z&quot;,&quot;DESCRIPTION&quot;:&quot;&quot;,&quot;UNIT&quot;:&quot;Kg&quot;,&quot;DOC_FROM&quot;:&quot;0000.000008&quot;,&quot;DOC_FROM_NAME&quot;:&quot;C.S.F PRODIM CARREFOUR&quot;,&quot;DOC_TO&quot;:&quot;1&quot;,&quot;DOC_TO_NAME&quot;:&quot;MERKEZ&quot;,&quot;LINE_NO&quot;:1,&quot;ITEM_CODE&quot;:&quot;721422&quot;,&quot;ITEM_NAME&quot;:&quot;CRF 10 MINIS CONES 177G&quot;,&quot;UNIT&quot;:&quot;Kg&quot;,&quot;QUANTITY&quot;:1,&quot;PRICE&quot;:2.25,&quot;DISCOUNT&quot;:0,&quot;VAT&quot;:5.5,&quot;AMOUNT&quot;:2.25,&quot;TOTAL_AMOUNT&quot;:2.25,&quot;TOTAL_DISCOUNT&quot;:0,&quot;TOTAL_VAT&quot;:5.5,&quot;TOTAL&quot;:2.25}]" Margins="30, 30, 189, 100" PageWidth="850" PageHeight="1100" Version="19.2" DataMember="DATA" DataSource="#Ref-0" Font="Arial, 9.75pt">
   <Bands>
     <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="189">
       <Controls>
@@ -101,45 +101,50 @@
                   </ExpressionBindings>
                   <StylePriority Ref="54" UseBorders="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="55" ControlType="XRTableCell" Name="tableCell10" Weight="0.10887642772945302" StyleName="DetailData1">
+                <Item2 Ref="55" ControlType="XRTableCell" Name="tableCell10" Weight="0.12490209920871609" StyleName="DetailData1">
                   <ExpressionBindings>
                     <Item1 Ref="56" EventName="BeforePrint" PropertyName="Text" Expression="[ITEM_CODE]" />
                   </ExpressionBindings>
                 </Item2>
-                <Item3 Ref="57" ControlType="XRTableCell" Name="tableCell11" Weight="0.57492654825855816" StyleName="DetailData1">
+                <Item3 Ref="57" ControlType="XRTableCell" Name="tableCell11" Weight="0.43489913247769829" StyleName="DetailData1">
                   <ExpressionBindings>
                     <Item1 Ref="58" EventName="BeforePrint" PropertyName="Text" Expression="[ITEM_NAME]" />
                   </ExpressionBindings>
                 </Item3>
-                <Item4 Ref="59" ControlType="XRTableCell" Name="tableCell12" Weight="0.080711335624934044" StyleName="DetailData1">
+                <Item4 Ref="59" ControlType="XRTableCell" Name="tableCell12" Weight="0.12400174430159686" Multiline="true" Text="tableCell17" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="60" EventName="BeforePrint" PropertyName="Text" Expression="[Carton]" />
+                    <Item1 Ref="60" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPTION]" />
                   </ExpressionBindings>
                 </Item4>
-                <Item5 Ref="61" ControlType="XRTableCell" Name="tableCell13" Weight="0.08166221398832213" TextAlignment="MiddleRight" StyleName="DetailData1">
+                <Item5 Ref="61" ControlType="XRTableCell" Name="tableCell13" Weight="0.080711335624934044" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="62" EventName="BeforePrint" PropertyName="Text" Expression="[QUANTITY]" />
+                    <Item1 Ref="62" EventName="BeforePrint" PropertyName="Text" Expression="[UNIT]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="63" UseTextAlignment="false" />
                 </Item5>
-                <Item6 Ref="64" ControlType="XRTableCell" Name="tableCell14" Weight="0.084539795852980437" Text="0" TextAlignment="MiddleRight" StyleName="DetailData1">
+                <Item6 Ref="63" ControlType="XRTableCell" Name="tableCell14" Weight="0.08166221398832213" TextAlignment="MiddleRight" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="65" EventName="BeforePrint" PropertyName="Text" Expression="0" />
+                    <Item1 Ref="64" EventName="BeforePrint" PropertyName="Text" Expression="[QUANTITY]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="66" UseTextAlignment="false" />
+                  <StylePriority Ref="65" UseTextAlignment="false" />
                 </Item6>
-                <Item7 Ref="67" ControlType="XRTableCell" Name="tableCell15" Weight="0.06737200274270333" TextAlignment="MiddleRight" StyleName="DetailData1">
+                <Item7 Ref="66" ControlType="XRTableCell" Name="tableCell15" Weight="0.084539795852980437" Text="0" TextAlignment="MiddleRight" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="68" EventName="BeforePrint" PropertyName="Text" Expression="[VAT]" />
+                    <Item1 Ref="67" EventName="BeforePrint" PropertyName="Text" Expression="0" />
                   </ExpressionBindings>
-                  <StylePriority Ref="69" UseTextAlignment="false" />
+                  <StylePriority Ref="68" UseTextAlignment="false" />
                 </Item7>
-                <Item8 Ref="70" ControlType="XRTableCell" Name="tableCell16" Weight="0.15860567402697925" TextFormatString="0" TextAlignment="MiddleRight" StyleName="DetailData1">
+                <Item8 Ref="69" ControlType="XRTableCell" Name="tableCell16" Weight="0.06737200274270333" TextAlignment="MiddleRight" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="71" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNT]" />
+                    <Item1 Ref="70" EventName="BeforePrint" PropertyName="Text" Expression="[VAT]" />
                   </ExpressionBindings>
-                  <StylePriority Ref="72" UseTextAlignment="false" />
+                  <StylePriority Ref="71" UseTextAlignment="false" />
                 </Item8>
+                <Item9 Ref="72" ControlType="XRTableCell" Name="tableCell17" Weight="0.15860567402697925" TextFormatString="0" TextAlignment="MiddleRight" StyleName="DetailData1">
+                  <ExpressionBindings>
+                    <Item1 Ref="73" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNT]" />
+                  </ExpressionBindings>
+                  <StylePriority Ref="74" UseTextAlignment="false" />
+                </Item9>
               </Cells>
             </Item1>
           </Rows>
@@ -148,11 +153,11 @@
     </Item5>
   </Bands>
   <StyleSheet>
-    <Item1 Ref="73" Name="Title" BorderStyle="Inset" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
-    <Item2 Ref="74" Name="DetailCaption1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item3 Ref="75" Name="DetailData1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BorderColor="Transparent" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
-    <Item4 Ref="76" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
-    <Item5 Ref="77" Name="PageInfo" BorderStyle="Inset" Padding="2,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
+    <Item1 Ref="75" Name="Title" BorderStyle="Inset" Font="Arial, 14.25pt" ForeColor="255,75,75,75" BackColor="Transparent" BorderColor="Black" Sides="None" StringFormat="Near;Near;0;None;Character;Default" BorderWidthSerializable="1" />
+    <Item2 Ref="76" Name="DetailCaption1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="White" BackColor="255,75,75,75" BorderColor="White" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item3 Ref="77" Name="DetailData1" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BorderColor="Transparent" Sides="Left" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="2" />
+    <Item4 Ref="78" Name="DetailData3_Odd" BorderStyle="Inset" Padding="6,6,0,0,100" Font="Arial, 8.25pt" ForeColor="Black" BackColor="255,231,231,231" BorderColor="Transparent" Sides="None" StringFormat="Near;Center;0;None;Character;Default" TextAlignment="MiddleLeft" BorderWidthSerializable="1" />
+    <Item5 Ref="79" Name="PageInfo" BorderStyle="Inset" Padding="2,2,0,0,100" Font="Arial, 8.25pt, style=Bold" ForeColor="255,75,75,75" StringFormat="Near;Near;0;None;Character;Default" />
   </StyleSheet>
   <ObjectStorage>
     <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v19.2" Ref="0" Content="~Xtra#NULL" Type="System.Data.DataTable" />
