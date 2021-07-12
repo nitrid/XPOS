@@ -57,5 +57,11 @@ GENUS = 0 => MÜŞTERİ
 GENUS = 1 => TEDARİKÇİ
 GENUS = 0 => HER İKİSİ
 --------------------------
+# INVOICEM
+DOC_TYPE = 0 => FIYAT FARKI
+DOC_TYPE = 1 => IADE
 
+TYPE = 0 => GIRIŞ 
+TYPE = 1 => ÇIKIŞ
+---------------------------
 ÖZELLİKLE İLK KURULUMLARDA SQL E BAĞLANMADIĞINDA LOGİN EKRANI KİLİTLENİYOR.

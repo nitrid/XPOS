@@ -89,6 +89,14 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/DegisenOrgineListesi.html"
     })
+    .when("/FiyatFarkiEvrak",
+    {
+        templateUrl : "html/fatura/FiyatFarkiEvrak.html"
+    })
+    .when("/IadeEvrak",
+    {
+        templateUrl : "html/fatura/IadeEvrak.html"
+    })
     .when("/KullaniciParametre",
     {
         templateUrl : "html/ayarlar/KullaniciParametre.html"

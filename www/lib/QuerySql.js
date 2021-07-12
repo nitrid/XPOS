@@ -1453,6 +1453,68 @@ var QuerySql =
                 "@REF_NO = @PREF_NO " , 
         param : ['PDELTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int']
     },
+    //FATURA 
+    MaxFaturaNo :
+    {
+        query : "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXSIRA FROM INVOICEM WHERE REF = @REF AND DOC_TYPE = @DOC_TYPE",
+        param : ['REF:string|25','DOC_TYPE:int']
+    },
+    FaturaInsert : 
+    {
+        query:  "DECLARE @TMP DATETIME " +
+                "SET @TMP = GETDATE() " +
+                "EXEC [dbo].[PRD_INVOICE_INSERT] " + 
+                "@CUSER = @PCUSER, " + 
+                "@CDATE = @TMP, " + 
+                "@LUSER = @PLUSER, " + 
+                "@LDATE = @TMP, " + 
+                "@TYPE = @PTYPE, " + 
+                "@DOC_TYPE = @PDOC_TYPE, " + 
+                "@REF = @PREF, " + 
+                "@REF_NO = @PREF_NO, " + 
+                "@DOC_DATE = @PDOC_DATE, " + 
+                "@CUSTOMER = @PCUSTOMER, " + 
+                "@DEPOT = @PDEPOT, " + 
+                "@ITEM_CODE = @PITEM_CODE, " + 
+                "@QUANTITY = @PQUANTITY, " + 
+                "@PRICE = @PPRICE, " + 
+                "@DISCOUNT = @PDISCOUNT, " + 
+                "@VAT = @PVAT, " + 
+                "@DESCRIPTION = @PDESCRIPTION",
+        param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int','PDOC_DATE:date','PCUSTOMER:string|25',
+                 'PDEPOT:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PDESCRIPTION:string|500']
+    },
+    FaturaSatirUpdate :
+    {
+        query:  "DECLARE @TMP DATETIME " +
+                "SET @TMP = GETDATE() " +
+                "EXEC [dbo].[PRD_INVOICE_LINE_UPDATE] " + 
+                "@DGUID = @PDGUID, " + 
+                "@LUSER = @PLUSER, " + 
+                "@LDATE = @TMP, " + 
+                "@ITEM_CODE = @PITEM_CODE, " + 
+                "@QUANTITY = @PQUANTITY, " + 
+                "@PRICE = @PPRICE, " + 
+                "@DISCOUNT = @PDISCOUNT, " + 
+                "@VAT = @PVAT ",
+        param : ['PDGUID:string|50','PLUSER:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float']
+    },
+    FaturaSatirDelete :
+    {
+        query:  "EXEC [dbo].[PRD_INVOICE_DELETE] " + 
+                "@DELTYPE = @PDELTYPE, " +
+                "@DGUID = @PDGUID " , 
+        param : ['PDELTYPE:int','PDGUID:string|50']
+    },
+    FaturaEvrakDelete :
+    {
+        query:  "EXEC [dbo].[PRD_INVOICE_DELETE] " + 
+                "@DELTYPE = @PDELTYPE, " +
+                "@DOC_TYPE = @PDOC_TYPE, " +
+                "@REF = @PREF, " +
+                "@REF_NO = @PREF_NO " , 
+        param : ['PDELTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int']
+    },
     //KULLANICI PARAMETRE
     KullaniciGetir :
     {
