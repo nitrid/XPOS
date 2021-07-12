@@ -457,8 +457,18 @@ function EtiketBasimCtrl ($scope,$window,db)
 
         $scope.Wizard.CurrentPage = "1";
         $scope.Wizard.FrmCheck = [true,false,false,false,false]
-        $scope.Wizard.Tarih = moment(new Date()).format("DD/MM/YYYY");
-
+        //$scope.Wizard.Tarih = moment(new Date()).format("DD/MM/YYYY");
+        $scope.Wizard.Tarih = 
+        {
+            type: "datetime",
+            value: new Date(),
+            displayFormat: "dd/MM/yyyy HH:mm",
+            bindingOptions: 
+            {
+                value: "Wizard.Tarih.value"
+            }
+        }
+        
         $scope.Wizard.Grup = 
         {
             width: "100%",
@@ -503,7 +513,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                 }
             }
         }
-
+        console.log(new Date(2021,7,12,14,56,0,0))
         // setInterval(()=>
         // {
         //     $window.document.getElementById("Barkodu").focus();
@@ -728,7 +738,17 @@ function EtiketBasimCtrl ($scope,$window,db)
 
         $scope.Wizard.CurrentPage = "1";
         $scope.Wizard.FrmCheck = [true,false,false,false,false]
-        $scope.Wizard.Tarih = moment(new Date()).format("DD/MM/YYYY");
+        //$scope.Wizard.Tarih = moment(new Date()).format("DD/MM/YYYY");
+        $scope.Wizard.Tarih = 
+        {
+            type: "datetime",
+            value: new Date(),
+            displayFormat: "dd/MM/yyyy HH:mm",
+            bindingOptions: 
+            {
+                value: "Wizard.Tarih.value"
+            }
+        }
 
         $("#Wizard1").addClass('active');
         $("#Wizard2").removeClass('active');
@@ -852,6 +872,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     }
     $scope.SetWizard = function(pIndex)
     {
+        console.log(moment($scope.Wizard.Tarih.value).format("DD/MM/YYYY HH:mm"))
         let TmpQuery = "";
         if(pIndex == 0)
         {
@@ -901,10 +922,10 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
                         "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
                         "WHERE " +
-                        "(SELECT TOP 1 CONVERT(DATE,LDATE) FROM ITEM_PRICE WHERE TYPE = 0 AND DEPOT = 0 AND ITEM_CODE = ITEMS.CODE ORDER BY LDATE DESC) >= @TARIH " +
+                        "(SELECT TOP 1 LDATE FROM ITEM_PRICE WHERE TYPE = 0 AND DEPOT = 0 AND ITEM_CODE = ITEMS.CODE ORDER BY LDATE DESC) >= @TARIH " +
                         "AND ITEMS.STATUS = 1",
-                param: ['TARIH:date'],
-                value: [$scope.Wizard.Tarih]
+                param: ['TARIH:datetime'],
+                value: [moment($scope.Wizard.Tarih.value).format("DD/MM/YYYY HH:mm")]
             }
         }
         else if(pIndex == 2)
