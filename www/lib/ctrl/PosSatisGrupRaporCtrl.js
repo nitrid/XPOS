@@ -156,7 +156,7 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
             db : $scope.Firma,
             query:  "SELECT " +
                     "ISNULL(ITEM_GRP,'') AS ITEM_GRP, " +
-                    "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE CODE = ITEM_GRP),'') AS ITEM_GRP_NAME, " +
+                    "ISNULL((SELECT TOP 1 NAME FROM ITEM_GROUP WHERE CODE = ITEM_GRP),'') AS ITEM_GRP_NAME, " +
                     "'' AS TITLE, " +
                     "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.HT) ELSE SUM(SALES.HT) * -1 END AS HT, " +
                     "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.TTC) ELSE SUM(SALES.TTC) * -1 END AS TTC " +
@@ -172,7 +172,7 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
         
         let TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.SaleData = TmpData;
-console.log(TmpData)
+
         InitReportPivot();
     }
 }
