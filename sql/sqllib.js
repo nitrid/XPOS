@@ -1,4 +1,5 @@
 var sql = require('mssql/msnodesqlv8');
+var moment = require('moment');
 var config = "";
 // Constructor
 function sqllib(pServer,pDatabase,pUid,pPwd,pTrust)
@@ -38,7 +39,7 @@ function BuildConfig(pServer,pDatabase,pUser,pPassword,pTrust)
         requestTimeout:600000,
         options: 
         {
-            trustedConnection: pTrust,
+            trustedConnection: pTrust
         }              
     };
     
@@ -97,8 +98,8 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
         const pool = new sql.ConnectionPool(config, err => 
         {
             if(err == null)
-            {
-                const request = pool.request();           
+            {                
+                const request = pool.request();  
 
                 if(typeof pQuery.param != 'undefined')
                 {
@@ -151,6 +152,40 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
                             var date = new Date(yyyy + "-" + mm + "-" + dd);
 
                             request.input(pQuery.param[i].split(":")[0],sql.Date,date);    
+                        }
+                        else if(pType[0] == "datetime")
+                        {
+                            var from = pQuery.value[i]; 
+                            var numbers = from.match(/\d+/g); 
+                            // TARİH FORMATI FARKLILIĞINDAN SEBEP EKLENDİ 22.02.2021 
+                            let yyyy = 0
+                            let mm = 0
+                            let dd = 0
+                            let hh = 0
+                            let mmm = 0
+
+                            if(numbers[0].length > 2)
+                            {
+                                yyyy = numbers[0];
+                                mm = numbers[1];
+                                dd = numbers[2];
+                                hh = numbers[3];
+                                mmm = numbers[4];
+                            }
+                            else if(numbers[2].length > 2)
+                            {
+                                yyyy = numbers[2];
+                                mm = numbers[1];
+                                dd = numbers[0];
+                                hh = numbers[3];
+                                mmm = numbers[4];
+                            }
+                            //************************************************* */
+                            var date = moment(yyyy + "-" + mm + "-" + dd + "T" + hh + ":" + mmm + ":00");
+                            
+                            pQuery.query = pQuery.query.replace('@'+ pQuery.param[i].split(":")[0],"'" + date.format("YYYY-MM-DD HH:mm") + "'");
+                            pQuery.query = pQuery.query.replace('@'+ pQuery.param[i].split(":")[0],"'" + date.format("YYYY-MM-DD HH:mm") + "'");
+                            pQuery.query = pQuery.query.replace('@'+ pQuery.param[i].split(":")[0],"'" + date.format("YYYY-MM-DD HH:mm") + "'");
                         }
                         else if(pType[0] == "bit")
                         {
