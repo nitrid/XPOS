@@ -97,6 +97,10 @@ angular.module("app",
     {
         templateUrl : "html/fatura/IadeEvrak.html"
     })
+    .when("/SktGiris",
+    {
+        templateUrl : "html/yonetim/SktGiris.html"
+    })
     .when("/KullaniciParametre",
     {
         templateUrl : "html/ayarlar/KullaniciParametre.html"

@@ -13,7 +13,7 @@
     }
     .alertify { z-index:999999 !important; }
 </style>
-<div class="col px-0" ng-controller="FiyatFarkiEvrakCtrl" ng-init="YeniEvrak()">
+<div class="col px-0" ng-controller="IadeEvrakCtrl" ng-init="YeniEvrak()">
     <div class="panel panel-bordered">
         <div class="panel-body py-1">
             <div class="tab-content">
@@ -25,7 +25,6 @@
                                 <button class="dropdown-item" href="#" role="menu-item" ng-click="YeniEvrak(1)" style="font-size: 1rem;" langu>Yeni Evrak</button>
                                 <button class="dropdown-item"  ng-click="BtnEvrakGetir()" role="menu-item" style="font-size: 1rem;" langu>Evrak Getir</button>
                                 <button class="dropdown-item" href="#" role="menu-item" ng-click="EvrakDelete()" style="font-size: 1rem;" langu>Evrak Sil</button>
-                                <button class="dropdown-item" href="#" role="menu-item" ng-click="AciklamaGiris()" style="font-size: 1rem;" langu>Açıklama</button>
                                 <button class="dropdown-item" href="#" role="menu-item" ng-click="BtnPrint()" style="font-size: 1rem;" langu>Yazdır</button>
                             </div>
                         </div>
@@ -568,8 +567,8 @@ Tel:0252 214 78 58 muglasutas@hotmail.com<br>
             </div>
         </div>
     </div>
-    <!--Açıklama MODAL-->
-    <div class="modal fade" id="MdlAciklama" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+     <!--Açıklama MODAL-->
+     <div class="modal fade" id="MdlAciklama" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-simple modal-primary modal-center px-10">
             <div class="modal-content ">
                 <div class="modal-header">

@@ -1,0 +1,108 @@
+<style>
+    .rowheight
+    {
+        font-size: 12
+        421px;    
+    }
+    .modal.fade 
+    {
+        z-index: 1500 !important;
+    }
+    .modal-backdrop
+    {
+        z-index: 1499 !important;
+    }
+</style>
+<div class="col px-0" ng-controller="SktGirisCtrl" ng-init="Init()">
+    <div class="panel panel-bordered">
+        <div class="panel-body py-1">
+            <div class="tab-content">
+                <div id="TbMain" class="tab-pane active">
+                    <div class="row my-0 py-0 pb-10">
+                        <div class="col-md-1 col-lg-1 col-sm-3 text-info px-2"><div class="col-form-label float-right py-2"langu>Barkod :</div></div>
+                        <div class="col-md-11 col-lg-11 col-sm-9 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="Barkod" ng-keypress ="BtnStokBarkodGetir($event)" id="Barkod">
+                                <span class="input-group-append">
+                                <button type="submit" class="btn btn-primary" ng-click="Init()"><i class="fas fa-backspace fa-lg"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-5 px-1">
+                            <button type="submit" ng-click="ManuelAramaClick()" class="btn btn-primary btn-block h-40"langu>Manuel Arama</button>        
+                        </div>
+                        <div class="col-2 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="ScanBarkod()"><i class="fas fa-camera-retro fa-lg"></i></button>        
+                        </div>
+                        <div class="col-5 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="BtnStokBarkodGetir()"langu>Getir</button>        
+                        </div>
+                    </div>
+                    <div class="row pt-5 pb-20">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h7 text-primary ng-binding">{{Kodu}}</label>
+                            <label class="mb-0 h6 text-primary ng-binding">{{Adi}}</label>
+                        </div>
+                    </div>
+                    <div class="row pt-5 pb-20">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h7 text-primary ng-binding">{{Birim}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 px-0"><h3 class="form-control-label pl-10 text-center">{{Fiyat}}</h3></div>
+                    </div>
+                    <div class="row pt-50">
+                        <div class="col-12 px-1">
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnSktModalAc()"langu>Ekle</button>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <!--SKT MODAL-->
+    <div class="modal fade" id="MdlSkt" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Son Kullanım Tarihi</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row my-5">
+                        <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Miktar :</b></span></div></label>
+                        <input type="text" class="form-control col-8" ng-model="Miktar">
+                    </div>
+                    <div class="form-group row my-5">
+                        <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Tarih :</b></span></div></label>
+                        <div class="col-8 px-1">
+                            <div class="input-group input-group-icon">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="Tarih" type="text" ng-model="Tarih">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-10">
+                        <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnSktEkle()" langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $("#Tarih").datepicker(
+    {
+        language: "fr"
+    });
+</script>

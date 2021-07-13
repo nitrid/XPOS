@@ -1,4 +1,4 @@
-function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
+function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
 {
     let CariSelectedRow = null;
     let IslemSelectedRow = null;
@@ -21,7 +21,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
 
         $scope.Seri = "";
         $scope.Sira = 0;
-        $scope.EvrakTip = 0;
+        $scope.EvrakTip = 1;
         $scope.Tip = 1;
         $scope.CariKodu = "";  
         $scope.CariAdi = "";
@@ -35,7 +35,6 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.StokGridText = "";
         $scope.ToplamSatir = 0;
         $scope.Fiyat = "";
-        $scope.Aciklama = "";
 
         $scope.DepoListe = [];
         $scope.CariListe = [];
@@ -448,7 +447,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         }
 
         $scope.EvrakLock = false;
-        $scope.Seri = "FF";
+        $scope.Seri = "IF";
         $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
 
         $scope.Stok = 
@@ -829,7 +828,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.Stok[0].PRICE,
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
-                $scope.Aciklama
+                ''
             ]
             db.ExecuteTag($scope.Firma,'FaturaInsert',InserData,async function(pData)
             {
@@ -1070,35 +1069,6 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         InitEvrakGrid(false);  
     }
-    $scope.AciklamaGiris = function()
-    {
-        if($scope.FaturaListe.length > 0)
-        {
-            $scope.Aciklama = $scope.FaturaListe[0].DESCRIPTION;
-        }
-        else
-        {
-            $scope.Aciklama = "";
-        }
-        $("#MdlAciklama").modal('show');
-    }
-    $scope.BtnAciklamaKaydet = async function()
-    {
-        if($scope.FaturaListe.length > 0)
-        {
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "UPDATE INVOICEM SET DESCRIPTION = @DESCRIPTION WHERE GUID = @GUID",
-                param:  ['DESCRIPTION','GUID'],
-                type:   ['string|500','string|50'],
-                value:  [$scope.Aciklama,$scope.FaturaListe[0].MGUID]
-            }
-            await db.ExecutePromiseQuery(TmpQuery);
-        }
-        
-        $("#MdlAciklama").modal('hide');
-    }
     $scope.BtnPrint = function()
     {
         let TmpQuery = 
@@ -1114,8 +1084,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         {
             if(pData.length > 0)
             {
-                console.log("{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/FiyatFarki.repx',DATA:" + JSON.stringify(pData) + "}")
-                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/FiyatFarki.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+                console.log("{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/IadeEvrak.repx',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/IadeEvrak.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
                     {
