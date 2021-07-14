@@ -60,6 +60,7 @@ GENUS = 2 => HER İKİSİ
 # INVOICEM
 DOC_TYPE = 0 => FIYAT FARKI
 DOC_TYPE = 1 => IADE
+DOC_TYPE = 1 => FİRE
 
 TYPE = 0 => GIRIŞ 
 TYPE = 1 => ÇIKIŞ

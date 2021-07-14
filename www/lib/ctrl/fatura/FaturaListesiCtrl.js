@@ -162,7 +162,7 @@ function FaturaListesiCtrl ($scope,db)
         $scope.CmbTip = 
         {
             width: "100%",
-            dataSource: [{CODE:"0",NAME:"Fiyat Farki"},{CODE:"1",NAME:"İade"}],
+            dataSource: [{CODE:"0",NAME:"Fiyat Farki"},{CODE:"1",NAME:"İade"},{CODE:"2",NAME:"Fire"}],
             displayExpr: "NAME",
             valueExpr: "CODE",
             value: "",

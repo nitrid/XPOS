@@ -1,0 +1,637 @@
+<style>
+    .rowheight
+    {
+        font-size: 12px;    
+    }
+    .modal.fade 
+    {
+        z-index: 1500 !important;
+    }
+    .modal-backdrop
+    {
+        z-index: 1499 !important;
+    }
+    .alertify { z-index:999999 !important; }
+</style>
+<div class="col px-0" ng-controller="FireEvrakCtrl" ng-init="YeniEvrak()">
+    <div class="panel panel-bordered">
+        <div class="panel-body py-1">
+            <div class="tab-content">
+                <div id="TbMain" class="tab-pane active">
+                    <div class="row pb-20">
+                        <div class="col-4 offset-8 px-1">
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false"langu>İşlemler</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
+                                <button class="dropdown-item" href="#" role="menu-item" ng-click="YeniEvrak(1)" style="font-size: 1rem;" langu>Yeni Evrak</button>
+                                <button class="dropdown-item"  ng-click="BtnEvrakGetir()" role="menu-item" style="font-size: 1rem;" langu>Evrak Getir</button>
+                                <button class="dropdown-item" href="#" role="menu-item" ng-click="EvrakDelete()" style="font-size: 1rem;" langu>Evrak Sil</button>
+                                <button class="dropdown-item" href="#" role="menu-item" ng-click="BtnPrint()" style="font-size: 1rem;" langu>Yazdır</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 px-0 text-info"><label class="form-control-label float-right" langu>Evrak No :</label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10"></label>{{Seri}} - {{Sira}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 px-0 text-info"><label class="form-control-label float-right" langu>Cari :</label></div>
+                        <div class="col-8 px-0 text-truncate"><label class="form-control-label pl-10">{{CariAdi}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 px-0 text-info"><label class="form-control-label float-right"langu>Depo :</label></div>
+                        <div class="col-8 px-0 text-truncate"><label class="form-control-label pl-10">{{DepoAdi}}</label></div>
+                    </div>
+                    <div class="row py-10">
+                        <div class="col-4 px-0 text-info"><label class="form-control-label float-right"langu>Toplam Satır :</label></div>
+                        <div class="col-8 px-0 text-truncate"><label class="form-control-label pl-10">{{ToplamSatir | number:2}}</label></div>
+                    </div>
+                    <div class="row py-10">
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary h-50" ng-click="BelgeBilgisiClick()"langu>Belge Bilgisi</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary h-50" ng-click="CariSecClick()" style="visibility: hidden;" langu>Cari Seç</button>
+                        </div>
+                    </div>
+                    <div class="row py-10">
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary h-50" ng-click="BarkodGirisClick()"langu>Barkod Giriş</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-block btn-primary h-50" ng-click="TbIslemSatirlariClick()"langu>İşlem Satırları</button>
+                        </div>
+                    </div> 
+                </div>
+                <div id="TbBelgeBilgisi" class="tab-pane">
+                    <div class="row pt-0 pb-1 pb-5">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="BarkodGirisClick()"><i class="fas fa-barcode fa-lg"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="CariSecClick()"><i class="fas fa-user-alt"></i></button>
+                        </div>
+                        <!-- <div class="col-4 px-1">
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle mb-1" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
+                                <button class="dropdown-item">1</button>
+                                <button class="dropdown-item">2</a>
+                                <button class="dropdown-item">3</button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row py-1">
+                        <div class="col-4 text-info px-1"><div class="col-form-label float-right py-2"langu>E. Seri-Sıra:</div></div>
+                        <div class="col-3 px-1">
+                            <input type="text" class="form-control" ng-model="Seri" ng-disabled="EvrakLock">
+                        </div>
+                        <div class="col-5 px-1">
+                            <input type="text" class="form-control" ng-model="Sira" ng-disabled="EvrakLock">
+                        </div>
+                    </div>
+                    <div class="row my-0 py-0">
+                        <div class="col-4 text-info px-1 py-0 my-0"><div class="col-form-label float-right py-2"langu>Depo:</div></div>
+                        <div class="col-8 px-1">
+                            <select class="form-control" ng-model="DepoNo" ng-disabled="EvrakLock" ng-change="DepoChange()">
+                                <option ng-repeat="option in DepoListe" value="{{option.CODE}}">{{option.NAME}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-0 py-0">
+                        <div class="col-4 text-info px-1"><div class="col-form-label px-1 float-right  py-2"langu>Tarih:</div></div>
+                        <div class="col-8 px-1">
+                            <div class="input-group input-group-icon">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="Tarih" type="text" ng-model="Tarih" data-provide="datepicker" ng-disabled="EvrakLock">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TbCariSec" class="tab-pane">
+                    <div class="row py-1">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="BarkodGirisClick()"><i class="fas fa-barcode fa-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h4 text-primary">{{CariKodu}} - {{CariAdi}}</label> 
+                        </div>
+                    </div>
+                    <div class="form-group row my-1">
+                        <div class="col-4 px-1">
+                            <select class="form-control" ng-model="CmbCariAra" ng-disabled="EvrakLock">
+                                <option value="0"langu>ADI</option>
+                                <option value="1"langu>KODU</option>
+                            </select>
+                        </div>
+                        <div class="col-8 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-keypress = "BtnCariListeleEnter($event)" ng-model="TxtCariAra" ng-disabled="EvrakLock">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnCariListele()"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 offset-5" ng-show="Loading">
+                        <div class="loader vertical-align-middle loader-circle"></div>
+                    </div>
+                    <div class="row py-1 px-1" ng-show="TblLoading">
+                        <div id="TblCari"></div>
+                    </div>
+                </div>
+                <div id="TbBarkodGiris" class="tab-pane">
+                    <div class="row pt-0 pb-1 pb-5">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="TbIslemSatirlariClick()"><i class="far fa-file-alt fa-lg" ></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <!-- <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0 h-40" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
+                                <button class="dropdown-item" data-target="#MdlStokDetay" data-toggle="modal" role="menu-item">Barkod Detay</a>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row py-1">
+                        <div class="col-12 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="Barkod" ng-keypress = "BtnStokBarkodGetir($event)" ng-disabled="BarkodLock" id="Barkod">
+                                <span class="input-group-append">
+                                <button type="submit" class="btn btn-primary" ng-click="BtnTemizle()"><i class="fas fa-backspace fa-lg"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-5 px-1">
+                            <button type="submit" ng-click="ManuelAramaClick()" class="btn btn-primary btn-block h-40"langu>Manuel Arama</button>   
+                        </div>
+                        <div class="col-2 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="ScanBarkod()"><i class="fas fa-camera-retro fa-lg"></i></button>        
+                        </div>
+                        <div class="col-5 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="BtnBarkodGetirClick()"langu>Getir</button>        
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h4 text-primary">{{Stok[0].CODE}} - {{Stok[0].NAME}}</label> 
+                        </div>                        
+                    </div>
+                    <div class="row my-0 ">
+                        <div class="col-4 offset-4 text-info px-1">
+                            <div class="col-form-label px-1 float-right py-1"langu>Birim:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <select class="form-control form-control-sm" ng-model="Birim" ng-change="BirimChange()">
+                                <option ng-repeat="option in BirimListe" value="{{option.TYPE}}">{{option.NAME}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-3 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>Miktar:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input disabled type="number" class="form-control form-control-sm" ng-disabled="MiktarLock" ng-model="Stok[0].FACTOR">
+                        </div>
+                        <div class="col-1 text-info px-1">
+                            <div class="col-form-label text-center py-1"langu>X</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input type="number" class="form-control form-control-sm" ng-model="Miktar" ng-disabled="MiktarLock" ng-change="MiktarFiyatValid()" id="Miktar" ng-keydown="MiktarPress($event)">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-4 px-1">
+                            <div class="checkbox-custom checkbox-info my-0">
+                              <input type="checkbox" name="inputCheckboxes" ng-model="OtoEkle" checked="">
+                              <label for="inputUnchecked"><div class="text-info"><div class="col-form-label py-0"><b langu>Oto. Ekle</b></div></div></label>
+                            </div>
+                        </div> 
+                        <div class="col-4 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>Birim Fiyat:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input type="number" class="form-control form-control-sm" ng-disabled="FiyatLock" ng-model="Stok[0].PRICE" ng-change="MiktarFiyatValid()" id="Fiyat" ng-keydown="FiyatPress($event)">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-8 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>Tutar:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input disabled type="text" class="form-control form-control-sm" value="{{Stok[0].AMOUNT | number:2}}">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-8 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>İndirim:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input disabled type="text" class="form-control form-control-sm" ng-model="Stok[0].DISCOUNT">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-8 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>Kdv:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input disabled type="text" class="form-control form-control-sm" value="{{Stok[0].VATAMOUNT | number:2}}">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-8 text-info px-1">
+                            <div class="col-form-label float-right py-1"langu>Toplam Tutar:</div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <input disabled type="text" class="form-control form-control-sm" value="{{Stok[0].TOPAMOUNT | number:2}}">
+                        </div>
+                    </div>
+                    <div class="row my-0">
+                        <div class="col-12 pt-5 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-disabled="InsertLock" ng-click="Insert()"langu>Ekle</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="TbIslemSatirlari" class="tab-pane">
+                    <div class="row py-1">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1" ng-click="BarkodGirisClick()"><i class="fas fa-barcode fa-lg"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle mb-1" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false"langu>İşlemler</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
+                                <button class="dropdown-item" role="menu-item" ng-click="SatirDelete()" style="font-size: 1rem;"langu>Satır Sil</button>
+                                <button class="dropdown-item"  ng-click="BtnDuzenle()" data-toggle="modal" role="menu-item" style="font-size: 1rem;"langu>Düzenle</button>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row py-1 px-1">
+                        <div id="TblIslem"></div>
+                    </div>
+                    <div class="row py-1 px-1">
+                        <button class="btn btn-primary"  ng-click="BtnTumu()">Tümü</button>
+                    </div>
+                    <div class="row">
+                        <div class="col-8 offset-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5 class="text-right my-1"><span style="color:dodgerblue;"langu>Ara Toplam :</span> {{AraToplam | number:2}}</h5>
+                                    <h5 class="text-right my-1"><span style="color:dodgerblue;"langu>Toplam İndirim :</span> {{ToplamIndirim | number:2}}</h5>
+                                    <h5 class="text-right my-1"><span style="color:dodgerblue;"langu>Net Toplam :</span> {{NetToplam | number:2}}</h5>
+                                    <h5 class="text-right my-1"><span style="color:dodgerblue;"langu>Toplam Kdv :</span> {{ToplamKdv | number:2}}</h5>
+                                    <h5 class="text-right my-1"><span style="color:dodgerblue;"langu>Genel Toplam :</span> {{GenelToplam | number:2}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="TbStok" class="tab-pane">
+                    <div class="row py-1">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="BarkodGirisClick()"><i class="fas fa-barcode fa-lg"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group row my-1">
+                        <div class="col-4 px-1">
+                            <select class="form-control" ng-model="StokGridTip">
+                                <option value="0"langu>ADI</option>
+                                <option value="1"langu>KODU</option>
+                            </select>
+                        </div>
+                        <div class="col-8 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-keypress = "BtnManuelArama($event)" ng-model="StokGridText">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary"  ng-click="BtnStokGridGetir()"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 offset-5" ng-show="Loading" >
+                            <div class="loader vertical-align-middle loader-circle"></div>
+                        </div>
+                    <div class="row py-1 px-1" ng-show="TblLoading">           
+                        <div id="TblStok"></div>                        
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div id = "FisBilgi" style="display: none;">
+                ESER GIDA<br>
+        SÜT VE SÜT ÜRÜNLERİ PAZARLAMA<br>
+Merkez: Vişnelik Mh. Atatürk Bulvari No:177/8 <br>
+TEL:0222 330 42 42 Odunpazari/ESKİŞEHİR <br>  
+Şube1 : Ortaköy Mh. TÜVTÜRK Yani No: 379 MUĞLA<br>
+Tel:0252 214 78 58 muglasutas@hotmail.com<br>
+    </div>
+    <!-- MODALLAR -->
+    <!-- PartiLot Modal -->
+    <div class="modal fade" id="MdlPartiLot" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+                <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Parti Lot Seçim Ekranı</h4>
+                </div>
+                    <div class="panel-body">
+                            <label class="form-control-label col-lg-12 col-md-12 col-sm-12  pr-2" id="LblPartiLotAlert"><div class="float-right"><b><span style="color:dodgerblue;">{{LblPartiLotAlert}}</span></b></div></label>
+                        <div class="form-group row my--5">
+                            <label class="form-control-label col-lg-1 col-md-1 col-sm-2 pr-2"><div class="float-right"><b><span style="color:dodgerblue;"langu>Parti :</span></b></div></label>
+                            <input type="text" class="form-control col-lg-5 col-md-4 col-sm-4 form-control-sm" ng-model="TxtParti" ng-blur="MaxLot()">
+                            <label class="form-control-label col-lg-1 col-md-2 col-sm-2 pr-2"><div class="float-right"><b><span style="color:dodgerblue;"langu>Lot :</span></b></div></label>
+                            <input type="text" class="form-control col-lg-5 col-md-4 col-sm-4 form-control-sm" ng-model="TxtLot">
+                        </div>
+                        <div class="form-group row my-5">
+                            <label class="form-control-label col-lg-6 col-md-5 col-sm-5 offset-1 pr-2"><div class="float-right"><b><span style="color:dodgerblue;"langu>Skt Tarih :</span></b></div></label>
+                            <div class="col-lg-5 col-md-6 col-sm-6">
+                                <div class="row">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-control-sm ng-valid ng-dirty ng-touched ng-empty" id="PTarih" ng-model="SktTarih" data-provide="datepicker">
+                                        <div class="input-group-append">
+                                        <button type="button col-sm-1" class="btn btn-block form-control-sm wb-calendar"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row my--5">
+                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                <button type="submit" class="btn btn-primary btn-block form-control-sm"  ng-click="BtnPartiLotSec()"langu>Seç</button>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-lg-6">
+                                <button type="submit" class="btn btn-primary btn-block form-control-sm"  ng-click="BtnPartiLotGetir()"langu>Getir</button>
+                            </div>
+                        </div>
+                        <div class="form-group row my--5">
+                            <div class="form-group col-md-12 col-sm-12 col-lg-12">
+                                <button type="submit" class="btn btn-primary btn-block form-control-sm"  ng-click="BtnPartiLotOlustur()"langu>Oluştur Ve Seç</button>
+                            </div>
+                        </div>
+                        <div id="TblPartiLot"></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- RenkBeden Modal -->
+    <div class="modal fade" id="MdlRenkBeden" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+                </button>
+                <h4 class="modal-title">Renk Beden Seçim Ekranı</h4>
+            </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-sm-6">
+                            <select class="form-control form-control-sm" ng-model="Stok[0].RENKPNTR">
+                                <option ng-repeat="option in RenkListe"  value="{{option.PNTR}}">{{option.KIRILIM}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-sm-6">
+                            <select class="form-control form-control-sm" ng-model="Stok[0].BEDENPNTR">
+                                <option ng-repeat="option in BedenListe" value="{{option.PNTR}}">{{option.KIRILIM}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12 col-lg-12 pt-15 my-0">
+                            <button type="submit" class="btn btn-primary btn-block form-control-sm" ng-click="BtnRenkBedenSec()">Seç</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Evrak Getir Modal Başlangıç-->
+    <div class="modal fade" id="MdlEvrakGetir" aria-labelledby="exampleOptionalSmall" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+                </button>
+                <h4 class="modal-title"langu>Evrak Getir</h4>
+            </div>
+                <div class="modal-body py-10">
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-lg-3 col-md-3 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Evrak Seri :</b></span></div></label>
+                        <input type="text" class="form-control col-lg-9 col-md-9 col-sm-8 offset-0" ng-model="Seri">
+                    </div>
+                    <div class="form-group row my-10">
+                        <label class="form-control-label col-lg-3 col-md-3 col-sm-4 offset-0 pr-20"><div class="float-right"><span style="color:dodgerblue;"><b langu>Evrak Sıra :</b></span></div></label>
+                        <input type="text" class="form-control col-lg-9 col-md-9 col-sm-8 offset-0" ng-model="Sira">
+                    </div>
+                    <div class="row my-5">
+                        <button type="submit" class="btn btn-primary form-control-sm btn-block col-lg-12 col-sm-12 col-sm-12" ng-click="EvrakGetir()"langu>Getir</button>
+                    </div>
+                    <div class="row my-5">
+                        <div id="TblEvrak"></div>
+                    </div>
+                    <div class="row py-1 px-1">
+                        <button class="btn btn-primary"  ng-click="BtnEvrakTumu()">Tümü</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- İskonto Modal  -->
+    <div class="modal fade" id="MdlIskontoEkran" aria-labelledby="IskontoEkran" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple px-10 modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+                <h4 class="modal-title"langu>İskonto</h4>
+                </div>
+                <div class="modal-body py-20 ">
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><b><span style="color:dodgerblue;"langu>İndirim 1 :</span></b></div></label>
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-0" ng-model="IskYuzde1" ng-change="IskontoValid(0,1)">
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-1" ng-model="IskTutar1" ng-change="IskontoValid(1,1)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar1 | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><b><span style="color:dodgerblue;"langu>İndirim 2 :</span></b></div></label>
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-0" ng-model="IskYuzde2" ng-change="IskontoValid(0,2)">
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-1" ng-model="IskTutar2" ng-change="IskontoValid(1,2)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar2 | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><b><span style="color:dodgerblue;"langu>İndirim 3 :</span></b></div></label>
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-0" ng-model="IskYuzde3" ng-change="IskontoValid(0,3)">
+                                <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-1" ng-model="IskTutar3" ng-change="IskontoValid(1,3)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar3 | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><b><span style="color:dodgerblue;"langu>İndirim 4 :</span></b></div></label>
+                                    <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-0" ng-model="IskYuzde4" ng-change="IskontoValid(0,4)">
+                                    <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-1" ng-model="IskTutar4" ng-change="IskontoValid(1,4)">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar4 | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <label class="form-control-label col-lg-2 col-md-2 col-sm-4 offset-0 pr-20"><div class="float-right"><b><span style="color:dodgerblue;"langu>İndirim 5 :</span></b></div></label>
+                                    <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-0" ng-model="IskYuzde5" ng-change="IskontoValid(0,5)">
+                                    <input type="text" class="form-control form-control-sm col-lg-4 col-md-4 col-sm-3 offset-1" ng-model="IskTutar5" ng-change="IskontoValid(1,5)">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group row my--10">
+                        <label class="form-control-label col-lg-11 col-md-11 col-sm-11 offset-0"><div class="float-right"><span style="color:dodgerblue;"><b>{{IskTplTutar5 | number:2}}</b></span></div></label>
+                    </div>
+                    <div class="form-group row my--10">
+                        <button type="submit" class="btn btn-primary form-control-sm btn-block col-lg-12 col-sm-12 col-sm-12" ng-click="BtnIskontoKaydet()"langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Düzenle MODAL-->
+    <div class="modal fade" id="MdlDuzenle" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Düzenle</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group row my-5">
+                            <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Miktar :</b></span></div></label>
+                            <input type="text" class="form-control col-8" ng-model="MiktarEdit">
+                        </div>
+                        <div class="form-group row my-5">
+                            <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Fiyat :</b></span></div></label>
+                            <input type="text" class="form-control col-8" ng-model="FiyatEdit">
+                        </div>
+                    <div class="row px-10">
+                        <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnDuzenleKaydet(this.IslemListeSelectedIndex)" langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!--Açıklama MODAL-->
+     <div class="modal fade" id="MdlAciklama" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Açıklama</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group row my-5">
+                            <input type="text" class="form-control col-12" ng-model="Aciklama">
+                        </div>
+                    <div class="row px-10">
+                        <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnAciklamaKaydet()" langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!-- Stok Detay Modal -->
+    <div class="modal fade" id="MdlStokDetay" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"langu>X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Stok Detay</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row pt-5">
+                        <div class="col-3 px-0 text-info"><label class="form-control-label float-right"><b langu>Ana Grup :</b></label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10 text-primary">{{Stok[0].ANAGRUP}} - {{Stok[0].ANAGRUPADI}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 px-0 text-info"><label class="form-control-label float-right"><b langu>Alt Grup :</b></label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10 text-primary">{{Stok[0].ALTGRUP}} - {{Stok[0].ALTGRUPADI}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 px-0 text-info"><label class="form-control-label float-right"><b langu>Reyon :</b></label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10 text-primary">{{Stok[0].REYON}} - {{Stok[0].REYONADI}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 px-0 text-info"><label class="form-control-label float-right"><b langu>Fiyat 1 :</b></label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10 text-primary">{{Fiyat}}</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 px-0 text-info"><label class="form-control-label float-right"><b langu>Fiyat 2 :</b></label></div>
+                        <div class="col-8 px-0"><label class="form-control-label pl-10 text-primary">{{SatisFiyatListe2}}</label></div>
+                    </div>
+                    <div class="row py-1 px-1">
+                        <div id="TblDepoMiktar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#Tarih").datepicker({
+    language: "tr"
+    });
+    $("#TesTarih").datepicker({
+    language: "tr"
+    });
+</script>
