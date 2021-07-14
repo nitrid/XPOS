@@ -112,8 +112,19 @@ function FaturaListesiCtrl ($scope,db)
             onRowDblClick: function(e)
             {
                 if(typeof e.data.REF != 'undefined')
-                {                    
-                    window.location.href = "#!VerilenSiparisEvrak?REF=" + e.data.REF + "&REF_NO=" + e.data.REF_NO;
+                {                 
+                    if($scope.Tip == 0)
+                    {
+                        window.location.href = "#!FiyatFarkiEvrak?REF=" + e.data.REF + "&REF_NO=" + e.data.REF_NO;    
+                    }   
+                    else if($scope.Tip == 1)
+                    {
+                        window.location.href = "#!IadeEvrak?REF=" + e.data.REF + "&REF_NO=" + e.data.REF_NO; 
+                    }
+                    else if($scope.Tip == 2)
+                    {
+                        window.location.href = "#!FireEvrak?REF=" + e.data.REF + "&REF_NO=" + e.data.REF_NO; 
+                    }
                 }
             },
             onSelectionChanged: function(selectedItems) 

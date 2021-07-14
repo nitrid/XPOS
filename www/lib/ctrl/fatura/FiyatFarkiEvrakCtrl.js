@@ -441,7 +441,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             });
         });
     }
-    $scope.YeniEvrak = async function()
+    $scope.YeniEvrak = async function(pType)
     {
         Init();
         InitCariGrid();
@@ -449,14 +449,16 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         InitStokGrid();
         InitEvrakGrid();
 
-        if(typeof $location.$$search.REF != 'undefined')
+        if(typeof pType == 'undefined')
         {
-            $scope.Seri = $location.$$search.REF;
-            $scope.Sira = $location.$$search.REF_NO;
-            $scope.EvrakGetir();
-            return;
+            if(typeof $location.$$search.REF != 'undefined')
+            {
+                $scope.Seri = $location.$$search.REF;
+                $scope.Sira = $location.$$search.REF_NO;
+                $scope.EvrakGetir();
+                return;
+            }
         }
-
         $scope.EvrakLock = false;
         $scope.Seri = "FF";
         $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
