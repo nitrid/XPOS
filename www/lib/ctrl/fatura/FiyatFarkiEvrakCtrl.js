@@ -208,7 +208,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.QUANTITY.replace(",",".")),
                     parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
-                    parseFloat(args.item.VATERATE.replace(",","."))
+                    parseFloat(args.item.VATRATE.replace(",","."))
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
