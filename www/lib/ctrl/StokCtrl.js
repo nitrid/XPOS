@@ -2413,7 +2413,7 @@ function StokCtrl ($scope,$window,$location,db)
     }
     $scope.TxtAdiChange = function()
     {
-        $scope.StokListe[0].SNAME = $scope.StokListe[0].NAME.substring(0, 20);
+        $scope.StokListe[0].SNAME = $scope.StokListe[0].NAME.substring(0, 32);
     }
     $scope.BtnTabFiyat = function()
     {
