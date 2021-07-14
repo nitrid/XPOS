@@ -184,7 +184,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                let TmpTutar = parseFloat(args.item.QUANTITY) * parseFloat(args.item.PRICE);
+                let TmpTutar = parseFloat(args.item.QUANTITY.replace(",",".")) * parseFloat(args.item.PRICE.replace(",","."));
                 let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
                 
                 let InserData = 
@@ -192,8 +192,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     args.item.GUID,
                     $scope.Kullanici,
                     args.item.ITEM_CODE,
-                    args.item.QUANTITY,
-                    args.item.PRICE,
+                    parseFloat(args.item.QUANTITY.replace(",",".")),
+                    parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
                     TmpVatRate
                 ]
