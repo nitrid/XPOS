@@ -963,28 +963,31 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
             $scope.CmbCariAra = "0";
             $scope.TxtCariAra = "";
 
-            let TmpQuery = 
+            if($scope.Tip != 2)
             {
-                db : $scope.Firma,
-                query:  "SELECT " +
-                        "CODE AS CODE," +
-                        "NAME AS NAME " +
-                        "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
-                param: ['CODE:string|25','NAME:string|100'],
-                value: [$scope.CariKodu,'']
-            }
-            db.GetDataQuery(TmpQuery,function(pData)
-            {
-                $scope.CariListe = pData;
-                $scope.CariAdi = $scope.CariListe[0].NAME
-
-                $("#TblCari").jsGrid({data : $scope.CariListe});
-
-                let Obj = $("#TblCari").data("JSGrid");
-                let Item = Obj.rowByItem($scope.CariListe[0]);
-                
-                $scope.CariListeRowClick(0,Item,Obj);
-            });
+                let TmpQuery = 
+                {
+                    db : $scope.Firma,
+                    query:  "SELECT " +
+                            "CODE AS CODE," +
+                            "NAME AS NAME " +
+                            "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
+                    param: ['CODE:string|25','NAME:string|100'],
+                    value: [$scope.CariKodu,'']
+                }
+                db.GetDataQuery(TmpQuery,function(pData)
+                {
+                    $scope.CariListe = pData;
+                    $scope.CariAdi = $scope.CariListe[0].NAME
+    
+                    $("#TblCari").jsGrid({data : $scope.CariListe});
+    
+                    let Obj = $("#TblCari").data("JSGrid");
+                    let Item = Obj.rowByItem($scope.CariListe[0]);
+                    
+                    $scope.CariListeRowClick(0,Item,Obj);
+                });   
+            }            
 
             TmpQuery =
             {
