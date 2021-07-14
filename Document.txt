@@ -55,7 +55,7 @@ TYPE = 1 => ŞİRKET
 
 GENUS = 0 => MÜŞTERİ
 GENUS = 1 => TEDARİKÇİ
-GENUS = 0 => HER İKİSİ
+GENUS = 2 => HER İKİSİ
 --------------------------
 # INVOICEM
 DOC_TYPE = 0 => FIYAT FARKI

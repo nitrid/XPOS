@@ -630,7 +630,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             query:  "SELECT " +
                     "CODE AS CODE," +
                     "NAME AS NAME " +
-                    "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = ''))",
+                    "FROM CUSTOMERS WHERE ((UPPER(CODE) LIKE UPPER(@CODE) + '%' ) OR (@CODE = '')) AND ((UPPER(NAME) LIKE  UPPER(@NAME) + '%') OR (@NAME = '')) AND TYPE = 1 AND GENUS IN (1,2)",
             param: ['CODE:string|25','NAME:string|100'],
             value: [Kodu,Adi]
         }
