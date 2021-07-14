@@ -1091,6 +1091,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             query:  "SELECT *," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '10'),'') AS PATH " + 
                     "FROM INVOICE_VW_01 " +
+                    "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
+                    "CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER " +
                     "WHERE MGUID = @MGUID",
             param:  ['MGUID'],
             type:   ['string|50'],
