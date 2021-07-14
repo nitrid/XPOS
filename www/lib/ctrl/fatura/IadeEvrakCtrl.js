@@ -138,6 +138,14 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     editing: false
                 },
                 {
+                    name: "CUSTOMER_ITEM_CODE",
+                    title: db.Language($scope.Lang,"Tedarikci Kodu"),
+                    type: "text",
+                    align: "center",
+                    width: 100,
+                    editing: false
+                },
+                {
                     name: "ITEM_NAME",
                     title: db.Language($scope.Lang,"ADI"),
                     type: "text",
@@ -162,7 +170,14 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                 },
                 {
                     name: "PRICE",
-                    title: db.Language($scope.Lang,"Fiyat"),
+                    title: db.Language($scope.Lang,"Fiyat Farkı"),
+                    type: "text",
+                    align: "center",
+                    width: 100
+                }, 
+                {
+                    name: "VAT",
+                    title: db.Language($scope.Lang,"Kdv"),
                     type: "text",
                     align: "center",
                     width: 100
@@ -184,9 +199,6 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                let TmpTutar = parseFloat(args.item.QUANTITY.replace(",",".")) * parseFloat(args.item.PRICE.replace(",","."));
-                let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
-                
                 let InserData = 
                 [
                     args.item.GUID,
@@ -195,7 +207,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.QUANTITY.replace(",",".")),
                     parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
-                    TmpVatRate
+                    parseFloat(args.item.VATERATE.replace(",","."))
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {

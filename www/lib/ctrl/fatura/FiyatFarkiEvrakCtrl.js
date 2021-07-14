@@ -177,7 +177,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100
                 }, 
                 {
-                    name: "VAT",
+                    name: "VATRATE",
                     title: db.Language($scope.Lang,"Kdv"),
                     type: "text",
                     align: "center",
@@ -200,9 +200,6 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                let TmpTutar = parseFloat(args.item.QUANTITY.replace(",",".")) * parseFloat(args.item.PRICE.replace(",","."));
-                let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
-                
                 let InserData = 
                 [
                     args.item.GUID,
@@ -211,7 +208,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.QUANTITY.replace(",",".")),
                     parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
-                    TmpVatRate
+                    parseFloat(args.item.VATERATE.replace(",","."))
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
