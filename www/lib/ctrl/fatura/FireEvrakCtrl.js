@@ -962,8 +962,8 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
 
             $scope.CmbCariAra = "0";
             $scope.TxtCariAra = "";
-
-            if($scope.Tip != 2)
+            
+            if($scope.EvrakTip != 2)
             {
                 let TmpQuery = 
                 {
