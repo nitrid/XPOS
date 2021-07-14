@@ -1113,7 +1113,9 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT * FROM INVOICE_VW_01 " +
+            query:  "SELECT *, " + 
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '10'),'') AS PATH " +
+                    "FROM INVOICE_VW_01 " +
                     "WHERE MGUID = @MGUID",
             param:  ['MGUID'],
             type:   ['string|50'],
@@ -1123,8 +1125,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         {
             if(pData.length > 0)
             {
-                console.log("{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/FiyatFarki.repx',DATA:" + JSON.stringify(pData) + "}")
-                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Project/Nitrogen/XPOS/devprint/repx/ProdorPlus/FiyatFarki.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+                console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
                     {
