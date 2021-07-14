@@ -163,7 +163,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                 },
                 {
                     name: "PRICE",
-                    title: db.Language($scope.Lang,"Fiyat"),
+                    title: db.Language($scope.Lang,"Fiyat Farkı"),
                     type: "text",
                     align: "center",
                     width: 100
@@ -333,11 +333,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     $scope.Stok = BarkodData;
                     $scope.StokKodu = $scope.Stok[0].CODE;
                     
-                    if($scope.EvrakTip == 2)
-                    {
-                        $scope.Stok[0].PRICE = 0;
-                    }
-                    
+                    $scope.Stok[0].PRICE = 0;
                     $scope.Stok[0].AMOUNT = 0;
                     $scope.Stok[0].DISCOUNT = 0;
                     $scope.Stok[0].VATAMOUNT = 0;
