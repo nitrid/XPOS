@@ -139,6 +139,14 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     editing: false
                 },
                 {
+                    name: "CUSTOMER_ITEM_CODE",
+                    title: db.Language($scope.Lang,"Tedarikci Kodu"),
+                    type: "text",
+                    align: "center",
+                    width: 100,
+                    editing: false
+                },
+                {
                     name: "ITEM_NAME",
                     title: db.Language($scope.Lang,"ADI"),
                     type: "text",
@@ -169,6 +177,13 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100
                 }, 
                 {
+                    name: "VAT",
+                    title: db.Language($scope.Lang,"Kdv"),
+                    type: "text",
+                    align: "center",
+                    width: 100
+                }, 
+                {
                     name: "AMOUNT",
                     title: db.Language($scope.Lang,"TUTAR"),
                     type: "number",
@@ -185,8 +200,14 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
+                console.log(args)
                 let TmpTutar = parseFloat(args.item.QUANTITY) * parseFloat(args.item.PRICE);
-                let TmpVat = TmpTutar - (TmpTutar / ((args.item.VATRATE / 100) + 1));
+                let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
+                // if(args.item.VAT == args.previousItem.VAT)
+                // {
+                //     TmpVatRate = TmpTutar - (TmpTutar / ((args.item.VATRATE / 100) + 1));
+                // }
+                
                 let InserData = 
                 [
                     args.item.GUID,
@@ -195,7 +216,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     args.item.QUANTITY,
                     args.item.PRICE,
                     args.item.DISCOUNT,
-                    TmpVat
+                    TmpVatRate
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
@@ -415,6 +436,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                 db : $scope.Firma,
                 query:  "SELECT *, " +
                         "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE TYPE = 1 AND ITEM_PRICE.CUSTOMER = INVOICE_VW_01.CUSTOMER AND ITEM_PRICE.ITEM_CODE = INVOICE_VW_01.ITEM_CODE ORDER BY LDATE DESC),0) AS COST_PRICE, " + 
+                        "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE, " +
                         "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
                         "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
