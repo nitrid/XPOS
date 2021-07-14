@@ -60,6 +60,37 @@
                         </div>
                     </div>
                 </div>
+                <div id="TbStok" class="tab-pane">
+                    <div class="row py-1">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group row my-1">
+                        <div class="col-4 px-1">
+                            <select class="form-control" ng-model="StokGridTip">
+                                <option value="0"langu>ADI</option>
+                                <option value="1"langu>KODU</option>
+                            </select>
+                        </div>
+                        <div class="col-8 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-keypress = "BtnManuelArama($event)"  ng-model="StokGridText" id="StokGridText">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnStokGridGetir()"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 offset-5" ng-show="Loading" >
+                            <div class="loader vertical-align-middle loader-circle"></div>
+                        </div>
+                    <div class="row py-1 px-1" ng-show="TblLoading">           
+                        <div class="table-responsive">
+                        <div class="table" id="TblStok"></div>                        
+                        </div>
+                    </div>
+                </div>
             </div>            
         </div>
     </div>
@@ -76,7 +107,7 @@
                 <div class="modal-body">
                     <div class="form-group row my-5">
                         <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Miktar :</b></span></div></label>
-                        <input type="text" class="form-control col-8" ng-model="Miktar">
+                        <input type="text" class="form-control col-8" ng-model="Miktar" id="Miktar">
                     </div>
                     <div class="form-group row my-5">
                         <label class="form-control-label col-4 pr-5"><div class="float-right"><span style="color:dodgerblue;"><b langu>Tarih :</b></span></div></label>

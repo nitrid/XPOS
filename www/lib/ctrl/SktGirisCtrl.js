@@ -3,13 +3,13 @@ function SktGirisCtrl($scope,$window,db)
     let StokSelectedRow = null;
     document.onkeydown = function(e)
     {       
-        if(!$("#MdlFiyatGuncelle").hasClass('show') && !$("#MdlFiyatEkle").hasClass('show'))
+        if(!$("#MdlSkt").hasClass('show'))
         {
             $window.document.getElementById("Barkod").focus();
         }
-        else if($("#MdlFiyatGuncelle").hasClass('show'))
+        else if($("#MdlSkt").hasClass('show'))
         {
-            $window.document.getElementById("TxtFiyatGuncelle").focus();
+            $window.document.getElementById("Miktar").focus();
         }
     }
     function InitStokGrid()
@@ -271,5 +271,6 @@ function SktGirisCtrl($scope,$window,db)
         $scope.Init();
 
         $("#MdlSkt").modal('hide');
+        $scope.$apply();
     }
 }

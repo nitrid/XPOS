@@ -93,6 +93,10 @@ angular.module("app",
     {
         templateUrl : "html/fatura/FiyatFarkiEvrak.html"
     })
+    .when("/FaturaListesi",
+    {
+        templateUrl : "html/fatura/FaturaListesi.html"
+    })
     .when("/IadeEvrak",
     {
         templateUrl : "html/fatura/IadeEvrak.html"
@@ -100,6 +104,10 @@ angular.module("app",
     .when("/SktGiris",
     {
         templateUrl : "html/yonetim/SktGiris.html"
+    })
+    .when("/SktListesi",
+    {
+        templateUrl : "html/yonetim/SktListesi.html"
     })
     .when("/KullaniciParametre",
     {
