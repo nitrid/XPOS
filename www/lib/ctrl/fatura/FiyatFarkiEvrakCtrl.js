@@ -404,7 +404,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     }  
     function DipToplamHesapla()
     {
-        $scope.AraToplam = $scope.FaturaListe[0].TOTAL_AMOUNT - $scope.FaturaListe[0].TOTAL_VAT;
+        $scope.AraToplam = $scope.FaturaListe[0].TOTAL_AMOUNT //- $scope.FaturaListe[0].TOTAL_VAT;
         $scope.ToplamIndirim = $scope.FaturaListe[0].TOTAL_DISCOUNT;
         $scope.ToplamKdv = $scope.FaturaListe[0].TOTAL_VAT;
         $scope.NetToplam = $scope.AraToplam - $scope.ToplamIndirim;
