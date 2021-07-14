@@ -44,19 +44,44 @@ function SktListesiCtrl ($scope,$window,db)
             columns: 
             [
                 {
-                    dataField: "CODE",
+                    dataField: "BARCODE",
+                    caption : db.Language($scope.Lang,"BARKOD"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "ITEM_CODE",
                     caption : db.Language($scope.Lang,"KODU"),
                     dataType : "string",
                 },
                 {
-                    dataField: "NAME",
+                    dataField: "ITEM_NAME",
                     caption : db.Language($scope.Lang,"ÜRÜN ADI"),
                     dataType : "string",
                 },
                 {
-                    dataField: "ORGINS",
-                    caption : db.Language($scope.Lang,"ORGINS"),
+                    dataField: "CUSTOMER_CODE",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ KODU"),
                     dataType : "string",
+                },
+                {
+                    dataField: "CUSTOMER_NAME",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ ADI"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "CUSTOMER_ITEM_CODE",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN ADI"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "QUANTITY",
+                    caption : db.Language($scope.Lang,"MİKTAR"),
+                    dataType : "number",
+                },
+                {
+                    dataField: "EXP_DATE",
+                    caption : db.Language($scope.Lang,"SKT"),
+                    dataType : "date",
                 }
             ],
             onRowPrepared: function (rowInfo) 
@@ -107,13 +132,16 @@ function SktListesiCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
-                    "CODE AS CODE, " +
-                    "NAME AS NAME, " +
-                    "ISNULL((SELECT NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
-                    "FROM ITEMS WHERE ITEM_GRP = @ITEM_GRP AND CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH",
-            param:  ['ITEM_GRP','ILKTARIH','SONTARIH'],
-            type:   ['string|25','date','date'],
-            value:  [$scope.Grup,moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
+                    "*, " +
+                    "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_BARCODE.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE ORDER BY LDATE DESC),'') AS BARCODE, " +
+                    "ISNULL((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_CODE, " +
+                    "ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = CUSTOMER_CODE),'') FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_NAME, " +
+                    "ISNULL((SELECT TOP 1 CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_ITEM_CODE, " +
+                    "ISNULL((SELECT NAME FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME " +
+                    "FROM ITEM_EXPDATE WHERE EXP_DATE >= @ILKTARIH AND EXP_DATE <= @SONTARIH",
+            param:  ['ILKTARIH','SONTARIH'],
+            type:   ['date','date'],
+            value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
         }
         
         let TmpData = await db.GetPromiseQuery(TmpQuery)
