@@ -89,6 +89,112 @@ function SktGirisCtrl($scope,$window,db)
             resolve(TmpData)
         });
     }
+    function TblSktInit()
+    {
+        $("#TblSkt").dxDataGrid(
+        {
+            dataSource: $scope.Data,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            headerFilter: 
+            {
+                visible: true
+            },
+            paging: 
+            {
+                pageSize: 50
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [25, 50, 100, 200, 500, 1000],
+                showInfo: true
+            },
+            selection: 
+            {
+                mode: "single"
+            },
+            columns: 
+            [
+                {
+                    dataField: "BARCODE",
+                    caption : db.Language($scope.Lang,"BARKOD"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "ITEM_CODE",
+                    caption : db.Language($scope.Lang,"KODU"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "ITEM_NAME",
+                    caption : db.Language($scope.Lang,"ÜRÜN ADI"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "CUSTOMER_CODE",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ KODU"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "CUSTOMER_NAME",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ ADI"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "CUSTOMER_ITEM_CODE",
+                    caption : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN ADI"),
+                    dataType : "string",
+                },
+                {
+                    dataField: "QUANTITY",
+                    caption : db.Language($scope.Lang,"MİKTAR"),
+                    dataType : "number",
+                },
+                {
+                    dataField: "EXP_DATE",
+                    caption : db.Language($scope.Lang,"SKT"),
+                    dataType : "date",
+                }
+            ],
+            onRowPrepared: function (rowInfo) 
+            {  
+                if(typeof rowInfo.data != 'undefined')
+                {
+                    if(rowInfo.data.STATUS == false)
+                    {
+                        rowInfo.rowElement.css('background', '#dce1e2');
+                    }
+                   
+                }
+            }
+        });
+    }
+    async function SktGetir()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT " +
+                    "*, " +
+                    "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_BARCODE.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE ORDER BY LDATE DESC),'') AS BARCODE, " +
+                    "ISNULL((SELECT TOP 1 CUSTOMER_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_CODE, " +
+                    "ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = CUSTOMER_CODE),'') FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_NAME, " +
+                    "ISNULL((SELECT TOP 1 CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_ITEM_CODE, " +
+                    "ISNULL((SELECT NAME FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME " +
+                    "FROM ITEM_EXPDATE WHERE EXP_DATE >= @ILKTARIH AND EXP_DATE <= @SONTARIH ORDER BY EXP_DATE ASC",
+            param:  ['ILKTARIH','SONTARIH'],
+            type:   ['date','date'],
+            value:  [moment(new Date()).format("DD.MM.YYYY"),moment(new Date()).format("DD.MM.YYYY")]            
+        }
+        
+        $scope.Data = await db.GetPromiseQuery(TmpQuery)
+        TblSktInit();
+    }
     $scope.Init = async function()
     { 
         if(typeof localStorage.Lang != 'undefined')
@@ -123,6 +229,7 @@ function SktGirisCtrl($scope,$window,db)
         $scope.FirstKey = false;        
 
         InitStokGrid();
+        TblSktInit();
     }
     $scope.BtnStokBarkodGetir = async function(e)
     {
@@ -267,6 +374,7 @@ function SktGirisCtrl($scope,$window,db)
         }
 
         await db.ExecutePromiseQuery(TmpQuery);
+        SktGetir();
 
         $scope.Init();
 

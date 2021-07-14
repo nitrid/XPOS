@@ -138,7 +138,7 @@ function SktListesiCtrl ($scope,$window,db)
                     "ISNULL((SELECT TOP 1 ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = CUSTOMER_CODE),'') FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_NAME, " +
                     "ISNULL((SELECT TOP 1 CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ITEM_EXPDATE.ITEM_CODE),'') AS CUSTOMER_ITEM_CODE, " +
                     "ISNULL((SELECT NAME FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME " +
-                    "FROM ITEM_EXPDATE WHERE EXP_DATE >= @ILKTARIH AND EXP_DATE <= @SONTARIH",
+                    "FROM ITEM_EXPDATE WHERE EXP_DATE >= @ILKTARIH AND EXP_DATE <= @SONTARIH ORDER BY EXP_DATE ASC",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            
