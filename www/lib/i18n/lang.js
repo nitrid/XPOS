@@ -519,7 +519,7 @@ var lang =
             "Şehir :" : "Ville :",
             "CARİ LİSTESİ" : "LISTE ACTUELLE",
             "Müşteri Bazlı Puan Listesi" : "Liste Des Points Basés Sur Le Client",
-            "Sipariş" : "Ordre",
+            "Sipariş" : "Commande",
             "Evraklar" : "Documents",
             "Raporlar" : "Rapports",
             "Alınan Sipariş" : "Commande Reçu",
