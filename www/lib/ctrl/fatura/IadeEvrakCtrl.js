@@ -185,7 +185,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             onItemUpdated: function(args) 
             {
                 let TmpTutar = parseFloat(args.item.QUANTITY) * parseFloat(args.item.PRICE);
-                let TmpVat = TmpTutar - (TmpTutar / ((args.item.VATRATE / 100) + 1));
+                let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
+                
                 let InserData = 
                 [
                     args.item.GUID,
@@ -194,7 +195,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     args.item.QUANTITY,
                     args.item.PRICE,
                     args.item.DISCOUNT,
-                    TmpVat
+                    TmpVatRate
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
@@ -417,7 +418,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT *, " +
-                        "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE TYPE = 1 AND ITEM_PRICE.CUSTOMER = INVOICE_VW_01.CUSTOMER AND ITEM_PRICE.ITEM_CODE = INVOICE_VW_01.ITEM_CODE ORDER BY LDATE DESC),0) AS COST_PRICE, " + 
+                        "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
                         "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
                         "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],

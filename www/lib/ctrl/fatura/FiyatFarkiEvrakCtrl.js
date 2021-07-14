@@ -200,13 +200,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
-                console.log(args)
                 let TmpTutar = parseFloat(args.item.QUANTITY) * parseFloat(args.item.PRICE);
                 let TmpVatRate = (args.item.VAT / TmpTutar) * 100;
-                // if(args.item.VAT == args.previousItem.VAT)
-                // {
-                //     TmpVatRate = TmpTutar - (TmpTutar / ((args.item.VATRATE / 100) + 1));
-                // }
                 
                 let InserData = 
                 [
@@ -435,7 +430,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT *, " +
-                        "ISNULL((SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE TYPE = 1 AND ITEM_PRICE.CUSTOMER = INVOICE_VW_01.CUSTOMER AND ITEM_PRICE.ITEM_CODE = INVOICE_VW_01.ITEM_CODE ORDER BY LDATE DESC),0) AS COST_PRICE, " + 
+                        "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
                         "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE, " +
                         "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
                         "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
