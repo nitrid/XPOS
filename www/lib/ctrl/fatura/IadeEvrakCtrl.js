@@ -176,7 +176,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100
                 }, 
                 {
-                    name: "VAT",
+                    name: "VATRATE",
                     title: db.Language($scope.Lang,"Kdv"),
                     type: "text",
                     align: "center",
