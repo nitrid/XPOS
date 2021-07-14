@@ -883,6 +883,7 @@ var QuerySql =
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
                 "[MIN_PRICE] AS [MIN_PRICE], " +
                 "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " +
+                "[COST_PRICE] AS [COST_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
@@ -904,6 +905,7 @@ var QuerySql =
                 "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
                 "[MIN_PRICE] AS [MIN_PRICE], " +
                 "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " +
+                "[COST_PRICE] AS [COST_PRICE], " +
                 "[WEIGHING] AS [WEIGHING] " +
                 "FROM ITEMS AS ITEMS " +
                 "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +

@@ -170,7 +170,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                 },
                 {
                     name: "PRICE",
-                    title: db.Language($scope.Lang,"Fiyat Farkı"),
+                    title: db.Language($scope.Lang,"Fiyat"),
                     type: "text",
                     align: "center",
                     width: 100
@@ -344,12 +344,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                 {
                     $scope.Stok = BarkodData;
                     $scope.StokKodu = $scope.Stok[0].CODE;
-                    
-                    if($scope.EvrakTip == 2)
-                    {
-                        $scope.Stok[0].PRICE = 0;
-                    }
-                    
+                    console.log($scope.Stok)
+                    $scope.Stok[0].PRICE = $scope.Stok[0].COST_PRICE;
                     $scope.Stok[0].AMOUNT = 0;
                     $scope.Stok[0].DISCOUNT = 0;
                     $scope.Stok[0].VATAMOUNT = 0;
