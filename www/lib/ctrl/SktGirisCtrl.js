@@ -229,6 +229,7 @@ function SktGirisCtrl($scope,$window,db)
         $scope.FirstKey = false;        
 
         InitStokGrid();
+        SktGetir();
         TblSktInit();
     }
     $scope.BtnStokBarkodGetir = async function(e)
