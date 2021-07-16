@@ -241,6 +241,12 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 125
                 }, 
                 {
+                    name: "CUSTOMER_ITEM_CODE",
+                    type: "number",
+                    align: "center",
+                    width: 100
+                },
+                {
                     name: "NAME",
                     title: db.Language($scope.Lang,"ADI"),
                     type: "text",
@@ -784,7 +790,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             Adi = $scope.StokGridText.replace("*","%").replace("*","%");
         }
 
-        db.GetData($scope.Firma,'StokGetir',[Kodu,Adi],function(StokData)
+        db.GetData($scope.Firma,'StokGetirEvrak',[Kodu,Adi],function(StokData)
         {
             $scope.StokListe = StokData;
             if($scope.StokListe.length > 0)

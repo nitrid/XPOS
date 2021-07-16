@@ -95,6 +95,11 @@ function FaturaListesiCtrl ($scope,db)
                     dataField: "TOTAL",
                     caption : db.Language($scope.Lang,"TOTAL"),
                     dataType : "number",
+                    format: 
+                    {
+                        type: "fixedPoint",
+                        precision: 2
+                    }
                 }
             ],
             summary: 
@@ -104,7 +109,10 @@ function FaturaListesiCtrl ($scope,db)
                     {
                         column: "TOTAL",
                         summaryType: "sum",
-                        valueFormat: "decimal",
+                        valueFormat: {
+                            type: "fixedPoint",
+                            precision: 2
+                        },
                         displayFormat: "{0} €",
                     }
                 ]
@@ -198,7 +206,7 @@ function FaturaListesiCtrl ($scope,db)
         {
             db : $scope.Firma,
             query:  "SELECT * FROM INVOICE_M_VW_01 WHERE TYPE = 1 AND DOC_TYPE = @DOC_TYPE AND DOC_DATE >= @FIRST_DATE AND DOC_DATE <= @LAST_DATE" ,
-            param : ["DOC_TYPE:int","FIRST_DATE:date","LAST_DATE:date","DOC_FROM:string|25"],
+            param : ["DOC_TYPE:int","FIRST_DATE:date","LAST_DATE:date"],
             value : [$scope.Tip,moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]
         }
         $scope.FaturaListe = await db.GetPromiseQuery(TmpQuery)

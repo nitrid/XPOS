@@ -870,6 +870,31 @@ var QuerySql =
         param : ['DEPARTMENT','REF'],
         type : ['int','string|25']
     },
+    StokGetirEvrak : 
+    {
+        query:  "SELECT ITEMS.CODE AS CODE, " +
+                "ISNULL(CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, " +
+                "SPECIAL1 AS SPECIAL1, " +
+                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
+                "ITEMS.[NAME] AS [NAME], " +
+                "ITEMS.SNAME AS SNAME, " +
+                "ITEMS.VAT AS VAT, " +
+                "'' AS BARCODE, " +
+                "ISNULL(UNIT.FACTOR,1) AS FACTOR, " + 
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[MIN_PRICE] AS [MIN_PRICE], " +
+                "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " +
+                "[COST_PRICE] AS [COST_PRICE], " +
+                "[WEIGHING] AS [WEIGHING] " +
+                "FROM ITEMS AS ITEMS " +
+                "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
+                "UNIT.ITEM_CODE = ITEMS.CODE AND UNIT.TYPE = 0" +
+                "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
+                "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " +
+                "WHERE ((UPPER(ITEMS.CODE) LIKE UPPER(@CODE)) OR (UPPER(CUSTOMER_ITEM_CODE) LIKE UPPER(@CODE)) OR (UPPER(@CODE) = '')) AND ((UPPER(ITEMS.[NAME]) LIKE UPPER(@NAME)) OR (UPPER(@NAME) = '')) AND ITEMS.STATUS = 1 ORDER BY NAME ASC" ,
+        param : ['CODE','NAME'],
+        type : ['string|25','string|250']
+    },
     StokGetir : 
     {
         query:  "SELECT ITEMS.CODE AS CODE, " +
