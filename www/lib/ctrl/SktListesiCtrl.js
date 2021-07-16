@@ -141,7 +141,8 @@ function SktListesiCtrl ($scope,$window,db)
                     "ISNULL((SELECT NAME FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE * ((VAT / 100) + 1) FROM ITEMS WHERE CODE = ITEM_CODE),0) AS PRICE, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE * (VAT / 100) FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VAT, " +
-                    "ISNULL((SELECT TOP 1 COST_PRICE * ((VAT / 100) + 1) FROM ITEMS WHERE CODE = ITEM_CODE),0) * QUANTITY AS AMOUNT " +
+                    "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = ITEM_CODE),0) * QUANTITY AS AMOUNT, " +
+                    "ISNULL((SELECT TOP 1 COST_PRICE * ((VAT / 100) + 1) FROM ITEMS WHERE CODE = ITEM_CODE),0) * QUANTITY AS TTC " +
                     "FROM ITEM_EXPDATE WHERE EXP_DATE >= @ILKTARIH AND EXP_DATE <= @SONTARIH ORDER BY EXP_DATE ASC",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
