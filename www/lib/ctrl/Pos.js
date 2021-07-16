@@ -4618,18 +4618,27 @@ function Pos($scope,$window,$rootScope,db)
         db.ExecuteTag($scope.Firma,'PosSatisSadakat',[TmpPuanTutar,$scope.Seri,$scope.Sira],function(pData)
         {  
             $('#MdlSadakatIndirim').modal('hide');
-            $scope.CariKullanPuan = $scope.TxtSadakatIndirim;
+            if(TmpPuanTutar == $scope.GenelToplam)
+            {
+                console.log(11)
+                SatisKapat();
+            }
+            else
+            {
+                $scope.CariKullanPuan = $scope.TxtSadakatIndirim;
 
-            db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
-            {   
-                db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
-                {  
-                    InsertFisYenile(PosSatisFisData);   
-                }); 
-
-                InsertSonYenile(PosSatisData);      
-                $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
-            });
+                db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
+                {   
+                    db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
+                    {  
+                        InsertFisYenile(PosSatisFisData);   
+                    }); 
+    
+                    InsertSonYenile(PosSatisData);      
+                    $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  
+                });
+            }
+            
         });        
     }
     $scope.BtnSadakatIndirimTemizle = function()
