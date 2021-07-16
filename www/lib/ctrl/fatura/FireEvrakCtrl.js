@@ -1109,7 +1109,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                 console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
                 db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
-                    console.log(pResult.split('|')[0])
+                    console.log(pResult)
                     if(pResult.split('|')[0] != 'ERR')
                     {
                         var mywindow = window.open('printview.html','_blank',"width=900,height=1000,left=500");      
