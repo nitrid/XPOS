@@ -1104,6 +1104,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
+            console.log(pData)
             if(pData.length > 0)
             {
                 console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
