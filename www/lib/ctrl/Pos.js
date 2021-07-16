@@ -2442,8 +2442,8 @@ function Pos($scope,$window,$rootScope,db)
             TahTutar = parseFloat(parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.')) - TahParaUstu).toDigit2();
         }
                
-        // if($scope.TxtAraToplamTutar.toString().replace(',','.') > 0)
-        // {
+        if($scope.TxtAraToplamTutar.toString().replace(',','.') > 0)
+        {
             let Result;            
             //SATIR BİRLEŞTİRME İŞLEMİ
             let TmpSatirBirlestir = SatirBirlestir("TAHSILAT");
@@ -2513,7 +2513,7 @@ function Pos($scope,$window,$rootScope,db)
                     pCallBack();
                 }
             }
-        //}
+        }
     }
     $scope.PosSatisMiktarUpdate = function(pData,pMiktar)
     {   
@@ -4620,7 +4620,7 @@ function Pos($scope,$window,$rootScope,db)
             $('#MdlSadakatIndirim').modal('hide');
             if(TmpPuanTutar == $scope.GenelToplam)
             {
-                $scope.PosTahInsert();
+                SatisKapat();
             }
             else
             {
