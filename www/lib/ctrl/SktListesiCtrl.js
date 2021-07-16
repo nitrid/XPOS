@@ -157,7 +157,7 @@ function SktListesiCtrl ($scope,$window,db)
     {
         if($scope.Data.length > 0)
         {
-            console.log("{TYPE:'REVIEW',PATH:'" + $scope.Data[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
+            console.log("{TYPE:'REVIEW',PATH:'" + $scope.Data[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify($scope.Data) + "}")
             db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + $scope.Data[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify($scope.Data) + "}",(pResult)=>
             {
                 if(pResult.split('|')[0] != 'ERR')
