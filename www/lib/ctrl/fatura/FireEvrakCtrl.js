@@ -1092,11 +1092,8 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
             db : $scope.Firma,
             query:  "SELECT *," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '12'),'') AS PATH, " +
-                    "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
-                    "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " + 
+                    "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE " + 
                     "FROM INVOICE_VW_01 " +
-                    "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
-                    "CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER " +
                     "WHERE MGUID = @MGUID",
             param:  ['MGUID'],
             type:   ['string|50'],
