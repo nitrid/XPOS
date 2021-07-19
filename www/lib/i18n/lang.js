@@ -667,7 +667,6 @@ var lang =
             "Bu Yıl" : "Cette année",
             "Geçen Yıl" : "l'année dernière",
             "CUSTOMER" : "Fournisseur",
-            "Bu ürünü daha önce okuttunuz tekrar eklemek istediğinize eminmisiniz ?" : "Produit déjà saisi êtes vous sur de vouloir saisir à nouveau?",
             "SİPARİŞ LİSTESİ" : "Liste De Commande",
             "Seçili Satırları Sil" : "Supprimer Ligne Sélectionnée",
             "Yazdır" : "Imprimer",
@@ -684,8 +683,7 @@ var lang =
             "İade" : "Retour Fournisseur",
             "Fire" : "Perte",
             "Fatura Listesi" : "Liste Factures",
-            "" : "",
-            "" : "",
+            "Bu ürünü daha önce okuttunuz tekrar eklemek istediğinize eminmisiniz ?" : "Produit déjà saisi êtes vous sur de vouloir saisir à nouveau?",
             "" : "",
             "" : ""
 

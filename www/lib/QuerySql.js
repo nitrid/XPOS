@@ -164,7 +164,7 @@ var QuerySql =
         query : "SELECT " + 
                 "[GUID] " +
                 ",[BARCODE] " +
-                ",ISNULL((SELECT TOP 1 [NAME] FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEM_BARCODE.ITEM_CODE),'') AS [UNIT] " +
+                ",ISNULL((SELECT TOP 1 [NAME] FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEM_BARCODE.ITEM_CODE AND ITEM_UNIT.GUID = ITEM_BARCODE.UNIT),'') AS [UNIT] " +
                 ",CASE WHEN [TYPE] = 0 THEN 'EAN8' " +
                 "WHEN [TYPE] = 1 THEN 'EAN13' " +
                 "WHEN [TYPE] = 2 THEN 'CODE39' " +
