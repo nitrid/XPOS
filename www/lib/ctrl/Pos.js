@@ -2038,9 +2038,11 @@ function Pos($scope,$window,$rootScope,db)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
+                pBarkod = document.getElementById("TxtBarkod").value;
                 if(pBarkod.toString().substring(0,6) == "202012")
                 {
-                    pBarkod = pBarkod.toString().substring(0,6) + pBarkod.toString().substring(7,pBarkod.toString().length) 
+                    console.log(pBarkod.length + " - " + pBarkod)
+                    pBarkod = pBarkod.toString().substring(0,6) + pBarkod.toString().substring(7,pBarkod.toString().length -1) 
                     console.log(pBarkod)
                 }
 
@@ -2564,7 +2566,7 @@ function Pos($scope,$window,$rootScope,db)
         if($scope.TxtBarkod != "")
         {
             if(keyEvent.which === 13)
-            {   
+            {                   
                 TxtBarkodKeyPress();
             }
         }
