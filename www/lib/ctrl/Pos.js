@@ -2040,7 +2040,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(pBarkod.toString().substring(0,6) == "202012")
                 {
-                    pBarkod = pBarkod.toString().substring(0,6) + pBarkod.toString().substring(7,pBarkod.toString().length - 1) 
+                    pBarkod = pBarkod.toString().substring(0,6) + pBarkod.toString().substring(7,pBarkod.toString().length) 
                     console.log(pBarkod)
                 }
 
