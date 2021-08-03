@@ -584,6 +584,7 @@ function StokCtrl ($scope,$window,$location,db)
         }
 
         StokListeGetir();
+        $('#MdlUrunGrupGuncelle').modal('hide');
     }
     //#endregion    
     function TblFiyatInit()
