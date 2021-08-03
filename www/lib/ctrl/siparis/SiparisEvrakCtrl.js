@@ -769,7 +769,12 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.TblLoading = false;
         let Kodu = '';
         let Adi = '';
-
+        
+        if($scope.StokGridText.length > 0 && $scope.StokGridText.substring($scope.StokGridText.length-1,$scope.StokGridText.length) != "*")
+        {
+            $scope.StokGridText += "*"
+        }
+        
         if($scope.StokGridTip == "1")
         {   
             Kodu = $scope.StokGridText.replace("*","%").replace("*","%");
