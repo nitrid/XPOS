@@ -231,8 +231,8 @@ function SiparisListesiCtrl ($scope,db)
         {
             if(pData.length > 0)
             {
-                console.log("{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}")
-                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'C:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+                console.log("{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
                     {
