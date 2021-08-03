@@ -105,6 +105,10 @@ angular.module("app",
     {
         templateUrl : "html/fatura/FireEvrak.html"
     })
+    .when("/SatisEvrak",
+    {
+        templateUrl : "html/fatura/SatisEvrak.html"
+    })
     .when("/SktGiris",
     {
         templateUrl : "html/yonetim/SktGiris.html"
