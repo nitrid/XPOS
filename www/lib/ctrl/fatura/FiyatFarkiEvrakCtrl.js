@@ -1158,4 +1158,33 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             }
         });
     }
+    $scope.BtnKdvSifirla = function()
+    {
+        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+
+        alertify.confirm(db.Language($scope.Lang,'Tüm satırların vergisini sıfırlamak istediğinize eminmisiniz ?'), 
+        async function()
+        { 
+            for (let i = 0; i < $scope.FaturaListe.length; i++) 
+            {            
+                let InserData = 
+                [
+                    $scope.FaturaListe[i].GUID,
+                    $scope.Kullanici,
+                    $scope.FaturaListe[i].ITEM_CODE,
+                    $scope.FaturaListe[i].QUANTITY,
+                    $scope.FaturaListe[i].PRICE,
+                    $scope.FaturaListe[i].DISCOUNT,
+                    0
+                ]
+                await db.ExecutePromiseTag($scope.Firma,'FaturaSatirUpdate',InserData);
+            }
+
+            let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
+            InsertAfterRefresh(TmpData);
+            $scope.InsertLock = false;
+        },
+        function(){});
+    }
 }
