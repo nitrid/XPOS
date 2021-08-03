@@ -1,6 +1,7 @@
 function StokCtrl ($scope,$window,$location,db)
 {
     let SecimSelectedRow = null;
+    let MultipleSelectedRow = [];
     let ModalTip = "";
     let StokListePage = false;
     $scope.Birim =
@@ -315,7 +316,11 @@ function StokCtrl ($scope,$window,$location,db)
                         rowInfo.rowElement.css('background', '#dce1e2');
                     }
                 }
-            }  
+            },
+            onSelectionChanged: function(selectedItems) 
+            {
+                MultipleSelectedRow = selectedItems.selectedRowsData;
+            } 
         });
     }
     function StokListeGetir()
@@ -553,6 +558,32 @@ function StokCtrl ($scope,$window,$location,db)
         {   
             StokListeGetir();
         }
+    }
+    $scope.BtnUrunGrupGuncelle = async function()
+    {
+        if(typeof $scope.SLUrunGrup.Value == 'undefined' || $scope.SLUrunGrup.Value == "")
+        {
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Lütfen ürün grubu seçiniz !"));
+
+            $('#MdlUrunGrupGuncelle').modal('hide');
+            return;
+        }
+
+        for (let i = 0; i < MultipleSelectedRow.length; i++) 
+        {            
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "UPDATE ITEMS SET ITEM_GRP = @ITEM_GRP, LDATE = GETDATE() WHERE CODE = @CODE",
+                param: ['ITEM_GRP:string|25','CODE:string|25'],
+                value: [$scope.SLUrunGrup.Value,MultipleSelectedRow[i].CODE]
+            }
+            
+            await db.ExecutePromiseQuery(TmpQuery);          
+        }
+
+        StokListeGetir();
     }
     //#endregion    
     function TblFiyatInit()
@@ -1262,7 +1293,7 @@ function StokCtrl ($scope,$window,$location,db)
                 SecimSelectedRow.Item = e.data
                 $scope.BtnGridSec();
                 $scope.$apply();
-            }
+            },            
         }).dxDataGrid("instance");
     }
     function FiyatModalInit()
@@ -1503,7 +1534,7 @@ function StokCtrl ($scope,$window,$location,db)
             }
         });
     }
-    $scope.Init = function()
+    $scope.Init = async function()
     {        
         DevExpress.localization.locale('fr');
         StokListePage = false;
@@ -1522,7 +1553,43 @@ function StokCtrl ($scope,$window,$location,db)
         }
         //STOK LISTESİ TANIMLARI *************************
         $scope.StokListesi = {}
-        $scope.StokListesi.Data = [];        
+        $scope.StokListesi.Data = [];     
+        $scope.SLUrunGrupListe = [];   
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
+        }
+
+        db.GetDataQuery(TmpQuery,(pData) => 
+        {
+            $scope.SLUrunGrupListe = pData;
+            $scope.SLUrunGrup = {};
+            $scope.SLUrunGrup.Cmb = 
+            {
+                width: "100%",
+                dataSource: $scope.SLUrunGrupListe,
+                displayExpr: "NAME",
+                valueExpr: "CODE",
+                value: "",
+                showClearButton: true,
+                searchEnabled: true,
+                bindingOptions: 
+                {
+                    value: "SLUrunGrup.Value",
+                    dataSource : "SLUrunGrupListe"
+                },
+                onSelectionChanged : function(e)
+                {              
+                    if(e.selectedItem == null)
+                    {
+                        $scope.SLUrunGrup.Value = ""
+                    }                
+                }
+            }
+        });
+
         DrpDwnInitKolon();
 
         $scope.StokListesi.CmbGrup = 
@@ -1586,6 +1653,45 @@ function StokCtrl ($scope,$window,$location,db)
         TblStokListeInit();
         $scope.GrupGetir();
         $scope.TedarikciGetir();
+
+        $scope.contextMenuOptions = 
+        {
+            dataSource: 
+            [
+                {
+                    text: 'Yönetim',
+                    items: 
+                    [
+                        { text: 'Ürün Grubunu Değiştir',id: "M001" },
+                    ]
+                }
+            ],
+            width: 200,
+            target: "#TblStokListe",
+            onItemClick: function(e)
+            {
+                if (e.itemData.id == "M001") 
+                {
+                    if(MultipleSelectedRow.length > 0)
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+                
+                        alertify.confirm(db.Language($scope.Lang,'Seçili satırların ürün grubunu değiştirmek istediğinize eminmisiniz ?'),
+                        function()
+                        {
+                            $('#MdlUrunGrupGuncelle').modal({backdrop: 'static'});
+                        }
+                        ,function(){});
+                    }
+                    else
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Satır seçmeden bu işlemi yapamazsınız !"));
+                    }
+                }
+            }
+        }; 
         //********************************************* */
 
         $scope.StyleAll = {'visibility': 'hidden'};
@@ -1748,31 +1854,7 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.StokListe[0].ORGINS = ""
                 }
             }
-        }
-
-        $scope.contextMenuOptions = 
-        {
-            dataSource: 
-            [
-                {
-                    text: 'Yönetim',
-                    items: 
-                    [
-                        { text: 'Seçili Satırların Ürün Grubunu Değiştir' },
-                        { text: 'Seçili Satırların Tedarikçi Değiştir' }
-                    ]
-                },
-                { text: 'Seçili Satırları Sil' },
-                { text: 'Seçili Satırı Yazdır' }
-            ],
-            width: 200,
-            target: "#TblStokListe",
-            onItemClick: function(e){
-                if (!e.itemData.items) {
-                    DevExpress.ui.notify("The \"" + e.itemData.text + "\" item was clicked", "success", 1500);
-                }
-            }
-        };    
+        }           
     }
     $scope.Yeni = function()
     {
