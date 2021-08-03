@@ -172,10 +172,12 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.FiyatModal.Bitis = "";
         $scope.FiyatModal.Fiyat = 0;
         $scope.FiyatModal.Miktar = 0;
-
-        $scope.UrunGrup = {};
-        $scope.UrunGrup.Value = "";
-        $scope.UrunGrup.Status = false;
+        if(typeof arguments[0] == 'undefined' && !arguments[0])
+        {
+            $scope.UrunGrup = {};
+            $scope.UrunGrup.Value = "";
+            $scope.UrunGrup.Status = false;
+        }
         
         InitStokGrid();
         InitFiyatSecGrid();
@@ -205,14 +207,14 @@ function FiyatGorCtrl($scope,$window,db)
                     param: ['ITEM_GRP:string|25','CODE:string|25'],
                     value: [$scope.UrunGrup.Value,$scope.Kodu]
                 }
-                console.log(TmpQuery)
+                
                 await db.ExecutePromiseQuery(TmpQuery);
             }
         }
         else
         {
             document.getElementById("Sound").play();
-            $scope.Init()
+            $scope.Init(true)
         }
 
         $scope.Barkod = ""
