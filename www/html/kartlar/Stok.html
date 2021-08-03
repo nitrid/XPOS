@@ -1,3 +1,13 @@
+<style>
+    .modal.fade 
+    {
+        z-index: 1500 !important;
+    }
+    .modal-backdrop
+    {
+        z-index: 1499 !important;
+    }
+</style>
 <div class="col-12" ng-controller="StokCtrl" ng-init="Init()">
     <div class="col-12">
         <div class="tab-content">
@@ -95,6 +105,31 @@
                                 <div id="TblStokListe"></div>
                             </div>
                             <div dx-context-menu="contextMenuOptions"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ürün Grubu Güncelle-->
+                <div class="modal fade " id="MdlUrunGrupGuncelle" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">X</span>
+                                </button>
+                                <h4 class="modal-title" langu>Ürün Grubu</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row py-10">
+                                    <div class="col-md-12">
+                                        <div dx-select-box="SLUrunGrup.Cmb"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 px-1">
+                                        <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupGuncelle()"langu>Kaydet</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -922,7 +957,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
             </div>
         </div>
     </div>           
