@@ -35,6 +35,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.StokGridText = "";
         $scope.ToplamSatir = 0;
         $scope.Fiyat = "";
+        $scope.Aciklama = "";
 
         $scope.DepoListe = [];
         $scope.CariListe = [];
@@ -852,7 +853,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.Stok[0].PRICE,
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
-                ''
+                $scope.Aciklama
             ]
             db.ExecuteTag($scope.Firma,'FaturaInsert',InserData,async function(pData)
             {
@@ -1095,6 +1096,35 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
     $scope.BtnEvrakTumu = function()
     {
         InitEvrakGrid(false);  
+    }
+    $scope.AciklamaGiris = function()
+    {
+        if($scope.FaturaListe.length > 0)
+        {
+            $scope.Aciklama = $scope.FaturaListe[0].DESCRIPTION;
+        }
+        else
+        {
+            $scope.Aciklama = "";
+        }
+        $("#MdlAciklama").modal('show');
+    }
+    $scope.BtnAciklamaKaydet = async function()
+    {
+        if($scope.FaturaListe.length > 0)
+        {
+            let TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "UPDATE INVOICEM SET DESCRIPTION = @DESCRIPTION WHERE GUID = @GUID",
+                param:  ['DESCRIPTION','GUID'],
+                type:   ['string|500','string|50'],
+                value:  [$scope.Aciklama,$scope.FaturaListe[0].MGUID]
+            }
+            await db.ExecutePromiseQuery(TmpQuery);
+        }
+        
+        $("#MdlAciklama").modal('hide');
     }
     $scope.BtnPrint = function()
     {
