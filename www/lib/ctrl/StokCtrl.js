@@ -404,7 +404,7 @@ function StokCtrl ($scope,$window,$location,db)
                     "ITEMS.CODE AS CODE, " +
                     "ITEMS.NAME AS NAME, " +
                     "ITEMS.SNAME AS SNAME, " +
-                    "ITEMS.ITEM_GRP AS ITEM_GRP, " +
+                    "ISNULL((SELECT TOP 1 [NAME] FROM ITEM_GROUP WHERE CODE = ITEMS.ITEM_GRP),'') AS ITEM_GRP, " +
                     "ITEMS.VAT AS VAT, " +
                     "ITEMS.COST_PRICE AS COST_PRICE, " +
                     "ITEMS.MIN_PRICE AS MIN_PRICE, " +
