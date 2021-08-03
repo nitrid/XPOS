@@ -20,7 +20,7 @@
                 <div id="TbMain" class="tab-pane active">
                     <div class="row pb-20">
                         <div class="col-7">
-                            <label class="h7 mt-10"langu>Ürün Grubu Güncelleme :</label><label>{{UrunGrup.Status == true ?  "Actif" : "Passif"}}</label>
+                            <label class="h7 mt-10"langu>Ürün Grubu Güncelleme :</label><label>{{UrunGrup.Status == true ?  "Actif - " + UrunGrup.Name : "Passif"}}</label>
                         </div>
                         <div class="col-5 px-1">
                             <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false"langu>İşlemler</button>
