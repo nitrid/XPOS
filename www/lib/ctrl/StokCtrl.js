@@ -1749,6 +1749,30 @@ function StokCtrl ($scope,$window,$location,db)
                 }
             }
         }
+
+        $scope.contextMenuOptions = 
+        {
+            dataSource: 
+            [
+                {
+                    text: 'Yönetim',
+                    items: 
+                    [
+                        { text: 'Seçili Satırların Ürün Grubunu Değiştir' },
+                        { text: 'Seçili Satırların Tedarikçi Değiştir' }
+                    ]
+                },
+                { text: 'Seçili Satırları Sil' },
+                { text: 'Seçili Satırı Yazdır' }
+            ],
+            width: 200,
+            target: "#TblStokListe",
+            onItemClick: function(e){
+                if (!e.itemData.items) {
+                    DevExpress.ui.notify("The \"" + e.itemData.text + "\" item was clicked", "success", 1500);
+                }
+            }
+        };    
     }
     $scope.Yeni = function()
     {
