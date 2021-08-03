@@ -3,6 +3,7 @@ function SiparisListesiCtrl ($scope,db)
     let StartDate = moment();
     let EndDate = moment();
     let RefSelectedData = [];
+    let EtiketSelected = {};
 
     $('#Date').on('apply.daterangepicker', function(ev, picker) 
     {
@@ -110,7 +111,7 @@ function SiparisListesiCtrl ($scope,db)
             }
         });
     }
-    $scope.Init =function()
+    $scope.Init = async function()
     {
         if(typeof localStorage.Lang != 'undefined')
         {
@@ -143,10 +144,14 @@ function SiparisListesiCtrl ($scope,db)
     
         DateTitle(StartDate, EndDate);     
 
+        EtiketSelected = {};
+
         $scope.Tedarikci = "";
+        $scope.Etiket = "";
 
         $scope.TedaikciListe = [];
         $scope.SiparisListe = [];
+        $scope.EtiketListe = [];
 
         $scope.CmbTedarikci = 
         {
@@ -173,8 +178,43 @@ function SiparisListesiCtrl ($scope,db)
                 }
             }
         }
-
         $scope.TedarikciGetir();
+
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT DESIGN_NAME,TAG,PAGE_COUNT FROM LABEL_DESIGN WHERE TYPE = 'SIPARIS'",
+        }
+
+        let TmpData = await db.GetPromiseQuery(TmpQuery);
+        $scope.EtiketListe = TmpData;
+        $scope.$apply();
+
+        $scope.Cmb = {};
+        $scope.Cmb.Etiket = 
+        {
+            width: "100%",
+            dataSource: $scope.EtiketListe,
+            displayExpr: "DESIGN_NAME",
+            valueExpr: "TAG",
+            value: "",
+            showClearButton: true,
+            searchEnabled: true,
+            bindingOptions: 
+            {
+                value: "Etiket",
+                dataSource : "EtiketListe"
+            },
+            onSelectionChanged : function(e)
+            {              
+                EtiketSelected = e.selectedItem;
+
+                if(e.selectedItem == null)
+                {
+                    $scope.Etiket = ""
+                }
+            }
+        }
     }
     $scope.TedarikciGetir = function()
     {
@@ -216,23 +256,30 @@ function SiparisListesiCtrl ($scope,db)
     }
     $scope.BtnPrint = function()
     {
+        if($scope.Etiket == '')
+        {
+            alertify.alert(db.Language($scope.Lang,"Lütfen Kağıt Formatı Seçiniz !"))
+            return;
+        }
+
         let TmpQuery = 
         {
             db : $scope.Firma,
             query:  "SELECT *, " +
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ORDER_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = DOC_FROM),'') AS CUSTOMER_ITEM_CODE " +
                     "FROM ORDER_VW_01 " +
                     "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO",
-            param:  ['TYPE','DOC_TYPE','REF','REF_NO'],
-            type:   ['int','int','string|25','int','string|25'],
-            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO]
+            param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN'],
+            type:   ['int','int','string|25','int','string|25','string|25'],
+            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO,$scope.Etiket]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
             if(pData.length > 0)
             {
-                console.log("{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}")
-                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'D:/Piqpos/devprint/repx/ProdorPlus/commande/Siparis.repx',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
+                console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult)=>
                 {
                     if(pResult.split('|')[0] != 'ERR')
                     {

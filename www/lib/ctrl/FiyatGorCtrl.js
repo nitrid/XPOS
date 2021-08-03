@@ -176,6 +176,7 @@ function FiyatGorCtrl($scope,$window,db)
         {
             $scope.UrunGrup = {};
             $scope.UrunGrup.Value = "";
+            $scope.UrunGrup.Name = "";
             $scope.UrunGrup.Status = false;
         }
         
@@ -411,6 +412,10 @@ function FiyatGorCtrl($scope,$window,db)
                 if(e.selectedItem == null)
                 {
                     $scope.UrunGrup.Value = ""
+                }
+                else
+                {
+                    $scope.UrunGrup.Name = e.selectedItem.NAME
                 }
             }
         }

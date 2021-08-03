@@ -144,6 +144,12 @@ function StokCtrl ($scope,$window,$location,db)
             visible: true
         },
         {
+            dataField: "CUSTOMER_ITEM_PRICE",
+            caption : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN FİYATI"),
+            dataType : "string",
+            visible: true
+        },
+        {
             dataField: "CUSTOMER",
             caption : db.Language($scope.Lang,"TEDARİKÇİ"),
             dataType : "string",
@@ -352,7 +358,8 @@ function StokCtrl ($scope,$window,$location,db)
             } 
             if($scope.StokListesi.Kolon[x].CODE == "CUSTOMER_ITEM_CODE")    
             {
-                QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = ITEM_CUSTOMER.CUSTOMER_CODE),'') AS CUSTOMER, ";
+                QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = ITEM_CUSTOMER.CUSTOMER_CODE),'') AS CUSTOMER, " + 
+                                            "ISNULL((SELECT TOP 1 MAX(PRICE) FROM ITEM_PRICE WHERE TYPE = 1 AND CUSTOMER = ITEM_CUSTOMER.CUSTOMER_CODE AND ITEM_CODE = ITEMS.CODE ORDER BY MAX(LDATE) DESC),0) AS CUSTOMER_ITEM_PRICE, ";
                 QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
                 QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
             }   
@@ -416,6 +423,7 @@ function StokCtrl ($scope,$window,$location,db)
             param : ["BARCODE:string|50","NAME:string|250","ITEM_GRP:string|25","STATUS:bit","CUSTOMER:string|25"],
             value : [$scope.StokListesi.Barkod,$scope.StokListesi.Adi.replaceAll('*','%'),$scope.StokListesi.Grup,$scope.StokListesi.Durum,$scope.StokListesi.Tedarikci]
         }
+        console.log(TmpQuery)
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.StokListesi.Data = Data;
@@ -451,6 +459,7 @@ function StokCtrl ($scope,$window,$location,db)
             {CODE : "CODE",NAME : db.Language($scope.Lang, "ÜRÜN KODU")},
             {CODE : "BARCODE",NAME : db.Language($scope.Lang,"BARKODU")},
             {CODE : "CUSTOMER_ITEM_CODE",NAME : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN KODU")},
+            {CODE : "CUSTOMER_ITEM_PRICE",NAME : db.Language($scope.Lang,"TEDARİKÇİ ÜRÜN FİYATI")},
             {CODE : "CUSTOMER",NAME : db.Language($scope.Lang,"TEDARİKÇİ")},
             {CODE : "COST_PRICE",NAME : db.Language($scope.Lang,"MALİYET FİYATI")},
             {CODE : "PRICE",NAME : db.Language($scope.Lang,"SATIŞ FİYATI")},    
@@ -720,10 +729,10 @@ function StokCtrl ($scope,$window,$location,db)
                         e.cancel = true;
                         return;
                     }
-                    if(parseFloat(e.newData.PRICE.toString().replace(',','.')) < parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')))
+                    if(parseFloat(e.newData.PRICE.toString().replace(',','.')) < parseFloat(parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')) * (($scope.StokListe[0].VAT / 100) + 1)).toFixed(2))
                     {
                         alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                        alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !"));
+                        alertify.alert(db.Language($scope.Lang,"Girdiğiniz fiyat maliyet fiyatından küçük olamaz !") + " - " + db.Language($scope.Lang,"Vergi dahil maliyet fiyatı : ") + parseFloat(parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')) * (($scope.StokListe[0].VAT / 100) + 1)).toFixed(2));
                         e.cancel = true;
                         return;
                     }                    
@@ -1567,7 +1576,7 @@ function StokCtrl ($scope,$window,$location,db)
             }
         }
 
-        $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"},{"CODE" : "CUSTOMER_ITEM_CODE","NAME" : "TEDARİKÇİ ÜRÜN KODU"},{"CODE" : "CUSTOMER","NAME" : "TEDARİKÇİ"}];
+        $scope.StokListesi.Kolon = [{"CODE" : "CODE","NAME" : "ÜRÜN KODU"},{"CODE" : "NAME","NAME" : "ÜRÜN TAM ADI"},{"CODE" : "BARCODE","NAME" : "BARKODU"},{"CODE" : "CUSTOMER_ITEM_CODE","NAME" : "TEDARİKÇİ ÜRÜN KODU"},{"CODE" : "CUSTOMER","NAME" : "TEDARİKÇİ"},{"CODE" : "CUSTOMER_ITEM_PRICE","NAME" : "TEDARİKÇİ ÜRÜN FİYATI"}];
         $scope.StokListesi.Barkod = "";
         $scope.StokListesi.Adi = "";
         $scope.StokListesi.Grup = "";

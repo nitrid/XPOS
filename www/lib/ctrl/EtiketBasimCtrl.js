@@ -407,7 +407,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT DESIGN_NAME,TAG,PAGE_COUNT FROM LABEL_DESIGN",
+            query:  "SELECT DESIGN_NAME,TAG,PAGE_COUNT FROM LABEL_DESIGN WHERE TYPE = 'ETIKET'",
         }
 
         let TmpData = await db.GetPromiseQuery(TmpQuery);
@@ -705,7 +705,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                     "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE', " +
                     "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION' " +
                     ")) JS " +
-                    "WHERE STATUS = 0 AND REF = @REF AND REF_NO = @REF_NO",
+                    "WHERE STATUS = 0 AND REF = @REF AND REF_NO = @REF_NO AND TYPE = 'ETIKET'",
             param:  ['REF','REF_NO','DESIGN'],
             type:   ['string|25','int','string|25'],
             value:  [$scope.Ref,$scope.RefNo,$scope.Etiket]
