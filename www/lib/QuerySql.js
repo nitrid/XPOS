@@ -813,6 +813,7 @@ var QuerySql =
     PosPluStokGrupGetir:
     {
         query : "SELECT " +
+                "ITEM_GRP AS ITEM_GRP, " +
                 "NAME AS NAME, " +
                 "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_CODE = CODE),CODE) AS BARCODE, " +
                 "ISNULL((SELECT TOP 1 IMAGE FROM ITEM_IMAGE WHERE ITEM_CODE = CODE),'') AS IMAGE, " +
@@ -1014,6 +1015,7 @@ var QuerySql =
                 "dbo.FN_CUSTOMER_TOTAL_POINT(CUSTOMER_CODE,GETDATE()) AS CUSTOMER_POINT, " +
                 "ITEM_CODE AS ITEM_CODE, " +
                 "ISNULL((SELECT TOP 1 [NAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
+                "ISNULL((SELECT TOP 1 [SNAME] FROM ITEMS WHERE CODE = ITEM_CODE),'') AS SNAME, " +
                 "BARCODE AS BARCODE, " +
                 "QUANTITY AS QUANTITY, " +
                 "UNIT AS UNIT_ID, " +

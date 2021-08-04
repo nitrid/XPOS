@@ -3865,6 +3865,8 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.TahTip == 0)
         {
+            db.EscposCaseOpen();
+
             $scope.PosTahInsert(() =>
             {
                 if(typeof pCallBack != 'undefined')
@@ -3911,8 +3913,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnNakitOdemeOnay = function(pMoney)
     {
-        db.EscposCaseOpen();
-
         if(typeof pMoney != 'undefined')
         {
             $scope.TxtAraToplamTutar = pMoney
@@ -4132,7 +4132,8 @@ function Pos($scope,$window,$rootScope,db)
             }
             else if(pType == 2)
             {
-                if(typeof $scope.PluStokGrupList == 'undefined')
+                console.log($scope.PluStokGrupList )
+                if(typeof $scope.PluStokGrupList == 'undefined' || ($scope.PluStokGrupList.length > 0 && typeof $scope.PluStokGrupList.find(x => x.ITEM_GRP === $scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 2).ITEMS_CODE) == 'undefined'))
                 {
                     db.GetData($scope.Firma,'PosPluStokGrupGetir',[$scope.PluList.find(x => x.LOCATION == pIndex && x.TYPE == 2).ITEMS_CODE,''],function(PluData)
                     {
