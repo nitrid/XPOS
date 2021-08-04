@@ -111,7 +111,7 @@ angular.module("app",
     })
     .when("/SktGiris",
     {
-        templateUrl : "html//SktGiris.html"
+        templateUrl : "html/yonetim/SktGiris.html"
     })
     .when("/SktListesi",
     {
