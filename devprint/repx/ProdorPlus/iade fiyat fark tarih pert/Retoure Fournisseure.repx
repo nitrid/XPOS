@@ -54,13 +54,13 @@
         <Item8 Ref="28" ControlType="XRLabel" Name="label9" Multiline="true" Text="&#xD;&#xA;HUDO Distribution S.A.R.L&#xD;&#xA;7 Allée du Midi&#xD;&#xA;54270 Essey-lès-Nancy&#xD;&#xA;0033(0)3 83 93 33 07" TextAlignment="TopCenter" SizeF="225,91.66667" LocationFloat="536.125, 60.4166565" Font="Poppins Black, 8pt" Padding="2,2,0,0,100">
           <StylePriority Ref="29" UseFont="false" UseTextAlignment="false" />
         </Item8>
-        <Item9 Ref="30" ControlType="XRLabel" Name="label10" TextFormatString="{0:d}" Multiline="true" Text="label10" TextAlignment="TopRight" SizeF="83.3333359,23" LocationFloat="1.04166663, 100.583321" Padding="2,2,0,0,100">
+        <Item9 Ref="30" ControlType="XRLabel" Name="label10" TextFormatString="{0:dd/MM/yyyy}" Multiline="true" Text="label10" TextAlignment="TopRight" SizeF="83.3333359,23" LocationFloat="1.04166663, 100.583321" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="31" EventName="BeforePrint" PropertyName="Text" Expression="[CDATE]" />
           </ExpressionBindings>
           <StylePriority Ref="32" UseTextAlignment="false" />
         </Item9>
-        <Item10 Ref="33" ControlType="XRLabel" Name="label11" TextFormatString="{0:d}" Multiline="true" Text="label11" SizeF="100,23" LocationFloat="98.95827, 96.70832" Padding="2,2,0,0,100">
+        <Item10 Ref="33" ControlType="XRLabel" Name="label11" TextFormatString="{0:dd/MM/yyyy}" Multiline="true" Text="label11" SizeF="100,23" LocationFloat="98.95835, 101.541649" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="34" EventName="BeforePrint" PropertyName="Text" Expression="[DOC_DATE]" />
           </ExpressionBindings>

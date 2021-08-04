@@ -1660,10 +1660,10 @@ function StokCtrl ($scope,$window,$location,db)
             dataSource: 
             [
                 {
-                    text: 'Yönetim',
+                    text: (db.Language($scope.Lang,'Yönetim')),
                     items: 
                     [
-                        { text: 'Ürün Grubunu Değiştir',id: "M001" },
+                        { text: (db.Language($scope.Lang,'Ürün Grubunu Değiştir')),id: "M001" },
                     ]
                 }
             ],
