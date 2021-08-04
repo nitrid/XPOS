@@ -2582,13 +2582,21 @@ function Pos($scope,$window,$rootScope,db)
     {
         if(keyEvent.which === 13)
         {
-            if($scope.TxtTicketBarkod.length >= 16 && $scope.TxtTicketBarkod.length <= 24)
-            {
+            if($scope.TxtTicketBarkod.length >= 20 && $scope.TxtTicketBarkod.length <= 24)
+            {                
                 //TICKET RESTORANT İÇİN YAPILDI
                 let TmpTicketBarkod = $scope.TxtTicketBarkod;
                 let TmpTicket = TmpTicketBarkod.substring(11,16)
                 let TmpYear = TmpTicketBarkod.substring(TmpTicketBarkod.length - 1, TmpTicketBarkod.length);
                 let TmpType = 0
+
+                if(TmpTicketBarkod.substring(16,17) != '1' && TmpTicketBarkod.substring(16,17) != '2' && TmpTicketBarkod.substring(16,17) != '3' && TmpTicketBarkod.substring(16,17) != '4')
+                {
+                    $scope.TxtTicketBarkod = "";
+                    alertify.alert($scope.SetLang("Geçersiz ticket."));
+                    document.getElementById("Sound").play(); 
+                    return;
+                }
 
                 if($scope.SatisList.length == 0)
                 {
@@ -2601,10 +2609,6 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     TmpTicket = TmpTicketBarkod.substring(9,14)
                 }                
-                else if(TmpTicketBarkod.length == 18)
-                {
-                    TmpTicket = TmpTicketBarkod.substring(5,10)
-                }
 
                 if(TmpYear == "9")
                 {
@@ -2615,6 +2619,7 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     alertify.alert($scope.SetLang("Geçersiz ticket."));
                     $scope.TxtTicketBarkod = "";
+                    document.getElementById("Sound").play(); 
                     return;
                 }
 
@@ -2622,11 +2627,19 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     alertify.alert($scope.SetLang("Bu tutarda  ticket olamaz !"));
                     $scope.TxtTicketBarkod = "";
+                    document.getElementById("Sound").play(); 
                     return;
                 }
                 $scope.TahTip = 3;
                 
-                db.GetData($scope.Firma,'TicketControl',[TmpTicketBarkod],function(data)
+                let TmpQuery = 
+                {
+                    query: "SELECT * FROM TICKET_VW_01 WHERE REFERENCE = @REFERENCE",
+                    param: ['REFERENCE:string|200'],
+                    value: [TmpTicketBarkod.substring(0,9)]
+                }
+
+                db.GetDataQuery(TmpQuery,function(data)
                 {
                     if(data.length <= 0)
                     {
@@ -2693,6 +2706,7 @@ function Pos($scope,$window,$rootScope,db)
             {
                 $scope.TxtTicketBarkod = "";
                 alertify.alert($scope.SetLang("Geçersiz ticket."));
+                document.getElementById("Sound").play(); 
                 return;
             }
         }
