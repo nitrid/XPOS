@@ -245,11 +245,14 @@ function FaturaListesiCtrl ($scope,db)
         {
             TmpDesign = "16";
         }
-
+        let TmpFirma = Param[0].Firma;
+        let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
         let TmpQuery = 
         {
             db : $scope.Firma,
             query:  "SELECT *, " + 
+                    "@FIRMA AS FIRMA, " +
+                    "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
                     "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " +
@@ -257,9 +260,9 @@ function FaturaListesiCtrl ($scope,db)
                     "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
                     "CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER " +
                     "WHERE INVOICE_VW_01.TYPE = @TYPE AND INVOICE_VW_01.DOC_TYPE = @DOC_TYPE AND INVOICE_VW_01.REF = @REF AND INVOICE_VW_01.REF_NO = @REF_NO",
-            param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN'],
-            type:   ['int','int','string|25','int','string|25','string|25'],
-            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO,TmpDesign]
+            param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN','FIRMA','BASLIK'],
+            type:   ['int','int','string|25','int','string|25','string|25','string|250','string|250'],
+            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO,TmpDesign,TmpFirma,TmpBaslik]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
