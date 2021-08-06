@@ -1128,17 +1128,22 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.BtnPrint = function()
     {
+        let TmpFirma = Param[0].Firma;
+        let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
+
         let TmpQuery = 
         {
             db : $scope.Firma,
             query:  "SELECT *," +
+                    "@FIRMA AS FIRMA, " +
+                    "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '12'),'') AS PATH, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE " + 
                     "FROM INVOICE_VW_01 " +
                     "WHERE MGUID = @MGUID",
-            param:  ['MGUID'],
-            type:   ['string|50'],
-            value:  [$scope.FaturaListe[0].MGUID]
+            param:  ['MGUID','FIRMA','BASLIK'],
+            type:   ['string|50','string|250','string|250'],
+            value:  [$scope.FaturaListe[0].MGUID,TmpFirma,TmpBaslik]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {

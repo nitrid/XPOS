@@ -1125,20 +1125,27 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.BtnPrint = function()
     {
+        let TmpFirma = Param[0].Firma;
+        let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
+
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT *," +
-                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '11'),'') AS PATH, " +
+            query:  "SELECT *, " + 
+                    "@FIRMA AS FIRMA, " +
+                    "@BASLIK AS BASLIK," +
+                    "ISNULL((SELECT TOP 1 ADRESS FROM CUSTOMER_ADRESS WHERE CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER ),'') AS ADRESS, " +
+                    "ISNULL((SELECT TOP 1 ZIPCODE FROM CUSTOMER_ADRESS WHERE CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER ),'') AS ZIPCODE, " +
+                    "ISNULL((SELECT TOP 1 CITY FROM CUSTOMER_ADRESS WHERE CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER ),'') AS CITY, " +
+                    "ISNULL((SELECT TOP 1 COUNTRY FROM CUSTOMER_ADRESS WHERE CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER ),'') AS COUNTRY, " +
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '10'),'') AS PATH, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
-                    "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " + 
+                    "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " +
                     "FROM INVOICE_VW_01 " +
-                    "LEFT OUTER JOIN CUSTOMER_ADRESS ON " + 
-                    "CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER " +
                     "WHERE MGUID = @MGUID",
-            param:  ['MGUID'],
-            type:   ['string|50'],
-            value:  [$scope.FaturaListe[0].MGUID]
+            param:  ['MGUID','FIRMA','BASLIK'],
+            type:   ['string|50','string|250','string|250'],
+            value:  [$scope.FaturaListe[0].MGUID,TmpFirma,TmpBaslik]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {

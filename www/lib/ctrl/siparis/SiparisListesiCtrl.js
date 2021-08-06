@@ -261,18 +261,22 @@ function SiparisListesiCtrl ($scope,db)
             alertify.alert(db.Language($scope.Lang,"Lütfen Kağıt Formatı Seçiniz !"))
             return;
         }
-
+        let TmpFirma = Param[0].Firma;
+        let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
         let TmpQuery = 
+
         {
             db : $scope.Firma,
             query:  "SELECT *, " +
+                    "@FIRMA AS FIRMA, " +
+                    "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ORDER_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = DOC_FROM),'') AS CUSTOMER_ITEM_CODE " +
                     "FROM ORDER_VW_01 " +
                     "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO",
-            param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN'],
-            type:   ['int','int','string|25','int','string|25','string|25'],
-            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO,$scope.Etiket]
+            param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN','FIRMA','BASLIK'],
+            type:   ['int','int','string|25','int','string|25','string|250','string|250'],
+            value:  [RefSelectedData[0].TYPE,RefSelectedData[0].DOC_TYPE,RefSelectedData[0].REF,RefSelectedData[0].REF_NO,$scope.Etiket,TmpFirma,TmpBaslik]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
