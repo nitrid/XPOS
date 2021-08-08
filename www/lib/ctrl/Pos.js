@@ -1891,18 +1891,14 @@ function Pos($scope,$window,$rootScope,db)
                 });
             }
             //PLU GRUP GETİR
-            console.log($scope.Kullanici)
             db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,-1,0],function(PluGrpData)
             {
-                console.log(PluGrpData)
                 $scope.PluGrpList = PluGrpData;
                 if($scope.PluGrpList.length > 0)
                 {
                     $scope.PluGrupIndex = PluGrpData[0].GRUP_INDEX
-                    console.log($scope.Kullanici)
                     db.GetData($scope.Firma,'PosPluGetir',[$scope.Kullanici,-1,$scope.PluGrpList[0].GRUP_INDEX,'1,2'],function(PluGrpData)
                     {   
-                        console.log(PluGrpData)
                         $scope.PluList = PluGrpData
                     });
                 }
@@ -2435,13 +2431,17 @@ function Pos($scope,$window,$rootScope,db)
         }
         
         TahTutar = parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'));
+        console.log("TahTutar : " + TahTutar)
+        console.log("db.SumColumn($scope.TahList,'AMOUNT') : " + db.SumColumn($scope.TahList,"AMOUNT"))
+        console.log("parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.') : " + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.')))
+        console.log("GenelToplam : " + $scope.GenelToplam)
         if($scope.GenelToplam < (db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))))
         {
-            // if($scope.TahTip != 3)
-            // {
-                TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2();
-            // }
+            TahParaUstu = parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2();
             TahTutar = parseFloat(parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.')) - TahParaUstu).toDigit2();
+
+            console.log("TahTutar 1 : " + TahTutar)
+            console.log("TahParaUstu : " + parseFloat((db.SumColumn($scope.TahList,"AMOUNT") + parseFloat($scope.TxtAraToplamTutar.toString().replace(',','.'))) - $scope.GenelToplam).toDigit2())
         }
                
         if($scope.TxtAraToplamTutar.toString().replace(',','.') > 0)
@@ -4691,8 +4691,8 @@ function Pos($scope,$window,$rootScope,db)
             $window.document.getElementById("TxtIskontoYuzde").focus();
 
             $scope.TxtIskontoSatisOnce = db.SumColumn($scope.SatisList,"TTC") + db.SumColumn($scope.SatisList,"DISCOUNT");
-            $scope.TxtIskontoTutar = db.SumColumn($scope.SatisList,"DISCOUNT");
-            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(3)
+            $scope.TxtIskontoTutar = db.SumColumn($scope.SatisList,"DISCOUNT").toFixed(2);
+            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(2)
             $scope.TxtIskontoSatisSonra = db.SumColumn($scope.SatisList,"TTC");
         }
     }
@@ -4703,14 +4703,14 @@ function Pos($scope,$window,$rootScope,db)
         {
             $scope.TxtIskontoSatisOnce = db.SumColumn($scope.SatisList,"TTC") + db.SumColumn($scope.SatisList,"DISCOUNT");
             $scope.TxtIskontoTutar = db.SumColumn($scope.SatisList,"DISCOUNT");
-            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(3)
+            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(2)
             $scope.TxtIskontoSatisSonra = db.SumColumn($scope.SatisList,"TTC");
         }
         else
         {
             $scope.TxtIskontoSatisOnce = $scope.SatisList[$scope.IslemListeSelectedIndex].TTC + $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT;
             $scope.TxtIskontoTutar = $scope.SatisList[$scope.IslemListeSelectedIndex].DISCOUNT;
-            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(3)
+            $scope.TxtIskontoYuzde = parseFloat(($scope.TxtIskontoTutar / $scope.TxtIskontoSatisOnce) * 100).toFixed(2)
             $scope.TxtIskontoSatisSonra = $scope.SatisList[$scope.IslemListeSelectedIndex].TTC;
         }
             
@@ -4755,12 +4755,12 @@ function Pos($scope,$window,$rootScope,db)
                 {
                     pNew = 0;
                 }  
-                $scope.TxtIskontoYuzde = parseFloat((pNew / $scope.TxtIskontoSatisOnce) * 100).toFixed(3)
+                $scope.TxtIskontoYuzde = parseFloat((pNew / $scope.TxtIskontoSatisOnce) * 100).toFixed(2)
                 $scope.TxtIskontoSatisSonra = parseFloat($scope.TxtIskontoSatisOnce - $scope.TxtIskontoTutar).toDigit2();
             }
         }
     });
-    $scope.BtnIskontoKaydet = function()
+    $scope.BtnIskontoKaydet = async function()
     {
         if($scope.TahList.length > 0)
         {
@@ -4784,8 +4784,8 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if($scope.SatisList[i].GUID != "")
                 {
-                    let TmpDiscount = parseFloat($scope.SatisList[i].TTC * ($scope.TxtIskontoYuzde / 100));
-                    db.ExecuteTag($scope.Firma,'PosSatisIskonto',[TmpDiscount,$scope.SatisList[i].GUID]);
+                    let TmpDiscount = parseFloat(($scope.SatisList[i].TTC + $scope.SatisList[i].DISCOUNT) * ($scope.TxtIskontoYuzde / 100)).toDigit2();
+                    await db.ExecutePromiseTag($scope.Firma,'PosSatisIskonto',[TmpDiscount,$scope.SatisList[i].GUID]);
                 }
             }
 
@@ -4794,10 +4794,7 @@ function Pos($scope,$window,$rootScope,db)
                 db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
                 {  
                     InsertFisYenile(PosSatisFisData);   
-                    setTimeout(()=>
-                    {
-                        $('#MdlIskonto').modal('hide');
-                    },2000)                    
+                    $('#MdlIskonto').modal('hide');                  
                 }); 
                 InsertSonYenile(PosSatisData);      
                 $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);                  
@@ -4842,10 +4839,7 @@ function Pos($scope,$window,$rootScope,db)
             db.GetData($scope.Firma,'PosFisSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisFisData)
             {  
                 InsertFisYenile(PosSatisFisData);  
-                setTimeout(()=>
-                {
-                    $('#MdlIskonto').modal('hide');
-                },2000)  
+                $('#MdlIskonto').modal('hide');  
             }); 
             InsertSonYenile(PosSatisData);      
             $scope.IslemListeRowClick($scope.IslemListeSelectedIndex,$scope.SatisList[$scope.IslemListeSelectedIndex]);  

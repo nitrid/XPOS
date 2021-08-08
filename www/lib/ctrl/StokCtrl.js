@@ -1331,7 +1331,7 @@ function StokCtrl ($scope,$window,$location,db)
 
         if($scope.BirimListe.length > 0)
         {
-            $scope.BarkodModal.Birim = $scope.BirimListe[0].GUID;
+            $scope.BarkodModal.Birim = $scope.BirimListe.find(x => x.TYPE === 0).GUID;
             $scope.BarkodModal.BirimListe = $scope.BirimListe;
         }
     }
@@ -1768,6 +1768,17 @@ function StokCtrl ($scope,$window,$location,db)
                 if(e.selectedItem == null)
                 {
                     $scope.StokListe[0].MAIN_UNIT_NAME = ""
+                }
+                else
+                {
+                    if(e.selectedItem.Symbol == 'KG')
+                    {
+                        $scope.StokListe[0].WEIGHING = true;
+                    }
+                    else
+                    {
+                        $scope.StokListe[0].WEIGHING = false;
+                    }
                 }
             }
         }
@@ -2780,6 +2791,17 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
             alertify.alert(db.Language($scope.Lang,"Vergi dilimi yuzde sıfır.Eminmisiniz ?"));
             return;
+        }
+    }
+    $scope.ChkWeighChange = function()
+    {
+        if($scope.StokListe[0].WEIGHING)
+        {
+            $scope.StokListe[0].MAIN_UNIT_NAME = "Kilogramme";            
+        }
+        else
+        {
+            $scope.StokListe[0].MAIN_UNIT_NAME = "Unité";            
         }
     }
 }
