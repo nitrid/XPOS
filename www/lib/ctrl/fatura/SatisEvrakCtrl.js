@@ -178,7 +178,7 @@ function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 }, 
                 {
                     name: "VATRATE",
-                    title: db.Language($scope.Lang,"Kdv"),
+                    title: db.Language($scope.Lang,"KDV"),
                     type: "text",
                     align: "center",
                     width: 100

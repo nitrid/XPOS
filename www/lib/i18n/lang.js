@@ -704,9 +704,9 @@ var lang =
             "MİKTAR" : "Quantité",
             "SKT" : "Date DLC",
             "Satış Fiyatı" : "Prix De Vente",
-            "" : "",
-            "" : "",
-            "" : "",
+            "Alış Fiyat" : "Prix de Revient",
+            "KDV" : "TVA",
+            "Satır Sayısı" : "Nombre de lignes",
             "" : ""
 
         
