@@ -160,7 +160,7 @@ function CariListeCtrl ($scope,$window,db)
             param : ["CODE:string|50","NAME:string|250","GENUS:int"],
             value : [$scope.Kodu,$scope.Adi,$scope.Tip]
         }
-
+        
         db.GetDataQuery(TmpQuery,function(Data)
         {
             $scope.Data = Data
