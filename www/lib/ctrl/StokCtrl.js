@@ -580,7 +580,8 @@ function StokCtrl ($scope,$window,$location,db)
                 value: [$scope.SLUrunGrup.Value,MultipleSelectedRow[i].CODE]
             }
             
-            await db.ExecutePromiseQuery(TmpQuery);          
+            await db.ExecutePromiseQuery(TmpQuery);  
+            console.log(MultipleSelectedRow[i].CODE + " - " + $scope.SLUrunGrup.Value);    
         }
 
         StokListeGetir();
