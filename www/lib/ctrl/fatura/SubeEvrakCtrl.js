@@ -1,4 +1,4 @@
-function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
+function SubeEvrakCtrl ($scope,$window,$timeout,$location,db)
 {
     let CariSelectedRow = null;
     let IslemSelectedRow = null;
@@ -21,7 +21,7 @@ function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
 
         $scope.Seri = "";
         $scope.Sira = 0;
-        $scope.EvrakTip = 3;
+        $scope.EvrakTip = 4;
         $scope.Tip = 1;
         $scope.CariKodu = "";  
         $scope.CariAdi = "";
@@ -466,7 +466,7 @@ function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
             }
         }
         $scope.EvrakLock = false;
-        $scope.Seri = "SAT";
+        $scope.Seri = "SF";
         $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
 
         $scope.Stok = 

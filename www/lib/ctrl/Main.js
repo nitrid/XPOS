@@ -12,10 +12,17 @@ function Main ($scope,$rootScope,$window,db)
             $scope.Lang = "TR";
         } 
 
-        let HtmlText = "";
-
         $scope.User = "0";
+        $scope.Kullanici = $window.sessionStorage.getItem('User')
+        $scope.Maho = false;
+        
+        if($scope.Kullanici == "MAHO" || $scope.Kullanici == "ADMIN")
+        {
+            $scope.Maho = true;
+            $scope.$apply();
+        }
 
+        let HtmlText = "";
         if($scope.User == "0")
         {
             HtmlText = HtmlText + "<a>";

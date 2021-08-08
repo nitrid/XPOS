@@ -301,12 +301,12 @@
                       <span class='site-menu-title' langu>Müşteri Bazlı Puan Listesi</span>
                     </a>
                   </li>
-                  <li class='site-menu-item'>
+                  <li class='site-menu-item' ng-if='Maho'>
                     <a class='animsition-link' href='#!PosSatisRapor'>
                       <span class='site-menu-title' langu>Pos Satış Raporu</span>
                     </a>
                   </li>
-                  <li class='site-menu-item'>
+                  <li class='site-menu-item' ng-if='Maho'>
                     <a class='animsition-link' href='#!PosSatisGrupRapor'>
                       <span class='site-menu-title' langu>Pos Satış Urun Grup Raporu</span>
                     </a>
@@ -343,8 +343,13 @@
                         </a>
                       </li>
                       <li class='site-menu-item'>
-                        <a class='animsition-link' href='#!SatisEvrak'>
+                        <a class='animsition-link' href='#!SubeEvrak'>
                           <span class='site-menu-title' langu>Şubeler Arası Satış</span>
+                        </a>
+                      </li>
+                      <li class='site-menu-item'>
+                        <a class='animsition-link' href='#!SatisEvrak'>
+                          <span class='site-menu-title' langu>Satış</span>
                         </a>
                       </li>
                     </ul>
@@ -596,6 +601,7 @@
     <script src="lib/ctrl/fatura/IadeEvrakCtrl.js"></script>
     <script src="lib/ctrl/fatura/FireEvrakCtrl.js"></script>
     <script src="lib/ctrl/fatura/SatisEvrakCtrl.js"></script>
+    <script src="lib/ctrl/fatura/SubeEvrakCtrl.js"></script>
     <script src="lib/ctrl/fatura/FaturaListesiCtrl.js"></script>
     <script src="lib/ctrl/TicketKontrolCtrl.js"></script>
     <script src="lib/ctrl/SktGirisCtrl.js"></script>

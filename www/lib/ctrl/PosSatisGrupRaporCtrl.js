@@ -35,9 +35,23 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
                 fields: 
                 [
                     {
+                        caption: "TARIH",
+                        dataField: "DOC_DATE",
+                        width: 250,
+                        area: "filter",
+                        dataType: "date",
+                        format: "dd/MM/yyyy"
+                    },
+                    {
                         caption: "GRUP ADI",
                         dataField: "ITEM_GRP_NAME",
                         width: 250,
+                        area: "row",
+                    },
+                    {
+                        caption: "VAT",
+                        dataField: "VAT",
+                        width: 100,
                         area: "row",
                     },
                     {
@@ -49,6 +63,17 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
                     {
                         caption: "HT",
                         dataField: "HT",
+                        dataType: "number",
+                        summaryType: "sum",
+                        format: 
+                        {
+                            style: "currency", currency: "EUR",
+                        },
+                        area: "data"
+                    },
+                    {
+                        caption: "TVA",
+                        dataField: "TVA",
                         dataType: "number",
                         summaryType: "sum",
                         format: 
@@ -155,16 +180,19 @@ function PosSatisGrupRaporCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
+                    "SALES.DOC_DATE AS DOC_DATE, " +
                     "ISNULL(ITEM_GRP,'') AS ITEM_GRP, " +
                     "ISNULL((SELECT TOP 1 NAME FROM ITEM_GROUP WHERE CODE = ITEM_GRP),'') AS ITEM_GRP_NAME, " +
                     "'' AS TITLE, " +
+                    "SALES.VAT AS VAT, " +
+                    "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.TVA) ELSE SUM(SALES.TVA) * -1 END AS TVA, " +
                     "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.HT) ELSE SUM(SALES.HT) * -1 END AS HT, " +
                     "CASE WHEN SALES.TYPE = 0 THEN SUM(SALES.TTC) ELSE SUM(SALES.TTC) * -1 END AS TTC " +
                     "FROM POS_SALES_VW_01 AS SALES " +
                     "LEFT OUTER JOIN ITEMS ON " +
                     "SALES.ITEM_CODE = ITEMS.CODE " +
                     "WHERE SALES.DOC_DATE >= @ILKTARIH AND SALES.DOC_DATE <= @SONTARIH AND SALES.STATUS = 1 " +
-                    "GROUP BY ITEM_GRP,SALES.[TYPE] ORDER BY ITEM_GRP",
+                    "GROUP BY ITEM_GRP,SALES.[TYPE],SALES.VAT,SALES.DOC_DATE ORDER BY ITEM_GRP",
             param:  ['ILKTARIH','SONTARIH'],
             type:   ['date','date'],
             value:  [moment(StartDate).format("DD.MM.YYYY"),moment(EndDate).format("DD.MM.YYYY")]            

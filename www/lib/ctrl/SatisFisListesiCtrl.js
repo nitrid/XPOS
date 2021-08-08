@@ -690,4 +690,35 @@ function SatisFisListesiCtrl ($scope,$window,db)
             alertify.alert(db.Language($scope.Lang,"Girilen tutar hatalıdır !"))
         }
     }
+    $scope.BtnYazdir = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT *, " + 
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '17'),'') AS PATH " +
+                    "FROM POS_SALES_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 0",
+            param:  ['REF','REF_NO'],
+            type:   ['string|25','int'],
+            value:  [$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO]
+        }
+        db.GetDataQuery(TmpQuery,function(pData)
+        {
+            if(pData.length > 0)
+            {
+                console.log("{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}")
+                db.Emit('DevPrint',"{TYPE:'REVIEW',PATH:'" + pData[0].PATH.replaceAll('\\','/') + "',DATA:" + JSON.stringify(pData) + "}",(pResult) =>
+                {
+                    if(pResult.split('|')[0] != 'ERR')
+                    {
+                        var mywindow = window.open('printview.html','_blank',"width=900,height=1000,left=500");      
+                        mywindow.onload = function() 
+                        {
+                            mywindow.document.getElementById("view").innerHTML="<iframe src='data:application/pdf;base64," + pResult.split('|')[1] + "' type='application/pdf' width='100%' height='100%'></iframe>"      
+                        }   
+                    }
+                })
+            }
+        });
+    }
 }
