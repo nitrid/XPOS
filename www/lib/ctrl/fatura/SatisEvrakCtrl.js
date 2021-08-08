@@ -171,7 +171,7 @@ function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 },
                 {
                     name: "PRICE",
-                    title: db.Language($scope.Lang,"Fiyat Farkı"),
+                    title: db.Language($scope.Lang,"Satış Fiyatı"),
                     type: "text",
                     align: "center",
                     width: 100

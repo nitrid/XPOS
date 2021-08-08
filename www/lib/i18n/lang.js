@@ -703,7 +703,7 @@ var lang =
             "TEDARİKÇİ ÜRÜN ADI" : "Designation Produit",
             "MİKTAR" : "Quantité",
             "SKT" : "Date DLC",
-            "" : "",
+            "Satış Fiyatı" : "Prix De Vente",
             "" : "",
             "" : "",
             "" : "",

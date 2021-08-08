@@ -171,7 +171,7 @@ function SubeEvrakCtrl ($scope,$window,$timeout,$location,db)
                 },
                 {
                     name: "PRICE",
-                    title: db.Language($scope.Lang,"Satış Fiyatı"),
+                    title: db.Language($scope.Lang,"Fiyat Farkı"),
                     type: "text",
                     align: "center",
                     width: 100
