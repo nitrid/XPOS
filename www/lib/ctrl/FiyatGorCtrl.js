@@ -424,8 +424,17 @@ function FiyatGorCtrl($scope,$window,db)
     }
     $scope.BtnUrunGrupAktif = function()
     {
-        $('#MdlUrunGrupGuncelle').modal('hide');
-        $scope.UrunGrup.Status = true;
+        if($scope.UrunGrup.Value != '')
+        {
+            $('#MdlUrunGrupGuncelle').modal('hide');
+            $scope.UrunGrup.Status = true;
+        }
+        else
+        {
+            $('#MdlUrunGrupGuncelle').modal('hide');
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Lütfen bir ürün grubu seçiniz !"));
+        }
     }
     $scope.BtnUrunGrupPasif = function()
     {
