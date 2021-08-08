@@ -181,7 +181,7 @@
                   </ExpressionBindings>
                   <StylePriority Ref="93" UseFont="false" UseTextAlignment="false" />
                 </Item7>
-                <Item8 Ref="94" ControlType="XRTableCell" Name="tableCell17" Weight="0.11847722073782305" TextFormatString="{0:#.00}" TextAlignment="MiddleRight" StyleName="DetailData1" Font="Arial, 8pt">
+                <Item8 Ref="94" ControlType="XRTableCell" Name="tableCell17" Weight="0.11847722073782305" TextAlignment="MiddleRight" StyleName="DetailData1" Font="Arial, 8pt">
                   <ExpressionBindings>
                     <Item1 Ref="95" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNT]" />
                   </ExpressionBindings>
