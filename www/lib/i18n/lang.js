@@ -707,6 +707,17 @@ var lang =
             "Alış Fiyat" : "Prix de Revient",
             "KDV" : "TVA",
             "Satır Sayısı" : "Nombre de lignes",
+            "Lütfen bir ürün grubu seçiniz !" : "Veuillez choisir un groupe de produit!",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
+            "" : "",
             "" : ""
 
         

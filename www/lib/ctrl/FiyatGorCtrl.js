@@ -149,8 +149,7 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.Firma = 'PIQPOS';
 
         $scope.StokListe = [];
-        $scope.BarkodListe = [];
-        $scope.UrunGrupListe = [];
+        $scope.BarkodListe = [];        
         $scope.FiyatListe = [];
 
         $scope.Etiket = "";
@@ -172,14 +171,16 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.FiyatModal.Bitis = "";
         $scope.FiyatModal.Fiyat = 0;
         $scope.FiyatModal.Miktar = 0;
+
         if(typeof arguments[0] == 'undefined' && !arguments[0])
         {
+            $scope.UrunGrupListe = [];
             $scope.UrunGrup = {};
             $scope.UrunGrup.Value = "";
             $scope.UrunGrup.Name = "";
             $scope.UrunGrup.Status = false;
         }
-        
+        console.log($scope.UrunGrup)
         InitStokGrid();
         InitFiyatSecGrid();
     }
@@ -408,7 +409,8 @@ function FiyatGorCtrl($scope,$window,db)
                 dataSource : "UrunGrupListe"
             },
             onSelectionChanged : function(e)
-            {              
+            {      
+                console.log( $scope.UrunGrup)        
                 if(e.selectedItem == null)
                 {
                     $scope.UrunGrup.Value = ""
