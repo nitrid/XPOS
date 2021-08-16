@@ -20,7 +20,7 @@
     </Item2>
     <Item3 Ref="11" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="164.958313">
       <Controls>
-        <Item1 Ref="12" ControlType="XRLabel" Name="label1" Multiline="true" Text="S/NO:" TextAlignment="TopRight" SizeF="43.75,23.0000153" LocationFloat="14.5833817, 71.12497" Padding="2,2,0,0,100">
+        <Item1 Ref="12" ControlType="XRLabel" Name="label1" Multiline="true" Text="S/NO:" TextAlignment="TopRight" SizeF="43.75,23.0000153" LocationFloat="10, 71.12497" Padding="2,2,0,0,100">
           <StylePriority Ref="13" UseTextAlignment="false" />
         </Item1>
         <Item2 Ref="14" ControlType="XRLabel" Name="label3" Multiline="true" Text="label7" SizeF="157.291626,23" LocationFloat="72.91668, 45.7499962" Font="Arial, 9pt, style=Bold" Padding="2,2,0,0,100">
@@ -30,7 +30,7 @@
           <StylePriority Ref="16" UseFont="false" />
         </Item2>
         <Item3 Ref="17" ControlType="XRLine" Name="line1" SizeF="788.249939,11" LocationFloat="1.74999237, 153.958313" />
-        <Item4 Ref="18" ControlType="XRLabel" Name="label13" Multiline="true" Text="label13" TextAlignment="TopRight" SizeF="26.0416718,23" LocationFloat="58.333374, 71.12497" Padding="2,2,0,0,100">
+        <Item4 Ref="18" ControlType="XRLabel" Name="label13" Multiline="true" Text="label13" TextAlignment="TopRight" SizeF="46.22618,23" LocationFloat="38.1488647, 71.12497" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="19" EventName="BeforePrint" PropertyName="Text" Expression="[REF]" />
           </ExpressionBindings>
