@@ -10,7 +10,7 @@
     <Item2 Ref="4" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="50.4583359">
       <Controls>
         <Item1 Ref="5" ControlType="XRLine" Name="line3" SizeF="789.2916,11" LocationFloat="1.58945713E-05, 0" />
-        <Item2 Ref="6" ControlType="XRLabel" Name="label23" Multiline="true" Text="www.prodorplus.fr - nancy@prodorplus.fr" TextAlignment="TopCenter" SizeF="786.8333,19.7500229" LocationFloat="0, 9.999974" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+        <Item2 Ref="6" ControlType="XRLabel" Name="label23" Multiline="true" Text="www.prodorplus.fr" TextAlignment="TopCenter" SizeF="786.8333,19.7500229" LocationFloat="0, 9.999974" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
           <StylePriority Ref="7" UseFont="false" UseTextAlignment="false" />
         </Item2>
         <Item3 Ref="8" ControlType="XRPageInfo" Name="pageInfo2" TextFormatString="Page {0} / {1}" TextAlignment="TopCenter" SizeF="789.291565,15.625" LocationFloat="0, 24.83336" StyleName="PageInfo">

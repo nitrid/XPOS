@@ -10,7 +10,7 @@
     <Item2 Ref="5" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="50.4583359">
       <Controls>
         <Item1 Ref="6" ControlType="XRLine" Name="line3" SizeF="789.2916,11" LocationFloat="1.58945713E-05, 0" />
-        <Item2 Ref="7" ControlType="XRLabel" Name="label23" Multiline="true" Text="www.prodorplus.fr - nancy@prodorplus.fr" TextAlignment="TopCenter" SizeF="786.8333,19.7500229" LocationFloat="0, 9.999974" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
+        <Item2 Ref="7" ControlType="XRLabel" Name="label23" Multiline="true" Text="www.prodorplus.fr " TextAlignment="TopCenter" SizeF="786.8333,19.7500229" LocationFloat="0, 9.999974" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
           <StylePriority Ref="8" UseFont="false" UseTextAlignment="false" />
         </Item2>
         <Item3 Ref="9" ControlType="XRPageInfo" Name="pageInfo2" TextFormatString="Page {0} / {1}" TextAlignment="TopCenter" SizeF="789.291565,15.625" LocationFloat="0, 24.83336" StyleName="PageInfo">
@@ -99,7 +99,7 @@
           </ExpressionBindings>
           <StylePriority Ref="52" UseFont="false" UseTextAlignment="false" />
         </Item17>
-        <Item18 Ref="53" ControlType="XRLabel" Name="label18" Multiline="true" Text="FACTURE" TextAlignment="TopCenter" SizeF="283.333282,34.45835" LocationFloat="226.749908, 106.624977" Font="Poppins Black, 18pt, style=Bold, Underline" ForeColor="255,240,0,0" Padding="2,2,0,0,100" BorderColor="255,12,12,12">
+        <Item18 Ref="53" ControlType="XRLabel" Name="label18" Multiline="true" Text="FACTURE &#xD;&#xA;RÉTROCESSION" TextAlignment="TopCenter" SizeF="283.333282,72.33334" LocationFloat="226.749908, 68.75" Font="Poppins Black, 16pt, style=Bold, Underline" ForeColor="255,240,0,0" Padding="2,2,0,0,100" BorderColor="255,12,12,12">
           <StylePriority Ref="54" UseFont="false" UseForeColor="false" UseBorderColor="false" UseTextAlignment="false" />
         </Item18>
       </Controls>
