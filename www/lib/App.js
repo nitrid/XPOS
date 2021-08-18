@@ -121,6 +121,10 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/SktListesi.html"
     })
+    .when("/GunSonu",
+    {
+        templateUrl : "html/yonetim/GunSonu.html"
+    })
     .when("/KullaniciParametre",
     {
         templateUrl : "html/ayarlar/KullaniciParametre.html"

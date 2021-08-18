@@ -1,0 +1,169 @@
+<div class="col-12" ng-controller="GunSonuCtrl" ng-init="Init()">
+    <div class="page-header">
+        <h1 class="page-title" langu>GÜN SONU İŞLEMİ</h1>
+    </div>
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="pearls row">
+                        <div class="pearl current col-2 active" id="Pearl1" aria-expanded="true">
+                            <div class="pearl-icon"><i class="icon wb-user" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Başla</span>
+                        </div>
+                        <div class="pearl col-2 disabled" id="Pearl2" aria-expanded="false">
+                            <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Avans</span>
+                          </div>
+                        <div class="pearl col-2 disabled" id="Pearl3" aria-expanded="false">
+                            <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Nakit</span>
+                        </div>
+                        <div class="pearl col-2 disabled" id="Pearl4" aria-expanded="false">
+                            <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Kredi Kartı</span>
+                        </div>
+                        <div class="pearl col-2 disabled" id="Pearl5" aria-expanded="false">
+                            <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Çek</span>
+                        </div>
+                        <div class="pearl col-1 disabled" id="Pearl6" aria-expanded="false">
+                            <div class="pearl-icon"><i class="icon wb-payment" aria-hidden="true"></i></div>
+                            <span class="pearl-title" langu>Ticket Rest.</span>
+                        </div>
+                        <div class="pearl col-1 disabled" id="Pearl7" aria-expanded="false">
+                          <div class="pearl-icon"><i class="icon wb-check" aria-hidden="true"></i></div>
+                          <span class="pearl-title" langu>Son</span>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="Pane1" role="tabpanel">
+                            <div class="row pb-20">
+                                <div class="col-1 offset-7 pt-5">
+                                    <label class="font-size-20" langu>Tarih : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <div dx-date-box="ObjTarih"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pb-20">
+                                <div class="col-1 offset-7 pt-5">
+                                    <label class="font-size-20" langu>Kasa : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Kasa"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane2" role="tabpanel">
+                            <div class="row pb-20">
+                                <div class="col-1 offset-7 pt-5">
+                                    <label class="font-size-20" langu>Avans : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Avans"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane3" role="tabpanel" aria-expanded="false">
+                            <div class="row pb-20">
+                                <div class="col-1 offset-7 pt-5">
+                                    <label class="font-size-20" langu>Nakit : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Nakit"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane4" role="tabpanel" aria-expanded="false">
+                            <div class="row pb-20">
+                                <div class="col-2 offset-6 pt-5">
+                                    <label class="font-size-20" langu>Kredi Kartı : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="KKarti"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane5" role="tabpanel" aria-expanded="false">
+                            <div class="row pb-20">
+                                <div class="col-1 offset-7 pt-5">
+                                    <label class="font-size-20" langu>Çek : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Cek"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane6" role="tabpanel" aria-expanded="false">
+                            <div class="row pb-20">
+                                <div class="col-2 offset-6 pt-5">
+                                    <label class="font-size-20" langu>Ticket Rest. : </label>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group input-group-icon">
+                                        <input type="text" class="form-control" id="tokenfield" data-minWidth="0" ng-model="Ticket"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="Pane7" role="tabpanel" aria-expanded="false">
+                            <div class="row pb-20">
+                                <div class="col-2">
+                                    <h3>Nakit : </h3>                                 
+                                </div>
+                                <div class="col-2">
+                                    <h3>{{Label.Nakit}}</h3>                                 
+                                </div>
+                            </div>
+                            <div class="row pb-20">
+                                <div class="col-2">
+                                    <h3>Kredi Kartı : </h3>                                 
+                                </div>
+                                <div class="col-2">
+                                    <h3>{{Label.KKarti}}</h3>                                 
+                                </div>
+                            </div>
+                            <div class="row pb-20">
+                                <div class="col-2">
+                                    <h3>Çek : </h3>                                 
+                                </div>
+                                <div class="col-2">
+                                    <h3>{{Label.Cek}}</h3>                                 
+                                </div>
+                            </div>
+                            <div class="row pb-20">
+                                <div class="col-2">
+                                    <h3>Ticket Rest. : </h3>                                 
+                                </div>
+                                <div class="col-2">
+                                    <h3>{{Label.Ticket}}</h3>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-primary btn-block" ng-click="BtnBack()"><i class="icon fa-arrow-left font-size-20" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="offset-8 col-2">
+                            <button class="btn btn-primary btn-block" ng-click="BtnNext()"><i class="icon fa-arrow-right font-size-20" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

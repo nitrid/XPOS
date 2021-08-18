@@ -351,7 +351,6 @@ function SatisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 {
                     $scope.Stok = BarkodData;
                     $scope.StokKodu = $scope.Stok[0].CODE;
-                    5
                     $scope.Stok[0].PRICE = $scope.Stok[0].COST_PRICE + 0.01;
                     $scope.Stok[0].AMOUNT = 0;
                     $scope.Stok[0].DISCOUNT = 0;
