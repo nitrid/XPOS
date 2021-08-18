@@ -207,51 +207,81 @@ function GunSonuCtrl ($scope,$window,db)
             let TmpData = await OdemeGetir($scope.Tarih,$scope.Kasa);
             let TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 0").toDigit2();
             
-            if(TmpVal == ($scope.Nakit - $scope.Avans) && TmpVal != 0)
+            if(TmpVal == ($scope.Nakit - $scope.Avans) && TmpVal == 0)
             {
                 $scope.Label.Nakit = "Doğru"
                 $scope.Style.Nakit = {'color':'green'}
             }
             else
             {
+                if(parseFloat(($scope.Nakit - $scope.Avans) - TmpVal).toDigit2() > 0)
+                {
+                    $scope.Style.Nakit = {'color':'blue'}
+                }
+                else
+                {
+                    $scope.Style.Nakit = {'color':'red'}
+                }
+
                 $scope.Label.Nakit = parseFloat(($scope.Nakit - $scope.Avans) - TmpVal).toDigit2() > 0 ? "+" + parseFloat(($scope.Nakit - $scope.Avans) - TmpVal).toDigit2() : parseFloat(($scope.Nakit - $scope.Avans) - TmpVal).toDigit2();
-                $scope.Style.Nakit = {'color':'red'}
             }
             
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 1").toDigit2();
-            if(TmpVal == $scope.KKarti && TmpVal != 0)
+            if(TmpVal == $scope.KKarti && TmpVal == 0)
             {
                 $scope.Label.KKarti = "Doğru"
                 $scope.Style.KKarti = {'color':'green'}
             }
             else
             {
-                $scope.Label.KKarti = parseFloat($scope.KKarti - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.KKarti - TmpVal).toDigit2() : parseFloat($scope.KKarti - TmpVal).toDigit2();
-                $scope.Style.KKarti = {'color':'red'}
+                if(parseFloat($scope.KKarti - TmpVal).toDigit2() > 0)
+                {
+                    $scope.Style.KKarti = {'color':'blue'}
+                }
+                else
+                {
+                    $scope.Style.KKarti = {'color':'red'}
+                }
+                $scope.Label.KKarti = parseFloat($scope.KKarti - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.KKarti - TmpVal).toDigit2() : parseFloat($scope.KKarti - TmpVal).toDigit2();                
             }
 
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 2").toDigit2();
-            if(TmpVal == $scope.Cek && TmpVal != 0)
+            if(TmpVal == $scope.Cek && TmpVal == 0)
             {
                 $scope.Label.Cek = "Doğru"
                 $scope.Style.Cek = {'color':'green'}
             }
             else
             {
-                $scope.Label.Cek = parseFloat($scope.Cek - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.Cek - TmpVal).toDigit2() : parseFloat($scope.Cek - TmpVal).toDigit2();
-                $scope.Style.Cek = {'color':'red'}
+                if(parseFloat($scope.Cek - TmpVal).toDigit2() > 0)
+                {
+                    $scope.Style.Cek = {'color':'blue'}
+                }
+                else
+                {
+                    $scope.Style.Cek = {'color':'red'}
+                }
+                $scope.Label.Cek = parseFloat($scope.Cek - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.Cek - TmpVal).toDigit2() : parseFloat($scope.Cek - TmpVal).toDigit2();                
             }
 
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 3").toDigit2();
-            if(TmpVal == $scope.Ticket && TmpVal != 0)
+            if(TmpVal == $scope.Ticket && TmpVal == 0)
             {
                 $scope.Label.Ticket = "Doğru"
                 $scope.Style.Ticket = {'color':'green'}
             }
             else
             {
-                $scope.Label.Ticket = parseFloat($scope.Ticket - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.Ticket - TmpVal).toDigit2() : parseFloat($scope.Ticket - TmpVal).toDigit2();
-                $scope.Style.Ticket = {'color':'red'}
+                if(parseFloat($scope.Ticket - TmpVal).toDigit2() > 0)
+                {
+                    $scope.Style.Ticket = {'color':'blue'}
+                }
+                else
+                {
+                    $scope.Style.Ticket = {'color':'red'}
+                }
+
+                $scope.Label.Ticket = parseFloat($scope.Ticket - TmpVal).toDigit2() > 0 ? "+" + parseFloat($scope.Ticket - TmpVal).toDigit2() : parseFloat($scope.Ticket - TmpVal).toDigit2();                
             }
             $scope.$apply();
         }
