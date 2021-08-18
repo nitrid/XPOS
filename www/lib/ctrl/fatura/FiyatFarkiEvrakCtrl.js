@@ -170,7 +170,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     editing: false
                 },
                 {
-                    name: "PRICE",
+                    name: "PRICEV",
                     title: db.Language($scope.Lang,"Fiyat Farkı"),
                     type: "text",
                     align: "center",
@@ -345,14 +345,31 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         if(pBarkod != '')
         {
-            db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
-            { 
+            db.GetData($scope.Firma,'StokGetirT',[pBarkod,''],async function(BarkodData)
+            {  
                 if(BarkodData.length > 0)
                 {
                     $scope.Stok = BarkodData;
                     $scope.StokKodu = $scope.Stok[0].CODE;
                     
+                    let TmpQuery = 
+                    {
+                        query: "SELECT TOP 1 PRICE FROM ITEM_PRICE WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 1 AND CUSTOMER = @CUSTOMER",
+                        param: ['ITEM_CODE:string|25','CUSTOMER:string|25'],
+                        value: [$scope.Stok[0].CODE,$scope.CariKodu]
+                    }
+                    let TmpData = await db.GetPromiseQuery(TmpQuery)
+                    
                     $scope.Stok[0].PRICE = 0;
+                    $scope.Stok[0].DIFFPRICE = 0;
+                    $scope.Stok[0].CUSTOMER_PRICE = 0;
+
+                    if(TmpData.length > 0)
+                    {
+                        $scope.Stok[0].CUSTOMER_PRICE = TmpData[0].PRICE;
+                        $scope.Stok[0].DIFFPRICE = $scope.Stok[0].PRICE - TmpData[0].PRICE;
+                    }
+                    
                     $scope.Stok[0].AMOUNT = 0;
                     $scope.Stok[0].DISCOUNT = 0;
                     $scope.Stok[0].VATAMOUNT = 0;
@@ -433,6 +450,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT *, " +
+                        "ROUND(PRICE,2) AS PRICEV, " +
                         "ROW_NUMBER() OVER(ORDER BY CDATE) AS NO, " +
                         "ROUND(AMOUNT,2) AS AMOUNTV, " +
                         "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
@@ -474,6 +492,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         [
             {
                 PRICE : 0,
+                DIFFPRICE : 0,
+                CUSTOMER_PRICE : 0,
                 AMOUNT : 0,
                 DISCOUNT : 0,
                 VATAMOUNT : 0,
@@ -723,8 +743,9 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         if($scope.Stok.length > 0)
         {
-            let TmpTutar = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].PRICE;
-
+            $scope.Stok[0].DIFFPRICE = $scope.Stok[0].PRICE - $scope.Stok[0].CUSTOMER_PRICE;
+            let TmpTutar = ($scope.Stok[0].FACTOR * $scope.Miktar) * $scope.Stok[0].DIFFPRICE;
+            
             $scope.Stok[0].VATAMOUNT = TmpTutar - (TmpTutar / (($scope.Stok[0].VAT / 100) + 1));
             $scope.Stok[0].AMOUNT = TmpTutar - $scope.Stok[0].VATAMOUNT;
             $scope.Stok[0].DISCOUNT = 0;
@@ -733,12 +754,21 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.BtnTemizle = function()
     {
+        let TmpStokAdi = ""
+        if($scope.Stok.length > 0)
+        {
+            TmpStokAdi = $scope.Stok[0].NAME
+        }
+
         $scope.Barkod = "";
         $scope.Stok = null;
         $scope.Stok = 
         [
             {
+                NAME : TmpStokAdi,
                 PRICE : 0,
+                DIFFPRICE : 0,
+                CUSTOMER_PRICE : 0,
                 AMOUNT : 0,
                 DISCOUNT : 0,
                 VATAMOUNT : 0,
@@ -753,14 +783,16 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.MiktarPress = function(keyEvent)
     {
-        if(keyEvent.which == 40)
+        // if(keyEvent.which == 40)
+        // {
+        //     $window.document.getElementById("Fiyat").focus();
+        //     $window.document.getElementById("Fiyat").select();
+        // }
+        if(keyEvent.which == 13)
         {
             $window.document.getElementById("Fiyat").focus();
             $window.document.getElementById("Fiyat").select();
-        }
-        if(keyEvent.which == 13)
-        {
-            $scope.Insert();
+            //$scope.Insert();
         }
     }
     $scope.FiyatPress = function(keyEvent)
@@ -850,7 +882,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.DepoNo,
                 $scope.Stok[0].CODE,
                 $scope.Stok[0].FACTOR * $scope.Miktar,
-                $scope.Stok[0].PRICE,
+                $scope.Stok[0].DIFFPRICE,
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
                 $scope.Aciklama
@@ -958,6 +990,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
             [
                 {
                     PRICE : 0,
+                    DIFFPRICE : 0,
+                    CUSTOMER_PRICE : 0,
                     AMOUNT : 0,
                     DISCOUNT : 0,
                     VATAMOUNT : 0,

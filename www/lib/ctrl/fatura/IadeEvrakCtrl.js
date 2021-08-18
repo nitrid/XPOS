@@ -345,8 +345,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         if(pBarkod != '')
         {
-            db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
-            { 
+            db.GetData($scope.Firma,'StokGetirT',[pBarkod,''],async function(BarkodData)
+            {  
                 if(BarkodData.length > 0)
                 {
                     $scope.Stok = BarkodData;
@@ -734,11 +734,18 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.BtnTemizle = function()
     {
+        let TmpStokAdi = ""
+        if($scope.Stok.length > 0)
+        {
+            TmpStokAdi = $scope.Stok[0].NAME
+        }
+
         $scope.Barkod = "";
         $scope.Stok = null;
         $scope.Stok = 
         [
             {
+                NAME : TmpStokAdi,
                 PRICE : 0,
                 AMOUNT : 0,
                 DISCOUNT : 0,
@@ -750,18 +757,20 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.BarkodLock = false;
 
         $scope.BirimListe = [];
-        BarkodFocus();      
+        BarkodFocus();        
     }
     $scope.MiktarPress = function(keyEvent)
     {
-        if(keyEvent.which == 40)
+        // if(keyEvent.which == 40)
+        // {
+        //     $window.document.getElementById("Fiyat").focus();
+        //     $window.document.getElementById("Fiyat").select();
+        // }
+        if(keyEvent.which == 13)
         {
             $window.document.getElementById("Fiyat").focus();
             $window.document.getElementById("Fiyat").select();
-        }
-        if(keyEvent.which == 13)
-        {
-            $scope.Insert();
+            //$scope.Insert();
         }
     }
     $scope.FiyatPress = function(keyEvent)

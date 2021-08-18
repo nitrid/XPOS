@@ -323,8 +323,8 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
     {
         if(pBarkod != '')
         {
-            db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
-            { 
+            db.GetData($scope.Firma,'StokGetirT',[pBarkod,''],async function(BarkodData)
+            {  
                 if(BarkodData.length > 0)
                 {
                     $scope.Stok = BarkodData;

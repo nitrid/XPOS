@@ -920,6 +920,36 @@ var QuerySql =
         param : ['CODE','NAME'],
         type : ['string|25','string|250']
     },
+    StokGetirT : 
+    {
+        query:  "SELECT " +
+                "ITEMS.CODE AS CODE, " +
+                "ITEM_CUSTOMER.CUSTOMER_ITEM_CODE AS CUSTOMER_ITEM_CODE, " +
+                "SPECIAL1 AS SPECIAL1, " +
+                "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
+                "ITEMS.[NAME] AS [NAME], " +
+                "SNAME AS SNAME, " +
+                "ITEMS.VAT AS VAT, " +
+                "ISNULL(BARCODE.BARCODE,'') AS BARCODE, " +
+                "ISNULL(UNIT.FACTOR,1) AS FACTOR, " +
+                "ISNULL(CONVERT(NVARCHAR(50),UNIT.[GUID]),'') AS UNIT, " +
+                "[MIN_PRICE] AS [MIN_PRICE], " +
+                "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " +
+                "[COST_PRICE] AS [COST_PRICE], " +
+                "[WEIGHING] AS [WEIGHING] " +
+                "FROM ITEMS AS ITEMS " +
+                "LEFT OUTER JOIN ITEM_UNIT AS UNIT ON " +
+                "UNIT.ITEM_CODE = ITEMS.CODE " +
+                "LEFT OUTER JOIN ITEM_BARCODE AS BARCODE ON " +
+                "BARCODE.ITEM_CODE = ITEMS.CODE AND BARCODE.UNIT = UNIT.[GUID] " +
+                "LEFT OUTER JOIN ITEM_CUSTOMER AS ITEM_CUSTOMER ON " +
+                "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " +
+                "WHERE ((UPPER(ITEMS.CODE) LIKE UPPER(@CODE)) OR (BARCODE.BARCODE = @CODE) OR " +
+                "(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE = @CODE) OR (UPPER(@CODE) = '')) AND " +
+                "((UPPER(ITEMS.[NAME]) LIKE UPPER(@NAME)) OR (UPPER(@NAME) = '')) AND ITEMS.STATUS = 1 " ,
+        param : ['CODE','NAME'],
+        type : ['string|25','string|250']
+    },
     BarkodGetir:
     {
         query : "SELECT ITEMS.CODE AS CODE, " +

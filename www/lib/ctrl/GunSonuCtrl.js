@@ -23,11 +23,11 @@ function GunSonuCtrl ($scope,$window,db)
         
         $scope.Tarih = new Date();
         $scope.Kasa = "";
-        $scope.Avans = 0;
-        $scope.Nakit = 0;
-        $scope.KKarti = 0;
-        $scope.Cek = 0;
-        $scope.Ticket = 0;
+        $scope.Avans = "";
+        $scope.Nakit = "";
+        $scope.KKarti = "";
+        $scope.Cek = "";
+        $scope.Ticket = "";
         $scope.Label = 
         {
             Nakit : 0,
@@ -38,12 +38,30 @@ function GunSonuCtrl ($scope,$window,db)
         
         $scope.ObjTarih = 
         {
+            width: "100%",
             type: "date",
             value: new Date(),
             bindingOptions: 
             {
                 value: "Tarih"
             },
+        }
+        $scope.CmbKasa = 
+        {
+            width: "100%",
+            dataSource: ["001","002","003","004"],
+            showClearButton: true,
+            bindingOptions: 
+            {
+                value: "Kasa",
+            },
+            onSelectionChanged : function(e)
+            {
+                if(e.selectedItem == null)
+                {
+                    $scope.Kasa = ""
+                }
+            }
         }
 
         $("#Pane1").addClass('active');
@@ -87,6 +105,67 @@ function GunSonuCtrl ($scope,$window,db)
     }
     $scope.BtnNext = async function()
     {
+        if($scope.CurrentPage == 1)
+        {
+            if(moment(new Date()).diff($scope.Tarih,'days') > 2)
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Seçitiğiniz tarih 2 günden fazla olamaz !"));
+                return;
+            }
+            if($scope.Kasa == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen kasa kodunu seçiniz !"));
+                return;
+            }
+        }
+        else if($scope.CurrentPage == 2)
+        {
+            if($scope.Avans == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                return;
+            }
+        }
+        else if($scope.CurrentPage == 3)
+        {
+            if($scope.Nakit == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                return;
+            }
+        }
+        else if($scope.CurrentPage == 4)
+        {
+            if($scope.KKarti == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                return;
+            }
+        }
+        else if($scope.CurrentPage == 5)
+        {
+            if($scope.Cek == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                return;
+            }
+        }
+        else if($scope.CurrentPage == 6)
+        {
+            if($scope.Ticket == "")
+            {
+                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                return;
+            }
+        }
+
         if($scope.CurrentPage < 6)
         {            
             $("#Pane" + $scope.CurrentPage).removeClass('active');
@@ -122,13 +201,13 @@ function GunSonuCtrl ($scope,$window,db)
             let TmpData = await OdemeGetir($scope.Tarih,$scope.Kasa);
             let TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 0").toDigit2();
             
-            if(TmpVal == $scope.Nakit && TmpVal != 0)
+            if(TmpVal == ($scope.Nakit - $scope.Avans) && TmpVal != 0)
             {
                 $scope.Label.Nakit = "Doğru"
             }
             else
             {
-                $scope.Label.Nakit = $scope.Nakit - TmpVal;
+                $scope.Label.Nakit = parseFloat(($scope.Nakit - $scope.Avans) - TmpVal).toDigit2();
             }
             
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 1").toDigit2();
@@ -138,7 +217,7 @@ function GunSonuCtrl ($scope,$window,db)
             }
             else
             {
-                $scope.Label.KKarti = $scope.KKarti - TmpVal;
+                $scope.Label.KKarti = parseFloat($scope.KKarti - TmpVal).toDigit2();
             }
 
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 2").toDigit2();
@@ -148,7 +227,7 @@ function GunSonuCtrl ($scope,$window,db)
             }
             else
             {
-                $scope.Label.Cek = $scope.Cek - TmpVal;
+                $scope.Label.Cek = parseFloat($scope.Cek - TmpVal).toDigit2();
             }
 
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 3").toDigit2();
@@ -158,7 +237,7 @@ function GunSonuCtrl ($scope,$window,db)
             }
             else
             {
-                $scope.Label.Ticket = $scope.Ticket - TmpVal;
+                $scope.Label.Ticket = parseFloat($scope.Ticket - TmpVal).toDigit2();
             }
             $scope.$apply();
         }
