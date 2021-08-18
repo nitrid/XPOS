@@ -5,13 +5,13 @@ function GunSonuCtrl ($scope,$window,db)
         let TmpQuery = 
         {
             query: "SELECT " +
-                   "TYPE AS TYPE, " +
+                   "MAX(DOC_DATE) AS DOC_DATE,TYPE AS TYPE, " +
                    "TYPE_NAME AS TYPE_NAME, " +
                    "CASE WHEN DOC_TYPE = 0 THEN SUM(AMOUNT) ELSE SUM(AMOUNT) * -1 END AS AMOUNT " +
                    "FROM POS_PAYMENT_VW_01 WHERE DOC_DATE >= @ILKTARIH AND DOC_DATE <= @SONTARIH AND DEVICE = @DEVICE " +
                    "GROUP BY TYPE_NAME,DOC_TYPE,TYPE ORDER BY TYPE ASC",
             param: ['ILKTARIH:date','SONTARIH:date','DEVICE:string|25'],
-            value: [pTarih,pTarih,pDevice]
+            value: [moment(pTarih).format("DD.MM.YYYY"),moment(pTarih).format("DD.MM.YYYY"),pDevice]
         }
 
         let TmpData = await db.GetPromiseQuery(TmpQuery);
@@ -21,7 +21,7 @@ function GunSonuCtrl ($scope,$window,db)
     {
         $scope.CurrentPage = 1;
         
-        $scope.Tarih = new Date();
+        $scope.Tarih = new Date(),
         $scope.Kasa = "";
         $scope.Avans = "";
         $scope.Nakit = "";
@@ -46,7 +46,7 @@ function GunSonuCtrl ($scope,$window,db)
         {
             width: "100%",
             type: "date",
-            value: new Date(),
+            value: moment(new Date()),
             bindingOptions: 
             {
                 value: "Tarih"
