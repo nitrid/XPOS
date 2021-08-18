@@ -123,7 +123,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             fields: 
             [
                 {
-                    name: "LINE_NO",
+                    name: "NO",
                     title: "NO",
                     type: "number",
                     align: "center",
@@ -433,10 +433,11 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT *, " +
+                        "ROW_NUMBER() OVER(ORDER BY CDATE) AS NO, " +
                         "ROUND(AMOUNT,2) AS AMOUNTV, " +
                         "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE, " + 
                         "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " +
-                        "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
+                        "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY ROW_NUMBER() OVER(ORDER BY CDATE) DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
                 type:   ['string|25','int','int','int'],
                 value:  [pSeri,pSira,pEvrTip,pTip]

@@ -1542,7 +1542,29 @@ function StokCtrl ($scope,$window,$location,db)
         StokListePage = false;
         $scope.Kullanici = $window.sessionStorage.getItem('User');
         $scope.Firma = 'PIQPOS' 
-        
+        //STOK KARTI CLONE İÇİN YAPILDI 
+        if(arguments[0])
+        {
+            $scope.FiyatListe = [];
+            $scope.BarkodListe = [];
+            $scope.TedaikciListe = [];
+            $scope.TedarikciFiyatListe = [];
+
+            TblFiyatInit();
+            TblBarkodInit();
+            TblTedarikciInit();
+            TblTedarikciFiyatInit();
+            TblSecimInit([]);   
+
+            $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
+            $scope.StokListe[0].COST_PRICE = 0;
+            $scope.StokListe[0].MIN_PRICE = 0;
+            $scope.StokListe[0].MAX_PRICE = 0;
+            $scope.StokListe[0].ITEM_CUSTOMER = "";
+            $scope.StokListe[0].BARCODE = "";
+            return;
+        }
+        //*******************************/
         if(typeof $location.$$search.mode == 'undefined')
         {
             $("#TbMain").removeClass('active');  
@@ -1553,7 +1575,7 @@ function StokCtrl ($scope,$window,$location,db)
             $("#TbMain").addClass('active');  
             $("#TbDetay").removeClass('active');
         }
-        //STOK LISTESİ TANIMLARI *************************
+        //STOK LISTESİ TANIMLARI *************************        
         $scope.StokListesi = {}
         $scope.StokListesi.Data = [];     
         $scope.SLUrunGrupListe = [];   

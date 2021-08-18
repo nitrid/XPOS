@@ -146,7 +146,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             fields: 
             [
             {
-                name: "LINE_NO",
+                name: "NO",
                 title: "NO",
                 type: "number",
                 align: "center",
@@ -415,8 +415,9 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT *, " + 
+                        "ROW_NUMBER() OVER(ORDER BY CDATE) AS NO, " +
                         "ISNULL((SELECT VAT FROM ITEMS WHERE CODE = ITEM_CODE),0) AS VATRATE " +
-                        "FROM ORDER_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY LINE_NO DESC",
+                        "FROM ORDER_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY ROW_NUMBER() OVER(ORDER BY CDATE) DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
                 type:   ['string|25','int','int','int'],
                 value:  [pSeri,pSira,pEvrTip,pTip]
