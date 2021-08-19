@@ -219,7 +219,7 @@ function SktGirisCtrl($scope,$window,db)
         $scope.Adi = "";
         $scope.Fiyat = "";
         $scope.Birim = "";
-        $scope.Tarih = moment(new Date()).format("DD.MM.YYYY");
+        $scope.Tarih = new Date(),
         $scope.Miktar = 1;
 
         $scope.StokGridTip = "0";
@@ -231,6 +231,18 @@ function SktGirisCtrl($scope,$window,db)
         InitStokGrid();
         SktGetir();
         TblSktInit();
+
+        $scope.DteTarih = 
+        {
+            width: "100%",
+            pickerType: "rollers",
+            value: moment(new Date()),
+            displayFormat: "dd/MM/yyyy",
+            bindingOptions: 
+            {
+                value: "Tarih"
+            },
+        }
     }
     $scope.BtnStokBarkodGetir = async function(e)
     {
@@ -371,7 +383,7 @@ function SktGirisCtrl($scope,$window,db)
                     ")",
             param:  ['CUSER','LUSER','ITEM_CODE','QUANTITY','EXP_DATE'],
             type:   ['string|25','string|25','string|25','float','date'],
-            value:  [$scope.Kullanici,$scope.Kullanici,$scope.Kodu,$scope.Miktar,$scope.Tarih]
+            value:  [$scope.Kullanici,$scope.Kullanici,$scope.Kodu,$scope.Miktar,moment($scope.Tarih).format("DD.MM.YYYY")]
         }
 
         await db.ExecutePromiseQuery(TmpQuery);
