@@ -96,7 +96,7 @@ var QuerySql =
                 ",[ORGINS] = @ORGINS " +
                 ",[SALE_JOIN_LINE] = @SALE_JOIN_LINE " +
                 "WHERE [CODE] = @TMPCODE",
-        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|20','ITEM_GRP:string|25','TYPE:int','VAT:float',
+        param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|32','ITEM_GRP:string|25','TYPE:int','VAT:float',
                  'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','WEIGHING:bit','SPECIAL1:string|50','ORGINS:string|25','SALE_JOIN_LINE:bit']
     },
     StokKartSil :
