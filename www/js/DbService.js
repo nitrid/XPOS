@@ -804,7 +804,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                     font: "b",
                     align: "lt",
                     data: _PrintText(pSData[i].VAT_TYPE) + " " +
-                            _PrintText(pSData[i].SNAME,34) + " " +
+                            _PrintText(pSData[i].TICKET_REST ? "*" + pSData[i].SNAME : pSData[i].SNAME,34) + " " +
                             _PrintText(TmpQt,8,"Start") + " " + 
                             _PrintText(parseFloat(pSData[i].PRICE).toFixed(2),7,"Start") + " " + 
                             _PrintText(parseFloat(pSData[i].CAMOUNT).toFixed(2) + "EUR",10,"Start")

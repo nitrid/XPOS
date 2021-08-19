@@ -469,7 +469,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
         
         $scope.EvrakLock = false;
         $scope.Seri = "FI";
-        $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
+        $scope.Sira = new Date().valueOf(); //(await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
 
         $scope.Stok = 
         [

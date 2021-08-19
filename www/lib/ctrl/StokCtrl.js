@@ -1759,6 +1759,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.BARCODE = "";
         TmpStokObj.SPECIAL1 = "";
         TmpStokObj.SALE_JOIN_LINE = false;
+        TmpStokObj.TICKET_REST = false;
 
         $scope.StokListe.push(TmpStokObj);
 
@@ -1945,7 +1946,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        
+        console.log($scope.StokListe[0].TICKET_REST)
         let InsertData =
         [
             $scope.Kullanici,
@@ -1964,6 +1965,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].SPECIAL1,
             $scope.StokListe[0].ORGINS,
             $scope.StokListe[0].SALE_JOIN_LINE,
+            $scope.StokListe[0].TICKET_REST,
         ];
 
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)

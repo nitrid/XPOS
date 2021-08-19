@@ -473,7 +473,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         InitIslemGrid(true);
         InitStokGrid();
         InitEvrakGrid();
-
+        
         if(typeof pType == 'undefined')
         {
             if(typeof $location.$$search.REF != 'undefined')
@@ -486,7 +486,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         }
         $scope.EvrakLock = false;
         $scope.Seri = "FF";
-        $scope.Sira = (await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
+        $scope.Sira = new Date().valueOf(); //(await db.GetPromiseTag($scope.Firma,'MaxFaturaNo',[$scope.Seri,$scope.EvrakTip]))[0].MAXSIRA;
 
         $scope.Stok = 
         [
