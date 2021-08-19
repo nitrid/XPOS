@@ -1687,6 +1687,7 @@ function StokCtrl ($scope,$window,$location,db)
                     items: 
                     [
                         { text: (db.Language($scope.Lang,'Ürün Grubunu Değiştir')),id: "M001" },
+                        { text: (db.Language($scope.Lang,'Toplu Fiyat Girişi')),id: "M002" },
                     ]
                 }
             ],
@@ -1946,7 +1947,7 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
-        console.log($scope.StokListe[0].TICKET_REST)
+        
         let InsertData =
         [
             $scope.Kullanici,

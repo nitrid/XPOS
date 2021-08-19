@@ -983,7 +983,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                     style:"b",
                     align:"lt",
                     data:_PrintText("TOTAL ART ELIGIBLE",56) + " " + 
-                    _PrintText(parseFloat(_SumColumn(pSData,'TVA','TICKET_REST = true')).toFixed(2),7,"Start")
+                    _PrintText(parseFloat(_SumColumn(pSData,'TVA','TICKET_REST = 1')).toFixed(2),7,"Start")
                 }
             );
         }
