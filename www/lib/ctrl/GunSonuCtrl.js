@@ -47,6 +47,7 @@ function GunSonuCtrl ($scope,$window,db)
             width: "100%",
             pickerType: "rollers",
             value: moment(new Date()),
+            displayFormat: "dd/MM/yyyy",
             bindingOptions: 
             {
                 value: "Tarih"
