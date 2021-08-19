@@ -206,7 +206,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     $scope.Kullanici,
                     args.item.ITEM_CODE,
                     parseFloat(args.item.QUANTITY.replace(",",".")),
-                    parseFloat(args.item.PRICE.replace(",",".")),
+                    parseFloat(args.item.PRICEV.replace(",",".")),
                     args.item.DISCOUNT,
                     parseFloat(args.item.VATRATE.replace(",","."))
                 ]
