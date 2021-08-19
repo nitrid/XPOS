@@ -585,7 +585,7 @@ function StokCtrl ($scope,$window,$location,db)
             await db.ExecutePromiseQuery(TmpQuery);  
             console.log(MultipleSelectedRow[i].CODE + " - " + $scope.SLUrunGrup.Value);    
         }
-        MultipleSelectedRow = [];
+        
         StokListeGetir();
         $('#MdlUrunGrupGuncelle').modal('hide');
     }
@@ -610,7 +610,7 @@ function StokCtrl ($scope,$window,$location,db)
             
             await db.ExecutePromiseTag($scope.Firma,'FiyatKaydet',InsertData)
         }
-        MultipleSelectedRow = [];
+        
         StokListeGetir();
         $('#MdlFiyatGirisEkle').modal('hide');
     }
