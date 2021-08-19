@@ -209,7 +209,7 @@ function GunSonuCtrl ($scope,$window,db)
             
             if(TmpVal == ($scope.Nakit - $scope.Avans) && TmpVal == 0)
             {
-                $scope.Label.Nakit = "Doğru"
+                $scope.Label.Nakit = (db.Language($scope.Lang,"Doğru"))
                 $scope.Style.Nakit = {'color':'green'}
             }
             else
@@ -229,7 +229,7 @@ function GunSonuCtrl ($scope,$window,db)
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 1").toDigit2();
             if(TmpVal == $scope.KKarti && TmpVal == 0)
             {
-                $scope.Label.KKarti = "Doğru"
+                $scope.Label.KKarti = (db.Language($scope.Lang,"Doğru"))
                 $scope.Style.KKarti = {'color':'green'}
             }
             else
@@ -248,7 +248,7 @@ function GunSonuCtrl ($scope,$window,db)
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 2").toDigit2();
             if(TmpVal == $scope.Cek && TmpVal == 0)
             {
-                $scope.Label.Cek = "Doğru"
+                $scope.Label.Cek = (db.Language($scope.Lang,"Doğru"))
                 $scope.Style.Cek = {'color':'green'}
             }
             else
@@ -267,7 +267,7 @@ function GunSonuCtrl ($scope,$window,db)
             TmpVal = db.SumColumn(TmpData,"AMOUNT","TYPE = 3").toDigit2();
             if(TmpVal == $scope.Ticket && TmpVal == 0)
             {
-                $scope.Label.Ticket = "Doğru"
+                $scope.Label.Ticket = (db.Language($scope.Lang,"Doğru"))
                 $scope.Style.Ticket = {'color':'green'}
             }
             else
