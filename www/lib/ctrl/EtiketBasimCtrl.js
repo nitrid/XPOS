@@ -407,7 +407,7 @@ function EtiketBasimCtrl ($scope,$window,db)
         let TmpQuery = 
         {
             db : $scope.Firma,
-            query:  "SELECT DESIGN_NAME,TAG,PAGE_COUNT FROM LABEL_DESIGN WHERE TYPE = 'ETIKET'",
+            query:  "SELECT DESIGN_NAME,TAG,PAGE_COUNT FROM LABEL_DESIGN WHERE TYPE = 'ETIKET' ORDER BY DESIGN_NAME ASC",
         }
 
         let TmpData = await db.GetPromiseQuery(TmpQuery);
