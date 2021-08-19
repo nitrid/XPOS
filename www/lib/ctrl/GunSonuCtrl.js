@@ -116,7 +116,7 @@ function GunSonuCtrl ($scope,$window,db)
             if(moment(new Date()).diff($scope.Tarih,'days') > 2)
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Seçitiğiniz tarih 2 günden fazla olamaz !"));
+                alertify.alert(db.Language($scope.Lang,"Seçtiğiniz tarih 2 günden fazla olamaz !"));
                 return;
             }
             if($scope.Kasa == "")
