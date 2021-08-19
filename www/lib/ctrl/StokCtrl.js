@@ -4,6 +4,7 @@ function StokCtrl ($scope,$window,$location,db)
     let MultipleSelectedRow = [];
     let ModalTip = "";
     let StokListePage = false;
+    let StokListeGrd = null
     $scope.Birim =
     [
         {Kodu:"Unité",Symbol:"U"},
@@ -242,7 +243,7 @@ function StokCtrl ($scope,$window,$location,db)
     }
     function TblStokListeInit()
     {
-        $("#TblStokListe").dxDataGrid(
+        StokListeGrd = $("#TblStokListe").dxDataGrid(
         {
             dataSource: $scope.StokListesi.Data,
             allowColumnReordering: true,
@@ -321,7 +322,7 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 MultipleSelectedRow = selectedItems.selectedRowsData;
             } 
-        });
+        }).dxDataGrid("instance");
     }
     function StokListeGetir()
     {
@@ -451,6 +452,7 @@ function StokCtrl ($scope,$window,$location,db)
                 // }
             }
             TblStokListeInit();
+            StokListeGrd.clearSelection();
         });
     }
     function DrpDwnInitKolon()
