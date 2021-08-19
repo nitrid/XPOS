@@ -264,7 +264,6 @@ function SiparisListesiCtrl ($scope,db)
         let TmpFirma = Param[0].Firma;
         let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
         let TmpQuery = 
-
         {
             db : $scope.Firma,
             query:  "SELECT *, " +

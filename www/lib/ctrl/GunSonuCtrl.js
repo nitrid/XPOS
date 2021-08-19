@@ -45,7 +45,7 @@ function GunSonuCtrl ($scope,$window,db)
         $scope.ObjTarih = 
         {
             width: "100%",
-            type: "date",
+            pickerType: "rollers",
             value: moment(new Date()),
             bindingOptions: 
             {
@@ -125,15 +125,17 @@ function GunSonuCtrl ($scope,$window,db)
                 alertify.alert(db.Language($scope.Lang,"Lütfen kasa nosunu seçiniz !"));
                 return;
             }
+            setTimeout(() => {$window.document.getElementById("Avans").focus()},300);
         }
         else if($scope.CurrentPage == 2)
-        {
+        {            
             if($scope.Avans == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
                 alertify.alert(db.Language($scope.Lang,"Lütfen Avans tutarını giriniz !"));
                 return;
             }
+            setTimeout(() => {$window.document.getElementById("Nakit").focus()},300);
         }
         else if($scope.CurrentPage == 3)
         {
@@ -143,6 +145,7 @@ function GunSonuCtrl ($scope,$window,db)
                 alertify.alert(db.Language($scope.Lang,"Lütfen Nakit tutarını giriniz !"));
                 return;
             }
+            setTimeout(() => {$window.document.getElementById("KKarti").focus()},300);
         }
         else if($scope.CurrentPage == 4)
         {
@@ -152,6 +155,7 @@ function GunSonuCtrl ($scope,$window,db)
                 alertify.alert(db.Language($scope.Lang,"Lütfen Kredi kartı tutarını giriniz !"));
                 return;
             }
+            setTimeout(() => {$window.document.getElementById("Cek").focus()},300);
         }
         else if($scope.CurrentPage == 5)
         {
@@ -161,6 +165,7 @@ function GunSonuCtrl ($scope,$window,db)
                 alertify.alert(db.Language($scope.Lang,"Lütfen Çek tutarını giriniz !"));
                 return;
             }
+            setTimeout(() => {$window.document.getElementById("Ticket").focus()},300);
         }
         else if($scope.CurrentPage == 6)
         {
