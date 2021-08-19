@@ -122,7 +122,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.Kasa == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen kasa kodunu seçiniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen kasa nosunu seçiniz !"));
                 return;
             }
         }
@@ -131,7 +131,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.Avans == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen Avans tutarını giriniz !"));
                 return;
             }
         }
@@ -140,7 +140,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.Nakit == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen Nakit tutarını giriniz !"));
                 return;
             }
         }
@@ -149,7 +149,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.KKarti == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen Kredi kartı tutarını giriniz !"));
                 return;
             }
         }
@@ -158,7 +158,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.Cek == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen Çek tutarını giriniz !"));
                 return;
             }
         }
@@ -167,7 +167,7 @@ function GunSonuCtrl ($scope,$window,db)
             if($scope.Ticket == "")
             {
                 alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Lütfen bir tutar giriniz !"));
+                alertify.alert(db.Language($scope.Lang,"Lütfen Tike Restorant tutarını giriniz !")) ;
                 return;
             }
         }
