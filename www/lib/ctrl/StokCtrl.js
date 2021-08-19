@@ -583,9 +583,34 @@ function StokCtrl ($scope,$window,$location,db)
             await db.ExecutePromiseQuery(TmpQuery);  
             console.log(MultipleSelectedRow[i].CODE + " - " + $scope.SLUrunGrup.Value);    
         }
-
+        MultipleSelectedRow = [];
         StokListeGetir();
         $('#MdlUrunGrupGuncelle').modal('hide');
+    }
+    $scope.BtnFiyatGirisKaydet = async function()
+    {
+        let TmpCodes = Object.keys(db.ToGroupBy(MultipleSelectedRow,'CODE'));
+        for (let i = 0; i < TmpCodes.length; i++) 
+        {
+            let InsertData =
+            [
+                $scope.Kullanici,
+                $scope.Kullanici,
+                TmpCodes[i],
+                $scope.SLFiyat.Tip,
+                "0",
+                $scope.SLFiyat.Baslangic,
+                $scope.SLFiyat.Bitis,
+                parseFloat($scope.SLFiyat.Fiyat.toString().replace(',','.')),
+                $scope.SLFiyat.Miktar,
+                ''
+            ];
+            
+            await db.ExecutePromiseTag($scope.Firma,'FiyatKaydet',InsertData)
+        }
+        MultipleSelectedRow = [];
+        StokListeGetir();
+        $('#MdlFiyatGirisEkle').modal('hide');
     }
     //#endregion    
     function TblFiyatInit()
@@ -1614,6 +1639,14 @@ function StokCtrl ($scope,$window,$location,db)
             }
         });
 
+        $scope.SLFiyat = 
+        {
+            Tip : "0",
+            Baslangic : moment(new Date()).format("DD/MM/YYYY"),
+            Bitis : moment(new Date()).format("DD/MM/YYYY"),
+            Miktar : 0,
+            Fiyat : 0
+        }
         DrpDwnInitKolon();
 
         $scope.StokListesi.CmbGrup = 
@@ -1706,6 +1739,26 @@ function StokCtrl ($scope,$window,$location,db)
                         function()
                         {
                             $('#MdlUrunGrupGuncelle').modal({backdrop: 'static'});
+                        }
+                        ,function(){});
+                    }
+                    else
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Satır seçmeden bu işlemi yapamazsınız !"));
+                    }
+                }
+                else if (e.itemData.id == "M002") 
+                {
+                    if(MultipleSelectedRow.length > 0)
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+                
+                        alertify.confirm(db.Language($scope.Lang,'Seçili satırlara ürün fiyatı girmek istediğinize eminmisiniz ?'),
+                        function()
+                        {
+                            $('#MdlFiyatGirisEkle').modal({backdrop: 'static'});
                         }
                         ,function(){});
                     }
