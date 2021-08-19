@@ -975,6 +975,20 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
 
         TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
+        if(_Equal(pSData,"TICKET_REST",true))
+        {
+            TmpData.push(
+                {
+                    font:"b",
+                    style:"b",
+                    align:"lt",
+                    data:_PrintText("TOTAL ART ELIGIBLE",56) + " " + 
+                    _PrintText(parseFloat(_SumColumn(pSData,'TVA','TICKET_REST = true')).toFixed(2),7,"Start")
+                }
+            );
+        }
+
+        TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         TmpData.push({font:"b",align:"lt",data:_PrintText(pSData.length.toString() + " Aricle(s)",14)});
         
         if(pSData[0].CUSTOMER_CODE != pParamData[0])
