@@ -439,7 +439,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                         "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = INVOICE_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = INVOICE_VW_01.CUSTOMER),'') AS CUSTOMER_ITEM_CODE " +
                         "FROM INVOICE_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE ORDER BY ROW_NUMBER() OVER(ORDER BY CDATE) DESC",
                 param:  ['REF','REF_NO','DOC_TYPE','TYPE'],
-                type:   ['string|25','int','int','int'],
+                type:   ['string|25','bigint','int','int'],
                 value:  [pSeri,pSira,pEvrTip,pTip]
             }
             db.GetDataQuery(TmpQuery,function(pData)

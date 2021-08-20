@@ -123,6 +123,10 @@ sqllib.prototype.QueryPromise = function(pQuery,pResult)
                         {
                             request.input(pQuery.param[i].split(":")[0],sql.Int,pQuery.value[i]);    
                         }
+                        else if(pType[0] == "bigint")
+                        {
+                            request.input(pQuery.param[i].split(":")[0],sql.BigInt,pQuery.value[i]);    
+                        }
                         else if(pType[0] == "float")
                         {
                             request.input(pQuery.param[i].split(":")[0],sql.Float,pQuery.value[i]);    

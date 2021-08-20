@@ -1552,7 +1552,7 @@ var QuerySql =
                 "@DISCOUNT = @PDISCOUNT, " + 
                 "@VAT = @PVAT, " + 
                 "@DESCRIPTION = @PDESCRIPTION",
-        param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int','PDOC_DATE:date','PCUSTOMER:string|25',
+        param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:bigint','PDOC_DATE:date','PCUSTOMER:string|25',
                  'PDEPOT:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PDESCRIPTION:string|500']
     },
     FaturaSatirUpdate :
@@ -1584,7 +1584,7 @@ var QuerySql =
                 "@DOC_TYPE = @PDOC_TYPE, " +
                 "@REF = @PREF, " +
                 "@REF_NO = @PREF_NO " , 
-        param : ['PDELTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int']
+        param : ['PDELTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:bigint']
     },
     //KULLANICI PARAMETRE
     KullaniciGetir :
