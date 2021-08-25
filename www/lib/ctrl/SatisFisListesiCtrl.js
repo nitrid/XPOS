@@ -703,7 +703,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "ISNULL((SELECT SHORT FROM UNIT WHERE NAME = ISNULL((SELECT TOP 1 NAME FROM ITEM_UNIT WHERE ITEM_CODE = ITEM_CODE AND TYPE = 0),'')),'') AS UNIT_SHORT, " +
                     "@FIRMA AS FIRMA, " +
                     "@BASLIK AS BASLIK," +
-                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '17'),'') AS PATH " +
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '21'),'') AS PATH " +
                     "FROM POS_SALES_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 0",
             param:  ['REF','REF_NO','FIRMA','BASLIK'],
             type:   ['string|25','int','string|250','string|250'],
