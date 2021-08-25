@@ -696,7 +696,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT *, " + 
-                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '17'),'') AS PATH " +
+                    "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '21'),'') AS PATH " +
                     "FROM POS_SALES_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 0",
             param:  ['REF','REF_NO'],
             type:   ['string|25','int'],
