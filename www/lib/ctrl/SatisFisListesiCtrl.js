@@ -692,15 +692,22 @@ function SatisFisListesiCtrl ($scope,$window,db)
     }
     $scope.BtnYazdir = function()
     {
+        let TmpFirma = Param[0].Firma;
+        let TmpBaslik = Param[0].FisBaslik[0] + '\n' + Param[0].FisBaslik[1] + '\n' + Param[0].FisBaslik[2] + '\n' + Param[0].FisBaslik[3] + '\n' + Param[0].FisBaslik[4]
+
         let TmpQuery = 
         {
             db : $scope.Firma,
             query:  "SELECT *, " + 
+                    "ISNULL((SELECT TOP 1 NAME FROM ITEMS WHERE CODE = ITEM_CODE),'') AS ITEM_NAME, " +
+                    "ISNULL((SELECT SHORT FROM UNIT WHERE NAME = ISNULL((SELECT TOP 1 NAME FROM ITEM_UNIT WHERE ITEM_CODE = ITEM_CODE AND TYPE = 0),'')),'') AS UNIT_SHORT, " +
+                    "@FIRMA AS FIRMA, " +
+                    "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '17'),'') AS PATH " +
                     "FROM POS_SALES_VW_01 WHERE REF = @REF AND REF_NO = @REF_NO AND TYPE = 0",
-            param:  ['REF','REF_NO'],
-            type:   ['string|25','int'],
-            value:  [$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO]
+            param:  ['REF','REF_NO','FIRMA','BASLIK'],
+            type:   ['string|25','int','string|250','string|250'],
+            value:  [$scope.SatisFisDetayList[0].REF,$scope.SatisFisDetayList[0].REF_NO,TmpFirma,TmpBaslik]
         }
         db.GetDataQuery(TmpQuery,function(pData)
         {
