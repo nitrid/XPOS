@@ -16,7 +16,7 @@ function Main ($scope,$rootScope,$window,db)
         $scope.Kullanici = $window.sessionStorage.getItem('User')
         $scope.Maho = false;
         
-        if($scope.Kullanici == "MAHO" || $scope.Kullanici == "AADMIN")
+        if($scope.Kullanici == "MAHO" || $scope.Kullanici == "ADMIN")
         {
             $scope.Maho = true;
             $scope.$apply();

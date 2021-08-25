@@ -109,6 +109,19 @@ function GunSonuCtrl ($scope,$window,db)
         $("#Pearl7").removeClass('current');
         $("#Pearl7").removeClass('done');
         $("#Pearl7").addClass('disabled');
+
+        db.GetData($scope.Firma,'PosSatisParkListe',[-1,0,'',0],function(ParkData)
+        {   
+           if(ParkData.length > 0)
+           {
+                let TmpCassier = ""; 
+                for (let i = 0; i < ParkData.length; i++) 
+                {
+                    TmpCassier += ParkData[i].LUSER + ' - '
+                }
+                alertify.alert((db.Language($scope.Lang,"Parkda bekleyen ticket var ! --- Kasiyer No : "))+ TmpCassier);
+           }
+        });
     }
     $scope.BtnNext = async function()
     {
