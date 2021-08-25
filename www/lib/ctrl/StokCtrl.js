@@ -1196,7 +1196,7 @@ function StokCtrl ($scope,$window,$location,db)
                     value: [$scope.Kullanici,$scope.Kullanici,$scope.StokListe[0].CODE,e.data.PRICE,e.data.CUSTOMER_CODE]
                 }
                 await db.ExecutePromiseQuery(TmpQuery);
-                $scope.StokListe[0].COST_PRICE = e.data.PRICE;
+                $scope.StokListe[0].COST_PRICE = parseFloat(e.data.PRICE + $scope.StokListe[0].SUGAR_VAT).toFixed(2);
             },
             onRowRemoved: function(e) 
             {
