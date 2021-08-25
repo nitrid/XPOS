@@ -346,7 +346,16 @@
                                         <input type="text" class="form-control" name="name" autocomplete="off"
                                             ng-model="StokListe[0].SNAME" maxlength="32" />
                                     </div>
-                                </div>                                        
+                                </div>     
+                                <div class="form-group row" ng-style="StyleAll">
+                                    <label class="col-md-3 form-control-label">
+                                        <div class="float-right" langu>Şeker Vergisi :</div>
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="name" autocomplete="off" ng-disabled="IsTaxSugar"
+                                            ng-model="StokListe[0].TAX_SUGAR" maxlength="6" />
+                                    </div>
+                                </div>                                   
                             </div>
                             <div class="col-md-12 col-lg-5">
                                 <div class="form-group row" ng-style="StyleAll">

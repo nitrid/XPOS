@@ -23,6 +23,7 @@ var QuerySql =
                 "[WEIGHING] AS [WEIGHING], " + 
                 "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " + 
                 "[TICKET_REST] AS [TICKET_REST], " + 
+                "[TAX_SUGAR] AS [TAX_SUGAR], " + 
                 "ISNULL((SELECT TOP 1 [BARCODE] FROM ITEM_BARCODE WHERE ITEM_CODE = [CODE] ORDER BY LDATE ASC),'') AS [BARCODE], " + 
                 "ISNULL((SELECT TOP 1 [CUSTOMER_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [ITEM_CUSTOMER], " +
                 "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CODE = [CODE] ORDER BY LDATE DESC),'') AS [CUSTOMER_ITEM_CODE], " +
@@ -60,6 +61,7 @@ var QuerySql =
                 ",[ORGINS] " +
                 ",[SALE_JOIN_LINE] " +
                 ",[TICKET_REST] " +
+                ",[TAX_SUGAR] " +
                 ") VALUES ( " +
                 "@CUSER,				--<CUSER, nvarchar(25),> \n" +
                 "GETDATE(),			    --<CDATE, datetime,> \n" +
@@ -79,7 +81,8 @@ var QuerySql =
                 "@SPECIAL1,			    --<SPECIAL1, nvarchar(50),> \n" +
                 "@ORGINS,			    --<ORGINS, nvarchar(25),> \n" +
                 "@SALE_JOIN_LINE,	    --<SALE_JOIN_LINE, bit,> \n" +
-                "@TICKET_REST	        --<TICKET_REST, bit,> \n" +
+                "@TICKET_REST,	        --<TICKET_REST, bit,> \n" +
+                "@TAX_SUGAR	            --<TAX_SUGAR, float,> \n" +
                 ") " +
                 "ELSE " + 
                 "UPDATE [dbo].[ITEMS] SET " +
@@ -99,10 +102,11 @@ var QuerySql =
                 ",[ORGINS] = @ORGINS " +
                 ",[SALE_JOIN_LINE] = @SALE_JOIN_LINE " +
                 ",[TICKET_REST] = @TICKET_REST " +
+                ",[TAX_SUGAR] = @TAX_SUGAR " +
                 "WHERE [CODE] = @TMPCODE",
         param : ['CUSER:string|25','LUSER:string|25','CODE:string|25','NAME:string|250','SNAME:string|32','ITEM_GRP:string|25','TYPE:int','VAT:float',
                  'COST_PRICE:float','MIN_PRICE:float','MAX_PRICE:float','STATUS:bit','WEIGHING:bit','SPECIAL1:string|50','ORGINS:string|25','SALE_JOIN_LINE:bit',
-                 'TICKET_REST:bit']
+                 'TICKET_REST:bit','TAX_SUGAR:float']
     },
     StokKartSil :
     {

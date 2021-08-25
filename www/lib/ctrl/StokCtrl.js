@@ -1440,6 +1440,15 @@ function StokCtrl ($scope,$window,$location,db)
 
                 BarkodModalInit();
                 TedarikciModalInit();
+
+                if(StokData[0].ITEM_GRP.split('/')[0] == '105' || StokData[0].ITEM_GRP.split('/')[0] == '106')
+                {
+                    $scope.IsTaxSugar = false;
+                }
+                else
+                {
+                    $scope.IsTaxSugar = true;
+                }
             }
 
             if(typeof pCallback != 'undefined')
@@ -1775,6 +1784,7 @@ function StokCtrl ($scope,$window,$location,db)
         //********************************************* */
 
         $scope.StyleAll = {'visibility': 'hidden'};
+        $scope.IsTaxSugar = true;
         $scope.RefReadOnly = false;
 
         $scope.AltBirimFiyati = "0.00 €";
@@ -1816,6 +1826,7 @@ function StokCtrl ($scope,$window,$location,db)
         TmpStokObj.SPECIAL1 = "";
         TmpStokObj.SALE_JOIN_LINE = false;
         TmpStokObj.TICKET_REST = false;
+        TmpStokObj.TAX_SUGAR = 0;
 
         $scope.StokListe.push(TmpStokObj);
 
@@ -2022,6 +2033,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].ORGINS,
             $scope.StokListe[0].SALE_JOIN_LINE,
             $scope.StokListe[0].TICKET_REST,
+            $scope.StokListe[0].TAX_SUGAR,
         ];
 
         db.ExecuteTag($scope.Firma,'StokKartKaydet',InsertData,async function(InsertResult)
@@ -2379,6 +2391,14 @@ function StokCtrl ($scope,$window,$location,db)
         }
         else if(ModalTip == "UrunGrup")
         {
+            if(SecimSelectedRow.Item.CODE == '105' || SecimSelectedRow.Item.CODE == '106')
+            {
+                $scope.IsTaxSugar = false;
+            }
+            else
+            {
+                $scope.IsTaxSugar = true;
+            }
             $scope.StokListe[0].ITEM_GRP = SecimSelectedRow.Item.CODE + '/' + SecimSelectedRow.Item.NAME;
             $("#MdlSecim").modal('hide');
         }
