@@ -462,6 +462,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
     }
     $scope.BtnSatisFisListeGetir = async function()
     {
+        let TmpDocType = 0;
+        if($scope.OdemeTipi == "5")
+        {
+            $scope.OdemeTipi = 0;
+            TmpDocType = 1
+        }
+
         let TmpQuery = 
         {
             db : $scope.Firma,
@@ -505,13 +512,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "((SALE.DEVICE = @DEVICE) OR (@DEVICE = '')) AND " +
                     "((SALE.REF_NO = @REF_NO) OR (@REF_NO = '')) AND  " +
                     "((PAYMENT.TYPE = @TYPE) OR (@TYPE = -1)) AND " +
-                    "((SALE.LUSER = @LUSER) OR (@LUSER = '')) AND SALE.STATUS = 1 {0} " +
-                    "GROUP BY SALE.REF,SALE.REF_NO,SALE.TYPE,PAYMENT.TYPE " +
+                    "((SALE.LUSER = @LUSER) OR (@LUSER = '')) AND SALE.STATUS = 1 AND PAYMENT.DOC_TYPE = @DOC_TYPE {0} " +
+                    "GROUP BY SALE.REF,SALE.REF_NO,SALE.TYPE,PAYMENT.TYPE,PAYMENT.DOC_TYPE " +
                     "HAVING ((ROUND(SUM(SALE.TTC),2) = @TTC) OR (@TTC = 0)) " +
                     ") AS TMP GROUP BY REF,REF_NO",
-            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','LUSER','TTC'],
-            type:   ['date','date','string|25','string|25','string|25','int','string|25','float'],
-            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.')]            
+            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','DOC_TYPE','LUSER','TTC'],
+            type:   ['date','date','string|25','string|25','string|25','int','int','string|25','float'],
+            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,TmpDocType,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.')]            
         }
 
         if($scope.FisTipi == 0)
@@ -529,7 +536,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         
         let TmpData = await db.GetPromiseQuery(TmpQuery)
         $scope.SatisFisListesi = TmpData;
-
+        console.log(TmpData)
         InitSatisFisListesiGrid();
     }
     $scope.BtnTahTip = function(pTip)
