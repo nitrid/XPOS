@@ -116,7 +116,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             onRowUpdated: async function(e) 
             {
-                e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
+                //e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
                 TmpListe.refresh();
                 $scope.Kaydet();
 
