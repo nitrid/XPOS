@@ -4,7 +4,7 @@
     <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="0" />
     <Item2 Ref="3" ControlType="DetailBand" Name="Detail" HeightF="585.8751">
       <Controls>
-        <Item1 Ref="4" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="625.0416,229.8461" LocationFloat="102.083336, 0" Font="Poppins Black, 35pt, style=Bold" Padding="2,2,0,0,100">
+        <Item1 Ref="4" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="732.333252,229.8461" LocationFloat="39.5833321, 0" Font="Poppins Black, 35pt, style=Bold" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="5" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
           </ExpressionBindings>
