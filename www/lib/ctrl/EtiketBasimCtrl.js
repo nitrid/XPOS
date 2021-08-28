@@ -116,7 +116,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             onRowUpdated: async function(e) 
             {
-                e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
+                //e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
                 TmpListe.refresh();
                 $scope.Kaydet();
 
@@ -334,7 +334,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ITEMS.CODE AS CODE, " +
                         "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ((ITEM_BARCODE.BARCODE = @BARCODE) OR (ITEM_BARCODE.ITEM_CODE = @BARCODE) OR (@BARCODE = '')) ORDER BY ITEM_BARCODE.LDATE DESC),MAX(ITEM_BARCODE.BARCODE)) AS BARCODE, " +
                         "MAX(ITEMS.NAME) AS NAME, " +
-                        "ISNULL((SELECT TOP 1 C.NAME FROM CUSTOMERS AS C WHERE C.CODE = MAX(ITEM_CUSTOMER.CUSTOMER_CODE)),'') AS CUSTOMER_NAME, " +
+                        // "ISNULL((SELECT TOP 1 C.NAME FROM CUSTOMERS AS C WHERE C.CODE = MAX(ITEM_CUSTOMER.CUSTOMER_CODE)),'') AS CUSTOMER_NAME, " +
                         "MAX(ITEMS.ITEM_GRP) AS ITEM_GRP, " +
                         "ISNULL((SELECT TOP 1 NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = MAX(ITEMS.ITEM_GRP)),'') AS ITEM_GRP_NAME, " +
                         "dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) AS PRICE, " +
@@ -342,18 +342,20 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "CONVERT(NVARCHAR,MAX(FACTOR)) + ' ' + MAX(SHORT) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL(MAX(FACTOR),0) = 0 THEN '0' ELSE " +
                         "ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL(MAX(FACTOR),0),2) END AS UNDER_UNIT_PRICE, " +
-                        "MAX(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE) AS CUSTOMER_ITEM_CODE, " +
+                        // "MAX(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE) AS CUSTOMER_ITEM_CODE, " +
                         "'' AS DESCRIPTION " +
                         "FROM ITEMS " +
                         "LEFT OUTER JOIN ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
-                        "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
-                        "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
+                        // "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
+                        // "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
                         "LEFT OUTER JOIN ITEM_UNIT ON " +
                         "ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND ITEM_UNIT.TYPE = 1 " +
                         "LEFT OUTER JOIN UNIT ON " +
                         "UNIT.NAME = ITEM_UNIT.NAME " +
-                        "WHERE ((BARCODE = @BARCODE) OR (ITEMS.CODE = @BARCODE) OR (ITEM_CUSTOMER.CUSTOMER_ITEM_CODE = @BARCODE) OR (@BARCODE = '')) AND ITEMS.STATUS = 1 " + 
+                        "WHERE ((BARCODE = @BARCODE) OR (ITEMS.CODE = @BARCODE) OR " + 
+                        // "(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE = @BARCODE) OR " + 
+                        "(@BARCODE = '')) AND ITEMS.STATUS = 1 " + 
                         "GROUP BY ITEMS.CODE",
                 param : ['BARCODE:string|25'],
                 value : [pBarkod]
@@ -513,7 +515,6 @@ function EtiketBasimCtrl ($scope,$window,db)
                 }
             }
         }
-        console.log(new Date(2021,7,12,14,56,0,0))
         // setInterval(()=>
         // {
         //     $window.document.getElementById("Barkodu").focus();
@@ -630,7 +631,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     $scope.Kaydet = function()
     {
         let Data = {data:$scope.BarkodListe}
-
+        console.log(Data)
         let TmpLineNo = db.MaxColumn(Data.data,"LINE_NO");
         for (let i = 0; i < Data.data.length; i++) 
         {
@@ -682,10 +683,10 @@ function EtiketBasimCtrl ($scope,$window,db)
                     "CUSTOMER_NAME, " +
                     "TRIM(STR(PRICE, 15, 2)) AS PRICE, " +
                     "UNDER_UNIT_VALUE, " +
-                    "TRIM(STR([UNDER_UNIT_PRICE], 15, 2)) AS UNDER_UNIT_PRICE, " +
+                    "TRIM([UNDER_UNIT_PRICE]) AS UNDER_UNIT_PRICE, " +
                     "SUBSTRING(TRIM(STR(PRICE, 15, 2)),0,CHARINDEX('.',TRIM(STR(PRICE, 15, 2)))) AS PRICE1, " +
                     "SUBSTRING(TRIM(STR(PRICE, 15, 2)),CHARINDEX('.',TRIM(STR(PRICE, 15, 2))) + 1,LEN(TRIM(STR(PRICE, 15, 2)))) AS PRICE2, " +
-                    "TRIM(STR([UNDER_UNIT_PRICE], 15, 2)) + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2, " +
+                    "TRIM([UNDER_UNIT_PRICE]) + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2, " +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "DESCRIPTION AS DESCRIPTION, " + 
                     "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = (SELECT TOP 1 ORGINS FROM ITEMS AS ITM WHERE ITM.CODE = JS.CODE)),'') AS ORGINS " +
