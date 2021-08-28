@@ -652,7 +652,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             0
         ]
         db.ExecuteTag($scope.Firma,'LabelQueueInsert',InsertData)
-        InitBarkodGrid();
+        // InitBarkodGrid();
     }
     $scope.OnIzleme = function()
     {
