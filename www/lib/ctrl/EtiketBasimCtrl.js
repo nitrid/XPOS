@@ -59,7 +59,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                     caption: db.Language($scope.Lang,"BARKOD"),
                     dataType: "string",
                     allowEditing: false,
-                    //width: "120"
+                    width: "150"
                 },
                 {
                     dataField: "NAME",
@@ -71,36 +71,36 @@ function EtiketBasimCtrl ($scope,$window,db)
                     dataField: "PRICE",
                     caption: db.Language($scope.Lang,"FİYAT"),
                     dataType: "number",
-                    //width: "100",
-                    hidingPriority: 1
+                    width: "100",
+                   // hidingPriority: 1
                 },
                 {
                     dataField: "UNDER_UNIT_VALUE",
                     caption: db.Language($scope.Lang,"ALT B. DEGER"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 0
+                    //hidingPriority: 0
                 },
                 {
                     dataField: "UNDER_UNIT_PRICE",
                     caption: db.Language($scope.Lang,"ALT B. FİYAT"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 1
+                    ///hidingPriority: 1
                 },
                 {
                     dataField: "DESCRIPTION",
                     caption: db.Language($scope.Lang,"ÖZEL ALAN"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 2
+                    //hidingPriority: 2
                 },
                 {
                     dataField: "LINE_NO",
                     caption: db.Language($scope.Lang,"SATIR NO"),
                     dataType: "string",
                     //width: "100",
-                    hidingPriority: 3,
+                    //hidingPriority: 3,
                     sortOrder: "desc"
                 }
             ],
