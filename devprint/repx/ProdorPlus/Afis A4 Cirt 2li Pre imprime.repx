@@ -4,7 +4,7 @@
     <Item1 Ref="1" ControlType="TopMarginBand" Name="TopMargin" HeightF="0" />
     <Item2 Ref="2" ControlType="DetailBand" Name="Detail" HeightF="560">
       <Controls>
-        <Item1 Ref="3" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="665.5797,229.8461" LocationFloat="110.836853, 7.00000143" Font="Poppins Black, 35pt, style=Bold" Padding="2,2,0,0,100">
+        <Item1 Ref="3" ControlType="XRLabel" Name="label5" Multiline="true" Text="BADOIT &#xD;&#xA;CITRON TOUCHE DE CITRON &#xD;&#xA;VERT&#xD;&#xA; 1LT" TextAlignment="MiddleCenter" SizeF="761.2917,229.8461" LocationFloat="28.7499981, 7.00000143" Font="Poppins Black, 35pt, style=Bold" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="4" EventName="BeforePrint" PropertyName="Text" Expression="[NAME]" />
           </ExpressionBindings>
@@ -25,7 +25,7 @@
           </ExpressionBindings>
           <StylePriority Ref="13" UseFont="false" />
         </Item4>
-        <Item5 Ref="14" ControlType="XRLabel" Name="label1" Multiline="true" Text="label5" TextAlignment="TopRight" SizeF="89.48926,21.51273" LocationFloat="596.9798, 347.471069" Font="Arial, 8pt" Padding="2,2,0,0,100">
+        <Item5 Ref="14" ControlType="XRLabel" Name="label1" Multiline="true" Text="label5" TextAlignment="TopRight" SizeF="134.947571,21.5127258" LocationFloat="596.9798, 347.4711" Font="Arial, 8pt" Padding="2,2,0,0,100">
           <ExpressionBindings>
             <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[UNDER_UNIT_PRICE2]" />
           </ExpressionBindings>
