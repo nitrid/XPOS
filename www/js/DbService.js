@@ -241,6 +241,10 @@ angular.module('app.db', []).service('db',function($rootScope)
     }   
     function _PrintText(pData,pLen,pType)
     {
+        if(typeof pData == 'undefined')
+        {
+            return "";
+        }
         if(pData.length > pLen)
         {
             pData = pData.toString().substring(0,pLen);
