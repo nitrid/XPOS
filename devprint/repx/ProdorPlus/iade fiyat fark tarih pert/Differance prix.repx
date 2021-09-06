@@ -35,7 +35,7 @@
           </ExpressionBindings>
           <StylePriority Ref="19" UseTextAlignment="false" />
         </Item5>
-        <Item6 Ref="20" ControlType="XRLabel" Name="label18" Multiline="true" Text="FACTURE NOTRE CREDITE&#xD;&#xA;DIFFERANCE PRIX / FIYAT FARKI" TextAlignment="TopCenter" SizeF="325.708282,52.16668" LocationFloat="198.958344, 65.41666" Font="Poppins Black, 9.75pt, style=Bold" Padding="2,2,0,0,100" BorderColor="255,12,12,12">
+        <Item6 Ref="20" ControlType="XRLabel" Name="label18" Multiline="true" Text="FACTURE NOTE DE CREDIT&#xD;&#xA;DIFFERENCE PRIX / FIYAT FARKI" TextAlignment="TopCenter" SizeF="325.708282,52.16668" LocationFloat="198.958344, 65.41666" Font="Poppins Black, 9.75pt, style=Bold" Padding="2,2,0,0,100" BorderColor="255,12,12,12">
           <StylePriority Ref="21" UseFont="false" UseBorderColor="false" UseTextAlignment="false" />
         </Item6>
         <Item7 Ref="22" ControlType="XRLabel" Name="label17" Multiline="true" Text="-" TextAlignment="TopCenter" SizeF="14.5833359,23.9583359" LocationFloat="84.3750153, 94.58332" Padding="2,2,0,0,100">
@@ -97,10 +97,10 @@
           <Rows>
             <Item1 Ref="50" ControlType="XRTableRow" Name="tableRow1" Weight="1">
               <Cells>
-                <Item1 Ref="51" ControlType="XRTableCell" Name="tableCell1" Weight="0.058690563912927748" Text="Line" TextAlignment="MiddleRight" StyleName="DetailCaption1" Borders="None">
+                <Item1 Ref="51" ControlType="XRTableCell" Name="tableCell1" Weight="0.076318760512733938" Text="Ligne" TextAlignment="MiddleLeft" StyleName="DetailCaption1" Borders="None">
                   <StylePriority Ref="52" UseBorders="false" UseTextAlignment="false" />
                 </Item1>
-                <Item2 Ref="53" ControlType="XRTableCell" Name="tableCell2" Weight="0.14804010562113754" Text="Ref." StyleName="DetailCaption1" />
+                <Item2 Ref="53" ControlType="XRTableCell" Name="tableCell2" Weight="0.13041190902133135" Text="Ref." StyleName="DetailCaption1" />
                 <Item3 Ref="54" ControlType="XRTableCell" Name="tableCell12" Weight="0.14743595147555613" Multiline="true" Text="Ref.Four." StyleName="DetailCaption1" />
                 <Item4 Ref="55" ControlType="XRTableCell" Name="tableCell3" Weight="0.3941027971327592" Text="Designation Produit" StyleName="DetailCaption1" />
                 <Item5 Ref="56" ControlType="XRTableCell" Name="tableCell4" Weight="0.058910004139118177" Text="Cont." StyleName="DetailCaption1" Font="Arial, 7pt, style=Bold">
@@ -115,7 +115,7 @@
                 <Item8 Ref="62" ControlType="XRTableCell" Name="tableCell7" Weight="0.0833975904837483" Text="TVA" TextAlignment="MiddleRight" StyleName="DetailCaption1">
                   <StylePriority Ref="63" UseTextAlignment="false" />
                 </Item8>
-                <Item9 Ref="64" ControlType="XRTableCell" Name="tableCell8" Weight="0.12225948672896808" Text="Totale Line" TextAlignment="MiddleRight" StyleName="DetailCaption1">
+                <Item9 Ref="64" ControlType="XRTableCell" Name="tableCell8" Weight="0.12225948672896808" Text="Total Ligne" TextAlignment="MiddleRight" StyleName="DetailCaption1">
                   <StylePriority Ref="65" UseTextAlignment="false" />
                 </Item9>
               </Cells>
