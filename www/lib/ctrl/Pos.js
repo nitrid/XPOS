@@ -2617,7 +2617,7 @@ function Pos($scope,$window,$rootScope,db)
                  
                 if(TmpYear == "0")
                 {
-                    if(moment(new Date()).format("M") > 9)
+                    if(moment(new Date()).format("M") > 2)
                     {
                         alertify.alert($scope.SetLang("Geçersiz ticket."));
                         $scope.TxtTicketBarkod = "";
