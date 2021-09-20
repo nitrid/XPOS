@@ -25,25 +25,25 @@ var QuerySql =
                 "[SALE_JOIN_LINE] AS [SALE_JOIN_LINE], " + 
                 "[TICKET_REST] AS [TICKET_REST], " + 
                 "[TAX_SUGAR] AS [TAX_SUGAR], " + 
-                "CASE WHEN TAX_SUGAR > 4 AND TAX_SUGAR < 5 THEN " +
+                "CASE WHEN TAX_SUGAR >= 4 AND TAX_SUGAR < 5 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 4.66,2) " +
-                "WHEN TAX_SUGAR > 5 AND TAX_SUGAR < 6 THEN " +
+                "WHEN TAX_SUGAR >= 5 AND TAX_SUGAR < 6 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 5.70,2) " +
-                "WHEN TAX_SUGAR > 6 AND TAX_SUGAR < 7 THEN " +
+                "WHEN TAX_SUGAR >= 6 AND TAX_SUGAR < 7 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 6.74,2) " +
-                "WHEN TAX_SUGAR > 7 AND TAX_SUGAR < 8 THEN " +
+                "WHEN TAX_SUGAR >= 7 AND TAX_SUGAR < 8 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 7.77,2) " +
-                "WHEN TAX_SUGAR > 8 AND TAX_SUGAR < 9 THEN " +
+                "WHEN TAX_SUGAR >= 8 AND TAX_SUGAR < 9 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 9.84,2) " +
-                "WHEN TAX_SUGAR > 9 AND TAX_SUGAR < 10 THEN " +
+                "WHEN TAX_SUGAR >= 9 AND TAX_SUGAR < 10 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 11.92,2) " +
-                "WHEN TAX_SUGAR > 10 AND TAX_SUGAR < 11 THEN " +
+                "WHEN TAX_SUGAR >= 10 AND TAX_SUGAR < 11 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 13.98,2) " +
-                "WHEN TAX_SUGAR > 11 AND TAX_SUGAR < 12 THEN " +
+                "WHEN TAX_SUGAR >= 11 AND TAX_SUGAR < 12 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 16.05,2) " +
-                "WHEN TAX_SUGAR > 12 AND TAX_SUGAR < 13 THEN " +
+                "WHEN TAX_SUGAR >= 12 AND TAX_SUGAR < 13 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 18.12,2) " +
-                "WHEN TAX_SUGAR > 13 AND TAX_SUGAR < 20 THEN " +
+                "WHEN TAX_SUGAR >= 13 AND TAX_SUGAR < 20 THEN " +
                 "ROUND(ISNULL((SELECT TOP 1 FACTOR / 100 FROM ITEM_UNIT WHERE ITEM_CODE = CODE AND TYPE = 1),0) * 20.20,2) " +
                 "ELSE " +
                 "0 " +
