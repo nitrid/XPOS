@@ -1191,6 +1191,7 @@ function StokCtrl ($scope,$window,$location,db)
                             "ELSE " +
                             "BEGIN " +
                             "UPDATE ITEM_PRICE SET PRICE = @PRICE,LDATE = GETDATE() WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1 " +  
+                            "EXEC [dbo].[PRD_LOG_PRICE_INSERT] @CUSER,'UPDATE',@ITEM_CODE,1,'19700101','19700101',@PRICE,1,@CUSTOMER " + 
                             "END",
                     param: ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','PRICE:float','CUSTOMER:string|25'],
                     value: [$scope.Kullanici,$scope.Kullanici,$scope.StokListe[0].CODE,e.data.PRICE,e.data.CUSTOMER_CODE]
@@ -1203,6 +1204,12 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedaikciListe = TedarikciData;
                     TblTedarikciInit();
+                });
+                //TEDARİKÇİ FİYAT LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciFiyatListeGetir',[$scope.StokListe[0].CODE],function(TedarikciFiyatData)
+                {
+                    $scope.TedarikciFiyatListe = TedarikciFiyatData;
+                    TblTedarikciFiyatInit()
                 });
             },
             onRowRemoved: function(e) 

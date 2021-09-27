@@ -221,17 +221,15 @@ var QuerySql =
     StokKartTedarikciFiyatListeGetir : 
     {
         query : "SELECT TOP 10 " +
-                "MAX([ITEM_CUSTOMER].[GUID]) AS [GUID], " +
-                "[ITEM_CUSTOMER].[CUSTOMER_CODE], " +
-                "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER_CODE]),'') AS [CUSTOMER_NAME], " +
-                "[ITEM_CUSTOMER].[CUSTOMER_ITEM_CODE], " +
-                "CONVERT(nvarchar,MAX([ITEM_PRICE].[LDATE]),104) AS PRICE_LDATE, " +
-                "[ITEM_PRICE].[PRICE] " +
-                "FROM ITEM_CUSTOMER " +
-                "INNER JOIN ITEM_PRICE ON [ITEM_PRICE].[ITEM_CODE] = [ITEM_CUSTOMER].[ITEM_CODE] AND [ITEM_PRICE].[TYPE] = 1 AND [ITEM_PRICE].[CUSTOMER] = [CUSTOMER_CODE] " +
-                "WHERE [ITEM_PRICE].[ITEM_CODE] = @ITEM_CODE " +
-                "GROUP BY [CUSTOMER_CODE],[CUSTOMER_ITEM_CODE],[PRICE] " +
-                "ORDER BY MAX([ITEM_PRICE].[LDATE]) DESC",
+                "[GUID] AS [GUID], " + 
+                "[CUSTOMER] AS [CUSTOMER_CODE], " +
+                "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER]),'') AS [CUSTOMER_NAME], " +
+                "ISNULL((SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = LOG_PRICE.ITEM_CODE),'') [CUSTOMER_ITEM_CODE], " +
+                "CONVERT(nvarchar,[CDATE],104) + ' ' + CONVERT(nvarchar,[CDATE],8) AS PRICE_LDATE, " +
+                "[PRICE] " +
+                "FROM LOG_PRICE " +
+                "WHERE [ITEM_CODE] = @ITEM_CODE " +
+                "ORDER BY [CDATE] DESC",
         param : ['ITEM_CODE:string|25']
     },
     FiyatKaydet : 
