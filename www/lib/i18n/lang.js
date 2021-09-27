@@ -733,7 +733,7 @@ var lang =
             "Doğru" : "OK",
             "DEĞİŞEN ORGINE LISTESI" : "Liste Changement Origine",
             "Kayıt edildi." : "Enregistrer!",
-            "" : "",
+            "Tedarikci Gör" : "Controle Fournisseur ",
             "" : "",
             "" : "",
             "" : "",
