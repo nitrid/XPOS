@@ -1190,13 +1190,20 @@ function StokCtrl ($scope,$window,$location,db)
                             "END " + 
                             "ELSE " +
                             "BEGIN " +
-                            "UPDATE ITEM_PRICE SET PRICE = @PRICE WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1 " + 
+                            "UPDATE ITEM_PRICE SET PRICE = @PRICE,LDATE = GETDATE() WHERE CUSTOMER = @CUSTOMER AND ITEM_CODE = @ITEM_CODE AND TYPE = 1 " +  
                             "END",
                     param: ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','PRICE:float','CUSTOMER:string|25'],
                     value: [$scope.Kullanici,$scope.Kullanici,$scope.StokListe[0].CODE,e.data.PRICE,e.data.CUSTOMER_CODE]
                 }
                 await db.ExecutePromiseQuery(TmpQuery);
                 $scope.StokListe[0].COST_PRICE = parseFloat(e.data.PRICE + $scope.StokListe[0].SUGAR_VAT).toFixed(2);
+
+                //TEDARİKÇİ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
+                {
+                    $scope.TedaikciListe = TedarikciData;
+                    TblTedarikciInit();
+                });
             },
             onRowRemoved: function(e) 
             {
@@ -1206,6 +1213,7 @@ function StokCtrl ($scope,$window,$location,db)
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
                         $scope.TedaikciListe = TedarikciData;
+                        TblTedarikciInit();
                     });
                 });
             }
@@ -1441,7 +1449,7 @@ function StokCtrl ($scope,$window,$location,db)
                 BarkodModalInit();
                 TedarikciModalInit();
 
-                if(StokData[0].ITEM_GRP.split('/')[0] == '105' || StokData[0].ITEM_GRP.split('/')[0] == '106')
+                if(StokData[0].ITEM_GRP.split('/')[0] == '007' || StokData[0].ITEM_GRP.split('/')[0] == '007')
                 {
                     $scope.IsTaxSugar = false;
                 }
