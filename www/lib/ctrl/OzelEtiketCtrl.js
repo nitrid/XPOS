@@ -134,6 +134,20 @@ function OzelEtiketCtrl ($scope,$window,db)
         $scope.RefNo = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REF_NO),0) + 1 AS REF_NO FROM LABEL_QUEUE WHERE REF = @REF",param:['REF:string|25'],value:['X']}))[0].REF_NO;
         $scope.KayitStatus = false;
     }
+    $scope.TxtStokKeyPress = function(keyEvent)
+    {
+        if(keyEvent.which === 13)
+        {
+            db.GetData($scope.Firma,'StokGetirT',[$scope.Kodu,''],function(StokData)
+            {
+                if(StokData.length > 0)
+                {
+                    $scope.Kodu = StokData[0].CODE;
+                    $scope.Fiyat = StokData[0].PRICE;
+                }
+            });
+        }
+    }
     $scope.BtnModalSecim = function()
     {
         db.GetData($scope.Firma,'StokGetir',['',''],function(StokData)
