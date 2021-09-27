@@ -223,8 +223,8 @@ var QuerySql =
         query : "SELECT TOP 10 " +
                 "[GUID] AS [GUID], " + 
                 "[CUSTOMER] AS [CUSTOMER_CODE], " +
-                "ISNULL((SELECT [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER]),'') AS [CUSTOMER_NAME], " +
-                "ISNULL((SELECT [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = LOG_PRICE.ITEM_CODE),'') [CUSTOMER_ITEM_CODE], " +
+                "ISNULL((SELECT TOP 1 [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER]),'') AS [CUSTOMER_NAME], " +
+                "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = LOG_PRICE.ITEM_CODE),'') [CUSTOMER_ITEM_CODE], " +
                 "CONVERT(nvarchar,[CDATE],104) + ' ' + CONVERT(nvarchar,[CDATE],8) AS PRICE_LDATE, " +
                 "[PRICE] " +
                 "FROM LOG_PRICE " +
