@@ -1362,7 +1362,6 @@ function Pos($scope,$window,$rootScope,db)
                     console.log(data.result.err)
                     return;
                 }
-                
                 let TmpQuery = 
                 {
                     db : $scope.Firma,
@@ -1421,7 +1420,6 @@ function Pos($scope,$window,$rootScope,db)
                     }
 
                     let TmpBondA = ''
-
                     if($scope.TahParaUstu > 0 && db.Equal($scope.TahList,"TYPE",4))
                     {
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
@@ -3608,7 +3606,7 @@ function Pos($scope,$window,$rootScope,db)
                     {       
                         $scope.ModalMsg.IadeParaUstu = $scope.SetLang("Tutarın daki iade fişini müşteriye teslim ediniz !");
                         //BONDAVOIR İÇİN BARKOD DESENİ OLUŞTURULUYOR.
-                        let TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
+                        TmpBondA = 'Q' + new Date().toISOString().substring(2, 10).replace('-','').replace('-','') + Math.round(parseFloat($scope.GenelToplam).toDigit2() * 100).toString().padStart(5,'0') + Date.now().toString().substring(7,12);
                         //İADE TİPİ BONDAVOIR İSE TİCKET TABLOSUNU BARKOD KAYIT EDİLİYOR.                            
                         db.ExecuteTag($scope.Firma,'TicketInsert',[$scope.Kullanici,$scope.Kullanici,TmpBondA,parseFloat($scope.GenelToplam.toDigit2()),$scope.Seri,$scope.Sira,1])
                     }                        

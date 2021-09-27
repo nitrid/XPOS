@@ -124,7 +124,7 @@
         </Item1>
       </Controls>
     </Item4>
-    <Item5 Ref="66" ControlType="DetailBand" Name="Detail" HeightF="26.37507">
+    <Item5 Ref="66" ControlType="DetailBand" Name="Detail" HeightF="25">
       <Controls>
         <Item1 Ref="67" ControlType="XRTable" Name="table2" SizeF="789.2916,25" LocationFloat="0, 0" OddStyleName="DetailData3_Odd">
           <Rows>
