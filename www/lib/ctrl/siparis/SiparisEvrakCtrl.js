@@ -850,27 +850,42 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             let TmpItem = $scope.SiparisListe.find(x => x.ITEM_CODE == $scope.Stok[0].CODE);
             if(typeof TmpItem != 'undefined')
             {
-                let TmpMiktar = (($scope.Stok[0].FACTOR * $scope.Miktar) + TmpItem.QUANTITY)
-                let TmpTutar = TmpMiktar * $scope.Stok[0].PRICE;
-                let TmpVat = TmpTutar - (TmpTutar / ((TmpItem.VATRATE / 100) + 1));
+                alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
-                let InserData = 
-                [
-                    TmpItem.GUID,
-                    $scope.Kullanici,
-                    TmpItem.ITEM_CODE,
-                    TmpMiktar,
-                    $scope.Stok[0].PRICE,
-                    TmpItem.DISCOUNT,
-                    TmpVat,
-                    $scope.OzelBirim,
-                ]
-                db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
+                alertify.confirm(db.Language($scope.Lang,'Bu ürünü daha önce eklediniz. Tekrar eklemek istediğinize eminmisiniz ?'), 
+                function()
+                { 
+                    let TmpMiktar = (($scope.Stok[0].FACTOR * $scope.Miktar) + TmpItem.QUANTITY)
+                    let TmpTutar = TmpMiktar * $scope.Stok[0].PRICE;
+                    let TmpVat = TmpTutar - (TmpTutar / ((TmpItem.VATRATE / 100) + 1));
+
+                    let InserData = 
+                    [
+                        TmpItem.GUID,
+                        $scope.Kullanici,
+                        TmpItem.ITEM_CODE,
+                        TmpMiktar,
+                        $scope.Stok[0].PRICE,
+                        TmpItem.DISCOUNT,
+                        TmpVat,
+                        $scope.OzelBirim,
+                    ]
+                    db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
+                    {
+                        let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
+                        InsertAfterRefresh(TmpData);
+                        $scope.InsertLock = false;
+                        BarkodFocus();
+                    });
+                },
+                async function()
                 {
                     let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
                     InsertAfterRefresh(TmpData);
                     $scope.InsertLock = false;
-                });
+                    BarkodFocus();
+                });                
             }
             else
             {
