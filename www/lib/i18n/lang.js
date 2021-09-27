@@ -732,7 +732,7 @@ var lang =
             "Pos Satış Urun Grup Raporu" : "Rapport de Vente Famille",
             "Doğru" : "OK",
             "DEĞİŞEN ORGINE LISTESI" : "Liste Changement Origine",
-            "" : "",
+            "Kayıt edildi." : "Enregistrer",
             "" : "",
             "" : "",
             "" : "",
