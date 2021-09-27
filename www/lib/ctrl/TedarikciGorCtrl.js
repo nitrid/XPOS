@@ -1,4 +1,4 @@
-function FiyatGorCtrl($scope,$window,db)
+function TedarikciGorCtrl($scope,$window,db)
 {   
     let StokSelectedRow = null;
     let FiyatSelectedRow = null;
@@ -158,6 +158,8 @@ function FiyatGorCtrl($scope,$window,db)
         $scope.Adi = "";
         $scope.Fiyat = "";
         $scope.Birim = "";
+        $scope.Tedarikci = "";
+
         $scope.TxtFiyatGuncelle = 0;
 
         $scope.StokGridTip = "0";
@@ -199,7 +201,7 @@ function FiyatGorCtrl($scope,$window,db)
             $scope.Adi = $scope.BarkodListe[0].NAME;
             $scope.Fiyat = $scope.BarkodListe[0].PRICE;            
             $scope.Birim = $scope.BarkodListe[0].UNDER_UNIT_VALUE;
-
+            $scope.Tedarikci = $scope.BarkodListe[0].CUSTOMER_NAME;
             if($scope.UrunGrup.Status)
             {
                 let TmpQuery = 

@@ -1,0 +1,321 @@
+<style>
+    .rowheight
+    {
+        font-size: 12
+        421px;    
+    }
+    .modal.fade 
+    {
+        z-index: 1500 !important;
+    }
+    .modal-backdrop
+    {
+        z-index: 1499 !important;
+    }
+</style>
+<div class="col px-0" ng-controller="TedarikciGorCtrl" ng-init="Init()">
+    <div class="panel panel-bordered">
+        <div class="panel-body py-1">
+            <div class="tab-content">
+                <div id="TbMain" class="tab-pane active">
+                    <!-- <div class="row pb-20">
+                        <div class="col-7">
+                            <label class="h7 mt-10"langu>Ürün Grubu Güncelleme :</label><label>{{UrunGrup.Status == true ?  "Actif - " + UrunGrup.Name : "Passif"}}</label>
+                        </div>
+                        <div class="col-5 px-1">
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false"langu>İşlemler</button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
+                                <button class="dropdown-item" href="#" role="menu-item" ng-click="BtnUrunGrupDegis()" style="font-size: 1rem;"langu>Ürün Grubu Değiştir</button>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row my-0 py-0 pb-10">
+                        <div class="col-md-1 col-lg-1 col-sm-3 text-info px-2"><div class="col-form-label float-right py-2"langu>Barkod :</div></div>
+                        <div class="col-md-11 col-lg-11 col-sm-9 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="Barkod" ng-keypress ="BtnStokBarkodGetir($event)" id="Barkod">
+                                <span class="input-group-append">
+                                <button type="submit" class="btn btn-primary" ng-click="Init()"><i class="fas fa-backspace fa-lg"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-5 px-1">
+                            <button type="submit" ng-click="ManuelAramaClick()" class="btn btn-primary btn-block h-40"langu>Manuel Arama</button>        
+                        </div>
+                        <div class="col-2 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="ScanBarkod()"><i class="fas fa-camera-retro fa-lg"></i></button>        
+                        </div>
+                        <div class="col-5 px-1">
+                            <button type="submit" class="btn btn-primary btn-block h-40" ng-click="BtnStokBarkodGetir()"langu>Getir</button>        
+                        </div>
+                    </div>
+                    <div class="row pt-5 pb-20">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h7 text-primary ng-binding">{{Kodu}}</label>
+                            <label class="mb-0 h6 text-primary ng-binding">{{Adi}}</label>
+                        </div>
+                    </div>
+                    <div class="row pt-5 pb-20">
+                        <div class="col-lg-12" style="display: inline; text-align: center; overflow: hidden;">  
+                            <label class="mb-0 h7 text-primary ng-binding">{{Birim}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 px-0"><h3 class="form-control-label pl-10 text-center">{{Tedarikci}}</h3></div>
+                    </div>
+                    <!-- <div class="row pt-50">
+                        <div class="col-6 px-1">
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatEkle()"langu>Fiyat Ekle</button>
+                        </div>
+                        <div class="col-6 px-1">
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnFiyatGuncelle()"langu>Fiyat Değiştir</button>
+                        </div>
+                    </div> -->
+                </div>
+                <div id="TbStok" class="tab-pane">
+                    <div class="row py-1">
+                        <div class="col-4 px-1">
+                            <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="MainClick()"><i class="icon wb-arrow-left" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-group row my-1">
+                        <div class="col-4 px-1">
+                            <select class="form-control" ng-model="StokGridTip">
+                                <option value="0"langu>ADI</option>
+                                <option value="1"langu>KODU</option>
+                            </select>
+                        </div>
+                        <div class="col-8 px-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-keypress = "BtnManuelArama($event)"  ng-model="StokGridText" id="StokGridText">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary" ng-click="BtnStokGridGetir()"><i class="icon wb-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-1 offset-5" ng-show="Loading" >
+                            <div class="loader vertical-align-middle loader-circle"></div>
+                        </div>
+                    <div class="row py-1 px-1" ng-show="TblLoading">           
+                        <div class="table-responsive">
+                        <div class="table" id="TblStok"></div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <!-- MODALLAR -->
+    <!-- Fiyat Güncelle-->
+    <div class="modal fade " id="MdlFiyatGuncelle" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" langu>Fiyat</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 py-10">
+                            <input class="form-control" ng-model="TxtFiyatGuncelle" id="TxtFiyatGuncelle" autocomplete="off" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row py-1">
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('7')">7</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('8')">8</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('9')">9</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row py-1">
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('4')">4</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('5')">5</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('6')">6</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row py-1">
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('1')">1</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('2')">2</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('3')">3</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row py-1">
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('0')">0</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnTusClick('.')">.</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="text" class="form-control-lg  btn-primary btn btn-secondary btn-block font-size-20" style="height:60px;" ng-click="BtnSilClick()"><i class="fas fa-backspace fa-lg" aria-hidden="true"></i></button>
+                                </div>                                            
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" ng-click="TxtFiyatGuncellePress()"><i class="fas fa-check fa-lg"></i></button>
+                        </div>
+                        <div class="col-6">
+                            <button type="text" class="form-control-lg btn-raised btn btn-success btn-block font-size-20" style="height:60px;" onclick="$('#MdlFiyatGuncelle').modal('hide')"><i class="fas fa-close fa-lg"></i></button>
+                        </div>                                    
+                    </div>
+                </div>
+            </div>      
+        </div>              
+    </div>
+    <!-- Ürün Grubu Güncelle-->
+    <div class="modal fade " id="MdlUrunGrupGuncelle" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-sm modal-primary modal-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Ürün Grubu</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row py-10">
+                        <div class="col-md-12">
+                            <div dx-select-box="UrunGrup.Cmb"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 px-1">
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupAktif()"langu>Aktif</button>
+                        </div>
+                        <div class="col-6 px-1">
+                            <button type="button" class="btn btn-block btn-primary h-40" ng-click="BtnUrunGrupPasif()"langu>Pasif</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fiyat Seçimi -->
+    <div class="modal fade" id="MdlFiyatSecim" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-md modal-primary modal-center">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Fiyat Seçimi</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 px-5 pb-10">
+                            <div id="TblFiyatSecim"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary btn-secondary btn-block" ng-click="BtnFiyatSec()"langu>Seç</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fiyat Ekle Modal -->
+    <div class="modal fade" id="MdlFiyatEkle" aria-hidden="true" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-simple modal-center modal-primary">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title" langu>Fiyat Ekle</h4>
+                </div>
+                <div class="modal-body px-3 py-3">
+                    <div class="form-group row">
+                        <label class="col-4 form-control-label">
+                            <div class="float-right" langu>Başlangıç Tarih :</div>
+                        </label>
+                        <div class="col-8">
+                            <div class="input-group input-group-icon">
+                                <input type="text" class="form-control" id="BasTarih" type="text"
+                                    ng-model="FiyatModal.Baslangic" data-provide="datepicker" />
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-4 form-control-label">
+                            <div class="float-right" langu>Bitiş Tarih :</div>
+                        </label>
+                        <div class="col-8">
+                            <div class="input-group input-group-icon">
+                                <input type="text" class="form-control" id="BitTarih" type="text"
+                                    ng-model="FiyatModal.Bitis" data-provide="datepicker" />
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <span class="icon wb-calendar" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-4 form-control-label">
+                            <div class="float-right" langu>Miktar :</div>
+                        </label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="FiyatModal.Miktar" onClick="this.setSelectionRange(0, this.value.length)"/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-4 form-control-label">
+                            <div class="float-right" langu>Fiyat :</div>
+                        </label>
+                        <div class="col-8">
+                            <input type="text" class="form-control" name="name" autocomplete="off"
+                                ng-model="FiyatModal.Fiyat" onClick="this.setSelectionRange(0, this.value.length)" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <button class="btn btn-block btn-primary" ng-click="BtnFiyatKaydet()" langu>Kaydet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $("#IlkTarih").datepicker({
+    language: "tr"
+    });
+    $("#SonTarih").datepicker({
+    language: "tr"
+    });
+</script>

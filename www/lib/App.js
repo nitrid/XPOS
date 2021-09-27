@@ -45,6 +45,10 @@ angular.module("app",
     {
         templateUrl : "html/yonetim/FiyatGor.html"
     })
+    .when("/TedarikciGor",
+    {
+        templateUrl : "html/yonetim/TedarikciGor.html"
+    })
     .when("/FiyatListeYonetimi",
     {
         templateUrl : "html/yonetim/FiyatListeYonetimi.html"
