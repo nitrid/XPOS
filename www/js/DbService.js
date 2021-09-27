@@ -1014,7 +1014,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         
         //TmpData.push({font:"b",style:"b",align:"lt",data:_PrintText(" ",64)});
         //if(_Equal(pTData,"TYPE",4) && _Equal(pTData,"DOC_TYPE",1))
-        if(pParamData[5] != '')
+        if(pParamData[5] != '' && _Equal(pTData,"TYPE",4) && _Equal(pTData,"DOC_TYPE",1))
         {
             TmpData.push({font:"b",style:"b",align:"ct",size : [1,0],data:"Reste Bon d'avoir : " + parseFloat(pParamData[5].substring(8,12) / 100).toFixed(2) + "EUR"});
             TmpData.push({align:"ct",barcode:pParamData[5],options:{width: 1,height:90}});
