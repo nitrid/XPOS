@@ -1369,7 +1369,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.BarkodModal = {};
         $scope.BarkodModal.Barkod = "";
         $scope.BarkodModal.Birim = "0";
-        $scope.BarkodModal.Tip = "0";
+        $scope.BarkodModal.Tip = "1";
         $scope.BarkodModal.BirimListe = [];
 
         if($scope.BirimListe.length > 0)
@@ -2065,7 +2065,7 @@ function StokCtrl ($scope,$window,$location,db)
                         {
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
-                            $scope.BarkodModal.Tip = 0
+                            $scope.BarkodModal.Tip = "1"
                             console.log($scope.BarkodModal.Barkod)
                             $scope.BtnBarkodKaydet();
                         }
