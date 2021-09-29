@@ -734,7 +734,7 @@ var lang =
             "DEĞİŞEN ORGINE LISTESI" : "Liste Changement Origine",
             "Kayıt edildi." : "Enregistrer!",
             "Tedarikci Gör" : "Controle Fournisseur ",
-            "" : "",
+            "PIQPOS sürüm No: P-V01" : "PIQPOS Version No: P-V01",
             "" : "",
             "" : "",
             "" : "",

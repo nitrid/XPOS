@@ -1,7 +1,8 @@
 function TedarikciGorCtrl($scope,$window,db)
 {   
     let StokSelectedRow = null;
-    let FiyatSelectedRow = null;
+    let TedarikciGrd = null;
+
     document.onkeydown = function(e)
     {       
         if(!$("#MdlFiyatGuncelle").hasClass('show') && !$("#MdlFiyatEkle").hasClass('show') && !$("#MdlUrunGrupGuncelle").hasClass('show'))
@@ -50,48 +51,57 @@ function TedarikciGorCtrl($scope,$window,db)
             }
         });
     }
-    function InitFiyatSecGrid()
+    function InitTedarikciGrid()
     {
-        $("#TblFiyatSecim").jsGrid
-        ({
-            width: "100%",
-            height: "auto",
-            autoload : true,
-            updateOnResize: true,
-            heading: true,
-            selecting: true,
-            data : $scope.FiyatListe,
-            paging : true,
-            fields: 
+        TedarikciGrd = $("#TblTedarikci").dxDataGrid(
+        {
+            dataSource: $scope.TedarikciListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            filterRow: 
+            {
+                visible: true,
+                applyFilter: "auto"
+            },
+            paging: 
+            {
+                pageSize: 50
+            },
+            pager: 
+            {
+                showPageSizeSelector: true,
+                allowedPageSizes: [25, 50, 100, 200, 500, 1000],
+                showInfo: true
+            },
+            columns: 
             [
                 {
-                    name: "START_DATE",
-                    title: db.Language($scope.Lang,"BAS.TARIH"),
-                    type: "text",
-                    align: "center",
-                    width: 80
+                    dataField: "LDATE",
+                    caption: db.Language($scope.Lang,"Tarih"),
+                    dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "30%"
                 }, 
                 {
-                    name: "FINISH_DATE",
-                    title: db.Language($scope.Lang,"BIT.TARIH"),
-                    type: "text",
-                    align: "center",
-                    width: 80
-                }, 
+                    dataField: "CUSTOMER_CODE",
+                    caption: db.Language($scope.Lang,"Kodu"),
+                    alignment: "center",
+                    width: "30%"
+                },     
                 {
-                    name: "PRICE",
-                    title: db.Language($scope.Lang,"FİYAT"),
-                    type: "text",
-                    align: "center",
-                    width: 100
-                }
+                    dataField: "CUSTOMER_NAME",
+                    caption: db.Language($scope.Lang,"Adı"),
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "40%"
+                }, 
             ],
-            rowClick: function(args)
-            {
-                $scope.FiyatListeRowClick(args.itemIndex,args.item,this);
-                $scope.$apply();
-            }
-        });
+        }).dxDataGrid("instance");
     }
     function BarkodGetir(pBarkod)
     {
@@ -150,41 +160,18 @@ function TedarikciGorCtrl($scope,$window,db)
 
         $scope.StokListe = [];
         $scope.BarkodListe = [];        
-        $scope.FiyatListe = [];
+        $scope.TedarikciListe = [];
 
-        $scope.Etiket = "";
         $scope.Barkod = "";
         $scope.Kodu = "";
         $scope.Adi = "";
-        $scope.Fiyat = "";
-        $scope.Birim = "";
         $scope.Tedarikci = "";
-
-        $scope.TxtFiyatGuncelle = 0;
 
         $scope.StokGridTip = "0";
         $scope.StokGridText = "";
 
-        $scope.TblLoading = true;  
-        $scope.FirstKey = false;        
-
-        $scope.FiyatModal = {};
-        $scope.FiyatModal.Baslangic = "";
-        $scope.FiyatModal.Bitis = "";
-        $scope.FiyatModal.Fiyat = 0;
-        $scope.FiyatModal.Miktar = 0;
-
-        if(typeof arguments[0] == 'undefined' && !arguments[0])
-        {
-            $scope.UrunGrupListe = [];
-            $scope.UrunGrup = {};
-            $scope.UrunGrup.Value = "";
-            $scope.UrunGrup.Name = "";
-            $scope.UrunGrup.Status = false;
-        }
-        console.log($scope.UrunGrup)
         InitStokGrid();
-        InitFiyatSecGrid();
+        InitTedarikciGrid();
     }
     $scope.BtnStokBarkodGetir = async function(e)
     {
@@ -199,21 +186,25 @@ function TedarikciGorCtrl($scope,$window,db)
         {
             $scope.Kodu = $scope.BarkodListe[0].CODE;
             $scope.Adi = $scope.BarkodListe[0].NAME;
-            $scope.Fiyat = $scope.BarkodListe[0].PRICE;            
-            $scope.Birim = $scope.BarkodListe[0].UNDER_UNIT_VALUE;
             $scope.Tedarikci = $scope.BarkodListe[0].CUSTOMER_NAME;
-            if($scope.UrunGrup.Status)
+            
+            let TmpQuery = 
             {
-                let TmpQuery = 
-                {
-                    db : $scope.Firma,
-                    query:  "UPDATE ITEMS SET ITEM_GRP = @ITEM_GRP, LDATE = GETDATE() WHERE CODE = @CODE",
-                    param: ['ITEM_GRP:string|25','CODE:string|25'],
-                    value: [$scope.UrunGrup.Value,$scope.Kodu]
-                }
-                
-                await db.ExecutePromiseQuery(TmpQuery);
+                db : $scope.Firma,
+                query:  "SELECT " + 
+                        "ISNULL((SELECT TOP 1 CONVERT(nvarchar,[LDATE],104) + ' ' + CONVERT(nvarchar,[LDATE],8) FROM ITEM_PRICE WHERE TYPE = 1 AND CUSTOMER = CUSTOMER_CODE ORDER BY LDATE DESC),LDATE) AS LDATE, " + 
+                        "ITEM_CODE AS ITEM_CODE, " + 
+                        "CUSTOMER_CODE AS CUSTOMER_CODE, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = CUSTOMER_CODE),'') AS CUSTOMER_NAME, " + 
+                        "CUSTOMER_ITEM_CODE AS CUSTOMER_ITEM_CODE " + 
+                        "FROM ITEM_CUSTOMER " + 
+                        "WHERE ITEM_CODE = @ITEM_CODE ORDER BY ISNULL((SELECT TOP 1 LDATE FROM ITEM_PRICE WHERE TYPE = 1 AND CUSTOMER = CUSTOMER_CODE ORDER BY LDATE DESC),LDATE) DESC",
+                param: ['ITEM_CODE:string|25'],
+                value: [$scope.BarkodListe[0].CODE]
             }
+                
+            $scope.TedarikciListe = await db.GetPromiseQuery(TmpQuery);
+            InitTedarikciGrid();
         }
         else
         {
@@ -229,11 +220,6 @@ function TedarikciGorCtrl($scope,$window,db)
     {
         $("#TbStok").addClass('active');
         $("#TbMain").removeClass('active');
-        $("#TbBelgeBilgisi").removeClass('active');
-        $("#TbCariSec").removeClass('active');
-        $("#TbBarkodGiris").removeClass('active');
-        $("#TbIslemSatirlari").removeClass('active');
-        $("#TblAciklama").removeClass('active');
 
         $("#TblStok").jsGrid({data : []});
         $scope.StokGridText = "";
@@ -242,11 +228,6 @@ function TedarikciGorCtrl($scope,$window,db)
     $scope.MainClick = function() 
     {
         $("#TbMain").addClass('active');
-        $("#TbBelgeBilgisi").removeClass('active');
-        $("#TbCariSec").removeClass('active');
-        $("#TbBarkodGiris").removeClass('active');
-        $("#TbIslemSatirlari").removeClass('active');
-        $("#TblAciklama").removeClass('active');
         $("#TbStok").removeClass('active');
     }
     $scope.StokListeRowClick = function(pIndex,pItem,pObj)
@@ -315,196 +296,4 @@ function TedarikciGorCtrl($scope,$window,db)
             $scope.BtnStokGridGetir();
         }
     } 
-    $scope.BtnFiyatGuncelle = async function()
-    {
-        if($scope.BarkodListe.length > 0)
-        {
-            $('#MdlFiyatSecim').modal('show');
-            let TmpQuery = 
-            {
-                db : $scope.Firma,
-                query:  "SELECT " +
-                        "GUID AS GUID, " +
-                        "CASE WHEN START_DATE = '19700101' THEN '' ELSE CONVERT(NVARCHAR,START_DATE,101) END AS START_DATE, " +
-                        "CASE WHEN START_DATE = '19700101' THEN '' ELSE CONVERT(NVARCHAR,FINISH_DATE,101) END AS FINISH_DATE, " +
-                        "PRICE AS PRICE " +
-                        "FROM ITEM_PRICE WHERE TYPE = 0 AND DEPOT = 0 AND ITEM_CODE = @ITEM_CODE",
-                param : ['ITEM_CODE:string|25'],
-                value : [$scope.Kodu]
-            }
-    
-            $scope.FiyatListe = await db.GetPromiseQuery(TmpQuery);
-            InitFiyatSecGrid();
-        }
-        else
-        {
-            alertify.alert(db.Language($scope.Lang,"Fiyat değiştirmek için önce ürün okutunuz !"))
-        }        
-    }
-    $scope.TxtFiyatGuncellePress = async function()
-    {
-        if($scope.TxtFiyatGuncelle != "" && $scope.TxtFiyatGuncelle > 0)
-        {
-            if($scope.TxtFiyatGuncelle > $scope.BarkodListe[0].MIN_PRICE)
-            {
-                let TmpQuery = 
-                {
-                    db : $scope.Firma,
-                    query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE, LDATE = GETDATE() WHERE GUID = @GUID",
-                    param: ['PRICE:float','GUID:string|50'],
-                    value: [$scope.TxtFiyatGuncelle,FiyatSelectedRow.Data.GUID]
-                }
-                await db.ExecutePromiseQuery(TmpQuery);
-
-                alertify.alert(db.Language($scope.Lang,"Fiyat Güncellendi !"));
-                $("#MdlFiyatGuncelle").modal("hide");
-                $scope.Barkod = $scope.BarkodListe[0].BARCODE;
-                $scope.BtnStokBarkodGetir()
-            }
-            else
-            {
-                alertify.alert(db.Language($scope.Lang,"Geçersiz fiyat girdiniz !"))
-            }
-        }
-    }
-    $scope.BtnTusClick = function(Key)
-    {
-        if($scope.FirstKey)
-        {
-            $scope.TxtFiyatGuncelle = Key;      
-            $scope.FirstKey = false;
-        }
-        else
-        {
-            $scope.TxtFiyatGuncelle = $scope.TxtFiyatGuncelle + Key;  
-        }
-        
-    }
-    $scope.BtnSilClick = function()
-    {
-        if($scope.FirstKey)
-        {
-            $scope.TxtFiyatGuncelle = "";      
-            $scope.FirstKey = false;
-        }
-        else
-        {
-            $scope.TxtFiyatGuncelle = $scope.TxtFiyatGuncelle.toString().substring(0,$scope.TxtFiyatGuncelle.length-1); 
-        }        
-    }
-    $scope.BtnUrunGrupDegis = async function()
-    {
-        let TmpQuery = 
-        {
-            db : $scope.Firma,
-            query:  "SELECT [NAME],[CODE] FROM ITEM_GROUP"
-        }
-        $scope.UrunGrupListe = (await db.ExecutePromiseQuery(TmpQuery)).result.recordset;
-
-        $scope.UrunGrup.Cmb = 
-        {
-            width: "100%",
-            dataSource: $scope.UrunGrupListe,
-            displayExpr: "NAME",
-            valueExpr: "CODE",
-            value: "",
-            showClearButton: true,
-            searchEnabled: true,
-            bindingOptions: 
-            {
-                value: "UrunGrup.Value",
-                dataSource : "UrunGrupListe"
-            },
-            onSelectionChanged : function(e)
-            {      
-                console.log( $scope.UrunGrup)        
-                if(e.selectedItem == null)
-                {
-                    $scope.UrunGrup.Value = ""
-                }
-                else
-                {
-                    $scope.UrunGrup.Name = e.selectedItem.NAME
-                }
-            }
-        }
-
-        $('#MdlUrunGrupGuncelle').modal({backdrop: 'static'});
-    }
-    $scope.BtnUrunGrupAktif = function()
-    {
-        if($scope.UrunGrup.Value != '')
-        {
-            $('#MdlUrunGrupGuncelle').modal('hide');
-            $scope.UrunGrup.Status = true;
-        }
-        else
-        {
-            $('#MdlUrunGrupGuncelle').modal('hide');
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Lütfen bir ürün grubu seçiniz !"));
-        }
-    }
-    $scope.BtnUrunGrupPasif = function()
-    {
-        $('#MdlUrunGrupGuncelle').modal('hide');
-        $scope.UrunGrup.Status = false;
-    }
-    $scope.FiyatListeRowClick = function(pIndex,pItem,pObj)
-    {
-        if ( FiyatSelectedRow ) { FiyatSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
-        var $row = pObj.rowByItem(pItem);
-        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
-        FiyatSelectedRow = $row;
-        FiyatSelectedRow.Data = $scope.FiyatListe[pIndex];
-    }
-    $scope.BtnFiyatSec = function()
-    {
-        if(typeof FiyatSelectedRow != 'undefined')
-        {
-            $('#MdlFiyatSecim').modal('hide');
-            $('#MdlFiyatGuncelle').modal({backdrop: 'static'});
-            $scope.TxtFiyatGuncelle = FiyatSelectedRow.Data.PRICE;
-            $scope.FirstKey = true;  
-        }
-    }
-    $scope.BtnFiyatEkle = function()
-    {
-        if($scope.BarkodListe.length > 0)
-        {
-            $('#MdlFiyatEkle').modal('show');
-        }
-    }
-    $scope.BtnFiyatKaydet = async function()
-    {
-        $("#MdlFiyatEkle").modal('hide');
-
-        let InsertData =
-        [
-            $scope.Kullanici,
-            $scope.Kullanici,
-            $scope.Kodu,
-            0,
-            0,
-            $scope.FiyatModal.Baslangic == '' ? '01.01.1970' : moment($scope.FiyatModal.Baslangic).format("DD.MM.YYYY"),
-            $scope.FiyatModal.Bitis == '' ? '01.01.1970' : moment($scope.FiyatModal.Bitis).format("DD.MM.YYYY"),
-            parseFloat($scope.FiyatModal.Fiyat.toString().replace(',','.')),
-            $scope.FiyatModal.Miktar,
-            ""
-        ];
-
-        let TmpResult = await db.ExecutePromiseTag($scope.Firma,'FiyatKaydet',InsertData);
-        if(typeof(TmpResult.result.err) == 'undefined')
-        {
-            if(TmpResult.result.recordset[0].ITEM_CODE != '')
-            {
-                alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                alertify.alert(db.Language($scope.Lang,"Benzer kayıt oluşturamazsınız !"));
-            }
-            else
-            {
-                alertify.alert(db.Language($scope.Lang,"Yeni fiyat eklendi."));
-            }
-        }
-    }
 }
