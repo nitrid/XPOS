@@ -63,8 +63,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             InitFisDetayGrid();
         });
         db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO,-1],function(pData)
-        {  
-            console.log(pData)
+        {              
             $scope.FisTahDetayList = pData;
             $("#TblFisTahDetay,#TblFisTahDetay").each(function()
             {
@@ -158,6 +157,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                 ],
                 rowClass : function(item,itemIndex)
                 {
+                    console.log(item.STATUS)
                     return item.STATUS == 1 ? 'bg-green' : 'bg-red'
                 }
             });
