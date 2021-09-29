@@ -59,15 +59,16 @@ function DegismisFisListesiCtrl ($scope,$window,db)
 
         db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO,-1],function(pData)
         {  
-            $scope.SatisFisDetayList = pData;
+            $scope.FisDetayList = pData;
             InitFisDetayGrid();
         });
         db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO,-1],function(pData)
         {  
-            $scope.SatisFisTahDetayList = pData;
-            $("#TblSatisFisTahDetay,#TblSatisFisTahDetay").each(function()
+            console.log(pData)
+            $scope.FisTahDetayList = pData;
+            $("#TblFisTahDetay,#TblFisTahDetay").each(function()
             {
-                $(this).jsGrid({data : $scope.SatisFisTahDetayList});
+                $(this).jsGrid({data : $scope.FisTahDetayList});
             });
         });
 
@@ -83,7 +84,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             updateOnResize: true,
             heading: true,
             selecting: true,
-            data : $scope.SatisFisDetayList,
+            data : $scope.FisDetayList,
             fields: 
             [
                 {
@@ -138,7 +139,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                 updateOnResize: true,
                 heading: true,
                 selecting: true,
-                data : $scope.SatisFisTahDetayList,
+                data : $scope.FisTahDetayList,
                 fields: 
                 [
                     {
@@ -173,6 +174,8 @@ function DegismisFisListesiCtrl ($scope,$window,db)
         $scope.FisTipi = "0";
 
         $scope.DegismisFisListesi = [];
+        $scope.FisDetayList = [];
+        $scope.FisTahDetayList = [];
 
         InitDegismisFisListesiGrid();
         InitFisDetayGrid();
