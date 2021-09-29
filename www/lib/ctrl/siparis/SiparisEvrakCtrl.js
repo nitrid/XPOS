@@ -136,6 +136,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             width: "100%",
             updateOnResize: true,
             heading: true,
+            editing: true,
             selecting: true,
             data : $scope.SiparisListe,
             paging : pPage,
@@ -143,6 +144,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             pageSize: 3,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            deleteConfirm: db.Language($scope.Lang,"Silmek istediğinize eminmisiniz ?"),
             fields: 
             [
             {
@@ -150,56 +152,96 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 title: "NO",
                 type: "number",
                 align: "center",
-                width: 75
-                
+                width: 75,
+                editing: false
             }, 
             {
                 name: "ITEM_CODE",
                 title: db.Language($scope.Lang,"Kodu"),
                 type: "text",
                 align: "center",
-                width: 100
+                width: 100,
+                editing: false
             },
             {
                 name: "ITEM_NAME",
                 title: db.Language($scope.Lang,"ADI"),
                 type: "text",
                 align: "center",
-                width: 200
+                width: 200,
+                editing: false
             }, 
             {
                 name: "DESCRIPTION",
                 title: db.Language($scope.Lang,"BIRIM"),
                 type: "text",
                 align: "center",
-                width: 100
+                width: 100,
+                editing: false
             }, 
             {
                 name: "QUANTITY",
                 title: db.Language($scope.Lang,"Miktar"),
-                type: "number",
+                type: "text",
                 align: "center",
                 width: 100
             }, 
             {
                 name: "PRICE",
                 title: db.Language($scope.Lang,"Fiyat"),
-                type: "number",
+                type: "text",
                 align: "center",
-                width: 100
+                width: 100,
             }, 
             {
                 name: "AMOUNT",
                 title: db.Language($scope.Lang,"TUTAR"),
                 type: "number",
                 align: "center",
-                width: 100
-            }
+                width: 100,
+                editing: false
+            },
+            { type: "control",deleteButton: true }
            ],
             rowClick: function(args)
             {
                 $scope.IslemListeRowClick(args.itemIndex,args.item,this);
                 $scope.$apply();
+            },
+            onItemUpdated: function(args) 
+            {
+                let InserData = 
+                [
+                    args.item.GUID,
+                    $scope.Kullanici,
+                    args.item.ITEM_CODE,
+                    parseFloat(args.item.QUANTITY.toString().replace(",",".")),
+                    parseFloat(args.item.PRICE.toString().replace(",",".")),
+                    args.item.DISCOUNT,
+                    parseFloat(args.item.VATRATE.toString().replace(",",".")),
+                    $scope.OzelBirim,
+                ]
+                db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
+                {
+                    let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
+                    InsertAfterRefresh(TmpData);
+                    $scope.InsertLock = false;
+                });
+            },
+            onItemDeleting: function(args) 
+            {
+                // cancel deletion of the item with 'protected' field
+                db.ExecuteTag($scope.Firma,'SiparisSatirDelete',[0,args.item.GUID],async function(data)
+                {
+                    console.log($scope.SiparisListe.length)
+                    let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
+
+                    $scope.SiparisListe = TmpData;
+                    $("#TblIslem").jsGrid({data : $scope.SiparisListe});    
+                    $scope.BtnTemizle();
+                    DipToplamHesapla();
+                    ToplamMiktarHesapla();
+                });
             }
         });
     }

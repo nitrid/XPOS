@@ -361,12 +361,12 @@ function SatisFisListesiCtrl ($scope,$window,db)
         SatisFisListeSelectedRow = $row;
         $scope.SatisFisListeSelectedIndex = pIndex;
 
-        db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO,1],function(pData)
         {  
             $scope.SatisFisDetayList = pData;
             InitSatisFisDetayGrid();
         });
-        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO,1],function(pData)
         {  
             $scope.SatisFisTahDetayList = pData;
             $("#TblSatisFisTahDetay,#TblSatisFisTahDetay").each(function()

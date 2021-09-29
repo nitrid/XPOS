@@ -1765,12 +1765,12 @@ function Pos($scope,$window,$rootScope,db)
         
         let SonSatisDetay = pItem;
         
-        db.GetData($scope.Firma,'PosSonSatisDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisDetay)
+        db.GetData($scope.Firma,'PosSonSatisDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO,1],function(PosSonSatisDetay)
         {  
             $scope.SonSatisDetayList = PosSonSatisDetay;
             $("#TblSonSatisDetay").jsGrid({data : $scope.SonSatisDetayList});            
         });
-        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO],function(PosSonSatisTahDetay)
+        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,SonSatisDetay.REF,SonSatisDetay.REF_NO,1],function(PosSonSatisTahDetay)
         {  
             $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
             $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()

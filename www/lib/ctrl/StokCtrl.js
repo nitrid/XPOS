@@ -583,11 +583,13 @@ function StokCtrl ($scope,$window,$location,db)
             }
             
             await db.ExecutePromiseQuery(TmpQuery);  
-            console.log(MultipleSelectedRow[i].CODE + " - " + $scope.SLUrunGrup.Value);    
         }
         
         StokListeGetir();
         $('#MdlUrunGrupGuncelle').modal('hide');
+
+        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+        alertify.alert(db.Language($scope.Lang, MultipleSelectedRow.length + " Satır ürün grubu değiştirilmiştir !"));
     }
     $scope.BtnFiyatGirisKaydet = async function()
     {
@@ -613,6 +615,9 @@ function StokCtrl ($scope,$window,$location,db)
         
         StokListeGetir();
         $('#MdlFiyatGirisEkle').modal('hide');
+
+        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+        alertify.alert(db.Language($scope.Lang, MultipleSelectedRow.length + " Satır fiyat değiştirilmiştir !"));
     }
     //#endregion    
     function TblFiyatInit()

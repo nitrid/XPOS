@@ -1,5 +1,6 @@
 function DegismisFisListesiCtrl ($scope,$window,db)
 {
+    let FisListeSelectedRow = null;
     function InitDegismisFisListesiGrid()
     {   
         $("#TblDegismisFisListesi").jsGrid({
@@ -40,8 +41,38 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                 type: "text",
                 align: "center",
                 width: 200
-            }]
+            }],
+            rowClick: function(args)
+            {
+                FisListeSecimRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            }
         });
+    }
+    function FisListeSecimRowClick(pIndex,pItem,pObj)
+    {    
+        if ( FisListeSelectedRow ) { FisListeSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        FisListeSelectedRow = $row;
+        $scope.FisListeSelectedIndex = pIndex;
+
+        db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        {  
+            $scope.SatisFisDetayList = pData;
+            InitSatisFisDetayGrid();
+        });
+        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        {  
+            $scope.SatisFisTahDetayList = pData;
+            $("#TblSatisFisTahDetay,#TblSatisFisTahDetay").each(function()
+            {
+                $(this).jsGrid({data : $scope.SatisFisTahDetayList});
+            });
+        });
+
+        $("#TbDetay").addClass('active');
+        $("#TbMain").removeClass('active');       
     }
     $scope.Init = function()
     {
