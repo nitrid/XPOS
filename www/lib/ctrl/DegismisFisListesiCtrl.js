@@ -57,12 +57,12 @@ function DegismisFisListesiCtrl ($scope,$window,db)
         FisListeSelectedRow = $row;
         $scope.FisListeSelectedIndex = pIndex;
 
-        db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        db.GetData($scope.Firma,'PosSonSatisDetayGetir',["1",pItem.REF,pItem.REF_NO,-1],function(pData)
         {  
             $scope.SatisFisDetayList = pData;
-            InitSatisFisDetayGrid();
+            InitFisDetayGrid();
         });
-        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO],function(pData)
+        db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',["1",pItem.REF,pItem.REF_NO,-1],function(pData)
         {  
             $scope.SatisFisTahDetayList = pData;
             $("#TblSatisFisTahDetay,#TblSatisFisTahDetay").each(function()
@@ -73,6 +73,94 @@ function DegismisFisListesiCtrl ($scope,$window,db)
 
         $("#TbDetay").addClass('active');
         $("#TbMain").removeClass('active');       
+    }
+    function InitFisDetayGrid()
+    {
+        $("#TblFisDetay").jsGrid({
+            responsive: true,
+            width: "100%",
+            height: "450px",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            data : $scope.SatisFisDetayList,
+            fields: 
+            [
+                {
+                    name: "BARCODE",
+                    title: db.Language($scope.Lang,"BARKOD"),
+                    type: "number",
+                    align: "center",
+                    width: 100
+                },
+                {
+                    name: "NAME",
+                    title: "NAME",
+                    type: "TEXT",
+                    align: "center",
+                    width: 150
+                },            
+                {
+                    name: "QUANTITY",
+                    title: db.Language($scope.Lang,"MIKTAR"),
+                    type: "number",
+                    align: "center",
+                    width: 50
+                },
+                {
+                    name: "PRICE",
+                    title: db.Language($scope.Lang,"FIYAT"),
+                    type: "number",
+                    align: "center",
+                    width: 50
+                },
+                {
+                    name: "AMOUNT",
+                    title: db.Language($scope.Lang,"TUTAR"),
+                    type: "number",
+                    align: "center",
+                    width: 50
+                }
+            ],
+            rowClass : function(item,itemIndex)
+            {
+                return item.STATUS == 1 ? 'bg-green' : 'bg-red'
+            }
+        });
+    }
+    function InitFisTahDetayGrid()
+    {
+        $("#TblFisTahDetay,#TblFisTahDetay").each(function()
+        {
+            $(this).jsGrid({
+                width: "100%",
+                height: "200px",
+                updateOnResize: true,
+                heading: true,
+                selecting: true,
+                data : $scope.SatisFisTahDetayList,
+                fields: 
+                [
+                    {
+                        name: "TYPE",
+                        title: "TIP",
+                        align: "center",
+                        width: 75
+                    },
+                    {
+                        name: "AMOUNT",
+                        title: "AMOUNT",
+                        type: "decimal",
+                        align: "center",
+                        width: 35
+                    }
+                ],
+                rowClass : function(item,itemIndex)
+                {
+                    return item.STATUS == 1 ? 'bg-green' : 'bg-red'
+                }
+            });
+        })
     }
     $scope.Init = function()
     {
@@ -87,11 +175,12 @@ function DegismisFisListesiCtrl ($scope,$window,db)
         $scope.DegismisFisListesi = [];
 
         InitDegismisFisListesiGrid();
+        InitFisDetayGrid();
+        InitFisTahDetayGrid();
     }
     $scope.BtnDegismisFisListeGetir = async function()
     {
         let TmpQuery = {};
-
         
         if($scope.FisTipi == 0)
         {

@@ -24,6 +24,11 @@ DOC_TYPE = 1 => ÖDEME
 # POS_SALE 
 TYPE = 0 => SATIŞ
 TYPE = 1 => İADE
+
+STATUS = 0 => PARK
+STATUS = 1 => KAPANDI
+STATUS = -1 => SATIR SILINDI
+STATUS = -2 => BELGE SILINDI
 --------------------------
 # TICKET
 TYPE = 0 => CHEQue

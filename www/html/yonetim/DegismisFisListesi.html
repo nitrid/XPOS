@@ -1,3 +1,13 @@
+<style>
+.bg-red td 
+{
+    background-color: #f08080 !important;
+}
+.bg-green td
+{
+    background-color: #90ee90 !important;
+}
+</style>
 <div class="col-12" ng-controller="DegismisFisListesiCtrl" ng-init="Init()">
     <div class="col-12">
         <div class="tab-content">
@@ -70,12 +80,6 @@
                 <div class="page-header">
                     <h1 class="page-title" langu>FİŞ DETAYI</h1>
                     <div class="page-header-actions">
-                        <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnYazdir()">
-                            <i class="icon fa-print" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-icon btn-round btn-primary" style="width: 50px;height: 50px;" data-toggle="tooltip" ng-click="BtnSonTahKaydet()">
-                            <i class="icon fa-floppy-o" aria-hidden="true"></i>
-                        </button>
                         <button type="button" class="btn btn-sm btn-icon btn-round btn-danger" style="width: 50px;height: 50px;" data-toggle="tooltip" onclick="$('#TbMain').addClass('active');$('#TbDetay').removeClass('active');">
                             <i class="icon fa-close" aria-hidden="true"></i>
                         </button>
@@ -85,10 +89,10 @@
                     <div class="panel-body container-fluid">
                         <div class="row">
                             <div class="col-8">
-                                <div id="TblSatisFisDetay"></div>
+                                <div id="TblFisDetay"></div>
                             </div>
                             <div class="col-4">
-                                <div id="TblSatisFisTahDetay"></div>
+                                <div id="TblFisTahDetay"></div>
                             </div>
                         </div>
                     </div>
