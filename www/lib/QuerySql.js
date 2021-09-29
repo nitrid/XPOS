@@ -1318,6 +1318,7 @@ var QuerySql =
     {
         query:  "SELECT " +
                 "DEVICE AS DEVICE, " +
+                "ISNULL((SELECT NAME FROM USERS WHERE CODE = LUSER),'') AS USERS, " +
                 "DEPARTMENT AS DEPARTMENT, " +
                 "TYPE AS TYPE, " +
                 "REF AS REF, " +
@@ -1332,7 +1333,7 @@ var QuerySql =
                 "STATUS AS STATUS " +
                 "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND ((@STATUS = -1) OR (STATUS = @STATUS)) " ,
         param: ['DEPARTMENT','REF','REF_NO','STATUS'],
-        type: ['int','string|25','int','bit']
+        type: ['int','string|25','int','int']
     },
     PosSonSatisTahDetayGetir : 
     {
@@ -1345,7 +1346,7 @@ var QuerySql =
                 "STATUS AS STATUS " +
                 "FROM POS_PAYMENT AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND ((@STATUS = -1) OR (STATUS = @STATUS)) " ,
         param: ['DEPARTMENT','REF','REF_NO','STATUS'],
-        type: ['int','string|25','int','bit']
+        type: ['int','string|25','int','int']
     },
     PosSatisFiyatGetir : 
     {

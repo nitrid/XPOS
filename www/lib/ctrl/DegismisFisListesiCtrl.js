@@ -87,6 +87,13 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             fields: 
             [
                 {
+                    name: "USERS",
+                    title: db.Language($scope.Lang,"KULLANICI"),
+                    type: "text",
+                    align: "center",
+                    width: 100
+                },
+                {
                     name: "BARCODE",
                     title: db.Language($scope.Lang,"BARKOD"),
                     type: "number",
@@ -124,6 +131,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             ],
             rowClass : function(item,itemIndex)
             {
+                console.log(item.STATUS)
                 return item.STATUS == 1 ? 'bg-green' : 'bg-red'
             }
         });
@@ -156,8 +164,7 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                     }
                 ],
                 rowClass : function(item,itemIndex)
-                {
-                    console.log(item.STATUS)
+                {                    
                     return item.STATUS == 1 ? 'bg-green' : 'bg-red'
                 }
             });
