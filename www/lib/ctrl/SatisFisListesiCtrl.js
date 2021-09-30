@@ -408,6 +408,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         $scope.TahDetayKalan = 0;
         $scope.TahTip = 0;
         $scope.TxtAciklama = "";
+        $scope.CokluOdeme = false;
         $scope.SatisFisListeSelectedIndex = 0;
         
         $scope.SatisFisListesi = [];
@@ -468,7 +469,6 @@ function SatisFisListesiCtrl ($scope,$window,db)
             $scope.OdemeTipi = 0;
             TmpDocType = 1
         }
-
         let TmpQuery = 
         {
             db : $scope.Firma,
@@ -480,6 +480,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(SALE_TYPE) AS SALE_TYPE, " +
                     "REF AS REF, " +
                     "REF_NO AS REF_NO, " +
+                    "COUNT(PAY_DOC_TYPE) AS PAY_COUNT, " +
                     "MAX(CUSTOMER) AS CUSTOMER, " +
                     "MAX(DISCOUNT) AS DISCOUNT, " +
                     "MAX(LOYALTY) AS LOYALTY, " +
@@ -495,6 +496,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(SALE.DEPARTMENT) AS DEPARTMENT, " +
                     "SALE.TYPE AS SALE_TYPE, " +
                     "PAYMENT.TYPE AS PAYMENT_TYPE, " +
+                    "PAYMENT.DOC_TYPE AS PAY_DOC_TYPE, " +
                     "SALE.REF AS REF, " +
                     "SALE.REF_NO AS REF_NO, " +
                     "MAX(SALE.CUSTOMER_CODE) AS CUSTOMER, " +
@@ -515,10 +517,11 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "((SALE.LUSER = @LUSER) OR (@LUSER = '')) AND SALE.STATUS = 1 AND PAYMENT.DOC_TYPE = @DOC_TYPE {0} " +
                     "GROUP BY SALE.REF,SALE.REF_NO,SALE.TYPE,PAYMENT.TYPE,PAYMENT.DOC_TYPE " +
                     "HAVING ((ROUND(SUM(SALE.TTC),2) = @TTC) OR (@TTC = 0)) " +
-                    ") AS TMP GROUP BY REF,REF_NO",
-            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','DOC_TYPE','LUSER','TTC'],
-            type:   ['date','date','string|25','string|25','string|25','int','int','string|25','float'],
-            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,TmpDocType,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.')]            
+                    ") AS TMP GROUP BY REF,REF_NO " + 
+                    "HAVING COUNT(PAY_DOC_TYPE) >= @PAY_COUNT ",
+            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','DOC_TYPE','LUSER','TTC','PAY_COUNT'],
+            type:   ['date','date','string|25','string|25','string|25','int','int','string|25','float','int'],
+            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,TmpDocType,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.'),$scope.CokluOdeme ? 2 : 1]            
         }
 
         if($scope.FisTipi == 0)
