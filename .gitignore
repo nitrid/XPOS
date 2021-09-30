@@ -7,3 +7,4 @@ pc/release-builds/
 /package-lock.json
 data/
 *.zip
+config.json
