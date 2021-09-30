@@ -1389,6 +1389,7 @@ function StokCtrl ($scope,$window,$location,db)
         $scope.TedarikciModal.Kodu = "";
         $scope.TedarikciModal.Adi = "";
         $scope.TedarikciModal.StokKodu = "";
+        $scope.TedarikciModal.Fiyat = 0;
     }
     function UrunGrupModalInit()
     {
@@ -1558,8 +1559,14 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.MenseiListe = pData;
         });
     }
-    function TedarikciFiyatKaydet()
+    function TedarikciFiyatKaydet(pFiyat,pCustomer)
     {
+        if(typeof pFiyat == 'undefined')
+        {
+            pFiyat = $scope.StokListe[0].COST_PRICE
+            pCustomer = $scope.StokListe[0].ITEM_CUSTOMER
+        }
+
         let InsertData =
         [
             $scope.Kullanici,
@@ -1569,9 +1576,9 @@ function StokCtrl ($scope,$window,$location,db)
             0,
             moment(new Date(0)).format("DD.MM.YYYY"),
             moment(new Date(0)).format("DD.MM.YYYY"),
-            parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
+            parseFloat(pFiyat.toString().replace(',','.')),
             1,
-            $scope.StokListe[0].ITEM_CUSTOMER
+            pCustomer
         ];
         db.ExecuteTag($scope.Firma,'FiyatKaydet',InsertData,function(InsertResult)
         {
@@ -2302,7 +2309,7 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.Kullanici,
             $scope.StokListe[0].CODE,
             $scope.TedarikciModal.Kodu,
-            $scope.TedarikciModal.StokKodu
+            $scope.TedarikciModal.StokKodu            
         ];
 
         let TmpQuery =
@@ -2337,7 +2344,7 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 if(typeof(InsertResult.result.err) == 'undefined')
                 {
-                    TedarikciFiyatKaydet();
+                    TedarikciFiyatKaydet($scope.TedarikciModal.Fiyat,$scope.TedarikciModal.Kodu);
                     //TEDARİKÇİ LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {

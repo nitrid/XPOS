@@ -862,6 +862,7 @@ angular.module('app.db', []).service('db',function($rootScope)
         }
         TmpData.push(TmpLine);
         //ÖDEME TOPLAMLARI
+        console.log(pTData)
         for (let i = 0; i < pTData.length; i++) 
         {
             let TmpType = "";

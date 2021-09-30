@@ -1460,6 +1460,7 @@ function Pos($scope,$window,$rootScope,db)
                             TmpBondA,
                             $scope.CihazID
                         ]   
+                        
                         db.ReceiptPrint($scope.SatisList,$scope.TahList,pData,ParamData,'Fis',false,function()
                         {
                             
