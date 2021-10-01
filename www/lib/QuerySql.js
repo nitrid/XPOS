@@ -1597,7 +1597,7 @@ var QuerySql =
                 "@QUANTITY = @PQUANTITY, " + 
                 "@PRICE = @PPRICE, " + 
                 "@DISCOUNT = @PDISCOUNT, " + 
-                "@VAT = @PVAT " + 
+                "@VAT = @PVAT, " + 
                 "@LINE_DESCRIPTION = @PLINE_DESCRIPTION ",
         param : ['PDGUID:string|50','PLUSER:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PLINE_DESCRIPTION:string|500']
     },
