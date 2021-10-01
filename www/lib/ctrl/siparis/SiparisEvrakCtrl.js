@@ -1266,6 +1266,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
         {
             db : $scope.Firma,
             query:  "SELECT *, " +
+                    "CONVERT(NVARCHAR,AMOUNT) AS AMOUNTF, " +
                     "@FIRMA AS FIRMA, " +
                     "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +

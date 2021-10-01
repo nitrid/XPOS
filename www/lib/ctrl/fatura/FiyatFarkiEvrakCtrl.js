@@ -1166,6 +1166,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         {
             db : $scope.Firma,
             query:  "SELECT *, " + 
+                    "CONVERT(NVARCHAR,AMOUNT) AS AMOUNTF, " +
                     "@FIRMA AS FIRMA, " +
                     "@BASLIK AS BASLIK," +
                     "ISNULL((SELECT TOP 1 ADRESS FROM CUSTOMER_ADRESS WHERE CUSTOMER_ADRESS.CUSTOMER = INVOICE_VW_01.CUSTOMER ),'') AS ADRESS, " +
