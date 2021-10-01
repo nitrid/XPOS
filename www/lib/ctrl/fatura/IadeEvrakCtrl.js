@@ -146,7 +146,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     align: "center",
                     width: 100,
                     editing: false
-                },
+                },                
                 {
                     name: "ITEM_NAME",
                     title: db.Language($scope.Lang,"ADI"),
@@ -192,6 +192,14 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100,
                     editing: false
                 },
+                {
+                    name: "LINE_DESCRIPTION",
+                    title: db.Language($scope.Lang,"Aciklama"),
+                    type: "text",
+                    align: "center",
+                    width: 100,
+                    editing: true
+                },
                 { type: "control",deleteButton: true }
             ],
             rowClick: function(args)
@@ -209,7 +217,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.QUANTITY.replace(",",".")),
                     parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
-                    parseFloat(args.item.VATRATE.replace(",","."))
+                    parseFloat(args.item.VATRATE.replace(",",".")),
+                    args.item.LINE_DESCRIPTION,
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
