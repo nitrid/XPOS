@@ -233,7 +233,6 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 // cancel deletion of the item with 'protected' field
                 db.ExecuteTag($scope.Firma,'SiparisSatirDelete',[0,args.item.GUID],async function(data)
                 {
-                    console.log($scope.SiparisListe.length)
                     let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
 
                     $scope.SiparisListe = TmpData;
@@ -1272,7 +1271,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "ISNULL((SELECT CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ORDER_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = DOC_FROM),'') AS CUSTOMER_ITEM_CODE " +
                     "FROM ORDER_VW_01 " +
-                    "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO",
+                    "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO ASC",
             param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN','FIRMA','BASLIK'],
             type:   ['int','int','string|25','int','string|25','string|250','string|250'],
             value:  [0,0,$scope.Seri,$scope.Sira,'14',TmpFirma,TmpBaslik]

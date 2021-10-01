@@ -191,7 +191,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100,
                     editing: false
                 },
-                { type: "control",deleteButton: false }
+                { type: "control",deleteButton: true }
             ],
             rowClick: function(args)
             {
@@ -215,6 +215,20 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                     let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
                     InsertAfterRefresh(TmpData);
                     $scope.InsertLock = false;
+                });
+            },
+            onItemDeleting: function(args) 
+            {
+                // cancel deletion of the item with 'protected' field
+                db.ExecuteTag($scope.Firma,'FaturaSatirDelete',[0,args.item.GUID],async function(data)
+                {
+                    let TmpData = await EvrakGetir($scope.Seri,$scope.Sira,$scope.EvrakTip,$scope.Tip);
+
+                    $scope.FaturaListe = TmpData;
+                    $("#TblIslem").jsGrid({data : $scope.FaturaListe});    
+                    $scope.BtnTemizle();
+                    DipToplamHesapla();
+                    ToplamMiktarHesapla();
                 });
             }
         });
@@ -1151,7 +1165,7 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = '12'),'') AS PATH, " +
                     "ISNULL((SELECT TOP 1 COST_PRICE FROM ITEMS WHERE CODE = INVOICE_VW_01.ITEM_CODE),0) AS COST_PRICE " + 
                     "FROM INVOICE_VW_01 " +
-                    "WHERE MGUID = @MGUID",
+                    "WHERE MGUID = @MGUID ORDER BY LINE_NO ASC",
             param:  ['MGUID','FIRMA','BASLIK'],
             type:   ['string|50','string|250','string|250'],
             value:  [$scope.FaturaListe[0].MGUID,TmpFirma,TmpBaslik]
