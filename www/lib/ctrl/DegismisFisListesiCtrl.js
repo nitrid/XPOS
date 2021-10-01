@@ -198,12 +198,13 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),LDATE,103)) AS DOC_DATE, " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),MAX(LDATE),103)) AS DOC_DATE, " +
                         "REF AS REF, " +
                         "REF_NO AS REF_NO, " +
-                        "DESCRIPTION AS DESCRIPTION " +
+                        "MAX(DESCRIPTION) AS DESCRIPTION " +
                         "FROM POS_MASTER_EXTRA " +
-                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'PARK DESC'",
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'PARK DESC' " + 
+                        "GROUP BY REF, REF_NO",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
@@ -215,12 +216,13 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),LDATE,103)) AS DOC_DATE, " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),MAX(LDATE),103)) AS DOC_DATE, " +
                         "REF AS REF, " +
                         "REF_NO AS REF_NO, " +
-                        "DESCRIPTION AS DESCRIPTION " +
+                        "MAX(DESCRIPTION) AS DESCRIPTION " +
                         "FROM POS_MASTER_EXTRA " +
-                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'FULL DELETE'",
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'FULL DELETE' " +
+                        "GROUP BY REF, REF_NO",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
@@ -232,12 +234,13 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),LDATE,103)) AS DOC_DATE, " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),MAX(LDATE),103)) AS DOC_DATE, " +
                         "REF AS REF, " +
                         "REF_NO AS REF_NO, " +
-                        "DESCRIPTION AS DESCRIPTION " +
+                        "MAX(DESCRIPTION) AS DESCRIPTION " +
                         "FROM POS_MASTER_EXTRA " +
-                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'ROW DELETE'",
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'ROW DELETE' " +
+                        "GROUP BY REF, REF_NO",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
                 value:  [$scope.IlkTarih,$scope.SonTarih]            
