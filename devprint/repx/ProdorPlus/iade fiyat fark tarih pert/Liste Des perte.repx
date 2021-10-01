@@ -154,7 +154,7 @@
                 </Item7>
                 <Item8 Ref="79" ControlType="XRTableCell" Name="tableCell17" Weight="0.15384615286600045" TextFormatString="-{0:0.00€}" TextAlignment="MiddleRight" StyleName="DetailData1" Font="Arial, 8pt">
                   <ExpressionBindings>
-                    <Item1 Ref="80" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNT]" />
+                    <Item1 Ref="80" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNTF]" />
                   </ExpressionBindings>
                   <StylePriority Ref="81" UseFont="false" UseTextAlignment="false" />
                 </Item8>

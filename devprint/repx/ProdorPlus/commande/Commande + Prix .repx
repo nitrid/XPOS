@@ -161,7 +161,7 @@
                 </Item9>
                 <Item10 Ref="83" ControlType="XRTableCell" Name="tableCell17" Weight="0.13988760117124213" TextAlignment="MiddleRight" StyleName="DetailData1">
                   <ExpressionBindings>
-                    <Item1 Ref="84" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNT]" />
+                    <Item1 Ref="84" EventName="BeforePrint" PropertyName="Text" Expression="[AMOUNTF]" />
                   </ExpressionBindings>
                   <StylePriority Ref="85" UseTextAlignment="false" />
                 </Item10>
