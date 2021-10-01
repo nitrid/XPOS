@@ -36,6 +36,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.ToplamSatir = 0;
         $scope.Fiyat = "";
         $scope.Aciklama = "";
+        $scope.SatirAciklama = "";
 
         $scope.DepoListe = [];
         $scope.CariListe = [];
@@ -877,7 +878,8 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.Stok[0].PRICE,
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
-                $scope.Aciklama
+                $scope.Aciklama,
+                $scope.SatirAciklama
             ]
             db.ExecuteTag($scope.Firma,'FaturaInsert',InserData,async function(pData)
             {
@@ -1146,6 +1148,10 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
         }
         
         $("#MdlAciklama").modal('hide');
+    }
+    $scope.BtnSatirAciklamaKaydet = async function()
+    {
+        $("#MdlSatirAciklama").modal('hide');
     }
     $scope.BtnPrint = function()
     {

@@ -1580,9 +1580,10 @@ var QuerySql =
                 "@PRICE = @PPRICE, " + 
                 "@DISCOUNT = @PDISCOUNT, " + 
                 "@VAT = @PVAT, " + 
-                "@DESCRIPTION = @PDESCRIPTION",
+                "@DESCRIPTION = @PDESCRIPTION, " + 
+                "@LINE_DESCRIPTION = @PLINE_DESCRIPTION",
         param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:bigint','PDOC_DATE:date','PCUSTOMER:string|25',
-                 'PDEPOT:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PDESCRIPTION:string|500']
+                 'PDEPOT:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PDESCRIPTION:string|500','PLINE_DESCRIPTION:string|500']
     },
     FaturaSatirUpdate :
     {

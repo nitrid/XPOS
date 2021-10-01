@@ -877,7 +877,8 @@ function FireEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.Stok[0].PRICE,
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
-                $scope.Aciklama
+                $scope.Aciklama,
+                ''
             ]
             db.ExecuteTag($scope.Firma,'FaturaInsert',InserData,async function(pData)
             {
