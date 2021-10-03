@@ -281,7 +281,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             }
         });
     }
-    function InitEvrakGrid(pPage)
+    function InitEvrakGrid()
     {
         $("#TblEvrak").jsGrid
         ({
@@ -292,7 +292,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             heading: true,
             selecting: true,
             data : $scope.EvrakListe,
-            paging : pPage,
+            paging : 10,
             pageSize: 10,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
