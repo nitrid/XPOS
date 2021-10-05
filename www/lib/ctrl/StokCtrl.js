@@ -1128,7 +1128,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     dataField: "PRICE_LDATE",
                     caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
-                    dataType: "date",
+                    //dataType: "date",
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
@@ -1265,7 +1265,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     dataField: "PRICE_LDATE",
                     caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
-                    dataType: "date",
+                    //dataType: "date",
                     alignment: "center",
                     allowEditing: false,
                     width: "10%"
