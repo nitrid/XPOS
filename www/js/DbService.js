@@ -921,7 +921,7 @@ angular.module('app.db', []).service('db',function($rootScope)
                 font: "a",
                 align: "lt",
                 data: _PrintText("Surplus Tic. Rest.",33) +
-                    _PrintText(parseFloat(_SumColumn(pTData,"CHANGE")).toFixed(2) + " EUR",15,"Start")
+                    _PrintText(parseFloat(_SumColumn(pTData,"TICKET_PLUS")).toFixed(2) + " EUR",15,"Start")
             }
             TmpData.push(TmpLine);
         }

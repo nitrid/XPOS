@@ -293,7 +293,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             selecting: true,
             data : $scope.EvrakListe,
             paging : 10,
-            pageSize: 10,
+            pageSize: 20,
             pageButtonCount: 3,
             pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
             fields: 
