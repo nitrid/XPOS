@@ -1269,8 +1269,9 @@ var QuerySql =
                 "LINE_NO AS LINE_NO, " +
                 "CUSTOMER_CODE AS CUSTOMER_CODE, " +
                 "AMOUNT AS AMOUNT, " +
-                "CHANGE AS CHANGE " +
-                "FROM POS_PAYMENT WHERE DEPARTMENT = @DEPARTMENT AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY LINE_NO ASC" ,
+                "CHANGE AS CHANGE, " +
+                "TICKET_PLUS AS TICKET_PLUS " +
+                "FROM POS_PAYMENT_VW_01 WHERE DEPARTMENT = @DEPARTMENT AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO AND STATUS >= 0 ORDER BY LINE_NO ASC" ,
         param:   ['DEPARTMENT','DOC_TYPE','REF','REF_NO'],
         type:    ['int','int','string|25','int']
     },
