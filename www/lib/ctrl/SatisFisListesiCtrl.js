@@ -158,6 +158,13 @@ function SatisFisListesiCtrl ($scope,$window,db)
                 width: 30
             },
             {
+                name: "USERS",
+                title: "USERS",
+                type: "text",
+                align: "center",
+                width: 30
+            },
+            {
                 name: "DEVICE",
                 title: "CASE",
                 type: "text",
@@ -476,6 +483,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(TIME) AS TIME, " +
                     "MAX(DATE) AS DATE, " +
                     "MAX(DEVICE) AS DEVICE, " +
+                    "MAX(USERS) AS USERS," +
                     "MAX(DEPARTMENT) AS DEPARTMENT, " +
                     "MAX(SALE_TYPE) AS SALE_TYPE, " +
                     "REF AS REF, " +
@@ -493,6 +501,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),101) AS DATE, " + 
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),108) AS TIME, " + 
                     "MAX(SALE.DEVICE) AS DEVICE, " +
+                    "ISNULL((SELECT NAME FROM USERS WHERE CODE = MAX(SALE.LUSER)),'') AS USERS, " +
                     "MAX(SALE.DEPARTMENT) AS DEPARTMENT, " +
                     "SALE.TYPE AS SALE_TYPE, " +
                     "PAYMENT.TYPE AS PAYMENT_TYPE, " +
