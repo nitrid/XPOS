@@ -3361,6 +3361,12 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
+            if($scope.TahList.length > 0)
+            {
+                alertify.okBtn($scope.SetLang("Tamam"));
+                alertify.alert($scope.SetLang("Bu işlemi gerçekleştirmeniz için lütfen girmiş olduğunuz ödemeleri siliniz !"));
+                return;
+            }
             $scope.AciklamaGiris.Title = Param[0].ParkAciklama.Title;
             $scope.AciklamaGiris.Content = Param[0].ParkAciklama.Content;
             $scope.AciklamaGiris.Model = Param[0].ParkAciklama.Model;

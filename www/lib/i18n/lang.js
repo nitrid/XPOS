@@ -735,7 +735,7 @@ var lang =
             "Kayıt edildi." : "Enregistrer!",
             "Tedarikci Gör" : "Controle Fournisseur ",
             "PIQPOS sürüm No: P-V01" : "PIQPOS Version No: P-V01",
-            "" : "",
+            "Bu işlemi gerçekleştirmeniz için lütfen girmiş olduğunuz ödemeleri siliniz !" : "Bu işlemi gerçekleştirmeniz için lütfen girmiş olduğunuz ödemeleri siliniz !",
             "" : "",
             "" : "",
             "" : "",
