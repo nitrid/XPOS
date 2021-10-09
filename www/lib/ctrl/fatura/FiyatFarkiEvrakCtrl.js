@@ -36,6 +36,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         $scope.ToplamSatir = 0;
         $scope.Fiyat = "";
         $scope.Aciklama = "";
+        $scope.SatirAciklama = "";
 
         $scope.DepoListe = [];
         $scope.CariListe = [];
@@ -191,6 +192,14 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     width: 100,
                     editing: false
                 },
+                {
+                    name: "LINE_DESCRIPTION",
+                    title: db.Language($scope.Lang,"Aciklama"),
+                    type: "text",
+                    align: "center",
+                    width: 100,
+                    editing: true
+                },
                 { type: "control",deleteButton: true }
             ],
             rowClick: function(args)
@@ -208,7 +217,8 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.QUANTITY.replace(",",".")),
                     parseFloat(args.item.PRICEV.replace(",",".")),
                     args.item.DISCOUNT,
-                    parseFloat(args.item.VATRATE.replace(",","."))
+                    parseFloat(args.item.VATRATE.replace(",",".")),
+                    args.item.LINE_DESCRIPTION,
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {
@@ -900,7 +910,7 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
                 $scope.Stok[0].DISCOUNT,
                 $scope.Stok[0].VAT,
                 $scope.Aciklama,
-                ''
+                $scope.SatirAciklama
             ]
             db.ExecuteTag($scope.Firma,'FaturaInsert',InserData,async function(pData)
             {
@@ -1171,6 +1181,10 @@ function FiyatFarkiEvrakCtrl ($scope,$window,$timeout,$location,db)
         }
         
         $("#MdlAciklama").modal('hide');
+    }
+    $scope.BtnSatirAciklamaKaydet = async function()
+    {
+        $("#MdlSatirAciklama").modal('hide');
     }
     $scope.BtnPrint = function()
     {

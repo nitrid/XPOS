@@ -160,10 +160,10 @@
                             <button class="form-group btn btn-block btn-primary mb-1 h-40" ng-click="TbIslemSatirlariClick()"><i class="far fa-file-alt fa-lg" ></i></button>
                         </div>
                         <div class="col-4 px-1">
-                            <!-- <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0 h-40" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
+                            <button type="button" class="btn btn-primary btn-block dropdown-toggle px-0 h-40" id="DrpwSiparis" data-toggle="dropdown" aria-expanded="false">İşlemler</button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="orderdropdownanimation" role="menu" x-placement="bottom-start">
-                                <button class="dropdown-item" data-target="#MdlStokDetay" data-toggle="modal" role="menu-item">Barkod Detay</a>
-                            </div> -->
+                                <button class="dropdown-item" data-target="#MdlSatirAciklama" data-toggle="modal" role="menu-item">Satır Açıklama</a>
+                            </div>
                         </div>
                     </div>
                     <div class="row py-1">
@@ -587,6 +587,27 @@ Tel:0252 214 78 58 muglasutas@hotmail.com<br>
                         </div>
                     <div class="row px-10">
                         <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnAciklamaKaydet()" langu>Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Satır Açıklama MODAL-->
+    <div class="modal fade" id="MdlSatirAciklama" role="dialog" tabindex="-1" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-simple modal-primary modal-center px-10">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                    </button>
+                    <h4 class="modal-title"langu>Açıklama</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="form-group row my-5">
+                            <input type="text" class="form-control col-12" ng-model="SatirAciklama">
+                        </div>
+                    <div class="row px-10">
+                        <button type="submit" class="btn btn-primary btn-block col-12" ng-click="BtnSatirAciklamaKaydet()" langu>Kaydet</button>
                     </div>
                 </div>
             </div>
