@@ -1462,7 +1462,7 @@ function StokCtrl ($scope,$window,$location,db)
                 BarkodModalInit();
                 TedarikciModalInit();
 
-                if(StokData[0].ITEM_GRP.split('/')[0] == '007' || StokData[0].ITEM_GRP.split('/')[0] == '007')
+                if(StokData[0].ITEM_GRP.split('/')[0] == '105' || StokData[0].ITEM_GRP.split('/')[0] == '106' || StokData[0].ITEM_GRP.split('/')[0] == '007')
                 {
                     $scope.IsTaxSugar = false;
                 }
@@ -1999,7 +1999,7 @@ function StokCtrl ($scope,$window,$location,db)
             return;
         }
         
-        if(($scope.StokListe[0].ITEM_GRP != null && $scope.StokListe[0].ITEM_GRP.split('/')[0] == '017') && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
+        if(($scope.StokListe[0].ITEM_GRP != null && ($scope.StokListe[0].ITEM_GRP.split('/')[0] == '017' || $scope.StokListe[0].ITEM_GRP.split('/')[0] == '218')) && ($scope.StokListe[0].ORGINS == '' || $scope.StokListe[0].ORGINS == null))
         {
             alertify.okBtn(db.Language($scope.Lang,"Tamam"));
             alertify.alert(db.Language($scope.Lang,"Menşei bölümünü boş geçemezsiniz !"));
