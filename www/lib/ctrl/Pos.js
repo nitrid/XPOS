@@ -3570,7 +3570,20 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
-            $('#MdlIadeTip').modal('show');
+            // $('#MdlIadeTip').modal('show');
+            $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
+            $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
+            $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
+            $scope.AciklamaGiris.Txt = ""
+            $scope.AciklamaGiris.Open();
+            $scope.AciklamaGiris.Entry = async function(pStatus)
+            {
+                if(pStatus)
+                {
+                    $('#MdlIadeTip').modal('show');
+                    await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                }
+            }
         }
         else
         {
