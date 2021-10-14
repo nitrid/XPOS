@@ -8,3 +8,4 @@ pc/release-builds/
 data/
 *.zip
 config.json
+www/lib/Param.js
