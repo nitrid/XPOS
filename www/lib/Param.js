@@ -90,6 +90,30 @@ var Param = [
 			}
 		]
 	},
+	"IadeKabulAciklama" : 
+	{
+		"Title" : "İade Açıklaması",
+		"Content" : "Lütfen iade nedeninizi girin?",
+		"Model" : 
+		[
+			{
+				"View" : "Alişverişten Vazgeçti.",
+				"Value" : "Müşteri Alişverişinden vazgeçti."
+			},
+			{
+				"View" : "Yetersiz Ödeme.",
+				"Value" : "Müşteri ödeme tutarını karşılayamadı."
+			},
+			{
+				"View" : "K.Kartı yetersiz bakiye.",
+				"Value" : "Müşterinin k.kartı geçmedi."
+			},
+			{
+				"View" : "Test Amaçlı.",
+				"Value" : "Test amaçlı tiket oluşturuldu ve silindi."
+			}
+		]
+	},
 	"Sistem": {
 		"KiloBarkod": "0",
 		"KiloFlag": "",
