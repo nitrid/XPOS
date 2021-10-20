@@ -158,52 +158,113 @@ function StokCtrl ($scope,$window,$location,db)
             visible: true
         },
         {
-            dataField: "BRUTMARJ",
-            caption : db.Language($scope.Lang,"BRUTMARJ"),
-            dataType : "string",
+            caption: "BRUTMARJ",
+            name:"BRUTMARJ",
             visible: false,
-            cellTemplate: function(element, info)
-            {
-                if(typeof info.data.PRICE != 'undefined')
+            columns:
+            [
                 {
-                    let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
-                    let TmpMarj = TmpExVat - info.data.COST_PRICE;
-                    let TmpMarjOran = ((TmpExVat - info.data.COST_PRICE) / TmpExVat) * 100
+                    dataField: "BRUTMARJSAYI",
+                    caption : db.Language($scope.Lang,"SAYI"),
+                    cellTemplate: function(element, info)
+                    {
+                        if(typeof info.data.PRICE != 'undefined')
+                        {
+                            let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                            let TmpMarj = TmpExVat - info.data.COST_PRICE;
+                            let TmpMarjOran = ((TmpExVat - info.data.COST_PRICE) / TmpExVat) * 100
+                            info.data.BRUTMARJSAYI = TmpMarj.toFixed(2)
 
-                    if(TmpMarjOran.toFixed(0) < 30)
-                    {
-                        element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                            if(TmpMarjOran.toFixed(0) < 30)
+                            {
+                                element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + "€</div>")
+                            }
+                            else
+                            {
+                                element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + "€</div>")
+                            }
+                        }
                     }
-                    else
+                },
+                {
+                    dataField: "BRUTMARJYUZDE",
+                    caption : db.Language($scope.Lang,"YUZDE"),
+                    cellTemplate: function(element, info)
                     {
-                        element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                        if(typeof info.data.PRICE != 'undefined')
+                        {
+                            let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                            let TmpMarj = TmpExVat - info.data.COST_PRICE;
+                            let TmpMarjOran = ((TmpExVat - info.data.COST_PRICE) / TmpExVat) * 100
+                            info.data.BRUTMARJYUZDE = TmpMarj.toFixed(2)
+
+                            if(TmpMarjOran.toFixed(0) < 30)
+                            {
+                                element.append("<div style='color:red;font-weight: bold'>%" + TmpMarjOran.toFixed(0) + "</div>")
+                            }
+                            else
+                            {
+                                element.append("<div style='color:blue;font-weight: bold'>%" + TmpMarjOran.toFixed(0) + "</div>")
+                            }
+                        }
                     }
                 }
-            }
+            ]
+            
         },
         {
-            dataField: "NETMARJ",
-            caption : db.Language($scope.Lang,"NETMARJ"),
-            dataType : "string",
+            caption: "NETMARJ",
+            name:"NETMARJ",
             visible: false,
-            cellTemplate: function(element, info)
-            {
-                if(typeof info.data.PRICE != 'undefined')
+            columns:
+            [
                 {
-                    let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
-                    let TmpMarj = (TmpExVat - info.data.COST_PRICE) / 1.12;
-                    let TmpMarjOran = (((TmpExVat - info.data.COST_PRICE) / 1.12) / TmpExVat) * 100
+                    dataField: "NETMARJSAYI",
+                    caption : db.Language($scope.Lang,"SAYI"),
+                    cellTemplate: function(element, info)
+                    {
+                        if(typeof info.data.PRICE != 'undefined')
+                        {
+                            let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                            let TmpMarj = (TmpExVat - info.data.COST_PRICE) / 1.12;
+                            let TmpMarjOran = (((TmpExVat - info.data.COST_PRICE) / 1.12) / TmpExVat) * 100
+                            info.data.NETMARJSAYI = TmpMarj.toFixed(2)
 
-                    if(TmpMarjOran.toFixed(0) < 30)
-                    {
-                        element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                            if(TmpMarjOran.toFixed(0) < 30)
+                            {
+                                element.append("<div style='color:red;font-weight: bold'>" + TmpMarj.toFixed(2) + "€</div>")
+                            }
+                            else
+                            {
+                                element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + "€</div>")
+                            }
+                        }
                     }
-                    else
+                },
+                {
+                    dataField: "NETMARJYUZDE",
+                    caption : db.Language($scope.Lang,"YUZDE"),
+                    cellTemplate: function(element, info)
                     {
-                        element.append("<div style='color:blue;font-weight: bold'>" + TmpMarj.toFixed(2) + '€ / %' +  TmpMarjOran.toFixed(0) + "</div>")
+                        if(typeof info.data.PRICE != 'undefined')
+                        {
+                            let TmpExVat = info.data.PRICE / ((info.data.VAT / 100) + 1)
+                            let TmpMarj = (TmpExVat - info.data.COST_PRICE) / 1.12;
+                            let TmpMarjOran = (((TmpExVat - info.data.COST_PRICE) / 1.12) / TmpExVat) * 100
+                            info.data.NETMARJYUZDE = TmpMarj.toFixed(2)
+
+                            if(TmpMarjOran.toFixed(0) < 30)
+                            {
+                                element.append("<div style='color:red;font-weight: bold'>%" + TmpMarjOran.toFixed(2) + "</div>")
+                            }
+                            else
+                            {
+                                element.append("<div style='color:blue;font-weight: bold'>%" + TmpMarjOran.toFixed(2) + "</div>")
+                            }
+                        }
                     }
                 }
-            }
+            ]            
         },
         {
             dataField: "STATUS",
@@ -365,6 +426,10 @@ function StokCtrl ($scope,$window,$location,db)
             if($scope.StokListesi.Kolon[x].CODE == "CUSTOMER_ITEM_CODE")    
             {
                 QueryField.Customer.Field = "ISNULL(ITEM_CUSTOMER.CUSTOMER_ITEM_CODE,'') AS CUSTOMER_ITEM_CODE, ISNULL((SELECT TOP 1 NAME FROM CUSTOMERS WHERE CODE = ITEM_CUSTOMER.CUSTOMER_CODE),'') AS CUSTOMER, " + 
+                                            "0 AS BRUTMARJSAYI, " +
+                                            "0 AS BRUTMARJYUZDE, " +
+                                            "0 AS NETMARJSAYI, " +
+                                            "0 AS NETMARJYUZDE, " +
                                             "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR(10),MAX(PRICE)) + ' - ' + CONVERT(NVARCHAR(10),MAX(LDATE),103) FROM ITEM_PRICE WHERE TYPE = 1 AND CUSTOMER = ITEM_CUSTOMER.CUSTOMER_CODE AND ITEM_CODE = ITEMS.CODE ORDER BY MAX(LDATE) DESC),0) AS CUSTOMER_ITEM_PRICE, ";
                 QueryField.Customer.Outer = "LEFT OUTER JOIN ITEM_CUSTOMER ON ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE ";
                 QueryField.Customer.Where = "OR ITEM_CUSTOMER.CUSTOMER_ITEM_CODE IN (" + TmpVal + ") "
@@ -442,14 +507,6 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.StokListesi.Data.push({CODE : $scope.StokListesi.Barkod.split(' ')[i]})
                 }
-                // for (let x = 0; x < $scope.StokListesi.Data.length; x++) 
-                // {
-                //     if($scope.StokListesi.Data[x].CODE != $scope.StokListesi.Barkod.split(' ')[i] && $scope.StokListesi.Data[x].BARCODE != $scope.StokListesi.Barkod.split(' ')[i] && (typeof $scope.StokListesi.Data[x].CUSTOMER_ITEM_CODE != 'undefined' && $scope.StokListesi.Data[x].CUSTOMER_ITEM_CODE != $scope.StokListesi.Barkod.split(' ')[i]))
-                //     {
-                //         console.log($scope.StokListesi.Barkod.split(' ')[i])
-                //     }
-                    
-                // }
             }
             TblStokListeInit();
             StokListeGrd.clearSelection();
@@ -706,12 +763,12 @@ function StokCtrl ($scope,$window,$location,db)
                     width: "5%"
                 }, 
                 {
-                    dataField: "PRICE",
-                    caption : db.Language($scope.Lang,"Fiyat"),
-                    dataType: "number",
+                    dataField: "EXVAT",
+                    caption : db.Language($scope.Lang,"Vergi Hariç"),
                     alignment: "center",
+                    allowEditing: false,
                     width: "10%"
-                },
+                },                 
                 {
                     dataField: "CUSTOMER",
                     caption : db.Language($scope.Lang,"Cari"),
@@ -720,12 +777,12 @@ function StokCtrl ($scope,$window,$location,db)
                     width: "10%"
                 },
                 {
-                    dataField: "EXVAT",
-                    caption : db.Language($scope.Lang,"Vergi Hariç"),
+                    dataField: "PRICE",
+                    caption : db.Language($scope.Lang,"Fiyat"),
+                    dataType: "number",
                     alignment: "center",
-                    allowEditing: false,
                     width: "10%"
-                },       
+                },   
                 {
                     dataField: "BRUTMARJ",
                     caption : db.Language($scope.Lang,"Brut Marj"),
@@ -1402,7 +1459,7 @@ function StokCtrl ($scope,$window,$location,db)
         db.GetData($scope.Firma,'StokKartGetir',[pKodu],function(StokData)
         {
             if(StokData.length > 0)
-            {                
+            {     
                 ResimGetir('dropify', StokData[0].IMAGE, 'Image.jpg');
 
                 $scope.StyleAll = {'visibility': 'visible'};
@@ -1446,10 +1503,11 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedaikciListe = TedarikciData;
                     TblTedarikciInit();
-
                     if($scope.TedaikciListe.length > 0)
                     {
+                        console.log($scope.TedaikciListe[0].PRICE)
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
+                        $scope.StokListe[0].COST_PRICE = parseFloat(parseFloat($scope.TedaikciListe[0].PRICE) + parseFloat($scope.StokListe[0].SUGAR_VAT)).toFixed(2);
                     }
                 });
                 //TEDARİKÇİ FİYAT LİSTESİ GETİR
@@ -1457,7 +1515,7 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedarikciFiyatListe = TedarikciFiyatData;
                     TblTedarikciFiyatInit()
-                });
+                });                                
 
                 BarkodModalInit();
                 TedarikciModalInit();
@@ -1812,6 +1870,14 @@ function StokCtrl ($scope,$window,$location,db)
 
         $scope.StyleAll = {'visibility': 'hidden'};
         $scope.IsTaxSugar = true;
+        if($scope.Kullanici == 'MAHO')
+        {
+            $scope.IsAdmin = false;    
+        }
+        else
+        {
+            $scope.IsAdmin = true;
+        }
         $scope.RefReadOnly = false;
 
         $scope.AltBirimFiyati = "0.00 €";
@@ -2040,6 +2106,19 @@ function StokCtrl ($scope,$window,$location,db)
                 return;
             }
         }
+        let TmpMinPrice = 0;
+        let TmpMaxPrice = 0;
+
+        if($scope.Kullanici == 'MAHO')
+        {
+            TmpMinPrice = parseFloat($scope.StokListe[0].MIN_PRICE.toString().replace(',','.')).toFixed(2)
+            TmpMaxPrice = parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')).toFixed(2)
+        }
+        else
+        {
+            TmpMinPrice = parseFloat((parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')) * ((parseFloat($scope.StokListe[0].VAT) / 100) + 1)) * 1.02).toFixed(2)
+            TmpMaxPrice = parseFloat((parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')) * ((parseFloat($scope.StokListe[0].VAT) / 100) + 1)) * 2).toFixed(2)
+        }
         
         let InsertData =
         [
@@ -2052,8 +2131,8 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.StokListe[0].TYPE,
             $scope.StokListe[0].VAT,
             parseFloat($scope.StokListe[0].COST_PRICE.toString().replace(',','.')),
-            parseFloat($scope.StokListe[0].MIN_PRICE.toString().replace(',','.')),
-            parseFloat($scope.StokListe[0].MAX_PRICE.toString().replace(',','.')),
+            TmpMinPrice,
+            TmpMaxPrice,
             $scope.StokListe[0].STATUS,            
             $scope.StokListe[0].WEIGHING,
             $scope.StokListe[0].SPECIAL1,
@@ -2078,7 +2157,6 @@ function StokCtrl ($scope,$window,$location,db)
                             $scope.BarkodModal.Barkod = $scope.StokListe[0].BARCODE
                             $scope.BarkodModal.Birim = pGuid
                             $scope.BarkodModal.Tip = "1"
-                            console.log($scope.BarkodModal.Barkod)
                             $scope.BtnBarkodKaydet();
                         }
                     });
@@ -2345,6 +2423,7 @@ function StokCtrl ($scope,$window,$location,db)
                 if(typeof(InsertResult.result.err) == 'undefined')
                 {
                     TedarikciFiyatKaydet($scope.TedarikciModal.Fiyat,$scope.TedarikciModal.Kodu);
+                    $scope.StokListe[0].COST_PRICE = parseFloat(parseFloat($scope.TedarikciModal.Fiyat) + parseFloat($scope.StokListe[0].SUGAR_VAT)).toFixed(2);
                     //TEDARİKÇİ LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {

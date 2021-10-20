@@ -153,7 +153,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     type: "text",
                     align: "center",
                     width: 200,
-                    editing: false
+                    editing: true
                 },                 
                 {
                     name: "QUANTITY",

@@ -2213,10 +2213,12 @@ function Pos($scope,$window,$rootScope,db)
                 TmpMiktar = ((pBarkod.substring(7,pBarkod.length-1)) / 1000);
                 pBarkod = pBarkod.substring(0,7) + "KKGGG";
             }
+            console.log(11)   
             /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
             let TmpSpecBar = "";
             if(pBarkod.substring(0,2) == "27" && pBarkod.length >= 7 && pBarkod.length <= 8)
-            {                
+            {          
+                console.log(12)      
                 let TmpQuery =
                 {
                     query : "SELECT ITEM_CODE AS ITEM_CODE,PRICE AS PRICE FROM ITEM_UNIQ WHERE CODE = @CODE AND QUANTITY > 0",
@@ -2231,11 +2233,14 @@ function Pos($scope,$window,$rootScope,db)
                     TmpFiyat = TmpData[0].PRICE
                 }
             }
+            console.log(pBarkod)   
             /* ************************************************************** */
             db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
             {
+                console.log(14)   
                 if(BarkodData.length > 0)
                 {   
+                    console.log(15)   
                     $scope.Stok = BarkodData;
                     /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
                     if(TmpSpecBar != "")

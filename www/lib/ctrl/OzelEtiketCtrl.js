@@ -64,6 +64,7 @@ function OzelEtiketCtrl ($scope,$window,db)
         SecimSelectedRow.Index = pIndex
         
         $scope.Kodu = pItem.CODE;
+        $scope.Aciklama = pItem.NAME;
         $scope.Fiyat = pItem.PRICE;
 
         $("#MdlSecim").modal('hide');
@@ -130,6 +131,7 @@ function OzelEtiketCtrl ($scope,$window,db)
         $scope.Kodu = "";
         $scope.Fiyat = 0;
         $scope.Aciklama = "";
+        $scope.Aciklama2 = "";
         $scope.BasimAdeti = 1;
         $scope.RefNo = (await db.GetPromiseQuery({query:"SELECT ISNULL(MAX(REF_NO),0) + 1 AS REF_NO FROM LABEL_QUEUE WHERE REF = @REF",param:['REF:string|25'],value:['X']}))[0].REF_NO;
         $scope.KayitStatus = false;
@@ -143,6 +145,7 @@ function OzelEtiketCtrl ($scope,$window,db)
                 if(StokData.length > 0)
                 {
                     $scope.Kodu = StokData[0].CODE;
+                    $scope.Aciklama = StokData[0].NAME;
                     $scope.Fiyat = StokData[0].PRICE;
                 }
             });
@@ -175,6 +178,7 @@ function OzelEtiketCtrl ($scope,$window,db)
                             CODE : TmpCode, //'27' + $scope.Kodu.toString().substring(1,$scope.Kodu.length) + (parseFloat(parseFloat($scope.Fiyat).toFixed(2)) * 100).toString().padStart(5,'0'),
                             PRICE : $scope.Fiyat,
                             DESCRIPTION : $scope.Aciklama,
+                            DESCRIPTION2 : $scope.Aciklama2,
                         }
                         Data.data.push(TmpData)
                     }
@@ -226,6 +230,7 @@ function OzelEtiketCtrl ($scope,$window,db)
                     "TRIM(STR([UNDER_UNIT_PRICE], 15, 2)) + ' / ' + SUBSTRING([UNDER_UNIT_VALUE],CHARINDEX(' ',[UNDER_UNIT_VALUE]) + 1,LEN([UNDER_UNIT_VALUE])) AS UNDER_UNIT_PRICE2, " +
                     "ISNULL((SELECT PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
                     "DESCRIPTION AS DESCRIPTION, " + 
+                    "DESCRIPTION2 AS DESCRIPTION2, " + 
                     "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = (SELECT TOP 1 ORGINS FROM ITEMS AS ITM WHERE ITM.CODE = JS.CODE)),'') AS ORGINS " +
                     "FROM LABEL_QUEUE AS D " +
                     "CROSS APPLY  " +
@@ -241,7 +246,8 @@ function OzelEtiketCtrl ($scope,$window,db)
                     "[PRICE] nvarchar(50) '$.PRICE', " +
                     "[UNDER_UNIT_VALUE] nvarchar(50) '$.UNDER_UNIT_VALUE', " +
                     "[UNDER_UNIT_PRICE] nvarchar(50) '$.UNDER_UNIT_PRICE', " +
-                    "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION' " +
+                    "[DESCRIPTION] nvarchar(500) '$.DESCRIPTION', " +
+                    "[DESCRIPTION2] nvarchar(500) '$.DESCRIPTION2' " +
                     ")) JS " +
                     "WHERE STATUS = 0 AND REF = @REF AND REF_NO = @REF_NO",
             param:  ['REF','REF_NO','DESIGN'],

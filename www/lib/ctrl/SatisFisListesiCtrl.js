@@ -1,6 +1,7 @@
 function SatisFisListesiCtrl ($scope,$window,db)
 {
     let MusteriSecimSelectedRow = null;
+    let UrunSecimSelectedRow = null;
     let KasaSecimSelectedRow = null;
     let KasiyerSecimSelectedRow = null;
     let SatisFisListeSelectedRow = null;
@@ -51,6 +52,56 @@ function SatisFisListesiCtrl ($scope,$window,db)
             rowClick: function(args)
             {
                 MusteriSecimRowClick(args.itemIndex,args.item,this);
+                $scope.$apply();
+            },
+            controller:db,
+        });
+    }
+    function InitUrunSecim(pData)
+    {
+        let db = {
+            loadData: function(filter)
+            {
+                return $.grep(pData, function(produit)
+                {
+                    return (!filter.CODE || produit.CODE.toLowerCase().indexOf(filter.CODE.toLowerCase()) > -1)
+                        && (!filter.NAME || produit.NAME.toLowerCase().indexOf(filter.NAME.toLowerCase()) > -1)
+                });
+            }
+        };
+
+        $("#TblUrunSecim").jsGrid
+        ({
+            width: "100%",
+            updateOnResize: true,
+            heading: true,
+            selecting: true,
+            filtering : true,
+            data : pData,
+            paging : true,
+            pageSize: 20,
+            pageButtonCount: 3,
+            pagerFormat: "{pages} {next} {last}    {pageIndex} of {pageCount}",
+            fields: 
+            [
+                {
+                    name: "CODE",
+                    type: "text",
+                    align: "center",
+                    width: 100
+                    
+                },
+                {
+                    title: "NAME",
+                    name: "NAME",
+                    type: "text",
+                    align: "center",
+                    width: 300
+                }
+            ],
+            rowClick: function(args)
+            {
+                UrunSecimRowClick(args.itemIndex,args.item,this);
                 $scope.$apply();
             },
             controller:db,
@@ -340,6 +391,16 @@ function SatisFisListesiCtrl ($scope,$window,db)
         $scope.Musteri = pItem.CODE; 
         $("#MdlMusteriSecim").modal('hide');
     }
+    function UrunSecimRowClick(pIndex,pItem,pObj)
+    {    
+        if ( UrunSecimSelectedRow ) { UrunSecimSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
+        var $row = pObj.rowByItem(pItem);
+        $row.children('.jsgrid-cell').css('background-color','#2979FF').css('color','white');
+        UrunSecimSelectedRow = $row;
+
+        $scope.Urun = pItem.CODE; 
+        $("#MdlUrunSecim").modal('hide');
+    }
     function KasaSecimRowClick(pIndex,pItem,pObj)
     {    
         if ( KasaSecimSelectedRow ) { KasaSecimSelectedRow.children('.jsgrid-cell').css('background-color', '').css('color',''); }
@@ -405,6 +466,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         $scope.Firma = 'PIQPOS';
         $scope.IlkTarih = moment(Date.now()).format("DD/MM/YYYY");
         $scope.SonTarih = moment(Date.now()).format("DD/MM/YYYY");
+        $scope.Urun = "";
         $scope.Musteri = "";
         $scope.KasaNo = "";
         $scope.FisNo = "";
@@ -440,6 +502,19 @@ function SatisFisListesiCtrl ($scope,$window,db)
         {
             InitMusteriSecim(Data);
             $("#MdlMusteriSecim").modal('show');
+        });
+    }
+    $scope.BtnUrunSecim = function()
+    {
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT [CODE],[NAME] FROM [ITEMS]"
+        }
+        db.GetDataQuery(TmpQuery,function(Data)
+        {
+            InitUrunSecim(Data);
+            $("#MdlUrunSecim").modal('show');
         });
     }
     $scope.BtnKasaSecim = function()
@@ -480,6 +555,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
         {
             db : $scope.Firma,
             query:  "SELECT " +
+                    "MAX(ITEM_CODE) AS ITEM_CODE, " +
                     "MAX(TIME) AS TIME, " +
                     "MAX(DATE) AS DATE, " +
                     "MAX(DEVICE) AS DEVICE, " +
@@ -498,6 +574,7 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "MAX(PAYMENT) AS PAYMENT " +
                     "FROM ( " +
                     "SELECT " +
+                    "MAX(SALE.ITEM_CODE) AS ITEM_CODE, " +
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),101) AS DATE, " + 
                     "CONVERT(NVARCHAR,MAX(SALE.CDATE),108) AS TIME, " + 
                     "MAX(SALE.DEVICE) AS DEVICE, " +
@@ -523,14 +600,15 @@ function SatisFisListesiCtrl ($scope,$window,db)
                     "((SALE.DEVICE = @DEVICE) OR (@DEVICE = '')) AND " +
                     "((SALE.REF_NO = @REF_NO) OR (@REF_NO = '')) AND  " +
                     "((PAYMENT.TYPE = @TYPE) OR (@TYPE = -1)) AND " +
+                    "((ITEM_CODE = @ITEM_CODE) OR (@ITEM_CODE = '')) AND " + 
                     "((SALE.LUSER = @LUSER) OR (@LUSER = '')) AND SALE.STATUS = 1 AND PAYMENT.DOC_TYPE = @DOC_TYPE {0} " +
                     "GROUP BY SALE.REF,SALE.REF_NO,SALE.TYPE,PAYMENT.TYPE,PAYMENT.DOC_TYPE " +
                     "HAVING ((ROUND(SUM(SALE.TTC),2) = @TTC) OR (@TTC = 0)) " +
                     ") AS TMP GROUP BY REF,REF_NO " + 
                     "HAVING COUNT(PAY_DOC_TYPE) >= @PAY_COUNT ",
-            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','DOC_TYPE','LUSER','TTC','PAY_COUNT'],
-            type:   ['date','date','string|25','string|25','string|25','int','int','string|25','float','int'],
-            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,TmpDocType,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.'),$scope.CokluOdeme ? 2 : 1]            
+            param:  ['ILKTARIH','SONTARIH','CUSTOMER_CODE','DEVICE','REF_NO','TYPE','DOC_TYPE','LUSER','TTC','PAY_COUNT','ITEM_CODE'],
+            type:   ['date','date','string|25','string|25','string|25','int','int','string|25','float','int','string|25'],
+            value:  [$scope.IlkTarih,$scope.SonTarih,$scope.Musteri,$scope.KasaNo,$scope.FisNo,$scope.OdemeTipi,TmpDocType,$scope.KasiyerNo,$scope.FisTutar == "" ? 0 : $scope.FisTutar.replace(',','.'),$scope.CokluOdeme ? 2 : 1,$scope.Urun]            
         }
 
         if($scope.FisTipi == 0)

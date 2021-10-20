@@ -132,7 +132,21 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             rowClass : function(item,itemIndex)
             {
                 console.log(item.STATUS)
-                return item.STATUS == 1 ? 'bg-green' : 'bg-red'
+                let TmpStyle = ''
+                if(item.STATUS == 1)
+                {
+                    TmpStyle = 'bg-green'
+                }
+                else if(item.STATUS < 0)
+                {
+                    TmpStyle = 'bg-red'
+                }
+                else if(item.STATUS == 0)
+                {
+                    TmpStyle = 'bg-yellow'
+                }
+                
+                return TmpStyle
             }
         });
     }

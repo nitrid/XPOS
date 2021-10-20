@@ -509,14 +509,14 @@
                                                     <div class="form-group row">
                                                         <label class="form-control-label" langu>Min. Satış Fiyatı</label>
                                                         <input type="text" class="form-control" name="name" autocomplete="off"
-                                                            ng-model="StokListe[0].MIN_PRICE" onClick="this.setSelectionRange(0, this.value.length)" />
+                                                            ng-model="StokListe[0].MIN_PRICE" onClick="this.setSelectionRange(0, this.value.length)" ng-disabled="IsAdmin" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-2 mx-5">
                                                     <div class="form-group row">
                                                         <label class="form-control-label" langu>Max. Satış Fiyatı</label>
                                                         <input type="text" class="form-control" name="name" autocomplete="off"
-                                                            ng-model="StokListe[0].MAX_PRICE" onClick="this.setSelectionRange(0, this.value.length)" />
+                                                            ng-model="StokListe[0].MAX_PRICE" onClick="this.setSelectionRange(0, this.value.length)"  ng-disabled="IsAdmin" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-2 mx-5">
