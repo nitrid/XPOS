@@ -209,6 +209,13 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
             },
             onItemUpdated: function(args) 
             {
+                let TmpDesc = args.item.LINE_DESCRIPTION
+
+                if(args.item.ITEM_NAME != args.previousItem.ITEM_NAME)
+                {
+                    TmpDesc = args.item.ITEM_NAME
+                }
+
                 let InserData = 
                 [
                     args.item.GUID,
@@ -218,7 +225,7 @@ function IadeEvrakCtrl ($scope,$window,$timeout,$location,db)
                     parseFloat(args.item.PRICE.replace(",",".")),
                     args.item.DISCOUNT,
                     parseFloat(args.item.VATRATE.replace(",",".")),
-                    args.item.LINE_DESCRIPTION,
+                    TmpDesc,
                 ]
                 db.ExecuteTag($scope.Firma,'FaturaSatirUpdate',InserData,async function(pData)
                 {

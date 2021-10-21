@@ -2,6 +2,8 @@ function PosSatisRaporCtrl ($scope,$window,db)
 {
     let StartDate = moment();
     let EndDate = moment();
+    let TmpPopUp;
+    let TmpPopUpContent;
 
     $('#Date').on('apply.daterangepicker', function(ev, picker) 
     {
@@ -393,8 +395,90 @@ function PosSatisRaporCtrl ($scope,$window,db)
             }
         })
     }
-    $scope.Init =function()
-    {           
+    function InitPopUp()
+    {
+        TmpPopUpContent = function(pData) 
+        {
+            let TmpHtml = ""
+            for (let i = 0; i < Object.keys(db.ToGroupBy(pData,"TIP")).length; i++) 
+            {
+                if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "0")
+                {
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Park da Bekleyen</p>";
+
+                    let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
+
+                    for (let x = 0; x < TmpData.length; x++) 
+                    {
+                        TmpHtml += "<p>" + TmpData[x].LUSER + " - " + TmpData[x].COUNT + "</p>"                       
+                    }
+                }   
+                else if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "1")
+                {
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Satır Silinen</p>";
+
+                    let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
+
+                    for (let x = 0; x < TmpData.length; x++) 
+                    {
+                        TmpHtml += "<p>" + TmpData[x].LUSER + " - " + TmpData[x].COUNT + "</p>"                       
+                    }
+                }       
+                else if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "2")
+                {
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Ticket Silinen</p>";
+
+                    let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
+
+                    for (let x = 0; x < TmpData.length; x++) 
+                    {
+                        TmpHtml += "<p>" + TmpData[x].LUSER + " - " + TmpData[x].COUNT + "</p>"                       
+                    }
+                }                 
+            }
+            
+            return $("<div>").append(TmpHtml);
+        };
+        TmpPopUp = $("#popup").dxPopup(
+            {
+                contentTemplate: TmpPopUpContent,
+                width: 500,
+                height: 580,
+                container: ".dx-viewport",
+                showTitle: true,
+                title: db.Language($scope.Lang,"Bilgi"),
+                visible: false,
+                dragEnabled: false,
+                closeOnOutsideClick: true,
+                showCloseButton: false,
+                position: 
+                {
+                    at: "center",
+                    my: "center",
+                },
+                toolbarItems: 
+                [
+                    {
+                        widget: "dxButton",
+                        toolbar: "bottom",
+                        location: "after",
+                        options: 
+                        {
+                            text: "Close",
+                            onClick: function(e) 
+                            {
+                                TmpPopUp.hide();
+                            }
+                        }
+                    }
+                ]
+            }
+        ).dxPopup("instance");
+    }
+    $scope.Init = async function()
+    {        
+        InitPopUp();
+
         if(typeof localStorage.Lang != 'undefined')
         {
             $scope.Lang = localStorage.Lang;
@@ -431,18 +515,23 @@ function PosSatisRaporCtrl ($scope,$window,db)
 
         $scope.BtnRunReport()
 
-        db.GetData($scope.Firma,'PosSatisParkListe',[-1,0,'',0],function(ParkData)
-        {   
-           if(ParkData.length > 0)
-           {
-                let TmpCassier = ""; 
-                for (let i = 0; i < ParkData.length; i++) 
-                {
-                    TmpCassier += ParkData[i].LUSER + ' - '
-                }
-                alertify.alert((db.Language($scope.Lang,"Parkda bekleyen ticket var ! --- Kasiyer No : "))+ TmpCassier);
-           }
+        let TmpQuery = 
+        {
+            db : $scope.Firma,
+            query:  "SELECT LUSER,COUNT(LUSER) AS [COUNT],0 AS TIP FROM (SELECT MAX(LUSER) AS LUSER FROM POS_SALES WHERE STATUS = 0 GROUP BY REF,REF_NO) AS TMP GROUP BY LUSER " +
+                    "UNION ALL " +
+                    "SELECT LUSER,COUNT(LUSER) AS [COUNT],1 AS TIP FROM (SELECT MAX(LUSER) AS LUSER FROM POS_SALES WHERE STATUS = -1 AND DOC_DATE >= CONVERT(NVARCHAR(10),GETDATE()-1,112) GROUP BY REF,REF_NO) AS TMP GROUP BY LUSER " +
+                    "UNION ALL " +
+                    "SELECT LUSER,COUNT(LUSER) AS [COUNT],2 AS TIP FROM (SELECT MAX(LUSER) AS LUSER FROM POS_SALES WHERE STATUS = -2 AND DOC_DATE >= CONVERT(NVARCHAR(10),GETDATE()-1,112) GROUP BY REF,REF_NO) AS TMP GROUP BY LUSER",
+        }
+
+        let TmpData = await db.GetPromiseQuery(TmpQuery);
+
+        TmpPopUp.option(
+        {
+            contentTemplate: () => TmpPopUpContent(TmpData)
         });
+        TmpPopUp.show();  
     }
     $scope.BtnRunReport = async function()
     {

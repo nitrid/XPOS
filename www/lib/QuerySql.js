@@ -16,8 +16,8 @@ var QuerySql =
                 "[COST_PRICE] AS [COST_PRICE], " +
                 //"ISNULL((SELECT TOP 1 [PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC),ISNULL([COST_PRICE],0)) AS [COST_PRICE], " + 
                 "ISNULL((SELECT TOP 1 [PRICE] FROM (SELECT TOP 1 [LDATE],[PRICE] FROM ITEM_PRICE WHERE [ITEM_CODE] = [CODE] AND [TYPE] = 1 ORDER BY LDATE DESC) TMP ORDER BY LDATE ASC),0) AS [LAST_PRICE], " +
-                "[MIN_PRICE] AS [MIN_PRICE], " + 
-                "[MAX_PRICE] AS [MAX_PRICE], " + 
+                "ROUND([MIN_PRICE],2) AS [MIN_PRICE], " + 
+                "ROUND([MAX_PRICE],2) AS [MAX_PRICE], " + 
                 "[STATUS] AS [STATUS], " + 
                 "[SPECIAL1] AS [SPECIAL1], " + 
                 "[ORGINS] AS [ORGINS], " + 

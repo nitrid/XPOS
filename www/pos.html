@@ -3357,7 +3357,7 @@
             {
             
                 itemTemplate: function(value) {
-                    return value.toFixed(2);
+                    return parseFloat(value).toFixed(2);
                 },
                 filterValue: function() {
                     return parseFloat(this.filterControl.val() || 0);

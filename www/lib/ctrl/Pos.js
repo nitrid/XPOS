@@ -36,7 +36,6 @@ function Pos($scope,$window,$rootScope,db)
     let UrunListeTip = "StokAra";
     let PluTip = 0;
     let TmpActiveTime;
-
     $scope.ModalMsg = {};
     
     $('#MdlAraToplam').on('hide.bs.modal', function () 
@@ -1060,6 +1059,13 @@ function Pos($scope,$window,$rootScope,db)
                     type: "decimal",
                     align: "center",
                     width: 35
+                },
+                {
+                    name: "CHANGE",
+                    title: $scope.SetLang( "CHANGE"),
+                    type: "decimal",
+                    align: "center",
+                    width: 35
                 }
                 ],
                 rowClick: function(args)
@@ -1067,7 +1073,7 @@ function Pos($scope,$window,$rootScope,db)
                     $('#MdlSonSatisTahGuncelle').modal('show'); 
                     $scope.SonTahDetayKalan = $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC - db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT")
                     $scope.SonSatisTahDetayRowClick(args.itemIndex,args.item);
-                    $scope.$apply();                                      
+                    $scope.$apply();  
                 }
             });
         })
@@ -2213,12 +2219,10 @@ function Pos($scope,$window,$rootScope,db)
                 TmpMiktar = ((pBarkod.substring(7,pBarkod.length-1)) / 1000);
                 pBarkod = pBarkod.substring(0,7) + "KKGGG";
             }
-            console.log(11)   
             /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
             let TmpSpecBar = "";
             if(pBarkod.substring(0,2) == "27" && pBarkod.length >= 7 && pBarkod.length <= 8)
             {          
-                console.log(12)      
                 let TmpQuery =
                 {
                     query : "SELECT ITEM_CODE AS ITEM_CODE,PRICE AS PRICE FROM ITEM_UNIQ WHERE CODE = @CODE AND QUANTITY > 0",
@@ -2233,16 +2237,32 @@ function Pos($scope,$window,$rootScope,db)
                     TmpFiyat = TmpData[0].PRICE
                 }
             }
-            console.log(pBarkod)   
             /* ************************************************************** */
             db.StokBarkodGetir($scope.Firma,pBarkod,async function(BarkodData)
             {
-                console.log(14)   
                 if(BarkodData.length > 0)
                 {   
-                    console.log(15)   
+                    console.log(BarkodData)
                     $scope.Stok = BarkodData;
-                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ******************** */
+                    /* MİKTAR 1 DEN BÜYÜK İSE KAMPANYA FİYATINI GETİR **************** */
+                    if($scope.Miktar > 1)
+                    {
+                        let TmpQuery =
+                        {
+                            query : "SELECT dbo.FN_PRICE_SALE(@CODE,@MIKTAR,GETDATE()) AS PRICE",
+                            param : ['CODE:string|25','MIKTAR:float'],
+                            value : [BarkodData[0].CODE,$scope.Miktar]
+                        }   
+
+                        let TmpPriceData = await db.GetPromiseQuery(TmpQuery);
+                        
+                        if(TmpPriceData.length > 0)
+                        {
+                            $scope.Stok[0].PRICE = TmpPriceData[0].PRICE;
+                        }
+                    }
+                    /* ************************************************************** */
+                    /* SARI ETİKET BARKODU İÇİN YAPILDI 20.05.2021 ****************** */
                     if(TmpSpecBar != "")
                     {
                         $scope.Stok[0].BARCODE = TmpSpecBar;
@@ -2325,7 +2345,6 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnPluClick = function(pBarkod)
     {   
-        //$scope.Yukleniyor = true  
         $scope.TxtBarkod = pBarkod;
         $scope.StokGetir($scope.TxtBarkod);
     }
@@ -3575,19 +3594,25 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
-            // $('#MdlIadeTip').modal('show');
-            $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
-            $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
-            $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
-            $scope.AciklamaGiris.Txt = ""
-            $scope.AciklamaGiris.Open();
-            $scope.AciklamaGiris.Entry = async function(pStatus)
+            if($scope.Kullanici == 'MAHO')
             {
-                if(pStatus)
+                $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
+                $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
+                $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
+                $scope.AciklamaGiris.Txt = ""
+                $scope.AciklamaGiris.Open();
+                $scope.AciklamaGiris.Entry = async function(pStatus)
                 {
-                    $('#MdlIadeTip').modal('show');
-                    await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                    if(pStatus)
+                    {
+                        $('#MdlIadeTip').modal('show');
+                        await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                    }
                 }
+            }
+            else
+            {
+                alertify.alert($scope.SetLang("Bu işlemi yapmak için yetkiniz yok !"))    
             }
         }
         else
@@ -4557,7 +4582,13 @@ function Pos($scope,$window,$rootScope,db)
     $scope.BtnSonTahKaydet = async function()
     {
         $('#MdlSonSatisTahGuncelle').modal('hide');
-
+        
+        if($scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].TYPENO == 0)
+        {
+            $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].AMOUNT = $scope.SonSatisTahDetayList[$scope.SonSatisTahDetayList.length - 1].AMOUNT + $scope.SonTahDetayKalan
+            console.log(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2())
+        }
+        
         if(db.SumColumn($scope.SonSatisTahDetayList,"AMOUNT").toDigit2() == $scope.SonSatisList[$scope.SonSatisListeSelectedIndex].TTC)
         {
             TmpQuery = 
@@ -4573,7 +4604,6 @@ function Pos($scope,$window,$rootScope,db)
 
             for (let i = 0; i < $scope.SonSatisTahDetayList.length; i++) 
             {
-
                 let InsertData = 
                 [
                     $scope.Kullanici,
@@ -4588,16 +4618,26 @@ function Pos($scope,$window,$rootScope,db)
                     $scope.SonSatisDetayList[0].CUSTOMER_CODE,
                     "",
                     $scope.SonSatisTahDetayList[i].AMOUNT,
-                    0,//TahParaUstu,
+                    i == $scope.SonSatisTahDetayList.length - 1 ? $scope.SonTahDetayKalan * -1 : 0,//TahParaUstu,
                     1
                 ];
 
                 await db.ExecutePromiseTag($scope.Firma,'PosTahInsert',InsertData);
+
+                db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO,1],function(PosSonSatisTahDetay)
+                {  
+                    $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
+                    
+                    $("#TblSonSatisTahDetay,#TblSonSatisTahDetay").each(function()
+                    {
+                        $(this).jsGrid({data : $scope.SonSatisTahDetayList});
+                    });
+                });
             }
         }
         else
         {
-            db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO],function(PosSonSatisTahDetay)
+            db.GetData($scope.Firma,'PosSonSatisTahDetayGetir',[$scope.Sube,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF,$scope.SonSatisList[$scope.SonSatisListeSelectedIndex].REF_NO,1],function(PosSonSatisTahDetay)
             {  
                 $scope.SonSatisTahDetayList = PosSonSatisTahDetay;
                 
@@ -4606,7 +4646,7 @@ function Pos($scope,$window,$rootScope,db)
                     $(this).jsGrid({data : $scope.SonSatisTahDetayList});
                 });
             });
-            alertify.alert$scope.SetLang(("Girilen tutar hatalıdır !"))
+            alertify.alert($scope.SetLang("Girilen tutar hatalıdır !"))
         }
     }
     $scope.BtnCariDegistir = function()

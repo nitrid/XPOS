@@ -4,6 +4,8 @@ function EtiketBasimCtrl ($scope,$window,db)
     let RefSelectedData = [];
     let EtiketSelected = {};
     let TmpGrid;
+    let TmpBarkodGrid;
+    let BarkodData;
 
     $scope.Wizard = {};
     
@@ -27,9 +29,15 @@ function EtiketBasimCtrl ($scope,$window,db)
     }
     function InitBarkodGrid()
     {
-        let TmpListe = $("#TblBarkodListesi").dxDataGrid(
+        BarkodData = new DevExpress.data.ArrayStore(
         {
-            dataSource: $scope.BarkodListe,
+            key: "BARCODE",
+            data: $scope.BarkodListe
+        });
+        
+        TmpBarkodGrid = $("#TblBarkodListesi").dxDataGrid(
+        {
+            dataSource: BarkodData,
             allowColumnReordering: true,
             showBorders: true,
             filterRow: 
@@ -42,7 +50,7 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             selection: 
             {
-                mode: "single"
+                mode: "multiple"
             },
             editing: 
             {
@@ -116,25 +124,9 @@ function EtiketBasimCtrl ($scope,$window,db)
             },
             onRowUpdated: async function(e) 
             {
-               // e.data.UNDER_UNIT_PRICE = e.data.PRICE / e.data.FACTOR;
-                TmpListe.refresh();
+                TmpBarkodGrid.refresh();
                 $scope.Kaydet();
-
-                // TmpQuery = 
-                // {
-                //     db : $scope.Firma,
-                //     query:  "UPDATE ITEM_PRICE SET PRICE = @PRICE, LDATE = GETDATE() WHERE ITEM_CODE = @ITEM_CODE AND TYPE = 0 AND QUANTITY = 1",
-                //     param: ['PRICE:float','ITEM_CODE:string|25'],
-                //     value: [e.data.PRICE,e.data.CODE]
-                // }
-                // await db.ExecutePromiseQuery(TmpQuery);
-
-                // if(typeof EtiketSelected != 'undefined')
-                // {
-                //     $scope.Sayfa = Math.ceil($scope.BarkodListe.length / EtiketSelected.PAGE_COUNT);
-                //     $scope.BosEtiketAlan = EtiketSelected.PAGE_COUNT - ($scope.BarkodListe.length % EtiketSelected.PAGE_COUNT);
-                // }
-            },
+            }
         }).dxDataGrid("instance");
     }
     function InitStokSecimGrid()
@@ -188,12 +180,6 @@ function EtiketBasimCtrl ($scope,$window,db)
                     width: "100"
                 },
                 {
-                    dataField: "BARCODE",
-                    caption: db.Language($scope.Lang,"BARKOD"),
-                    dataType: "string",
-                    width: "100"
-                },
-                {
                     dataField: "NAME",
                     caption: db.Language($scope.Lang,"ADI"),
                     dataType: "string",
@@ -210,12 +196,6 @@ function EtiketBasimCtrl ($scope,$window,db)
                     caption: db.Language($scope.Lang,"FİYAT"),
                     dataType: "string",
                     width: "70"
-                },
-                {
-                    dataField: "DESCRIPTION",
-                    caption: db.Language($scope.Lang,"ÖZEL ALAN"),
-                    dataType: "string",
-                    width: "100"
                 }
             ],
             onSelectionChanged: function(selectedItems) 
@@ -259,6 +239,7 @@ function EtiketBasimCtrl ($scope,$window,db)
                     caption: db.Language($scope.Lang,"TARIH"),
                     dataType: "datetime",
                     format: 'dd/MM/yyyy - HH:mm:ss',
+                    sortOrder: "desc"
                 },
                 {
                     dataField: "LUSER",
@@ -515,11 +496,48 @@ function EtiketBasimCtrl ($scope,$window,db)
                 }
             }
         }
-       console.log(new Date(2021,7,12,14,56,0,0))
-        // setInterval(()=>
-        // {
-        //     $window.document.getElementById("Barkodu").focus();
-        // },500);
+        
+        $scope.contextMenuOptions = 
+        {
+            dataSource: 
+            [
+                {
+                    text: (db.Language($scope.Lang,'Seçili Satırları Sil')),
+                    id: "M001"
+                }
+            ],
+            width: 200,
+            target: "#TblBarkodListesi",
+            onItemClick: function(e)
+            {
+                if (e.itemData.id == "M001") 
+                {
+                    if(TmpBarkodGrid.getSelectedRowKeys().length > 0)
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,'Evet'));
+                        alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
+                
+                        alertify.confirm(db.Language($scope.Lang,'Seçili satırların silmek istediğinize eminmisiniz ?'),
+                        function()
+                        {
+                            TmpBarkodGrid.getSelectedRowKeys().forEach(function(key) 
+                            {
+                                BarkodData.remove(key);
+                            });
+                            TmpBarkodGrid.refresh();
+                            $scope.Kaydet();
+                        }
+                        ,function(){});
+                    }
+                    else
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Satır seçmeden bu işlemi yapamazsınız !"));
+                    }
+                }
+            }
+        }; 
+       
     }
     $scope.BtnStokSecim = async function()
     {
@@ -535,7 +553,11 @@ function EtiketBasimCtrl ($scope,$window,db)
         $("#MdlStokSecim").modal('hide');        
         for(let i = 0;i < SelectedData.length;i++)
         {
-            $scope.BarkodListe.push(SelectedData[i]);
+            let TmpData = await BarkodGetir(SelectedData[i].CODE);
+            if(TmpData.length > 0)
+            {
+                $scope.BarkodListe.push(TmpData[0]);
+            }
         }
         InitBarkodGrid();
         $scope.Kaydet();
