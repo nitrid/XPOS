@@ -3594,8 +3594,8 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
-            if($scope.Kullanici == 'MAHO')
-            {
+            // if($scope.Kullanici == 'MAHO')
+            // {
                 $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
                 $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
                 $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
@@ -3609,11 +3609,11 @@ function Pos($scope,$window,$rootScope,db)
                         await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
                     }
                 }
-            }
-            else
-            {
-                alertify.alert($scope.SetLang("Bu işlemi yapmak için yetkiniz yok !"))    
-            }
+            //}
+            // else
+            // {
+            //     alertify.alert($scope.SetLang("Bu işlemi yapmak için yetkiniz yok !"))    
+            // }
         }
         else
         {
