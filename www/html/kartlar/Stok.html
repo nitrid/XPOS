@@ -492,6 +492,9 @@
                                         <li class="nav-item" role="presentation">
                                             <a class="nav-link" data-toggle="tab" href="" ng-click="BtnBilgi()" langu>Bilgi</a>
                                         </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" data-toggle="tab" href="" ng-click="BtnFiyatGecmis()" langu>Fiyat Geçmişi</a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content pt-20">
                                         <!--FİYAT TAB-->
@@ -587,9 +590,25 @@
                                         <!--TEDARİKÇİ TAB-->
                                         <div class="tab-pane" id="TabTedarikci" role="tabpanel">
                                             <div class="row">
-                                                <div class="col-lg-12">
+                                                <div class="col-3">
                                                     <div class="my-10">
                                                         <button id="addToTable" class="btn btn-outline btn-primary" type="button" ng-click="BtnModalTedarikciEkle()" langu><i class="icon wb-plus" aria-hidden="true"></i>Yeni Tedarikçi</button>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row px-15">
+                                                <div class="col-2 mx-5">
+                                                    <div class="form-group row">
+                                                        <label class="form-control-label" langu>Min. Alış Fiyatı</label>
+                                                        <input type="text" class="form-control" id="MinAlisFiyati" name="name" autocomplete="off" onClick="this.setSelectionRange(0, this.value.length)"
+                                                            ng-model="MinAlisFiyati" disabled /> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 mx-5">
+                                                    <div class="form-group row">
+                                                        <label class="form-control-label" langu>Max. Alış Fiyatı</label>
+                                                        <input type="text" class="form-control" id="MaxAlisFiyati" name="name" autocomplete="off" onClick="this.setSelectionRange(0, this.value.length)"
+                                                            ng-model="MaxAlisFiyati" disabled /> 
                                                     </div>
                                                 </div>
                                             </div>
@@ -642,6 +661,14 @@
                                                 <label class="col-md-10 form-control-label">
                                                     <div class="float-left" langu>{{StokListe[0].LUSER}}</div>
                                                 </label>
+                                            </div>
+                                        </div>
+                                        <!--FİYAT GEÇMİŞ TAB-->
+                                        <div class="tab-pane" id="TabFiyatGecmis" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div id="TblFiyatGecmis"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

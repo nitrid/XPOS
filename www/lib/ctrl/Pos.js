@@ -3594,26 +3594,28 @@ function Pos($scope,$window,$rootScope,db)
     {
         if($scope.SatisList.length > 0)
         {
-            // if($scope.Kullanici == 'MAHO')
-            // {
-                $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
-                $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
-                $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
-                $scope.AciklamaGiris.Txt = ""
-                $scope.AciklamaGiris.Open();
-                $scope.AciklamaGiris.Entry = async function(pStatus)
+            $scope.SifreGiris.Type = 0; 
+            $scope.SifreGiris.TxtSifreGiris = ""
+            $scope.SifreGiris.Open();
+            $scope.SifreGiris.Entry = function(pStatus)
+            {
+                if(pStatus)
                 {
-                    if(pStatus)
+                    $scope.AciklamaGiris.Title = Param[0].IadeKabulAciklama.Title;
+                    $scope.AciklamaGiris.Content = Param[0].IadeKabulAciklama.Content;
+                    $scope.AciklamaGiris.Model = Param[0].IadeKabulAciklama.Model;
+                    $scope.AciklamaGiris.Txt = ""
+                    $scope.AciklamaGiris.Open();
+                    $scope.AciklamaGiris.Entry = async function(pStatus)
                     {
-                        $('#MdlIadeTip').modal('show');
-                        await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                        if(pStatus)
+                        {
+                            $('#MdlIadeTip').modal('show');
+                            await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','REBATE',0,$scope.Seri,$scope.Sira,0,$scope.AciklamaGiris.Txt]);
+                        }
                     }
                 }
-            //}
-            // else
-            // {
-            //     alertify.alert($scope.SetLang("Bu işlemi yapmak için yetkiniz yok !"))    
-            // }
+            }
         }
         else
         {

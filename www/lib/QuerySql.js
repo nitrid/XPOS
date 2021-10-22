@@ -222,13 +222,30 @@ var QuerySql =
     {
         query : "SELECT TOP 20 " +
                 "[GUID] AS [GUID], " + 
+                "ISNULL((SELECT TOP 1 NAME FROM USERS WHERE CODE = [CUSER]),'') AS [USER], " +
                 "[CUSTOMER] AS [CUSTOMER_CODE], " +
                 "ISNULL((SELECT TOP 1 [NAME] FROM CUSTOMERS WHERE [CODE] = [CUSTOMER]),'') AS [CUSTOMER_NAME], " +
                 "ISNULL((SELECT TOP 1 [CUSTOMER_ITEM_CODE] FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = LOG_PRICE.ITEM_CODE),'') AS [CUSTOMER_ITEM_CODE], " +
                 "CONVERT(nvarchar,[CDATE],104) + ' ' + CONVERT(nvarchar,[CDATE],8) AS PRICE_LDATE, " +
                 "[PRICE] " +
                 "FROM LOG_PRICE " +
-                "WHERE [ITEM_CODE] = @ITEM_CODE " +
+                "WHERE [ITEM_CODE] = @ITEM_CODE AND TYPE = 1 " +
+                "ORDER BY [CDATE] DESC",
+        param : ['ITEM_CODE:string|25']
+    },
+    StokKartFiyatGecmisListeGetir : 
+    {
+        query : "SELECT TOP 20 " +
+                "[GUID] AS [GUID], " + 
+                "ISNULL((SELECT TOP 1 NAME FROM USERS WHERE CODE = [CUSER]),'') AS [USER], " +
+                "CONVERT(nvarchar,[START_DATE],104) AS [START_DATE], " + 
+                "CONVERT(nvarchar,[FINISH_DATE],104) AS [FINISH_DATE], " + 
+                "[CUSTOMER] AS [CUSTOMER_CODE], " +
+                "[QUANTITY] AS [QUANTITY], " + 
+                "CONVERT(nvarchar,[CDATE],104) + ' ' + CONVERT(nvarchar,[CDATE],8) AS PRICE_LDATE, " +
+                "[PRICE] " +
+                "FROM LOG_PRICE " +
+                "WHERE [ITEM_CODE] = @ITEM_CODE AND TYPE = 0 " +
                 "ORDER BY [CDATE] DESC",
         param : ['ITEM_CODE:string|25']
     },
@@ -265,7 +282,8 @@ var QuerySql =
                 "@QUANTITY,				--<QUANTITY, float,> \n" +
                 "@CUSTOMER			    --<CUSTOMER, nvarchar(25),> \n" +
                 ") " +
-                "END " + 
+                "EXEC [dbo].[PRD_LOG_PRICE_INSERT] @CUSER,'INSERT',@ITEM_CODE,0,@START_DATE,@FINISH_DATE,@PRICE,@QUANTITY,@CUSTOMER " +
+                "END " +                 
                 "SELECT @TMPCODE AS ITEM_CODE",
         param : ['CUSER:string|25','LUSER:string|25','ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','START_DATE:date','FINISH_DATE:date',
                  'PRICE:float','QUANTITY:float','CUSTOMER:string|25']
@@ -278,10 +296,13 @@ var QuerySql =
     FiyatUpdate :
     {
         query : "DECLARE @TMPCODE NVARCHAR(25) " +
+                "DECLARE @CUSER NVARCHAR(25) " +
                 "SET @TMPCODE = ISNULL((SELECT TOP 1 [ITEM_CODE] FROM ITEM_PRICE WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE AND [DEPOT] = @DEPOT AND [QUANTITY] = @QUANTITY),'') " +
+                "SET @CUSER = ISNULL((SELECT TOP 1 [CUSER] FROM ITEM_PRICE WHERE [TYPE] = @TYPE AND [ITEM_CODE] = @ITEM_CODE AND [DEPOT] = @DEPOT AND [QUANTITY] = @QUANTITY),'') " +
                 "IF @TMPCODE <> '' " +
                 "BEGIN " +
                 "UPDATE ITEM_PRICE SET PRICE = @PRICE,QUANTITY = @QUANTITY,START_DATE = @START_DATE,FINISH_DATE = @FINISH_DATE,LDATE = GETDATE() WHERE GUID = CONVERT(NVARCHAR(50),@GUID)" +
+                "EXEC [dbo].[PRD_LOG_PRICE_INSERT] @CUSER,'UPDATE',@ITEM_CODE,0,@START_DATE,@FINISH_DATE,@PRICE,@QUANTITY,'' " +
                 "END " + 
                 "SELECT @TMPCODE AS ITEM_CODE",
         param : ['ITEM_CODE:string|25','TYPE:int','DEPOT:string|25','PRICE:float','QUANTITY:float','START_DATE:date','FINISH_DATE:date','GUID:string|50']
