@@ -838,6 +838,12 @@ function StokCtrl ($scope,$window,$location,db)
                         $scope.CmbAltBirimChange(); 
                         TblFiyatInit();
                     });
+                    //FİYAT GEÇMİŞ LİSTESİ GETİR
+                    db.GetData($scope.Firma,'StokKartFiyatGecmisListeGetir',[pKodu],function(FiyatData)
+                    {
+                        $scope.FiyatGecmisListe = FiyatData;
+                        TblFiyatGecmisInit()
+                    });  
                 });
             },
             onRowUpdating: function(e) 
@@ -1205,8 +1211,28 @@ function StokCtrl ($scope,$window,$location,db)
                     width: "10%"
                 }       
             ],
+            onRowUpdating: function(e) 
+            {
+                if(typeof e.newData.PRICE != 'undefined')
+                {
+                    if($scope.MinAlisFiyati > parseFloat(e.newData.PRICE))
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
+                        e.cancel = true;
+                        return;
+                    }
+                    if($scope.MaxAlisFiyati < parseFloat(e.newData.PRICE))
+                    {
+                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                        alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
+                        e.cancel = true;
+                        return;
+                    }
+                }
+            },
             onRowUpdated: async function(e) 
-            {   
+            {                   
                 let TmpVal =
                 [
                     e.data.CUSTOMER_CODE,
@@ -1259,8 +1285,10 @@ function StokCtrl ($scope,$window,$location,db)
                     value: [$scope.Kullanici,$scope.Kullanici,$scope.StokListe[0].CODE,e.data.PRICE,e.data.CUSTOMER_CODE]
                 }
                 await db.ExecutePromiseQuery(TmpQuery);
-                $scope.StokListe[0].COST_PRICE = parseFloat(e.data.PRICE + $scope.StokListe[0].SUGAR_VAT).toFixed(2);
 
+                $scope.StokListe[0].COST_PRICE = parseFloat(e.data.PRICE + $scope.StokListe[0].SUGAR_VAT).toFixed(2);
+                $scope.MinAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE / 1.3).toFixed(2) : 0;
+                $scope.MaxAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE * 1.3).toFixed(2) : 0;
                 //TEDARİKÇİ LİSTESİ GETİR
                 db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                 {
@@ -1307,6 +1335,12 @@ function StokCtrl ($scope,$window,$location,db)
             columns: 
             [
                 {
+                    dataField: "USER",
+                    caption: db.Language($scope.Lang,"Kullanıcı"),
+                    alignment: "center",
+                    width: "10%"
+                },
+                {
                     dataField: "CUSTOMER_CODE",
                     caption: db.Language($scope.Lang,"Kodu"),
                     alignment: "center",
@@ -1341,6 +1375,70 @@ function StokCtrl ($scope,$window,$location,db)
                     alignment: "center",
                     width: "10%"
                 }       
+            ]
+        })
+    }
+    function TblFiyatGecmisInit()
+    {
+        $("#TblFiyatGecmis").dxDataGrid(
+        {
+            dataSource: $scope.FiyatGecmisListe,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            columnResizingMode: "nextColumn",
+            columnMinWidth: 50,
+            columnAutoWidth: true,
+            width:"100%",
+            paging: 
+            {
+                enabled: false
+            },
+            columns: 
+            [
+                {
+                    dataField: "USER",
+                    caption: db.Language($scope.Lang,"Kullanıcı"),
+                    alignment: "center",
+                    width: "10%"
+                },                     
+                {
+                    dataField: "PRICE_LDATE",
+                    caption: db.Language($scope.Lang,"Son Fiyat Tarih"),
+                    //dataType: "date",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "PRICE",
+                    caption: db.Language($scope.Lang,"Fiyat"),
+                    dataType: "number",
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                },   
+                {
+                    dataField: "START_DATE",
+                    caption: db.Language($scope.Lang,"Bas.Tarih"),
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "FINISH_DATE",
+                    caption: db.Language($scope.Lang,"Bit.Tarih"),
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
+                {
+                    dataField: "QUANTITY",
+                    caption: db.Language($scope.Lang,"Miktar"),
+                    alignment: "center",
+                    allowEditing: false,
+                    width: "10%"
+                }, 
             ]
         })
     }
@@ -1504,10 +1602,11 @@ function StokCtrl ($scope,$window,$location,db)
                     $scope.TedaikciListe = TedarikciData;
                     TblTedarikciInit();
                     if($scope.TedaikciListe.length > 0)
-                    {
-                        console.log($scope.TedaikciListe[0].PRICE)
+                    {                        
                         $scope.StokListe[0].CUSTOMER_ITEM_CODE = TedarikciData[0].CUSTOMER_ITEM_CODE + ' / ' + TedarikciData[0].CUSTOMER_NAME;
                         $scope.StokListe[0].COST_PRICE = parseFloat(parseFloat($scope.TedaikciListe[0].PRICE) + parseFloat($scope.StokListe[0].SUGAR_VAT)).toFixed(2);
+                        $scope.MinAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE / 1.3).toFixed(2) : 0;
+                        $scope.MaxAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE * 1.3).toFixed(2) : 0;   
                     }
                 });
                 //TEDARİKÇİ FİYAT LİSTESİ GETİR
@@ -1515,6 +1614,12 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     $scope.TedarikciFiyatListe = TedarikciFiyatData;
                     TblTedarikciFiyatInit()
+                });
+                //FİYAT GEÇMİŞ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartFiyatGecmisListeGetir',[pKodu],function(FiyatData)
+                {
+                    $scope.FiyatGecmisListe = FiyatData;
+                    TblFiyatGecmisInit()
                 });                                
 
                 BarkodModalInit();
@@ -1624,7 +1729,7 @@ function StokCtrl ($scope,$window,$location,db)
             pFiyat = $scope.StokListe[0].COST_PRICE
             pCustomer = $scope.StokListe[0].ITEM_CUSTOMER
         }
-
+        
         let InsertData =
         [
             $scope.Kullanici,
@@ -1670,11 +1775,13 @@ function StokCtrl ($scope,$window,$location,db)
             $scope.BarkodListe = [];
             $scope.TedaikciListe = [];
             $scope.TedarikciFiyatListe = [];
+            $scope.FiyatGecmisListe = [];
 
             TblFiyatInit();
             TblBarkodInit();
             TblTedarikciInit();
             TblTedarikciFiyatInit();
+            TblFiyatGecmisInit();
             TblSecimInit([]);   
 
             $scope.StokListe[0].CODE = Math.floor(Date.now() / 1000);
@@ -1880,6 +1987,8 @@ function StokCtrl ($scope,$window,$location,db)
         }
         $scope.RefReadOnly = false;
 
+        $scope.MinAlisFiyati = 0;
+        $scope.MaxAlisFiyati = 0;
         $scope.AltBirimFiyati = "0.00 €";
         $scope.FiyatListe = [];
         $scope.BirimListe = [];
@@ -1893,6 +2002,7 @@ function StokCtrl ($scope,$window,$location,db)
         TblBarkodInit();
         TblTedarikciInit();
         TblTedarikciFiyatInit();
+        TblFiyatGecmisInit();
         TblSecimInit([]);                
 
         $scope.StokListe = [];
@@ -2286,6 +2396,12 @@ function StokCtrl ($scope,$window,$location,db)
                     TblFiyatInit();
                     $scope.CmbAltBirimChange();
                 });
+                //FİYAT GEÇMİŞ LİSTESİ GETİR
+                db.GetData($scope.Firma,'StokKartFiyatGecmisListeGetir',[pKodu],function(FiyatData)
+                {
+                    $scope.FiyatGecmisListe = FiyatData;
+                    TblFiyatGecmisInit()
+                });  
             }
         });
     }
@@ -2381,6 +2497,18 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
+        if($scope.MinAlisFiyati > parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
+        {
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
+            return;
+        }
+        if($scope.MaxAlisFiyati < parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
+        {
+            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
+            return;
+        }
         let InsertData =
         [
             $scope.Kullanici,
@@ -2424,6 +2552,8 @@ function StokCtrl ($scope,$window,$location,db)
                 {
                     TedarikciFiyatKaydet($scope.TedarikciModal.Fiyat,$scope.TedarikciModal.Kodu);
                     $scope.StokListe[0].COST_PRICE = parseFloat(parseFloat($scope.TedarikciModal.Fiyat) + parseFloat($scope.StokListe[0].SUGAR_VAT)).toFixed(2);
+                    $scope.MinAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE / 1.3).toFixed(2) : 0;
+                    $scope.MaxAlisFiyati = $scope.StokListe[0].COST_PRICE > 0 ? parseFloat($scope.StokListe[0].COST_PRICE * 1.3).toFixed(2) : 0;
                     //TEDARİKÇİ LİSTESİ GETİR
                     db.GetData($scope.Firma,'StokKartTedarikciListeGetir',[$scope.StokListe[0].CODE],function(TedarikciData)
                     {
@@ -2757,6 +2887,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
         $("#TabBilgi").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
     }
     $scope.BtnTabBirim = function()
     {
@@ -2766,6 +2897,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
         $("#TabBilgi").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
     }
     $scope.BtnTabBarkod = function()
     {
@@ -2775,6 +2907,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabTedarikci").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
         $("#TabBilgi").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
     }
     $scope.BtnTabTedarikci = function()
     {
@@ -2784,6 +2917,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBirim").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
         $("#TabBilgi").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
     }
     $scope.BtnTabTedarikciFiyat = function()
     {
@@ -2793,6 +2927,7 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
         $("#TabBilgi").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
     }
     $scope.BtnBilgi = function()
     {
@@ -2802,6 +2937,17 @@ function StokCtrl ($scope,$window,$location,db)
         $("#TabBarkod").removeClass('active');
         $("#TabBirim").removeClass('active');
         $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabFiyatGecmis").removeClass('active');
+    }
+    $scope.BtnFiyatGecmis = function()
+    {
+        $("#TabFiyatGecmis").addClass('active');        
+        $("#TabTedarikci").removeClass('active');
+        $("#TabFiyat").removeClass('active');
+        $("#TabBarkod").removeClass('active');
+        $("#TabBirim").removeClass('active');
+        $("#TabTedarikciFiyat").removeClass('active');
+        $("#TabBilgi").removeClass('active');
     }
     $scope.TxtCostPriceValid = function()
     {
