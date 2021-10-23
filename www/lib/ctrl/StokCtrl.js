@@ -1215,20 +1215,20 @@ function StokCtrl ($scope,$window,$location,db)
             {
                 if(typeof e.newData.PRICE != 'undefined')
                 {
-                    if($scope.MinAlisFiyati > parseFloat(e.newData.PRICE))
-                    {
-                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                        alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
-                        e.cancel = true;
-                        return;
-                    }
-                    if($scope.MaxAlisFiyati < parseFloat(e.newData.PRICE))
-                    {
-                        alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-                        alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
-                        e.cancel = true;
-                        return;
-                    }
+                    // if($scope.MinAlisFiyati > parseFloat(e.newData.PRICE))
+                    // {
+                    //     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    //     alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
+                    //     e.cancel = true;
+                    //     return;
+                    // }
+                    // if($scope.MaxAlisFiyati < parseFloat(e.newData.PRICE))
+                    // {
+                    //     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+                    //     alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
+                    //     e.cancel = true;
+                    //     return;
+                    // }
                 }
             },
             onRowUpdated: async function(e) 
@@ -2497,18 +2497,18 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
-        if($scope.MinAlisFiyati > parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
-        {
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
-            return;
-        }
-        if($scope.MaxAlisFiyati < parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
-        {
-            alertify.okBtn(db.Language($scope.Lang,"Tamam"));
-            alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
-            return;
-        }
+        // if($scope.MinAlisFiyati > parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
+        // {
+        //     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+        //     alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));
+        //     return;
+        // }
+        // if($scope.MaxAlisFiyati < parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
+        // {
+        //     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
+        //     alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat maximum alış fiyatından düşük olamaz.!"));
+        //     return;
+        // }
         let InsertData =
         [
             $scope.Kullanici,
