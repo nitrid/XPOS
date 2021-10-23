@@ -25,11 +25,14 @@ function GunSonuCtrl ($scope,$window,db)
         TmpPopUpContent = function(pData) 
         {
             let TmpHtml = ""
+            let TmpTitlePark = db.Language($scope.Lang,"Park da Bekleyen")
+            let TmpTitleSatir = db.Language($scope.Lang,"Satır Silinen")
+            let TmpTitleTicket = db.Language($scope.Lang,"Ticket Silinen")
             for (let i = 0; i < Object.keys(db.ToGroupBy(pData,"TIP")).length; i++) 
             {
                 if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "0")
                 {
-                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Park da Bekleyen</p>";
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;'>" + TmpTitlePark + "</p>";
 
                     let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
 
@@ -40,7 +43,7 @@ function GunSonuCtrl ($scope,$window,db)
                 }   
                 else if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "1")
                 {
-                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Satır Silinen</p>";
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;'>" + TmpTitleSatir + "</p>";
 
                     let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
 
@@ -51,7 +54,7 @@ function GunSonuCtrl ($scope,$window,db)
                 }       
                 else if(Object.keys(db.ToGroupBy(pData,"TIP"))[i] == "2")
                 {
-                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;' langu>Ticket Silinen</p>";
+                    TmpHtml += "<p style='font-size: 18px;font-weight: bold;'>" + TmpTitleTicket + "</p>";
 
                     let TmpData = db.ToGroupBy(pData,"TIP")[Object.keys(db.ToGroupBy(pData,"TIP"))[i]];
 
