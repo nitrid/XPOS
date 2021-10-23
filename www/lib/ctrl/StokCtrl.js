@@ -2497,7 +2497,7 @@ function StokCtrl ($scope,$window,$location,db)
             alertify.alert(db.Language($scope.Lang,"Stok kodu bölümünü girmeden kayıt edemezsiniz !"));
             return;
         }
-        // if($scope.MinAlisFiyati > parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
+        // if($scope.MinAlisFiyati > 0 && $scope.MinAlisFiyati > parseFloat($scope.TedarikciModal.Fiyat.toString().replace(',','.')))
         // {
         //     alertify.okBtn(db.Language($scope.Lang,"Tamam"));
         //     alertify.alert(db.Language($scope.Lang,"Girmiş olduğunuz fiyat minimum alış fiyatından düşük olamaz.!"));

@@ -31,7 +31,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     {
         BarkodData = new DevExpress.data.ArrayStore(
         {
-            key: "BARCODE",
+            key: "CODE",
             data: $scope.BarkodListe
         });
         
