@@ -5,29 +5,29 @@
     <Item2 Ref="3" ControlType="DetailBand" Name="Detail" HeightF="340" Dpi="254">
       <HierarchyPrintOptions Ref="4" Indent="50.8" />
       <Controls>
-        <Item1 Ref="5" ControlType="XRLabel" Name="label1" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 7" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="5,5,0,0,254">
+        <Item1 Ref="5" ControlType="XRLabel" Name="label1" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 30" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="5,5,0,0,254">
           <ExpressionBindings>
             <Item1 Ref="6" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPTION]" />
           </ExpressionBindings>
           <StylePriority Ref="7" UseFont="false" UseTextAlignment="false" />
         </Item1>
-        <Item2 Ref="8" ControlType="XRLabel" Name="label2" Multiline="true" Text="€" SizeF="66.29166,69.2149353" LocationFloat="245.708313, 229.482513" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
+        <Item2 Ref="8" ControlType="XRLabel" Name="label2" Multiline="true" Text="€" SizeF="66.29166,69.2149353" LocationFloat="245.708313, 252.482513" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
           <StylePriority Ref="9" UseFont="false" />
         </Item2>
-        <Item3 Ref="10" ControlType="XRLabel" Name="label3" TextFormatString="{0:0.00€}" Multiline="true" Text="label3" TextAlignment="TopRight" SizeF="238.270844,69.21492" LocationFloat="16.0000076, 236.482513" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
+        <Item3 Ref="10" ControlType="XRLabel" Name="label3" TextFormatString="{0:0.00€}" Multiline="true" Text="label3" TextAlignment="TopRight" SizeF="238.270844,69.21492" LocationFloat="16.0000076, 259.4825" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
           <ExpressionBindings>
             <Item1 Ref="11" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE]" />
           </ExpressionBindings>
           <StylePriority Ref="12" UseFont="false" UseTextAlignment="false" />
         </Item3>
-        <Item4 Ref="13" ControlType="XRBarCode" Name="barCode1" Module="5.08" AutoModule="true" TextAlignment="BottomCenter" SizeF="318.833282,119.062531" LocationFloat="9.999995, 117.419983" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="25,25,0,0,254">
+        <Item4 Ref="13" ControlType="XRBarCode" Name="barCode1" Module="5.08" AutoModule="true" TextAlignment="BottomCenter" SizeF="318.833282,119.062531" LocationFloat="9.999995, 140.419983" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="25,25,0,0,254">
           <Symbology Ref="14" Name="EAN8" />
           <ExpressionBindings>
             <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[CODE]" />
           </ExpressionBindings>
           <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
         </Item4>
-        <Item5 Ref="17" ControlType="XRLabel" Name="label4" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 58.9999771" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="5,5,0,0,254">
+        <Item5 Ref="17" ControlType="XRLabel" Name="label4" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 81.99998" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="5,5,0,0,254">
           <ExpressionBindings>
             <Item1 Ref="18" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPTION2]" />
           </ExpressionBindings>

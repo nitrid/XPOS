@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="19.2.3.0" Ref="1" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report2" SnapGridSize="25" DataSourceSchema="[{&quot;CUSER&quot;:&quot;ADMIN&quot;,&quot;CDATE&quot;:&quot;2021-10-20T17:18:55.243Z&quot;,&quot;LUSER&quot;:&quot;ADMIN&quot;,&quot;LDATE&quot;:&quot;2021-10-20T17:18:55.243Z&quot;,&quot;REF&quot;:&quot;X&quot;,&quot;REF_NO&quot;:180,&quot;PRINT_COUNT&quot;:1,&quot;STATUS&quot;:0,&quot;CODE&quot;:&quot;2701612&quot;,&quot;BARCODE&quot;:null,&quot;NAME&quot;:null,&quot;ITEM_GRP&quot;:null,&quot;ITEM_GRP_NAME&quot;:null,&quot;CUSTOMER_NAME&quot;:null,&quot;PRICE&quot;:&quot;2.49&quot;,&quot;UNDER_UNIT_VALUE&quot;:null,&quot;UNDER_UNIT_PRICE&quot;:null,&quot;PRICE1&quot;:&quot;2&quot;,&quot;PRICE2&quot;:&quot;49&quot;,&quot;UNDER_UNIT_PRICE2&quot;:null,&quot;PATH&quot;:&quot;C:\\Piqpos\\devprint\\repx\\ProdorPlus\\Yuvarlak Etiket.repx&quot;,&quot;DESCRIPTION&quot;:&quot;ZINE SIROP DE DATTES 450G&quot;,&quot;DESCRIPTION2&quot;:&quot;AA&quot;,&quot;ORGINS&quot;:&quot;&quot;}]" ReportUnit="TenthsOfAMillimeter" Margins="0, 0, 0, 0" PaperKind="Custom" PageWidth="360" PageHeight="480" Version="19.2" ShowPrintStatusDialog="false" ShowPrintMarginsWarning="false" DataMember="DATA" DataSource="#Ref-0" Dpi="254" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="2" ControlType="TopMarginBand" Name="TopMargin" HeightF="0" Dpi="254" />
+    <Item2 Ref="3" ControlType="DetailBand" Name="Detail" HeightF="453.4167" Dpi="254">
+      <HierarchyPrintOptions Ref="4" Indent="50.8" />
+      <Controls>
+        <Item1 Ref="5" ControlType="XRLabel" Name="label1" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 154.719269" Dpi="254" Font="Arial, 7pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="6" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPTION]" />
+          </ExpressionBindings>
+          <StylePriority Ref="7" UseFont="false" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="8" ControlType="XRLabel" Name="label2" Multiline="true" Text="€" SizeF="66.29166,69.2149353" LocationFloat="245.708313, 377.201782" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
+          <StylePriority Ref="9" UseFont="false" />
+        </Item2>
+        <Item3 Ref="10" ControlType="XRLabel" Name="label3" TextFormatString="{0:0.00€}" Multiline="true" Text="label3" TextAlignment="TopRight" SizeF="238.270844,69.21492" LocationFloat="16.0000076, 384.201782" Dpi="254" Font="Arial, 20pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="11" EventName="BeforePrint" PropertyName="Text" Expression="[PRICE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="12" UseFont="false" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="13" ControlType="XRBarCode" Name="barCode1" Module="5.08" AutoModule="true" TextAlignment="BottomCenter" SizeF="318.833282,119.062531" LocationFloat="9.999995, 265.139252" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="25,25,0,0,254">
+          <Symbology Ref="14" Name="EAN8" />
+          <ExpressionBindings>
+            <Item1 Ref="15" EventName="BeforePrint" PropertyName="Text" Expression="[CODE]" />
+          </ExpressionBindings>
+          <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="17" ControlType="XRLabel" Name="label4" Multiline="true" Text="label3" TextAlignment="MiddleCenter" SizeF="340,58.4200058" LocationFloat="0, 206.719238" Dpi="254" Font="Arial, 8pt, style=Bold" Padding="5,5,0,0,254">
+          <ExpressionBindings>
+            <Item1 Ref="18" EventName="BeforePrint" PropertyName="Text" Expression="[DESCRIPTION2]" />
+          </ExpressionBindings>
+          <StylePriority Ref="19" UseFont="false" UseTextAlignment="false" />
+        </Item5>
+      </Controls>
+    </Item2>
+    <Item3 Ref="20" ControlType="BottomMarginBand" Name="BottomMargin" HeightF="0" Dpi="254" />
+  </Bands>
+  <ObjectStorage>
+    <Item1 ObjectType="DevExpress.XtraReports.Serialization.ObjectStorageInfo, DevExpress.XtraReports.v19.2" Ref="0" Content="~Xtra#NULL" Type="System.Data.DataTable" />
+  </ObjectStorage>
+</XtraReportsLayoutSerializer>
