@@ -9,14 +9,13 @@ var Param = [
 	"MikroId": "1",
 	"Yetkili": true,
 	"UrunFiyatDegisimListesi" : "02528,002233,60656,01424,01423,60660,0223,0221,00,02560,02057,01777,02527",
-	"Firma" : "HUDO Distribution SARL",
+	"Firma" : "DORACAN Distribution SARL",
 	"FisBaslik" : 
 	[
-		"7 ALLEE DU MIDI",
-		"54270 ESSEY LES NANCY",
-		"Tel : 03 83 93 33 07",
-		"nancy@prodorplus.fr",
-		"www.prodorplus.fr"
+		"ZAC HECKENWALD",
+		"57740 LONGEVILLE-LES-ST-AVOLD",
+		"Tel : 03 87 91 00 32",
+		"longeville@prodorplus.fr",
 	],
 	"ParkAciklama" : 
 	{
@@ -97,20 +96,20 @@ var Param = [
 		"Model" : 
 		[
 			{
-				"View" : "Alişverişten Vazgeçti.",
-				"Value" : "Müşteri Alişverişinden vazgeçti."
+				"View" : "Ürün Barkodu Çift Okutulmuş.",
+				"Value" : "Ürün barkodu yanlişlikla çift okutulmuş."
 			},
 			{
-				"View" : "Yetersiz Ödeme.",
-				"Value" : "Müşteri ödeme tutarını karşılayamadı."
+				"View" : "Ürün arızalı yada defolu.",
+				"Value" : "Müşteri ürünü arızasından yada defosundan dolayı iade etti."
 			},
 			{
-				"View" : "K.Kartı yetersiz bakiye.",
-				"Value" : "Müşterinin k.kartı geçmedi."
+				"View" : "Müşteri Ürünü beğenmedi.",
+				"Value" : "Müşteri ürünü beğenmediği için geri iade etti."
 			},
 			{
-				"View" : "Test Amaçlı.",
-				"Value" : "Test amaçlı tiket oluşturuldu ve silindi."
+				"View" : "Müşteri yanlış ürün aldı.",
+				"Value" : "Müşteri yanlış ürün aldı değiştirmek istiyor."
 			}
 		]
 	},
