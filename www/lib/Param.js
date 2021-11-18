@@ -97,20 +97,20 @@ var Param = [
 		"Model" : 
 		[
 			{
-				"View" : "Alişverişten Vazgeçti.",
-				"Value" : "Müşteri Alişverişinden vazgeçti."
+				"View" : "Ürün Barkodu Çift Okutulmuş.",
+				"Value" : "Ürün barkodu yanlişlikla çift okutulmuş."
 			},
 			{
-				"View" : "Yetersiz Ödeme.",
-				"Value" : "Müşteri ödeme tutarını karşılayamadı."
+				"View" : "Ürün arızalı yada defolu.",
+				"Value" : "Müşteri ürünü arızasından yada defosundan dolayı iade etti."
 			},
 			{
-				"View" : "K.Kartı yetersiz bakiye.",
-				"Value" : "Müşterinin k.kartı geçmedi."
+				"View" : "Müşteri Ürünü beğenmedi.",
+				"Value" : "Müşteri ürünü beğenmediği için geri iade etti."
 			},
 			{
-				"View" : "Test Amaçlı.",
-				"Value" : "Test amaçlı tiket oluşturuldu ve silindi."
+				"View" : "Müşteri yanlış ürün aldı.",
+				"Value" : "Müşteri yanlış ürün aldı değiştirmek istiyor."
 			}
 		]
 	},
