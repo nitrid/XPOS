@@ -5055,6 +5055,11 @@ function Pos($scope,$window,$rootScope,db)
     }
     $scope.BtnTicketPay = function()
     {
+        if($scope.CariAdi != '')
+        {
+            alertify.alert($scope.SetLang("Ticket Rest. ile yapılan ödemelerde sadakat puanı veremezsiniz. Lütfen seçili müşteriden çıkınız !"));
+            return;
+        }
         if($scope.SatisList.length == 0)
         {
             alertify.alert($scope.SetLang("Satış olmadan ödeme alamazsınız !"));
