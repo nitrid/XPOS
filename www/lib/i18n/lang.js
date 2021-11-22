@@ -758,7 +758,7 @@ var lang =
             "Park da Bekleyen" : "Ticket en attente",
             "Satır Silinen" : "Ligne supprimé",
             "Ticket Silinen" : "Ticket annulé",
-            "" : "",
+            "Ticket Rest. ile yapılan ödemelerde sadakat puanı veremezsiniz. Lütfen seçili müşteriden çıkınız !" : "Ticket Rest. ile yapılan ödemelerde sadakat puanı veremezsiniz. Lütfen seçili müşteriden çıkınız !",
             "" : "",
             "" : "",
             "" : "",
