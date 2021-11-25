@@ -1352,6 +1352,7 @@ var QuerySql =
                 "CAST(QUANTITY AS decimal(10,2)) AS QUANTITY, " +
                 "CAST(PRICE AS decimal(10,2))  AS PRICE, " +
                 "CAST((QUANTITY * PRICE) AS decimal(10,2)) AS AMOUNT, " +
+                "ISNULL((SELECT TOP 1 DESCRIPTION FROM POS_MASTER_EXTRA AS EX WHERE EX.REF = PS.REF AND EX.REF_NO = PS.REF_NO AND EX.LINE_NO = PS.LINE_NO),'') AS UPDATE_PRICE, " +
                 "STATUS AS STATUS " +
                 "FROM POS_SALES AS PS WHERE DEPARTMENT = @DEPARTMENT AND REF = @REF AND REF_NO = @REF_NO AND ((@STATUS = -1) OR (STATUS = @STATUS)) " ,
         param: ['DEPARTMENT','REF','REF_NO','STATUS'],

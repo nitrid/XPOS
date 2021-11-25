@@ -1912,20 +1912,26 @@ function Pos($scope,$window,$rootScope,db)
             db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
             {   
                 $scope.ParkList = ParkData;
-                $scope.ParkIslemSayisi = $scope.ParkList.length;
-                $("#TblParkIslem").jsGrid({data : $scope.ParkList});
-                
-                for (let i = 0; i < $scope.ParkList.length; i++) 
+                if($scope.ParkList.length > 0)
                 {
-                    if($scope.ParkList[i].DESCRIPTION == '')
+                    $scope.ParkIslemSayisi = $scope.ParkList.length;
+                    $("#TblParkIslem").jsGrid({data : $scope.ParkList});
+                    
+                    for (let i = 0; i < $scope.ParkList.length; i++) 
                     {
-                        $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
-                        return;
+                        if($scope.ParkList[i].DESCRIPTION == '')
+                        {
+                            $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
+                            return;
+                        }
                     }
+                }
+                else
+                {
+                    db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
                 }
             });
             
-            await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
             //COM PORT BARKOD OKUYUCU 25.05.2021
             if(typeof require != 'undefined')
             {
@@ -2039,6 +2045,13 @@ function Pos($scope,$window,$rootScope,db)
             //EĞER CARİ SEÇ BUTONUNA BASILDIYSA CARİ BARKODDAN SEÇİLECEK.
             if($scope.Class.BtnCariBarSec == "form-group btn btn-danger btn-block my-1")
             {
+                if($scope.TicketPayListe.length > 0)
+                {
+                    $scope.TxtBarkod = ""; 
+                    alertify.alert($scope.SetLang("Ticket Rest. ile yapılan ödemelerde sadakat puanı veremezsiniz. Lütfen seçili müşteriden çıkınız !"));
+                    return;
+                }
+
                 pBarkod = document.getElementById("TxtBarkod").value;
                 if(pBarkod.toString().substring(0,6) == "202012")
                 {
@@ -2565,9 +2578,11 @@ function Pos($scope,$window,$rootScope,db)
             });          
         });
     }
-    $scope.PosSatisFiyatUpdate = function(pData,pPrice)
+    $scope.PosSatisFiyatUpdate = async function(pData,pPrice)
     {   
-        pData.PRICE = pPrice;
+        await db.ExecutePromiseTag($scope.Firma,'PosMasterExtraInsert',[$scope.Kullanici,$scope.Kullanici,'POS_SALE','UPDATE PRICE',0,$scope.Seri,$scope.Sira,pData.LINE_NO,pData.PRICE]);
+
+        pData.PRICE = pPrice;        
 
         db.GetData($scope.Firma,'PosSatisFiyatUpdate',[pPrice,pData.GUID],async function(data)
         {    
@@ -3419,7 +3434,7 @@ function Pos($scope,$window,$rootScope,db)
             $scope.Sira = pRefNo;
         }
         
-
+        console.log($scope.Sira)
         db.GetData($scope.Firma,'PosSatisGetir',[$scope.Sube,$scope.EvrakTip,$scope.Seri,$scope.Sira],function(PosSatisData)
         {   
             db.GetData($scope.Firma,'PosCariGetir',[PosSatisData[0].CUSTOMER_CODE,''],function(data)

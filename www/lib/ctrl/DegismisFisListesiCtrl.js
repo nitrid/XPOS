@@ -131,9 +131,13 @@ function DegismisFisListesiCtrl ($scope,$window,db)
             ],
             rowClass : function(item,itemIndex)
             {
-                console.log(item.STATUS)
                 let TmpStyle = ''
-                if(item.STATUS == 1)
+
+                if(item.UPDATE_PRICE != '')
+                {
+                    TmpStyle = 'bg-blue'
+                }
+                else if(item.STATUS == 1)
                 {
                     TmpStyle = 'bg-green'
                 }
@@ -254,6 +258,24 @@ function DegismisFisListesiCtrl ($scope,$window,db)
                         "MAX(DESCRIPTION) AS DESCRIPTION " +
                         "FROM POS_MASTER_EXTRA " +
                         "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'ROW DELETE' " +
+                        "GROUP BY REF, REF_NO",
+                param:  ['ILKTARIH','SONTARIH'],
+                type:   ['date','date'],
+                value:  [$scope.IlkTarih,$scope.SonTarih]            
+            }
+        }
+        else if($scope.FisTipi == 3)
+        {
+            TmpQuery = 
+            {
+                db : $scope.Firma,
+                query:  "SELECT " +
+                        "CONVERT(NVARCHAR(10),CONVERT(NVARCHAR(10),MAX(LDATE),103)) AS DOC_DATE, " +
+                        "REF AS REF, " +
+                        "REF_NO AS REF_NO, " +
+                        "MAX(DESCRIPTION) AS DESCRIPTION " +
+                        "FROM POS_MASTER_EXTRA " +
+                        "WHERE CONVERT(NVARCHAR(10),LDATE,112) >= @ILKTARIH AND CONVERT(NVARCHAR(10),LDATE,112) <= @SONTARIH AND TAG = 'UPDATE PRICE' " +
                         "GROUP BY REF, REF_NO",
                 param:  ['ILKTARIH','SONTARIH'],
                 type:   ['date','date'],
