@@ -1912,26 +1912,21 @@ function Pos($scope,$window,$rootScope,db)
             db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
             {   
                 $scope.ParkList = ParkData;
-                if($scope.ParkList.length > 0)
+                $scope.ParkIslemSayisi = $scope.ParkList.length;
+                $("#TblParkIslem").jsGrid({data : $scope.ParkList});
+                
+                for (let i = 0; i < $scope.ParkList.length; i++) 
                 {
-                    $scope.ParkIslemSayisi = $scope.ParkList.length;
-                    $("#TblParkIslem").jsGrid({data : $scope.ParkList});
-                    
-                    for (let i = 0; i < $scope.ParkList.length; i++) 
+                    if($scope.ParkList[i].DESCRIPTION == '')
                     {
-                        if($scope.ParkList[i].DESCRIPTION == '')
-                        {
-                            $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
-                            return;
-                        }
+                        $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
+                        return;
                     }
-                }
-                else
-                {
-                    db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
                 }
             });
             
+            await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
+
             //COM PORT BARKOD OKUYUCU 25.05.2021
             if(typeof require != 'undefined')
             {
