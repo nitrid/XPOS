@@ -137,4 +137,8 @@ angular.module("app",
     {
         templateUrl : "html/ayarlar/CihazParametre.html"
     })
+    .when("/ItemCount",
+    {
+        templateUrl : "html/yonetim/ItemCount.html"
+    })
 });

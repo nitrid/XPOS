@@ -1519,6 +1519,11 @@ var QuerySql =
         query : "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXSIRA FROM ORDERM WHERE REF = @REF AND DOC_TYPE = @DOC_TYPE",
         param : ['REF:string|25','DOC_TYPE:int']
     },
+    MaxSayimNo :
+    {
+        query : "SELECT ISNULL(MAX(REF_NO),0) + 1 AS MAXSIRA FROM ITEM_COUNT WHERE REF = @REF ",
+        param : ['REF:string|25']
+    },
     SiparisInsert : 
     {
         query:  "DECLARE @TMP DATETIME " +
@@ -1751,6 +1756,53 @@ var QuerySql =
     {
         query : "DELETE FROM DEVICE WHERE GUID = @GUID " ,
         param : ['GUID:string|150']
+    },
+    // SAYIM 
+    SayimInsert : 
+    {
+        query : "INSERT INTO [dbo].[ITEM_COUNT]  " +
+                " ([GUID]  " +
+                " ,[CUSER]  " +
+                " ,[CDATE]  " +
+                " ,[LUSER]  " +
+                " ,[LDATE]  " +
+                " ,[DEVICE]  " +
+                " ,[REF]  " +
+                " ,[REF_NO]  " +
+                " ,[LINE_NO]  " +
+                " ,[ITEM_CODE]  " +
+                " ,[QUANTITY]  " +
+                " ,[DOC_DATE])  " +
+                "  VALUES  " +
+                "(newid()              --<GUID, uniqueidentifier,>   \n" + 
+                ",@CUSER              --<CUSER, nvarchar(50),>   \n" + 
+                ",GETDATE()              --<CDATE, datetime,>   \n" + 
+                ",@CUSER              --<LUSER, nvarchar(50),>   \n" + 
+                ",GETDATE()              --<LDATE, datetime,>   \n" + 
+                ",@DEVICE              --<DEVICE, nvarchar(50),>   \n" + 
+                ",@REF              --<REF, nvarchar(50),>   \n" + 
+                ",@REF_NO              --<REF_NO, int,>   \n" + 
+                ",@LINE_NO              --<LINE_NO, int,>   \n" + 
+                ",@ITEM_CODE              --<ITEM_CODE, nvarchar(50),>   \n" + 
+                ",@QUANTITY              --<QUANTITY, float,>   \n" + 
+                ",@DOC_DATE              --<DOC_DATE, datetime,>   \n" +
+                " ) ",
+                param : ['CUSER:string|50','DEVICE:string|50','REF:string|50','REF_NO:int','LINE_NO:int','ITEM_CODE:string|50','QUANTITY:float','DOC_DATE:date']
+    },
+    SayimSatirUpdate :
+    {
+        query:  "UPDATE ITEM_COUNT SET QUANTITY = @PQUANTITY WHERE GUID = @PDGUID ",
+        param : ['PDGUID:string|50','PQUANTITY:float']
+    },
+    SayimSatirDelete :
+    {
+        query:  "DELETE FROM  ITEM_COUNT WHERE GUID = @PDGUID ",
+        param : ['PDGUID:string|50']
+    },
+    SayimEvrakDelete :
+    {
+        query:  "DELETE FROM  ITEM_COUNT WHERE REF=@REF AND REF_NO = @REF_NO ",
+        param : ['REF:string|50','REF_NO:int']
     },
 };
 
