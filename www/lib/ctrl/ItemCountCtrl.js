@@ -38,7 +38,7 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
 
 
         $scope.Stok = [];
-        $scope.Miktar = 1;                
+        $scope.Miktar = 1;     
 
         $scope.OtoEkle = false;
         $scope.EvrakLock = false;
@@ -103,7 +103,7 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
                 editing: false
             }, 
             {
-                name: "CODE",
+                name: "ITEM_CODE",
                 title: db.Language($scope.Lang,"Kodu"),
                 type: "text",
                 align: "center",
@@ -121,6 +121,20 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
             {
                 name: "QUANTITY",
                 title: db.Language($scope.Lang,"Miktar"),
+                type: "text",
+                align: "center",
+                width: 100
+            },
+            {
+                name: "ALISFIYAT",
+                title: db.Language($scope.Lang,"Alış Fiyat"),
+                type: "text",
+                align: "center",
+                width: 100
+            },  
+            {
+                name: "TOPLAMFIYAT",
+                title: db.Language($scope.Lang,"Toplam Değer"),
                 type: "text",
                 align: "center",
                 width: 100
@@ -330,6 +344,11 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
         $scope.BarkodLock = false;
 
         $scope.SayimListe = pData;
+        $scope.Envanter = 0
+        for (let  i= 0;  i< $scope.SayimListe.length; i++) 
+        {
+            $scope.Envanter = $scope.Envanter + $scope.SayimListe[i].TOPLAMFIYAT 
+        }
         $("#TblIslem").jsGrid({data : $scope.SayimListe});    
         $scope.BtnTemizle();
         ToplamMiktarHesapla();
@@ -349,20 +368,17 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
     {
         return new Promise(async resolve => 
         {
-            console.log(144)
             let TmpQuery = 
             {
                 db : $scope.Firma,
-                query:  "SELECT *, (SELECT NAME FROM ITEMS WHERE ITEMS.CODE = ITEM_COUNT.ITEM_CODE) AS NAME, " + 
-                        "ROW_NUMBER() OVER(ORDER BY CDATE) AS NO " +
-                        "FROM ITEM_COUNT WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY ROW_NUMBER() OVER(ORDER BY CDATE) DESC",
+                query:  "SELECT *, ROUND((ALISFIYAT * QUANTITY),2) AS TOPLAMFIYAT FROM [ITEM_COUNT_VW_01] WHERE REF = @REF AND REF_NO = @REF_NO ORDER BY ROW_NUMBER() OVER(ORDER BY CDATE) DESC",
                 param:  ['REF','REF_NO'],
                 type:   ['string|25','int'],
                 value:  [pSeri,pSira]
             }
             db.GetDataQuery(TmpQuery,function(pData)
             {
-                console.log(132)
+                InsertAfterRefresh(pData)
                 resolve(pData);
             });
         });
@@ -822,6 +838,11 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
     }
     $scope.EvrakDelete = function()
     {
+        if($scope.Kullanici != 'MAHO')
+        {
+            alertify.alert("Evrak Silme Yetkiniz Bulunmamaktadır..");
+            return
+        }
         alertify.okBtn(db.Language($scope.Lang,'Evet'));
         alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
 
@@ -830,7 +851,6 @@ function ItemCountCtrl ($scope,$window,$timeout,$location,db)
         { 
             if($scope.SayimListe.length > 0)
             {
-                console.log(123)
                 db.ExecuteTag($scope.Firma,'SayimEvrakDelete',[$scope.Seri,$scope.Sira],async function(data)
                 {
                     $scope.YeniEvrak();

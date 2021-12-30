@@ -1782,7 +1782,7 @@ var QuerySql =
                 ",@DEVICE              --<DEVICE, nvarchar(50),>   \n" + 
                 ",@REF              --<REF, nvarchar(50),>   \n" + 
                 ",@REF_NO              --<REF_NO, int,>   \n" + 
-                ",@LINE_NO              --<LINE_NO, int,>   \n" + 
+                ",ISNULL((SELECT MAX(LINE_NO) + 1 FROM ITEM_COUNT WHERE REF =@REF AND REF_NO = @REF_NO),1)             --<LINE_NO, int,>   \n" + 
                 ",@ITEM_CODE              --<ITEM_CODE, nvarchar(50),>   \n" + 
                 ",@QUANTITY              --<QUANTITY, float,>   \n" + 
                 ",@DOC_DATE              --<DOC_DATE, datetime,>   \n" +
