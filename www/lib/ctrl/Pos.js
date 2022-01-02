@@ -517,7 +517,7 @@ function Pos($scope,$window,$rootScope,db)
 
         InitClass();
         InitSifre();
-        InitAciklama();        
+        InitAciklama();                
     }
     function InitClass()
     {
@@ -2643,35 +2643,14 @@ function Pos($scope,$window,$rootScope,db)
                     TmpTicket = TmpTicketBarkod.substring(9,14)
                 }                
                 
-                if(TmpYear == "9")
-                {
-                    TmpYear = -1
-                }
-                 
-                if(TmpYear == "0")
-                {
-                    if(moment(new Date()).format("M") > 2)
-                    {
-                        alertify.alert($scope.SetLang("Geçersiz ticket."));
-                        $scope.TxtTicketBarkod = "";
-                        document.getElementById("Sound").play(); 
-                        return;
-                    }   
-                }   
-                else if(moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
+                TmpYear = (parseInt(parseFloat(moment(new Date(),"YY").format("YY")) / 10) * 10) + parseInt(TmpYear)
+                if(moment(new Date()).diff(moment('20' + TmpYear + '0101'),"day") > 395)
                 {
                     alertify.alert($scope.SetLang("Geçersiz ticket."));
                     $scope.TxtTicketBarkod = "";
                     document.getElementById("Sound").play(); 
                     return;
                 }
-                // if(moment(new Date()).format("M") > 9 && moment(new Date()).format("Y").toString().substring(3,4) > TmpYear)
-                // {
-                //     alertify.alert($scope.SetLang("Geçersiz ticket."));
-                //     $scope.TxtTicketBarkod = "";
-                //     document.getElementById("Sound").play(); 
-                //     return;
-                // }
 
                 if(parseFloat(TmpTicket / 100).toDigit2() > 21)
                 {
