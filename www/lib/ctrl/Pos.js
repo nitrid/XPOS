@@ -1908,24 +1908,28 @@ function Pos($scope,$window,$rootScope,db)
                     });
                 }
             });
-            //PARKTAKİ ISLEMLER
-            db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
-            {   
-                $scope.ParkList = ParkData;
-                $scope.ParkIslemSayisi = $scope.ParkList.length;
-                $("#TblParkIslem").jsGrid({data : $scope.ParkList});
-                
-                for (let i = 0; i < $scope.ParkList.length; i++) 
-                {
-                    if($scope.ParkList[i].DESCRIPTION == '')
+
+            db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data)
+            {
+                $scope.Sira = data;
+                console.log($scope.Sira)
+                //PARKTAKİ ISLEMLER
+                db.GetData($scope.Firma,'PosSatisParkListe',[$scope.Sube,$scope.EvrakTip,$scope.Kullanici,0],function(ParkData)
+                {   
+                    $scope.ParkList = ParkData;
+                    $scope.ParkIslemSayisi = $scope.ParkList.length;
+                    $("#TblParkIslem").jsGrid({data : $scope.ParkList});
+                    
+                    for (let i = 0; i < $scope.ParkList.length; i++) 
                     {
-                        $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
-                        return;
+                        if($scope.ParkList[i].DESCRIPTION == '')
+                        {
+                            $scope.BtnParkSec($scope.ParkList[i].REF,$scope.ParkList[i].REF_NO)
+                            return;
+                        }
                     }
-                }
-            });
-            
-            await db.MaxSira($scope.Firma,'MaxPosSatisSira',[$scope.Sube,$scope.Seri,$scope.EvrakTip],function(data){$scope.Sira = data});
+                });    
+            });                                
 
             //COM PORT BARKOD OKUYUCU 25.05.2021
             if(typeof require != 'undefined')
