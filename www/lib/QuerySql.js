@@ -1540,14 +1540,17 @@ var QuerySql =
                 "@DOC_DATE = @PDOC_DATE, " + 
                 "@DOC_FROM = @PDOC_FROM, " + 
                 "@DOC_TO = @PDOC_TO, " + 
-                "@ITEM_CODE = @PITEM_CODE, " + 
+                "@ITEM_CODE = @PITEM_CODE, " +
+                "@ITEM_NAME = @PITEM_NAME, " + 
                 "@QUANTITY = @PQUANTITY, " + 
                 "@PRICE = @PPRICE, " + 
                 "@DISCOUNT = @PDISCOUNT, " + 
                 "@VAT = @PVAT, " + 
-                "@STATUS = @PSTATUS",
+                "@STATUS = @PSTATUS, " +
+                "@CUSTOMER_ITEM_CODE = @PCUSTOMER_ITEM_CODE",
         param : ['PCUSER:string|25','PLUSER:string|25','PTYPE:int','PDOC_TYPE:int','PREF:string|25','PREF_NO:int','PDOC_DATE:date','PDOC_FROM:string|25',
-                 'PDOC_TO:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PSTATUS:bit']
+                 'PDOC_TO:string|25','PITEM_CODE:string|25','PITEM_NAME:string|250','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','PSTATUS:bit',
+                 'PCUSTOMER_ITEM_CODE:string|50']
     },
     SiparisSatirUpdate :
     {
@@ -1558,12 +1561,15 @@ var QuerySql =
                 "@LUSER = @PLUSER, " + 
                 "@LDATE = @TMP, " + 
                 "@ITEM_CODE = @PITEM_CODE, " + 
+                "@ITEM_NAME = @PITEM_NAME, " + 
                 "@QUANTITY = @PQUANTITY, " + 
                 "@PRICE = @PPRICE, " + 
                 "@DISCOUNT = @PDISCOUNT, " + 
                 "@VAT = @PVAT, " +
-                "@DESCRIPTION = @DESCRIPTION ",  
-        param : ['PDGUID:string|50','PLUSER:string|25','PITEM_CODE:string|25','PQUANTITY:float','PPRICE:float','PDISCOUNT:float','PVAT:float','DESCRIPTION:string|250']
+                "@DESCRIPTION = @DESCRIPTION, " +
+                "@CUSTOMER_ITEM_CODE = @PCUSTOMER_ITEM_CODE",  
+        param : ['PDGUID:string|50','PLUSER:string|25','PITEM_CODE:string|25','PITEM_NAME:string|250','PQUANTITY:float','PPRICE:float','PDISCOUNT:float',
+                 'PVAT:float','DESCRIPTION:string|250','PCUSTOMER_ITEM_CODE:string|50']
     },
     SiparisSatirDelete :
     {

@@ -498,7 +498,7 @@ angular.module('app.db', []).service('db',function($rootScope)
     }
     function _IsUnitBarcode(pValue)
     {
-        if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,2) == "02" || pValue.substring(0,2) == "29"))
+        if(pValue.length >= 12 && pValue.length <= 14 && (pValue.substring(0,2) == "20" || pValue.substring(0,3) == "020" || pValue.substring(0,2) == "29"))
         {      
             //FIYAT BARKODU
             return 1;

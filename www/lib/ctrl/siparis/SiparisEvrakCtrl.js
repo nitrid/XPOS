@@ -156,6 +156,14 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 editing: false
             }, 
             {
+                name: "CUSTOMER_ITEM_CODE",
+                title: db.Language($scope.Lang,"Tedarikci Kodu"),
+                type: "text",
+                align: "center",
+                width: 100,
+                editing: true
+            },
+            {
                 name: "ITEM_CODE",
                 title: db.Language($scope.Lang,"Kodu"),
                 type: "text",
@@ -169,7 +177,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                 type: "text",
                 align: "center",
                 width: 200,
-                editing: false
+                editing: true
             }, 
             {
                 name: "DESCRIPTION",
@@ -215,11 +223,13 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                     args.item.GUID,
                     $scope.Kullanici,
                     args.item.ITEM_CODE,
+                    args.item.ITEM_NAME,
                     parseFloat(args.item.QUANTITY.toString().replace(",",".")),
                     parseFloat(args.item.PRICE.toString().replace(",",".")),
                     args.item.DISCOUNT,
                     parseFloat(args.item.VATRATE.toString().replace(",",".")),
                     $scope.OzelBirim,
+                    args.item.CUSTOMER_ITEM_CODE
                 ]
                 db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
                 {
@@ -906,11 +916,13 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                         TmpItem.GUID,
                         $scope.Kullanici,
                         TmpItem.ITEM_CODE,
+                        TmpItem.ITEM_NAME,
                         TmpMiktar,
                         $scope.Stok[0].PRICE,
                         TmpItem.DISCOUNT,
                         TmpVat,
                         $scope.OzelBirim,
+                        TmpItem.CUSTOMER_ITEM_CODE
                     ]
                     db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
                     {
@@ -942,11 +954,13 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                     TmpFrom,
                     TmpTo,
                     $scope.Stok[0].CODE,
+                    $scope.Stok[0].NAME,
                     $scope.Stok[0].FACTOR * $scope.Miktar,
                     $scope.Stok[0].PRICE,
                     $scope.Stok[0].DISCOUNT,
                     $scope.Stok[0].VAT,
-                    1
+                    1,
+                    $scope.Stok[0].CUSTOMER_ITEM_CODE
                 ]
                 db.ExecuteTag($scope.Firma,'SiparisInsert',InserData,async function(pData)
                 {
@@ -981,11 +995,13 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             $scope.SiparisListe[pIndex].GUID,
             $scope.Kullanici,
             $scope.SiparisListe[pIndex].ITEM_CODE,
+            $scope.SiparisListe[pIndex].ITEM_NAME,
             $scope.MiktarEdit,
             $scope.FiyatEdit,
             $scope.SiparisListe[pIndex].DISCOUNT,
             TmpVat,
             $scope.OzelBirim,
+            $scope.SiparisListe[pIndex].CUSTOMER_ITEM_CODE
         ]
         db.ExecuteTag($scope.Firma,'SiparisSatirUpdate',InserData,async function(pData)
         {
@@ -1268,8 +1284,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
                     "CONVERT(NVARCHAR,AMOUNT) AS AMOUNTF, " +
                     "@FIRMA AS FIRMA, " +
                     "@BASLIK AS BASLIK," +
-                    "ISNULL((SELECT TOP 1 PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH, " +
-                    "ISNULL((SELECT TOP 1 CUSTOMER_ITEM_CODE FROM ITEM_CUSTOMER WHERE ITEM_CUSTOMER.ITEM_CODE = ORDER_VW_01.ITEM_CODE AND ITEM_CUSTOMER.CUSTOMER_CODE = DOC_FROM),'') AS CUSTOMER_ITEM_CODE " +
+                    "ISNULL((SELECT TOP 1 PATH FROM LABEL_DESIGN WHERE TAG = @DESIGN),'') AS PATH " +
                     "FROM ORDER_VW_01 " +
                     "WHERE TYPE = @TYPE AND DOC_TYPE = @DOC_TYPE AND REF = @REF AND REF_NO = @REF_NO ORDER BY LINE_NO ASC",
             param:  ['TYPE','DOC_TYPE','REF','REF_NO','DESIGN','FIRMA','BASLIK'],

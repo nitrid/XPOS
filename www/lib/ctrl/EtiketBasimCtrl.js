@@ -654,7 +654,7 @@ function EtiketBasimCtrl ($scope,$window,db)
     $scope.Kaydet = function()
     {
         let Data = {data:$scope.BarkodListe}
-
+        console.log(Data)
         let TmpLineNo = db.MaxColumn(Data.data,"LINE_NO");
         for (let i = 0; i < Data.data.length; i++) 
         {
@@ -913,7 +913,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + ' ' + ISNULL((SELECT TOP 1 SHORT FROM UNIT WHERE UNIT.NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) = 0 THEN " +
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
-                        "'' AS DESCRIPTION " +
+                        "'' AS DESCRIPTION, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
                         "FROM ITEMS " +
                         "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON  " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
@@ -930,8 +931,8 @@ function EtiketBasimCtrl ($scope,$window,db)
             {
                 db : $scope.Firma,
                 query:  "SELECT " +
-                        "ISNULL(CUSTOMER_ITEM_CODE,ITEMS.CODE) AS CODE, " +
-                        "ISNULL(ITEM_BARCODE.BARCODE,'') AS BARCODE, " +
+                        "ITEMS.CODE AS CODE, " +
+                        "ISNULL((SELECT TOP 1 BARCODE FROM ITEM_BARCODE WHERE ITEM_BARCODE.ITEM_CODE = ITEMS.CODE ORDER BY ITEM_BARCODE.LDATE DESC),'') AS BARCODE, " +
                         "ITEMS.NAME AS NAME, " +
                         "ITEMS.ITEM_GRP AS ITEM_GRP, " +
                         "ISNULL((SELECT NAME FROM ITEM_GROUP WHERE ITEM_GROUP.CODE = ITEMS.ITEM_GRP),'') AS ITEM_GRP_NAME, " +
@@ -939,12 +940,9 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + ' ' + ISNULL((SELECT TOP 1 SHORT FROM UNIT WHERE UNIT.NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) = 0 THEN " +
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
-                        "'' AS DESCRIPTION " +
+                        "'' AS DESCRIPTION, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
                         "FROM ITEMS " +
-                        "LEFT OUTER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
-                        "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
-                        "LEFT OUTER JOIN ITEM_CUSTOMER ON " +
-                        "ITEM_CUSTOMER.ITEM_CODE = ITEMS.CODE " + 
                         "WHERE " +
                         "(SELECT TOP 1 LDATE FROM ITEM_PRICE WHERE TYPE = 0 AND DEPOT = 0 AND ITEM_CODE = ITEMS.CODE ORDER BY LDATE DESC) >= @TARIH " +
                         "AND ITEMS.STATUS = 1",
@@ -967,7 +965,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + ' ' + ISNULL((SELECT TOP 1 SHORT FROM UNIT WHERE UNIT.NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) = 0 THEN " +
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
-                        "'' AS DESCRIPTION " +
+                        "'' AS DESCRIPTION, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
                         "FROM ITEMS " +
                         "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
@@ -995,7 +994,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + ' ' + ISNULL((SELECT TOP 1 SHORT FROM UNIT WHERE UNIT.NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) = 0 THEN " +
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
-                        "'' AS DESCRIPTION " +
+                        "'' AS DESCRIPTION, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
                         "FROM ITEMS " +
                         "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
@@ -1023,7 +1023,8 @@ function EtiketBasimCtrl ($scope,$window,db)
                         "ISNULL((SELECT TOP 1 CONVERT(NVARCHAR,FACTOR) + ' ' + ISNULL((SELECT TOP 1 SHORT FROM UNIT WHERE UNIT.NAME = ITEM_UNIT.NAME),'') FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) AS UNDER_UNIT_VALUE, " +
                         "CASE WHEN dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) = 0 OR ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0) = 0 THEN " +
                         "'0' ELSE CONVERT(NVARCHAR,ROUND(dbo.FN_PRICE_SALE(ITEMS.CODE,1,GETDATE()) / ISNULL((SELECT TOP 1 FACTOR FROM ITEM_UNIT WHERE ITEM_UNIT.ITEM_CODE = ITEMS.CODE AND TYPE = 1),0),2)) END AS UNDER_UNIT_PRICE, " +
-                        "'' AS DESCRIPTION " +
+                        "'' AS DESCRIPTION, " +
+                        "ISNULL((SELECT TOP 1 NAME FROM COUNTRY WHERE CODE = ORGINS),'') AS ORGINS " +
                         "FROM ITEMS " +
                         "INNER JOIN (SELECT ITEM_CODE,MAX(BARCODE) AS BARCODE FROM ITEM_BARCODE AS BAR GROUP BY ITEM_CODE) AS ITEM_BARCODE ON " +
                         "ITEM_BARCODE.ITEM_CODE = ITEMS.CODE " +
