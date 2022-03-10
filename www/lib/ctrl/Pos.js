@@ -1172,7 +1172,7 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.SifreGiris.Entry(false); 
                 return;
             }
-            else
+            else if($scope.SifreGiris.Type == 1)
             {
                 for (let i = 0; i < $scope.KullaniciListe.length; i++) 
                 {
@@ -1187,7 +1187,18 @@ function Pos($scope,$window,$rootScope,db)
                 $scope.SifreGiris.Entry(false); 
                 return;
             }
-                       
+            else if($scope.SifreGiris.Type == 2)
+            {
+                if($scope.SifreGiris.TxtSifreGiris == '1453')
+                {
+                    $scope.SifreGiris.Entry(true); 
+                    return;
+                }
+
+                alertify.alert($scope.SetLang("Geçersiz şifre"))
+                $scope.SifreGiris.Entry(false); 
+                return;
+            }
         }  
     }
     function InitAciklama()
@@ -3917,7 +3928,16 @@ function Pos($scope,$window,$rootScope,db)
     }    
     $scope.BtnKartVazgec = function()
     {
-        $("#MdlKartYukleniyor").modal("hide");
+        $scope.SifreGiris.Type = 2; 
+        $scope.SifreGiris.TxtSifreGiris = ""
+        $scope.SifreGiris.Open();
+        $scope.SifreGiris.Entry = function(pStatus)
+        {
+            if(pStatus)
+            {
+                $("#MdlKartYukleniyor").modal("hide");
+            }
+        }
     } 
     $scope.BtnKartZorla = function()
     {
