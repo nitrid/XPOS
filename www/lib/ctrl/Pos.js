@@ -357,7 +357,7 @@ function Pos($scope,$window,$rootScope,db)
                     $("#MdlKartYukleniyor").modal("hide"); 
                     alertify.confirm($scope.SetLang('Ödeme gerçekleşmedi'), function()
                     {
-                        $("#MdlKartYukleniyor").modal("show");
+                        //$("#MdlKartYukleniyor").modal("show");
                     });    
                 }
                 else
