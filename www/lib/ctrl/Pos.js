@@ -36,6 +36,7 @@ function Pos($scope,$window,$rootScope,db)
     let UrunListeTip = "StokAra";
     let PluTip = 0;
     let TmpActiveTime;
+    let isLoading = false;
     $scope.ModalMsg = {};
     
     $('#MdlAraToplam').on('hide.bs.modal', function () 
@@ -395,10 +396,12 @@ function Pos($scope,$window,$rootScope,db)
     }, 1000);
     $rootScope.LoadingShow = function() 
     {
+        isLoading = true;
         $("#loading").show();
     }
     $rootScope.LoadingHide = function() 
     {
+        isLoading = false
         $("#loading").hide();
     }
     $rootScope.MessageBox = function(pMsg)
@@ -2265,7 +2268,6 @@ function Pos($scope,$window,$rootScope,db)
             {
                 if(BarkodData.length > 0)
                 {   
-                    console.log(BarkodData)
                     $scope.Stok = BarkodData;
                     /* MİKTAR 1 DEN BÜYÜK İSE KAMPANYA FİYATINI GETİR **************** */
                     if($scope.Miktar > 1)
@@ -2613,9 +2615,17 @@ function Pos($scope,$window,$rootScope,db)
     {    
         if($scope.TxtBarkod != "")
         {
-            if(keyEvent.which === 13)
-            {                   
-                TxtBarkodKeyPress();
+            if(!isLoading)
+            {
+                if(keyEvent.which === 13)
+                {                   
+                    TxtBarkodKeyPress();
+                }
+            }
+            else
+            {
+                $scope.TxtBarkod = "";
+                document.getElementById("Sound").play();
             }
         }
     }

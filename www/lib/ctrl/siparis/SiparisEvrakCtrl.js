@@ -899,7 +899,7 @@ function SiparisEvrakCtrl ($scope,$window,$timeout,$location,db)
             }
 
             let TmpItem = $scope.SiparisListe.find(x => x.ITEM_CODE == $scope.Stok[0].CODE);
-            if(typeof TmpItem != 'undefined' && TmpItem.ITEM_CODE != '02528')
+            if(typeof TmpItem != 'undefined' && TmpItem.ITEM_CODE != '02528' && TmpItem.ITEM_CODE != '1646823272')
             {
                 alertify.okBtn(db.Language($scope.Lang,'Evet'));
                 alertify.cancelBtn(db.Language($scope.Lang,'Hayır'));
