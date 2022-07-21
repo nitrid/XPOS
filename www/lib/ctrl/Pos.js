@@ -2231,12 +2231,14 @@ function Pos($scope,$window,$rootScope,db)
             {   
                 if(pBarkod.length == 12)
                 {
-                    TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.152445).toDigit2();
+                    //TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length)) / 1000) * 0.152445).toDigit2();
+                    TmpFiyat = parseFloat((parseFloat(pBarkod.substring(6,pBarkod.length-1)) / 100) * 1).toDigit2();
                     pBarkod = pBarkod.substring(0,6) + "MMMCCF";
                 }
                 if(pBarkod.length == 13)
                 {
-                    TmpFiyat = (((pBarkod.substring(7,pBarkod.length)) / 1000) * 0.15244).toDigit2();
+                    //TmpFiyat = (((pBarkod.substring(7,pBarkod.length)) / 1000) * 0.15244).toDigit2();
+                    TmpFiyat = (((pBarkod.substring(7,pBarkod.length)) / 1000) * 1).toDigit2();
                     pBarkod = pBarkod.substring(0,7) + "MMMCCF";
                 }
             }
