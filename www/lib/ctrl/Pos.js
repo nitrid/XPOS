@@ -396,8 +396,8 @@ function Pos($scope,$window,$rootScope,db)
     }, 1000);
     $rootScope.LoadingShow = function() 
     {
-        isLoading = true;
-        $("#loading").show();
+        //isLoading = true;
+        //$("#loading").show();
     }
     $rootScope.LoadingHide = function() 
     {

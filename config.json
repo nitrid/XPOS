@@ -1,6 +1,6 @@
 {
     "port":"8090",
-    "server":"BILGISAYAR",
+    "server":"13.37.217.245",
     "database":"PIQPOS",
     "uid":"piqpos",
     "pwd":"1122334455",

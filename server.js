@@ -8,7 +8,7 @@ var app = express();
 
 app.use('/',express.static(__dirname + "/www/"));
 app.listen(8088);
-
+console.log(__dirname)
 //******** LOG **********************************************************************/
 var trueLog = console.log;
 console.log = function(msg)
